@@ -11,3 +11,7 @@ packages/extension/LICENSE
 
 # Claude Code worktrees of parallel sessions
 .claude/
+
+# Vitest browser failure screenshots
+.vitest/
+.scratch/

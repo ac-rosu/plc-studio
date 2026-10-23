@@ -137,6 +137,12 @@
         "command": "plcstudio.useForPlcFiles",
         "title": "Use PLC Studio for PLC files",
         "category": "PLC Studio"
+      },
+      {
+        "command": "plcstudio.openLadderView",
+        "title": "Open LAD/FBD View",
+        "category": "PLC Studio",
+        "icon": "$(circuit-board)"
       }
     ],
     "menus": {
@@ -145,12 +151,29 @@
           "command": "plcstudio.createManifest",
           "when": "explorerResourceIsFolder",
           "group": "plcstudio"
+        },
+        {
+          "command": "plcstudio.openLadderView",
+          "when": "resourceExtname == .s7dcl",
+          "group": "navigation"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "plcstudio.openLadderView",
+          "when": "resourceExtname == .s7dcl && activeCustomEditorId != plcstudio.ladderEditor",
+          "group": "navigation"
         }
       ]
     },
     "configuration": {
       "title": "PLC Studio",
       "properties": {
+        "plcstudio.ladder.editing": {
+          "type": "boolean",
+          "default": true,
+          "description": "Allow editing in the LAD/FBD view (palette, drag and drop, operands, networks). Every edit changes only the lines of the affected network."
+        },
         "plcstudio.displayLanguage": {
           "type": "string",
           "default": "",
@@ -168,7 +191,19 @@
         "editor.formatOnSaveMode": "modifications",
         "editor.semanticHighlighting.enabled": true
       }
-    }
+    },
+    "customEditors": [
+      {
+        "viewType": "plcstudio.ladderEditor",
+        "displayName": "LAD/FBD View (PLC Studio)",
+        "selector": [
+          {
+            "filenamePattern": "*.s7dcl"
+          }
+        ],
+        "priority": "option"
+      }
+    ]
   },
   "scripts": {
     "build": "node scripts/build.mts",

@@ -4,9 +4,13 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./ladder/protocol": "./src/ladder/protocol.ts"
   },
   "scripts": {
     "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@plcstudio/core": "*"
   }
 }

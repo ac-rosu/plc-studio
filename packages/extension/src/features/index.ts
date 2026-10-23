@@ -4,6 +4,7 @@ import type * as vscode from 'vscode';
 import type { LanguageClient } from 'vscode-languageclient/node';
 import { registerCoexistence } from './coexistence.ts';
 import { registerCommands } from './commands.ts';
+import { registerLadderEditor } from './ladder-editor.ts';
 import { registerManifest } from './manifest.ts';
 
 export interface FeatureContext {
@@ -14,7 +15,12 @@ export interface FeatureContext {
 
 export type Feature = (context: FeatureContext) => void;
 
-const features: Feature[] = [registerCommands, registerManifest, registerCoexistence];
+const features: Feature[] = [
+  registerCommands,
+  registerManifest,
+  registerCoexistence,
+  registerLadderEditor,
+];
 
 export function registerFeatures(context: FeatureContext): void {
   for (const feature of features) feature(context);

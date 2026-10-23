@@ -27,3 +27,4 @@ export * from './services/navigation.ts';
 export * from './services/info.ts';
 export * from './services/completion.ts';
 export * from './services/editor.ts';
+export * from './ladder/index.ts';
