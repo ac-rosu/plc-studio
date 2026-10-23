@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { renderDataBlock, type DataBlockModel } from './datablock/view.ts';
 import { filterGraph, layoutGraph, syntheticGraph } from './graph/layout.ts';
 import { createGraphView } from './graph/view.ts';
+import { accessibilityViolations } from './shared/a11y.ts';
 import { renderInterface, type InterfaceModel, type Row } from './interface/view.ts';
 import { renderTagTable, type TagTableModel } from './tagtable/view.ts';
 import { renderTranslations, type TranslationModel } from './translations/view.ts';
@@ -71,9 +72,10 @@ const iface: InterfaceModel = {
 };
 
 describe('interface editor', () => {
-  it('renders sections, nested members, accessible names and the fail-safe banner', () => {
+  it('renders sections, nested members, accessible names and the fail-safe banner', async () => {
     const { root, post } = setup();
     renderInterface(root, iface, post);
+    expect(await accessibilityViolations(root)).toEqual([]);
     expect(root.querySelector('.banner.failsafe')?.textContent).toMatch(
       /not a safety-certified tool/,
     );
@@ -140,7 +142,7 @@ describe('interface editor', () => {
 });
 
 describe('data block editor', () => {
-  it('keeps the interface of an instance DB read-only and start values editable', () => {
+  it('keeps the interface of an instance DB read-only and start values editable', async () => {
     const { root, sent, post } = setup();
     const model: DataBlockModel = {
       view: 'datablock',
@@ -161,6 +163,7 @@ describe('data block editor', () => {
       types: [],
     };
     renderDataBlock(root, model, post);
+    expect(await accessibilityViolations(root)).toEqual([]);
     expect(root.querySelector('[aria-label="Name of Mode"]')).toBeNull();
     expect(root.textContent).toContain('instance DB of FB_X');
     expect(root.querySelector('tr.has-problem')).not.toBeNull();
@@ -170,7 +173,7 @@ describe('data block editor', () => {
 });
 
 describe('translation table', () => {
-  it('shows one column per language and highlights missing translations', () => {
+  it('shows one column per language and highlights missing translations', async () => {
     const { root, sent, post } = setup();
     const model: TranslationModel = {
       view: 'translations',
@@ -198,6 +201,7 @@ describe('translation table', () => {
       ],
     };
     renderTranslations(root, model, post);
+    expect(await accessibilityViolations(root)).toEqual([]);
     expect([...root.querySelectorAll('th')].map((t) => t.textContent)).toEqual([
       'Text id',
       'Used by',
@@ -216,7 +220,7 @@ describe('translation table', () => {
 });
 
 describe('tag table editor', () => {
-  it('edits tags and constants, keeps system constants read-only, shows address problems', () => {
+  it('edits tags and constants, keeps system constants read-only, shows address problems', async () => {
     const { root, sent, post } = setup();
     const model: TagTableModel = {
       view: 'tagtable',
@@ -270,6 +274,7 @@ describe('tag table editor', () => {
       ],
     };
     renderTagTable(root, model, post);
+    expect(await accessibilityViolations(root)).toEqual([]);
     expect(root.querySelector('tr.has-problem')?.textContent).toContain('word address');
     expect(root.querySelector('[aria-label="Name of Local~CPU"]')).toBeNull();
     commit(root.querySelector<HTMLInputElement>('[aria-label="Address of Start"]')!, '%IW0');
@@ -316,13 +321,14 @@ describe('program graph', () => {
     ).toBeLessThan(all);
   });
 
-  it('renders the canvas and an accessible list, and opens blocks', () => {
+  it('renders the canvas and an accessible list, and opens blocks', async () => {
     const { root, sent, post } = setup();
     root.style.width = '800px';
     root.style.height = '600px';
     const view = createGraphView(root, post);
     view.update(syntheticGraph(50));
     expect(view.placed()).toHaveLength(50);
+    expect(await accessibilityViolations(root)).toEqual([]);
     const items = root.querySelectorAll('.graph-list button');
     expect(items.length).toBe(50);
     items[0]!.dispatchEvent(new MouseEvent('dblclick'));

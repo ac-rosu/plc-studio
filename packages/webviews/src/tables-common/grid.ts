@@ -96,7 +96,17 @@ export function button(
   onClick: () => void,
   className = 'secondary',
 ): HTMLButtonElement {
-  return h('button', { class: className, 'aria-label': label, title: label, onClick }, text);
+  // A button with a word on it is named by that word (WCAG 2.5.3, label in name), so voice control
+  // finds it; the longer label becomes its tooltip and description. Symbol buttons (+, ×, ↑) get
+  // the label as their name.
+  const named = /\p{L}/u.test(text);
+  return h(
+    'button',
+    named
+      ? { class: className, title: label, onClick }
+      : { class: className, 'aria-label': label, title: label, onClick },
+    text,
+  );
 }
 
 export function toolbar(...children: (Node | string | null)[]): HTMLElement {

@@ -3,6 +3,7 @@ import { ladderBlockView, parseBlockText } from '@plcstudio/core';
 import { profileIndex } from '@plcstudio/profiles';
 import { afterEach, describe, expect, it } from 'vitest';
 import type { LadderModel, ViewMessage } from './protocol.ts';
+import { accessibilityViolations } from '../shared/a11y.ts';
 import { LadderView } from './view.ts';
 
 const profile = profileIndex('V21')!;
@@ -79,12 +80,17 @@ function mount(m: LadderModel): { view: LadderView; sent: ViewMessage[]; root: H
   return { view, sent, root };
 }
 
+// Diagram elements show pin names (IN, PT, Q) as SVG text; their name starts with the element kind
+// and lists every operand, which the label-in-name heuristic cannot match word for word.
+const LADDER_A11Y = { allow: ['label-content-name-mismatch'] } as const;
+
 const key = (target: Element, k: string, init: KeyboardEventInit = {}) =>
   target.dispatchEvent(new KeyboardEvent('keydown', { key: k, bubbles: true, ...init }));
 
 describe('LAD/FBD view', () => {
-  it('draws networks as SVG and keeps a broken one as text', () => {
+  it('draws networks as SVG and keeps a broken one as text', async () => {
     const { root } = mount(model(text()));
+    expect(await accessibilityViolations(root, LADDER_A11Y)).toEqual([]);
     const sections = root.querySelectorAll('section.network');
     expect(sections).toHaveLength(3);
     expect(sections[0]!.querySelector('svg')).not.toBeNull();
@@ -117,8 +123,9 @@ describe('LAD/FBD view', () => {
     expect(el?.getAttribute('aria-label')).toContain('#Stop is not declared.');
   });
 
-  it('shows the fail-safe banner for F-blocks', () => {
+  it('shows the fail-safe banner for F-blocks', async () => {
     const { root } = mount(model(text(true)));
+    expect(await accessibilityViolations(root, LADDER_A11Y)).toEqual([]);
     expect(root.querySelector('.banner.failsafe')?.textContent).toMatch(
       /not a safety-certified tool/,
     );
