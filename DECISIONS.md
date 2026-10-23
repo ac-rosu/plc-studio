@@ -31,3 +31,28 @@ Design decisions made during the work, one dated entry each, oldest first. Decis
 - The owner chose the publisher id `acro` and the repository https://github.com/ac-rosu/plc-studio.
 - The corpus harness is Node-only test tooling and lives in `tools/corpus-harness/`, a private workspace package outside `packages/`, approved by the owner.
 - The spec and glossary edits for ADR 0013 were made by Claude at the owner's request.
+
+## 2026-10-24 – Toolchain choices for M0
+
+- TypeScript 6.0, not 7.0: typescript-eslint supports TypeScript below 6.1 only, and 7.0 (the native compiler) does not offer the API it needs. Revisit when typescript-eslint supports 7.
+- Relative imports with `.ts` extensions and only erasable syntax, so Node 24 runs scripts and the harness CLI directly; esbuild and Vitest handle the same imports. Workspace packages export their TypeScript sources; there is no compile step besides the esbuild bundles.
+- Exact versions for every dev tool; current majors as of 2026-10-24 (esbuild 0.28, ESLint 10, Prettier 3.9, Vitest 5 with Vite 8 and Playwright 1.64, vscode-languageserver/-client 11, @vscode/vsce 4).
+- `engines.vscode` `^1.100.0` with `@types/vscode` 1.100: recent enough for the language client, old enough for machines that update slowly. Easy to raise.
+
+## 2026-10-24 – How web safety is checked
+
+The spec asks that core and language-server pass their tests in a browser worker. Vitest's browser mode runs tests in a browser page, not a worker. Web safety is therefore checked four ways: ESLint forbids Node modules, Node globals, `vscode` and network APIs in both packages; core is typed without Node or DOM typings; esbuild bundles core for a neutral platform and the language server for the browser; and the tests run in Chromium, including one that starts the language server's browser entry in a real Web Worker and completes the LSP handshake. The Node entry gets the same handshake test over stdio.
+
+## 2026-10-24 – Corpus harness details
+
+- A PLC is assembled from all its cases in three variants: `documents` (SIMATIC SD from the export tool), `vci` (VCI SimaticSD) and `source` (external sources where TIA could write them, SIMATIC SD for LAD/FBD). The gates run on each variant.
+- B12 and B16 count as TIA-clean for the zero-false-errors gate: TIA refused the intended duplicate, and the exported files are the renamed variant it then compiled cleanly.
+- The expected policy errors (ADR 0013) are listed in the harness, not in `expected.json`, which records only TIA's results. So far: B13, `recursion`, on `FC_SclTypes_B13`.
+- The round trip covers the files the extension reads (`.s7dcl`, `.s7res`, `.scl`, `.udt`, `.db`, tag-table XML), not block SimaticML.
+
+## 2026-10-24 – Extension packaging details
+
+- The JSON Schemas ship inside the extension and are attached through `contributes.jsonValidation`, so completion in `plc.json` and `plcstudio.rules.json` works offline. The schemas' `$id` points to the repository's raw files for now; where schemas are published per release is decided before the first publish (M9).
+- Tag tables get the language id only under a `PLC tags` folder (`**/PLC tags/**/*.xml`), so the extension does not claim every XML file. `.db` is claimed for external sources, as the spec says, although other tools use the extension for databases.
+- Analyzer severities in `plcstudio.rules.json` are off, info and warning; error is not offered (open question for M5 in PLAN.md).
+- LICENSE names "Andrei Rosu" as copyright holder (from the spec's author line), to be confirmed by the owner.

@@ -9,7 +9,23 @@ Status: `[ ]` open · `[~]` partly done · `[x]` done · **(owner)** needs the o
 - [x] Node.js LTS on the development machine: v24.22.1 with npm 11.19.1, installed 2026-10-24 in `%LOCALAPPDATA%\Programs\nodejs` (user PATH).
 - [x] **(owner)** Repository https://github.com/ac-rosu/plc-studio, publisher `acro`.
 - [ ] **(owner)** Approve the first push to GitHub (needed for CI, M0.5).
+- [ ] **(owner)** New V21 corpus cases, needed before M1 can claim every construct (format-notes, 2026-10-24):
+  1. SCL: `FOR … BY`, `RETURN`, and `GOTO` with a jump label (one clean block, all exporters).
+  2. LAD: a negative edge coil (`N_Coil`); an empty box in LAD and in FBD (probably a broken case; the documents export works for inconsistent blocks).
+  3. Tag tables C04 exported through Openness (`Export`, `WithDefaults`) next to the VCI files, to have both SimaticML styles.
+  4. AT overlay: import a `.s7dcl` that declares `RawBytes AT RawWord : Array[0..1] of Byte;` (accepted or refused, with the message), and re-import the exported `FC_SclAtOverlay.s7dcl`, then export its source to see whether the overlay survived.
+  5. Errors the spec names without a case yet: an identifier with a space or a language-specific character (in `.s7dcl` and `.scl`); an F-instruction that is not allowed in an F-block.
 - [ ] **(owner, optional)** Open corpus manual steps from `corpus/V21/_project/manual-steps.md`: OB40 priority (C15); B12/B16 case-only duplicates in TIA's editor.
+
+## Rough size
+
+Claude's working time per milestone, in working days of sessions, excluding the owner's reviews and TIA runs. Estimates, easily off by a factor of two; corrected as milestones finish.
+
+| M1 | M2 | M3 | M4 | M5 | M6 | M7 | M8 | M9 | M10 | M11 | M12 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 2–3 | 1–2 | 4–6 | 2–3 | 2 | 2 | 2–3 | 3 | 1 | 4–5 | 1–2 | 1–2 |
+
+M3 is the largest because of the instruction catalog (every entry written in our own words and verified through corpus cases); M10 because every graphical edit must write back only the lines it touches.
 
 ---
 
@@ -21,22 +37,22 @@ Status: `[ ]` open · `[~]` partly done · `[x]` done · **(owner)** needs the o
 
 - [x] **M0.1 Step 1 working files**: `CLAUDE.md`, `PLAN.md`, `DECISIONS.md`, `docs/format-notes.md`, git repository.
   Verify: the owner reviews them.
-- [ ] **M0.2 Monorepo skeleton**: root `package.json` with npm workspaces; packages `core`, `profiles`, `language-server`, `extension`, `webviews`; a shared strict `tsconfig`; esbuild configs (Node and browser builds of the language server); ESLint + Prettier; Vitest; one smoke test per package.
-  Verify: `npm ci`, `build`, `lint`, `typecheck` and `test` pass locally on Windows.
-- [ ] **M0.3 Web-safety guard**: an ESLint rule that forbids Node built-ins, `node:*` and `vscode` in `core` and `language-server`; `test:web` runs both packages' tests in a browser worker.
-  Verify: a test import of `node:fs` in `core` fails lint; `npm run test:web` passes.
-- [ ] **M0.4 Extension manifest, Marketplace-compliant from the first commit**: id `plcstudio`; MIT `LICENSE`; `publisher`, `repository`, `bugs` and `homepage` set; `engines.vscode` as a caret range; version `0.1.0` (pre-release line); at most 30 keywords; `.vscodeignore` (no corpus, tests or source maps); placeholder icon of our own design as a PNG of at least 128×128 px; the language ids `plcstudio-scl`, `plcstudio-s7dcl`, `plcstudio-s7res` and `plcstudio-tagtable` with their file associations.
-  Verify: a test checks `package.json` against the spec's Marketplace list; `vsce ls` shows no corpus, test or map files.
-- [ ] **M0.5 CI**: GitHub Actions on Windows, Linux and macOS running `npm ci`, `build`, `lint`, `typecheck`, `test`, `test:corpus` and `test:web`.
-  Verify: CI is green on all three.
-- [ ] **M0.6 Schema skeletons**: `schemas/plc.schema.json` (from the spec's manifest example), `schemas/rules.schema.json` (from the rules example), and a profile schema in `packages/profiles` (instruction catalog, system types, type rules, syntax features, SD format details, F-catalog, CPU-family differences, `verified` flag, `extends`), plus an empty `profiles/V21`.
+- [x] **M0.2 Monorepo skeleton**: root `package.json` with npm workspaces; packages `core`, `profiles`, `language-server`, `extension`, `webviews`; a shared strict `tsconfig`; esbuild configs (Node and browser builds of the language server); ESLint + Prettier; Vitest; one smoke test per package.
+  Verify: `npm ci`, `build`, `lint`, `typecheck` and `test` pass locally on Windows. Done 2026-10-24.
+- [x] **M0.3 Web-safety guard**: an ESLint rule that forbids Node built-ins, `node:*` and `vscode` in `core` and `language-server`; `test:web` runs both packages' tests in a browser worker.
+  Verify: a test import of `node:fs` in `core` fails lint; `npm run test:web` passes. Done: lint probes for `node:fs`, `vscode`, the Node LSP transport, `fetch` and `process` all fail; the language server answers `initialize` in a real Web Worker (browser entry) and over stdio (Node entry).
+- [x] **M0.4 Extension manifest, Marketplace-compliant from the first commit**: id `plcstudio`; MIT `LICENSE`; `publisher`, `repository`, `bugs` and `homepage` set; `engines.vscode` as a caret range; version `0.1.0` (pre-release line); at most 30 keywords; `.vscodeignore` (no corpus, tests or source maps); placeholder icon of our own design as a PNG of at least 128×128 px; the language ids `plcstudio-scl`, `plcstudio-s7dcl`, `plcstudio-s7res` and `plcstudio-tagtable` with their file associations.
+  Verify: a test checks `package.json` against the spec's Marketplace list; `vsce ls` shows no corpus, test or map files. Done: `npm run package` checks the file list against an allowlist (9 files, 152 KB).
+- [~] **M0.5 CI**: GitHub Actions on Windows, Linux and macOS running `npm ci`, `build`, `lint`, `typecheck`, `test`, `test:corpus` and `test:web`.
+  Verify: CI is green on all three. Status: workflow committed (`.github/workflows/ci.yml`); runs after the first push, which waits for the owner's approval.
+- [x] **M0.6 Schema skeletons**: `schemas/plc.schema.json` (from the spec's manifest example), `schemas/rules.schema.json` (from the rules example), and a profile schema in `packages/profiles` (instruction catalog, system types, type rules, syntax features, SD format details, F-catalog, CPU-family differences, `verified` flag, `extends`), plus an empty `profiles/V21`.
   Verify: tests validate the spec's examples and the empty profiles, and reject deliberately broken files.
-- [ ] **M0.7 `expected.json` schema**: describes the format the corpus build writes (objects, exports and refusals, compile messages, `intendedError`, `analyzerExpect`).
-  Verify: all 65 V21 `expected.json` files validate.
-- [ ] **M0.8 Corpus harness**: finds the cases per TIA version; loads each PLC as a whole (all cases of PLC_Main, all of PLC_1200), because cases reference each other; maps every file to its case and exporter variant (`documents/`, `vci/SimaticSD/`, `vci/SimaticML/`, `simaticml/`, `source/`, `tagtables/`); computes the gates: round trip, zero false errors (an error on a TIA-clean case fails the gate unless it is an expected ADR 0013 policy error) and error coverage (an error at TIA's line or network for each broken case); writes a per-case report. Until M1 the parser is a placeholder that keeps the text unchanged, and the checker reports nothing.
-  Verify: the harness finds 65 V21 cases (28 clean, 14 analyzer, 23 broken), every file listed in `expected.json` exists, and `npm run test:corpus` passes and prints the report.
-- [~] **M0.9 Construct samples for V21 in `docs/format-notes.md`**: an index from each construct (SCL statements, declaration forms, DB kinds, OB kinds, every LAD/FBD element in the spec's viewer list, units, F-blocks, tag tables, multilingual texts) to a corpus file and line for each exporter. Constructs with no sample go on a list of new cases for the owner.
-  Verify: every construct in the spec's LAD/FBD viewer list and the profile's "syntax features" has a V21 sample or is on the owner's list.
+- [x] **M0.7 `expected.json` schema**: describes the format the corpus build writes (objects, exports and refusals, compile messages, `intendedError`, `analyzerExpect`).
+  Verify: all 65 V21 `expected.json` files validate. Done (tag-table objects have no number, namespace or consistency state).
+- [x] **M0.8 Corpus harness**: finds the cases per TIA version; loads each PLC as a whole (all cases of PLC_Main, all of PLC_1200), because cases reference each other; maps every file to its case and exporter variant (`documents/`, `vci/SimaticSD/`, `vci/SimaticML/`, `simaticml/`, `source/`, `tagtables/`); computes the gates: round trip, zero false errors (an error on a TIA-clean case fails the gate unless it is an expected ADR 0013 policy error) and error coverage (an error at TIA's line or network for each broken case); writes a per-case report. Until M1 the parser is a placeholder that keeps the text unchanged, and the checker reports nothing.
+  Verify: the harness finds 65 V21 cases (28 clean, 14 analyzer, 23 broken), every file listed in `expected.json` exists, and `npm run test:corpus` passes and prints the report. Done: 423/423 files round-trip with the placeholder; error coverage 0/28 (PLC_Main) and 0/2 (PLC_1200) as expected without a checker; `npm run corpus:report` prints the report.
+- [x] **M0.9 Construct samples for V21 in `docs/format-notes.md`**: an index from each construct (SCL statements, declaration forms, DB kinds, OB kinds, every LAD/FBD element in the spec's viewer list, units, F-blocks, tag tables, multilingual texts) to a corpus file and line for each exporter. Constructs with no sample go on a list of new cases for the owner.
+  Verify: every construct in the spec's LAD/FBD viewer list and the profile's "syntax features" has a V21 sample or is on the owner's list. Done: 95 constructs indexed. Five have no sample and are on the owner's list above; the sixth gap (AT overlay in `.s7dcl`) is a format finding, not a missing case. Found on the way: `.s7dcl` drops AT overlays; VCI SimaticML leaves out default attributes.
 - [x] **M0.10 Open facts for V21**: OB attributes, F-block detection, `.s7res` layout and line numbering are answered in `corpus/V21/_project/format-findings.md` 1–4 and summarized in `docs/format-notes.md`.
 - [x] **M0.11 At least 50 corpus cases with TIA results**: V21 has 65.
 - [x] **M0.12 Spec and glossary follow-up**: edits for ADR 0013 (policy errors) and for moving V20 to a later version, made at the owner's request (2026-10-24).
@@ -73,6 +89,10 @@ The corpus harness lives in `tools/corpus-harness/` (owner-approved, DECISIONS 2
   Verify: files with invented attributes and pragmas round trip and produce only info.
 - [ ] **M1.12 Parse performance baseline**: time for the whole corpus, and for a generated 5,000-block PLC.
   Verify: numbers recorded here.
+
+Open questions (ask at the start of M1):
+
+- AT overlays are missing from `.s7dcl` (format-notes 2026-10-24). How should the extension treat a non-optimized block whose `.s7dcl` may have lost an overlay? Depends on the owner's TIA test (owner actions, item 4).
 
 ## M2 – Project model
 
@@ -174,6 +194,10 @@ New corpus cases to request: identifiers with spaces or language-specific charac
   Verify: golden tests show unchanged lines byte-identical after format-on-save.
 
 New corpus cases to request: one for each rule that M5.2 does not yet map to a case.
+
+Open questions (ask at the start of M5):
+
+- `rules.schema.json` offers the severities off, info and warning for analyzer rules, not error, because errors are reserved for code TIA rejects (ADR 0003, ADR 0013). Should users be able to raise an analyzer rule to error in their own project?
 
 ## M6 – Call graph
 

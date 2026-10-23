@@ -29,22 +29,26 @@ Read at the start of every session:
 
 ## Build and test commands
 
-Planned; M0 creates them, and this section is updated when it does. Node.js was not installed on the development machine on 2026-10-23.
+Node.js 24 LTS is installed in `%LOCALAPPDATA%\Programs\nodejs` and on the user PATH. A shell started before the install may not see it; then prefix `PATH="/c/Users/User/AppData/Local/Programs/nodejs:$PATH"` (Git Bash).
 
 ```text
-npm ci                    install
-npm run build             esbuild bundles of every package (Node and browser builds of the language server)
-npm run lint              ESLint + Prettier check, including the web-safety import rules
-npm run typecheck         tsc --noEmit, strict
-npm test                  Vitest unit tests
-npm run test:corpus       corpus gates: round trip, zero false errors, error coverage
-npm run test:web          core and language-server tests in a browser worker
-npm run test:integration  extension tests with @vscode/test-electron
-npm run test:webviews     webview tests with Playwright
-npm run package           .vsix with @vscode/vsce
+npm ci                          install (npm 11 holds back install scripts; esbuild and vsce work without them)
+npx playwright install chromium once, for test:web
+npm run build                   esbuild bundles: core (platform neutral), language server (Node + browser), extension
+npm run lint                    ESLint (web-safety and no-network rules) + Prettier check
+npm run format                  Prettier --write
+npm run typecheck               tsc --noEmit for the root and every workspace
+npm test                        Vitest project "unit" (Node)
+npm run test:corpus             Vitest project "corpus": corpus well-formed, gates pass
+npm run test:web                Vitest project "web": core and language-server tests in Chromium, plus the
+                                language server's handshake in a real Web Worker
+npm run corpus:report           Markdown gate report (round trip, false errors, error coverage, policy errors)
+npm run package                 production build, allowlist check, dist/plcstudio-<version>.vsix
 ```
 
-Before every commit: `build`, `lint`, `typecheck`, `test` and `test:corpus` pass.
+Later milestones add `test:integration` (@vscode/test-electron, M4) and `test:webviews` (Playwright, M7/M8).
+
+Before every commit: `build`, `lint`, `typecheck`, `test`, `test:corpus` and `test:web` pass.
 
 ## Repository layout
 
@@ -62,6 +66,8 @@ corpus/             public test corpus (only blocks written for this project)
 corpus-private/     gitignored; the owner's real project blocks for local runs
 docs/adr/           architecture decision records
 docs/format-notes.md
+tools/
+  corpus-harness/   Node-only: loads the corpus, assembles PLCs, computes the release gates
 GLOSSARY.md  CLAUDE.md  PLAN.md  DECISIONS.md
 ```
 
@@ -86,7 +92,9 @@ All cases of one TIA version come from one TIA project with two PLCs (PLC_Main: 
 
 ## Code conventions
 
-- TypeScript, strict, everywhere. ESLint + Prettier decide formatting; do not argue with them by hand.
+- TypeScript 6, strict, everywhere (not 7: typescript-eslint does not support it yet). ESLint + Prettier decide formatting; do not argue with them by hand.
+- Relative imports carry the `.ts` extension, and only erasable TypeScript syntax is used (no enums, no parameter properties), so Node 24 can run tools and scripts directly (`node file.ts`). Workspace packages export their `src/index.ts`; there is no separate compile step.
+- Files in `corpus/` are test data: never reformat, re-save or convert them. `.gitattributes` keeps git from touching their CRLF and BOM.
 - `core` and `language-server`: no `node:*` modules, no `vscode`, no globals that exist only in Node. File access only through the abstract file system the extension provides. ESLint enforces this.
 - Version facts (instructions, types, conversion rules, syntax features, SD spellings, F-catalog, CPU differences) live in `packages/profiles` as JSON. Never put them in code as literals.
 - Use the glossary's terms in identifiers, messages and docs, and avoid the synonyms it lists (`Network`, not `Rung`, for a numbered section; `TagTable`, not `SymbolTable`).
@@ -105,4 +113,4 @@ All cases of one TIA version come from one TIA project with two PLCs (PLC_Main: 
 
 ## Current milestone
 
-Current milestone: M0 – Setup and format spike (Step 1 working files written 2026-10-23, waiting for the owner's review).
+Current milestone: M0 – Setup and format spike. All tasks done locally on 2026-10-24; CI (M0.5) waits for the owner's approval of the first push, then the owner's acceptance of M0.
