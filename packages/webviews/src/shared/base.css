@@ -1,0 +1,101 @@
+/* Base look of every PLC Studio view: VS Code's own colors, so light, dark and high-contrast
+   themes work without extra code (spec: own visual design, no Siemens icons). */
+:root {
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: var(--vscode-foreground);
+  background: var(--vscode-editor-background);
+  font-family: var(--vscode-font-family);
+  font-size: var(--vscode-font-size);
+}
+
+.banner {
+  padding: 6px 12px;
+  border-bottom: 1px solid var(--vscode-panel-border, transparent);
+}
+
+.banner.failsafe {
+  background: var(--vscode-inputValidation-warningBackground);
+  border: 1px solid var(--vscode-inputValidation-warningBorder);
+  color: var(--vscode-foreground);
+  font-weight: 600;
+}
+
+.toolbar {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding: 6px 12px;
+  position: sticky;
+  top: 0;
+  background: var(--vscode-editor-background);
+  border-bottom: 1px solid var(--vscode-panel-border, transparent);
+  z-index: 2;
+}
+
+button {
+  color: var(--vscode-button-foreground);
+  background: var(--vscode-button-background);
+  border: 1px solid var(--vscode-button-border, transparent);
+  padding: 3px 10px;
+  cursor: pointer;
+  font: inherit;
+}
+
+button:hover {
+  background: var(--vscode-button-hoverBackground);
+}
+
+button.secondary {
+  color: var(--vscode-button-secondaryForeground);
+  background: var(--vscode-button-secondaryBackground);
+}
+
+input,
+select {
+  color: var(--vscode-input-foreground);
+  background: var(--vscode-input-background);
+  border: 1px solid var(--vscode-input-border, transparent);
+  font: inherit;
+  padding: 2px 4px;
+}
+
+:focus-visible {
+  outline: 1px solid var(--vscode-focusBorder);
+  outline-offset: -1px;
+}
+
+table.grid {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table.grid th,
+table.grid td {
+  border: 1px solid var(--vscode-editorGroup-border, var(--vscode-panel-border));
+  padding: 2px 6px;
+  text-align: left;
+  vertical-align: top;
+}
+
+table.grid th {
+  background: var(--vscode-editorGroupHeader-tabsBackground);
+  position: sticky;
+  top: 0;
+}
+
+.diag-error {
+  color: var(--vscode-errorForeground);
+}
+
+.diag-warning {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.muted {
+  color: var(--vscode-descriptionForeground);
+}

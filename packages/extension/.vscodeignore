@@ -7,5 +7,9 @@
 !LICENSE
 !images/icon.png
 !schemas/*.schema.json
+!syntaxes/*.json
+!language-configuration.json
 !dist/extension.js
 !dist/server.js
+!dist/webviews/*.js
+!dist/webviews/*.css

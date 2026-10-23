@@ -1,4 +1,5 @@
-// VS Code client: starts the language server for PLC Studio's own language ids (ADR 0009).
+// VS Code client: starts the language server for PLC Studio's own language ids (ADR 0009) and
+// registers the features (commands, views, custom editors).
 import * as path from 'node:path';
 import type { ExtensionContext } from 'vscode';
 import {
@@ -7,6 +8,7 @@ import {
   type LanguageClientOptions,
   type ServerOptions,
 } from 'vscode-languageclient/node';
+import { registerFeatures } from './features/index.ts';
 import { LANGUAGE_IDS } from './language-ids.ts';
 
 let client: LanguageClient | undefined;
@@ -26,6 +28,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   };
   client = new LanguageClient('plcstudio', 'PLC Studio', serverOptions, clientOptions);
   await client.start();
+  registerFeatures({ extension: context, client });
 }
 
 export async function deactivate(): Promise<void> {

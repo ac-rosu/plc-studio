@@ -102,6 +102,8 @@
   },
   "devDependencies": {
     "@plcstudio/language-server": "*",
-    "@types/vscode": "~1.100.0"
+    "@types/vscode": "~1.100.0",
+    "@plcstudio/core": "*",
+    "@plcstudio/webviews": "*"
   }
 }
