@@ -61,3 +61,18 @@ The spec asks that core and language-server pass their tests in a browser worker
 
 - Decision (owner): Claude finishes all milestones in one run, takes the recommended option on open questions and records each choice here. Claude may use the TIA MCP server and the TIA skills to double-check facts in the corpus project; extra skills only from trusted sources.
 - Pushed `main` to https://github.com/ac-rosu/plc-studio so CI runs (M0.5).
+
+## 2026-10-24 – Table editors, tag tables, program graph and F-blocks (M7, M11, M12)
+
+- Edit operations live in `packages/core/src/edit/` and return minimal text edits plus, where texts change, edits on the `.s7res` next to the file (or the text of a new one). The extension applies everything of one user action as one WorkspaceEdit, so one undo step reverts it.
+- HMI flags in SIMATIC SD: `S7_Access := "ReadOnly := External"` means not writable and `S7_Visibility := "Hidden := External"` means not visible. No separate attribute for "accessible" was seen, so "accessible" is shown as visible-or-writable; switching it off writes both attributes, as TIA does for a member that is not accessible (C02 `InternalState`). In external sources the three `External…` attributes are written as TIA does (only those that are false).
+- Retain: moving a member into or out of `VAR RETAIN` moves its lines between sections; a missing section is created after the plain `VAR` section in each format's layout.
+- New `.s7res` ids come from `newResourceId` (prefix `MLC_P…`), never renumbering existing ids; new entries are appended at the end of the file (TIA orders by first reference; the order has no meaning on import). A new `.s7res` takes the document's line ending.
+- Start values of array DBs are shown but not edited: no exported sample shows how TIA writes them.
+- Instance DBs: the FB interface is read-only; start values are editable; flags stay as the FB declares them.
+- Tag tables: flags left out when true (VCI style), inserted in alphabetical order when false; new tags and constants get IDs counting up from the highest in the file. Address checks are warnings (type/size mismatch, area beyond the family's limit: S7-1200 I/Q 1 KB, M 8 KB; S7-1500 I/Q 32 KB, M 16 KB, which are family upper bounds, not per-CPU values); overlaps are info (TIA allows overlapping tags).
+- CSV format of the tag table editor: our own columns `Kind, Name, DataType, Address, Value, Accessible, Visible, Writable, Comment <culture>…`; an import edits changed fields and adds new names, never deletes; each change is applied as its own minimal edit.
+- External `.db` sources in a fail-safe PLC cannot say whether they are F-DBs: treated as standard and flagged as info (`failsafe-unknown`); the manifest's `failsafeBlocks` list overrides.
+- Fail-safe marking in the text editor: a decoration after the first line (VS Code has no banner API for text editors); explorer badge "F"; a non-modal warning on every save.
+- The table editors build their project data from the workspace files in the extension host (`features/tables-workspace.ts`), separately from the language server, so they work without it; that module is the one place to switch to language-server data later.
+- The program graph lays out in the webview (`packages/webviews/src/graph/layout.ts`): longest-path layers from blocks nobody calls, back edges of cycles ignored, two barycenter sweeps; canvas drawing of only the visible part, plus an accessible list of the shown blocks (first 500).

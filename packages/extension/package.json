@@ -90,7 +90,146 @@
         "fileMatch": "plcstudio.rules.json",
         "url": "./schemas/rules.schema.json"
       }
-    ]
+    ],
+    "customEditors": [
+      {
+        "viewType": "plcstudio.interfaceEditor",
+        "displayName": "Block Interface (PLC Studio)",
+        "selector": [
+          {
+            "filenamePattern": "*.s7dcl"
+          },
+          {
+            "filenamePattern": "*.scl"
+          },
+          {
+            "filenamePattern": "*.udt"
+          }
+        ],
+        "priority": "option"
+      },
+      {
+        "viewType": "plcstudio.dataBlockEditor",
+        "displayName": "Data Block (PLC Studio)",
+        "selector": [
+          {
+            "filenamePattern": "*.s7dcl"
+          },
+          {
+            "filenamePattern": "*.db"
+          }
+        ],
+        "priority": "option"
+      },
+      {
+        "viewType": "plcstudio.translationTable",
+        "displayName": "Translations (PLC Studio)",
+        "selector": [
+          {
+            "filenamePattern": "*.s7dcl"
+          }
+        ],
+        "priority": "option"
+      },
+      {
+        "viewType": "plcstudio.tagTableEditor",
+        "displayName": "Tag Table (PLC Studio)",
+        "selector": [
+          {
+            "filenamePattern": "**/PLC tags/**/*.xml"
+          }
+        ],
+        "priority": "default"
+      },
+      {
+        "viewType": "plcstudio.tagTableEditorAny",
+        "displayName": "Tag Table (PLC Studio)",
+        "selector": [
+          {
+            "filenamePattern": "*.xml"
+          }
+        ],
+        "priority": "option"
+      }
+    ],
+    "commands": [
+      {
+        "command": "plcstudio.openInterfaceEditor",
+        "title": "Open Interface Editor",
+        "category": "PLC Studio"
+      },
+      {
+        "command": "plcstudio.openDataBlockEditor",
+        "title": "Open Data Block Editor",
+        "category": "PLC Studio"
+      },
+      {
+        "command": "plcstudio.openTranslationTable",
+        "title": "Open Translation Table",
+        "category": "PLC Studio"
+      },
+      {
+        "command": "plcstudio.openTagTableEditor",
+        "title": "Open Tag Table Editor",
+        "category": "PLC Studio"
+      },
+      {
+        "command": "plcstudio.showProgramGraph",
+        "title": "Show Program Graph",
+        "category": "PLC Studio"
+      }
+    ],
+    "menus": {
+      "editor/title/context": [
+        {
+          "command": "plcstudio.openInterfaceEditor",
+          "when": "resourceExtname =~ /^\\.(s7dcl|scl|udt)$/",
+          "group": "plcstudio@1"
+        },
+        {
+          "command": "plcstudio.openDataBlockEditor",
+          "when": "resourceExtname =~ /^\\.(s7dcl|db)$/",
+          "group": "plcstudio@2"
+        },
+        {
+          "command": "plcstudio.openTranslationTable",
+          "when": "resourceExtname == .s7dcl",
+          "group": "plcstudio@3"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "plcstudio.openInterfaceEditor",
+          "when": "resourceExtname =~ /^\\.(s7dcl|scl|udt)$/",
+          "group": "plcstudio@1"
+        },
+        {
+          "command": "plcstudio.openDataBlockEditor",
+          "when": "resourceExtname =~ /^\\.(s7dcl|db)$/",
+          "group": "plcstudio@2"
+        },
+        {
+          "command": "plcstudio.openTranslationTable",
+          "when": "resourceExtname == .s7dcl",
+          "group": "plcstudio@3"
+        },
+        {
+          "command": "plcstudio.openTagTableEditor",
+          "when": "resourceExtname == .xml",
+          "group": "plcstudio@4"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "PLC Studio",
+      "properties": {
+        "plcstudio.displayLanguage": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Language of the comments and titles shown in editors and tables, for example `en-US`. Empty: the `displayLanguage` of `plc.json`."
+        }
+      }
+    }
   },
   "scripts": {
     "build": "node scripts/build.mts",
