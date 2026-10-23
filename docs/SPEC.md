@@ -13,7 +13,7 @@ A free, open-source VS Code extension that gives SIMATIC S7-1200/1500 programs w
 **Principles**
 
 1. **Files only.** No TIA connection of any kind. Everything works offline on Windows, macOS and Linux.
-2. **No false errors.** An error is reported only for code TIA would reject. Anything uncertain is a warning or info.
+2. **No false errors.** An error is reported only for code TIA would reject, apart from a short list of policy errors the owner chose (ADR 0013). Anything uncertain is a warning or info.
 3. **Faithful round trips.** A saved file imports back into TIA cleanly. Lines the user did not change stay byte-identical, including attributes, formatting and `.s7res` comment ids.
 4. **Unknown is not wrong.** Constructs the parser does not understand are kept exactly as they are and marked "not analyzed", never reported as errors.
 5. **Data, not code, per TIA version.** Each TIA version is a version profile. A new TIA version means a new profile plus tests.
@@ -120,11 +120,11 @@ The language server treats SCL code, the textual LAD/FBD networks in `.s7dcl`, a
 
 | Severity | Meaning | Examples |
 | --- | --- | --- |
-| Error | TIA would reject the code | syntax error, undeclared identifier, type mismatch under the active IEC-check setting, missing required call parameter, unpublished object used from another unit, F-instruction not allowed in an F-block |
+| Error | TIA would reject the code, or it breaks a policy rule (ADR 0013) | syntax error, undeclared identifier, type mismatch under the active IEC-check setting, missing required call parameter, unpublished object used from another unit, F-instruction not allowed in an F-block; policy errors: recursion, identifiers differing only by case |
 | Warning | likely bug; TIA accepts it | analyzer correctness rules (below) |
 | Info | style, complexity, "not analyzed" | naming rules, complexity limits, unknown construct kept as is |
 
-- **Zero false errors** is a release gate: on every corpus case that TIA compiles cleanly, the extension reports no errors (see Quality).
+- **Zero false errors** is a release gate: on every corpus case that TIA compiles cleanly, the extension reports no errors other than the policy errors expected for that case (see Quality).
 - When the checker cannot decide (incomplete reference data, unknown construct), it downgrades to a warning or info rather than guessing.
 - Messages are short, specific and in our own words; where a TIA compiler message exists for the same fault, the corpus records it for comparison, not for copying.
 - Diagnostics update within 200 ms of typing.
@@ -193,7 +193,7 @@ Naming rules are off by default. Three presets can be switched on:
 | `siemens-prefix` | role prefixes on locals (`statSpeed`, `tempIndex`, `inStart`, `outDone`, …) |
 | `match-workspace` | detects the scheme the PLC already uses and flags only deviations from it |
 
-Regardless of preset: identifiers with spaces or language-specific characters, and two identifiers differing only by case, are errors (TIA rejects them).
+Regardless of preset, these are errors: identifiers with spaces or language-specific characters (TIA rejects them), and two identifiers differing only by case (a policy error, ADR 0013: TIA refuses them in `.s7dcl` but silently renames one when it imports an external source).
 
 ### Formatter
 
@@ -235,7 +235,7 @@ Each block knows which OBs reach it, their priority and cycle time, and whether 
 | Multiple writers | several writers of the same output, tag or DB member in one cycle, across all blocks |
 | InOut aliasing | the same variable passed to two InOut parameters of one call |
 | Unreliable FC output | an FC output the caller uses, but the FC does not write on every path |
-| Recursion | a block that calls itself directly or indirectly (**error**: S7 does not allow it) |
+| Recursion | a block that calls itself directly or indirectly (**error**, a policy error under ADR 0013: TIA V21 compiles it, PLC Studio does not allow it) |
 | Dead block | a block no OB reaches |
 | State in `Temp` | edge detection or timer instance kept in `Temp`, losing its state every cycle |
 
@@ -406,7 +406,7 @@ Three automated gates decide every release: zero false errors on the corpus, byt
 
 | Gate | Rule |
 | --- | --- |
-| Zero false errors | on every corpus case TIA compiles cleanly, the extension reports **no** errors |
+| Zero false errors | on every corpus case TIA compiles cleanly, the extension reports **no** errors except the policy errors (ADR 0013) expected for that case |
 | Error coverage | share of TIA-rejected cases where the extension also reports an error at the right line; tracked per release, never allowed to drop |
 | Round trip | parse → print gives byte-identical files for every corpus file; every editor operation changes only the lines it should (golden diffs) |
 | Performance | 5,000-block PLC indexed in under 10 s; diagnostics within 200 ms of typing; 100-network LAD block drawn in under 1 s (on CI hardware, with a margin) |
@@ -486,7 +486,7 @@ Do not write product code in step 1.
 Hard rules for CLAUDE.md:
 1. Work only on the current milestone. When its acceptance criteria are met, stop and report: what works, what doesn't, what you learned, and the proposed plan for the next milestone. Wait for my acceptance.
 2. No TIA connection in the product: the extension works only on files. Never add code that talks to TIA Portal, PLCSIM, a PLC or an MCP server.
-3. Zero false errors: never report an error for code TIA accepts. If a rule cannot decide, it reports a warning or info. Every error rule needs corpus cases proving it.
+3. Zero false errors: never report an error for code TIA accepts, except the policy errors of ADR 0013. If a rule cannot decide, it reports a warning or info. Every error rule needs corpus cases proving it.
 4. Faithful round trips: lossless syntax trees; unchanged files print byte-identical; edits change only the affected lines; .s7res comment ids are never renumbered. Unknown constructs are kept and marked "not analyzed", never errors.
 5. packages/core and packages/language-server must not import Node or VS Code APIs (web-safe).
 6. Everything that differs per TIA version or CPU family is version-profile data, not code.

@@ -87,10 +87,13 @@ A message the extension reports on code, with a severity of error, warning or in
 _Avoid_: lint, problem
 
 **Error**:
-A diagnostic for code TIA would reject.
+A diagnostic for code TIA would reject, or for a construct on the policy-error list.
+
+**Policy error**:
+An error for code TIA accepts but PLC Studio does not allow, such as recursion; only the owner adds to the list (ADR 0013).
 
 **False error**:
-An error reported for code TIA accepts; the product must have none.
+An error reported for code TIA accepts that is not a policy error; the product must have none.
 
 **Analyzer rule**:
 A check for code TIA accepts but that is likely a bug, a style deviation or too complex.
