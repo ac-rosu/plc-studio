@@ -7,8 +7,10 @@ import {
   type PlcVariant,
 } from './corpus.ts';
 import {
+  analyzerExpectations,
   errorCoverage,
   policyErrorsFound,
+  type AnalyzerExpectationResult,
   roundTripGate,
   zeroFalseErrorsGate,
   type Checker,
@@ -28,6 +30,7 @@ export interface PlcResult {
   readonly falseErrors: readonly FalseError[];
   readonly coverage: CoverageResult;
   readonly policy: readonly PolicyResult[];
+  readonly analyzer: readonly AnalyzerExpectationResult[];
 }
 
 export interface VersionResult {
@@ -62,6 +65,7 @@ export async function runGates(
           falseErrors: zeroFalseErrorsGate(plc, diagnostics),
           coverage: errorCoverage(plc, diagnostics),
           policy: policyErrorsFound(plc, diagnostics),
+          analyzer: analyzerExpectations(plc, diagnostics),
         });
       }
     }

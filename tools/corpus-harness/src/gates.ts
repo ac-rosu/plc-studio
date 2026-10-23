@@ -209,3 +209,52 @@ export function policyErrorsFound(
     }),
   );
 }
+
+// --- Analyzer expectations ------------------------------------------------------------------
+
+export interface AnalyzerExpectationResult {
+  readonly caseFolder: string;
+  readonly rule: string;
+  readonly block: string;
+  readonly line: number | null;
+  readonly member: string | undefined;
+  readonly found: boolean;
+}
+
+/**
+ * Every `analyzerExpect` entry of the corpus: is the rule reported in that block, at TIA's line
+ * (any line when the entry has none), on the member's declaration when a member is named?
+ */
+export function analyzerExpectations(
+  plc: CorpusPlc,
+  diagnostics: readonly HarnessDiagnostic[],
+): AnalyzerExpectationResult[] {
+  const texts = new Map<CorpusFile, string[]>();
+  const linesOf = (file: CorpusFile) => {
+    if (!texts.has(file)) texts.set(file, readFileSync(file.absolutePath, 'utf8').split(/\r?\n/));
+    return texts.get(file)!;
+  };
+  const out: AnalyzerExpectationResult[] = [];
+  for (const corpusCase of plc.cases) {
+    for (const e of corpusCase.expected.analyzerExpect) {
+      const found = diagnostics.some((d) => {
+        // the block may belong to another case (C26l names OB_Main of C12)
+        if (d.ruleId !== e.rule || d.file.objectName !== e.block) return false;
+        const lines = linesOf(d.file);
+        if (e.member !== undefined && !(lines[d.line - 1] ?? '').includes(e.member)) return false;
+        if (e.line === null) return true;
+        const at = tiaLocation(lines.join('\n'), d.line, d.file.extension);
+        return at.kind === 'line' && at.line === e.line;
+      });
+      out.push({
+        caseFolder: corpusCase.folder,
+        rule: e.rule,
+        block: e.block,
+        line: e.line,
+        member: e.member,
+        found,
+      });
+    }
+  }
+  return out;
+}

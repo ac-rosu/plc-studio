@@ -102,6 +102,17 @@ describe('gates', () => {
     expect(gatesPassed(run), report).toBe(true);
     const v21 = run.versions.find((v) => v.version === 'V21')!;
     expect(v21.roundTrip.checked).toBeGreaterThan(400);
+    // every analyzer expectation of the corpus is reported (rule, block, line or member)
+    for (const p of v21.plcs) {
+      const missed = p.analyzer.filter((a) => !a.found).map((a) => `${a.caseFolder} ${a.rule}`);
+      expect(missed, `${p.plc}/${p.variant}`).toEqual([]);
+    }
+    // the expected policy errors (ADR 0013) are reported
+    for (const p of v21.plcs)
+      expect(
+        p.policy.every((r) => r.found),
+        `${p.plc}/${p.variant}`,
+      ).toBe(true);
     // error coverage never drops below the recorded baseline
     for (const p of v21.plcs) {
       const floor = baseline['V21']?.[`${p.plc}/${p.variant}`] ?? 0;

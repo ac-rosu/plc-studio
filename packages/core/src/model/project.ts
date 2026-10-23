@@ -18,6 +18,12 @@ import { parseManifest, type Manifest, type ObInfo } from './manifest.ts';
 import { dirname, isInside, joinPath, normalizePath, relativePath, stem } from './paths.ts';
 import { UNKNOWN, type BlockRef, type DataType, type MemberInfo } from './types.ts';
 import { readObAttributes } from './simaticml-ob.ts';
+import {
+  mergeRulesConfig,
+  parseRulesConfig,
+  type RulesConfig,
+  type RulesConfigInput,
+} from '../analyzer/config.ts';
 
 export interface UnitInfo {
   readonly name: string;
@@ -80,6 +86,12 @@ export class Project {
   manifest: Manifest | undefined;
   manifestPath: string | undefined;
   manifestDiagnostics: SyntaxDiagnostic[] = [];
+  /** plcstudio.rules.json in the PLC folder (wins over the workspace's). */
+  rulesPath: string | undefined;
+  rulesDiagnostics: SyntaxDiagnostic[] = [];
+  private folderRules: Partial<RulesConfigInput> | undefined;
+  private workspaceRules: Partial<RulesConfigInput> | undefined;
+  private rulesCache: RulesConfig | undefined;
   readonly files = new Map<string, ProjectFile>();
   private version = 0;
   private indexCache: ProjectIndex | undefined;
@@ -150,6 +162,34 @@ export class Project {
   private invalidate(): void {
     this.version++;
     this.indexCache = undefined;
+    this.rulesCache = undefined;
+  }
+
+  /** The PLC folder's plcstudio.rules.json; undefined text removes it. */
+  setRules(path: string, text: string | undefined): void {
+    if (text === undefined) {
+      this.rulesPath = undefined;
+      this.folderRules = undefined;
+      this.rulesDiagnostics = [];
+    } else {
+      const result = parseRulesConfig(text);
+      this.rulesPath = normalizePath(path);
+      this.folderRules = result.config;
+      this.rulesDiagnostics = result.diagnostics;
+    }
+    this.invalidate();
+  }
+
+  /** A workspace-level plcstudio.rules.json that applies to this PLC folder. */
+  setWorkspaceRules(input: Partial<RulesConfigInput> | undefined): void {
+    this.workspaceRules = input;
+    this.invalidate();
+  }
+
+  /** Effective analyzer settings: the folder's file wins over the workspace's. */
+  get rules(): RulesConfig {
+    this.rulesCache ??= mergeRulesConfig(this.workspaceRules, this.folderRules);
+    return this.rulesCache;
   }
 
   unitFor(path: string): UnitInfo | undefined {

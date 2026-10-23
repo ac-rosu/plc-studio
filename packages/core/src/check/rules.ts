@@ -2,7 +2,7 @@
 // TIA's behaviour. An error rule without proof reports a warning instead (ADR 0003).
 
 export type RuleCategory =
-  'syntax' | 'checker' | 'policy' | 'analyzer' | 'cross-block' | 'naming' | 'project';
+  'syntax' | 'checker' | 'policy' | 'analyzer' | 'cross-block' | 'naming' | 'project' | 'custom';
 
 export interface RuleInfo {
   readonly id: string;
@@ -83,6 +83,92 @@ export const RULES: readonly RuleInfo[] = [
   r('recursion', 'policy', 'error', 'Recursive call (PLC Studio rule, ADR 0013)', ['B13']),
   r('missing-translation', 'project', 'info', 'Text missing in a language'),
   r('manifest', 'project', 'warning', 'Problem in plc.json'),
+  r('rules-config', 'project', 'warning', 'Problem in plcstudio.rules.json'),
+  // Analyzer: code TIA accepts that is likely a bug (warning) or style/complexity (info).
+  r(
+    'timer-not-called-every-cycle',
+    'analyzer',
+    'warning',
+    'Timer, counter or edge detector not called every cycle',
+    ['C26a'],
+  ),
+  r('instance-called-twice', 'analyzer', 'warning', 'Same instance called more than once', [
+    'C26b',
+  ]),
+  r('temp-read-before-write', 'analyzer', 'warning', 'Temp read before it is written', ['C26c']),
+  r(
+    'output-not-written-on-every-path',
+    'analyzer',
+    'warning',
+    'FC output not written on every path',
+    ['C26d'],
+  ),
+  r('output-assigned-twice', 'analyzer', 'warning', 'Output assigned more than once per cycle', [
+    'C26e',
+  ]),
+  r('write-to-input', 'analyzer', 'warning', 'Input parameter written', ['C26f']),
+  r(
+    'structured-parameter-by-value',
+    'analyzer',
+    'info',
+    'Structured type on Input or Output instead of InOut',
+  ),
+  r('global-db-access-in-fb', 'analyzer', 'warning', 'Global DB used inside an FB or FC', ['C26g']),
+  r('plc-tag-access-in-fb', 'analyzer', 'warning', 'PLC tag used inside an FB or FC', ['C26g']),
+  r('global-constant-access-in-fb', 'analyzer', 'info', 'Global constant used inside an FB or FC'),
+  r(
+    'instance-db-access-in-fb',
+    'analyzer',
+    'warning',
+    "Another block's instance DB used inside an FB or FC",
+  ),
+  r('for-counter-used-after-loop', 'analyzer', 'warning', 'FOR counter used after the loop'),
+  r('status-not-evaluated', 'analyzer', 'warning', 'Returned status or error not evaluated', [
+    'C26n',
+  ]),
+  r('case-without-else', 'analyzer', 'warning', 'CASE without ELSE', ['C26i']),
+  r('real-compared-with-equal', 'analyzer', 'warning', 'REAL compared with = or <>', ['C26i']),
+  r('loop-without-exit', 'analyzer', 'warning', 'WHILE or REPEAT without a clear exit'),
+  r('simatic-timer-counter', 'analyzer', 'warning', 'SIMATIC timer or counter on S7-1200/1500'),
+  r('unreachable-code', 'analyzer', 'info', 'Unreachable code'),
+  r('empty-region', 'analyzer', 'info', 'Empty REGION'),
+  r('complexity', 'analyzer', 'info', 'Block too complex'),
+  r('state-in-temp', 'analyzer', 'warning', 'Timer, counter or edge memory kept in Temp'),
+  r('unused-temp', 'analyzer', 'warning', 'Temp never used', ['C26j']),
+  r('unused-static', 'analyzer', 'warning', 'Static never used', ['C26j']),
+  r('unused-constant', 'analyzer', 'warning', 'Local constant never used'),
+  r('unused-input', 'analyzer', 'info', 'Input never read', ['C26j']),
+  r('unused-output', 'analyzer', 'info', 'Output never written'),
+  r('unused-inout', 'analyzer', 'info', 'InOut never used'),
+  // Cross-block rules (call graph).
+  r(
+    'timer-fb-called-conditionally',
+    'cross-block',
+    'warning',
+    'Block with a timer called conditionally',
+    ['C26m'],
+  ),
+  r(
+    'instance-shared-by-two-obs',
+    'cross-block',
+    'warning',
+    'Instance reached from OBs of different priority',
+    ['C26l'],
+  ),
+  r(
+    'unprotected-cross-priority-data',
+    'cross-block',
+    'warning',
+    'Data shared across priorities without protection',
+  ),
+  r('multiple-writers', 'cross-block', 'warning', 'Written by several blocks'),
+  r('inout-aliasing', 'cross-block', 'warning', 'Same variable on two InOut parameters'),
+  r('unreliable-fc-output', 'cross-block', 'warning', 'FC output used but not always written'),
+  r('dead-block', 'cross-block', 'warning', 'Block no OB reaches', ['C26k']),
+  r('unresolved-call', 'cross-block', 'info', 'Call the exported files cannot settle'),
+  // Naming presets and suppressions.
+  r('naming-convention', 'naming', 'info', 'Name does not follow the naming preset'),
+  r('suppression-without-reason', 'analyzer', 'info', 'Suppression comment without a reason'),
 ];
 
 const byId = new Map(RULES.map((rule) => [rule.id, rule]));
