@@ -61,3 +61,9 @@ The spec asks that core and language-server pass their tests in a browser worker
 
 - Decision (owner): Claude finishes all milestones in one run, takes the recommended option on open questions and records each choice here. Claude may use the TIA MCP server and the TIA skills to double-check facts in the corpus project; extra skills only from trusted sources.
 - Pushed `main` to https://github.com/ac-rosu/plc-studio so CI runs (M0.5).
+
+## 2026-10-24 – Rules verified in TIA; names with spaces
+
+- A verification batch in TIA V21 (corpus C27–C34, B27–B38) proved nine more error rules: FC calls must supply every parameter (B27, B28), `=>` on an input (B29), unknown member (B30), Int on a Time parameter (B31), different UDTs (B32), undefined jump label (B33), Real→Int with the IEC check (B34), Word→Real (B35), Bool↔bit strings (B36, B38) and string literals into numbers (B37). These are errors now; error coverage of PLC_Main (SIMATIC SD) rose to 34/41 (83%).
+- `:=` on an output is accepted by TIA (C30); the direction rule now only flags `=>` on inputs.
+- **Spec conflict, decision taken (recommended option):** the spec says identifiers with spaces are errors because "TIA rejects them". TIA V21 compiles a quoted local `"Two words"` (C32). Per ADR 0003 this cannot be an error, so `invalid-identifier` is an info. If the owner wants it as an error anyway, it becomes a policy error under ADR 0013 (owner's call).

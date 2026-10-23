@@ -1,0 +1,50 @@
+{
+  "caseId": "B33",
+  "title": "GOTO to a label that does not exist",
+  "kind": "broken",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FC_V_E08",
+      "type": "FC",
+      "number": 32,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FC_V_E08.s7dcl"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify > FC_V_E08 (FC32) > 3",
+        "block": "FC_V_E08",
+        "line": 3,
+        "network": null,
+        "description": "The jump label 'Nowhere' is not defined."
+      }
+    ],
+    "sources": [
+      "verification compile of PLC_Main, 2026-10-24 (corpus project not saved)"
+    ]
+  },
+  "intendedError": "GOTO Nowhere",
+  "analyzerExpect": [],
+  "notes": "Added 2026-10-24 by PLC Studio to verify checker rules against TIA V21; imported with plc_import_documents into group Verify, compiled, exported with plc_export_block (documents, tool text without BOM). The corpus project was not saved."
+}

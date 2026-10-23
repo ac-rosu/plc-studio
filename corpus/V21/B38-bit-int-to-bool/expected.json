@@ -1,0 +1,58 @@
+{
+  "caseId": "B38",
+  "title": "Byte and Int assigned to a Bool",
+  "kind": "broken",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FC_V_E19",
+      "type": "FC",
+      "number": 41,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FC_V_E19.s7dcl"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 2,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify > FC_V_E19 (FC41) > 3",
+        "block": "FC_V_E19",
+        "line": 3,
+        "network": null,
+        "description": "Data type 'Byte' cannot be converted implicitly into data type 'Bool'."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify > FC_V_E19 (FC41) > 5",
+        "block": "FC_V_E19",
+        "line": 5,
+        "network": null,
+        "description": "Data type 'Int' cannot be converted implicitly into data type 'Bool'."
+      }
+    ],
+    "sources": [
+      "verification compile of PLC_Main, 2026-10-24 (corpus project not saved)"
+    ]
+  },
+  "intendedError": "implicit Byte to Bool and Int to Bool",
+  "analyzerExpect": [],
+  "notes": "Added 2026-10-24 by PLC Studio to verify checker rules against TIA V21; imported with plc_import_documents into group Verify, compiled, exported with plc_export_block (documents, tool text without BOM). The corpus project was not saved."
+}

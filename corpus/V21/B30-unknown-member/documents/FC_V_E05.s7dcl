@@ -1,0 +1,17 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_V_E05" : Void
+    VAR_TEMP
+        "m" : _.UDT_Motor;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            #m.Nope := TRUE;
+        
+    END_NETWORK
+END_FUNCTION

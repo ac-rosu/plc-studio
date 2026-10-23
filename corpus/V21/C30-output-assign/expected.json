@@ -1,0 +1,50 @@
+{
+  "caseId": "C30",
+  "title": "Output parameter passed with := (TIA accepts it and exports =>)",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FC_V_E03",
+      "type": "FC",
+      "number": 28,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FC_V_E03.s7dcl"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Verify > FC_V_E03 (FC28)",
+        "block": "FC_V_E03",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "verification compile of PLC_Main, 2026-10-24 (corpus project not saved)"
+    ]
+  },
+  "intendedError": "TIA accepts := on an output and rewrites it to => on export",
+  "analyzerExpect": [],
+  "notes": "Added 2026-10-24 by PLC Studio to verify checker rules against TIA V21; imported with plc_import_documents into group Verify, compiled, exported with plc_export_block (documents, tool text without BOM). The corpus project was not saved."
+}

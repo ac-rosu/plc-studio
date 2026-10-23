@@ -155,3 +155,11 @@ Every surprise, refusal and crash, in order.
 - `plc.json`, `plc-1200.json`: draft manifests (no schema in the runbook), built from `setup.json` and the case map.
 - `project_archive` compressed: `C:/TiaProjects/CorpusExport/PlcStudioCorpus_V21_2026-10-23.zap21` (2,252,035 bytes). The project was saved before.
 - The raw TIA outputs stay in `C:/TiaProjects/CorpusExport/exports/` and `vci/`; the probe files in `_probe/` were deleted.
+
+## Session 2 – 2026-10-24 (PLC Studio verification batch)
+
+- `tia_connect` (no user interface, pid 4536), `project_open` PlcStudioCorpus_V21.
+- `plc_import_documents` of 21 blocks into PLC_Main, group `Verify` (FC_V_Callee, FC_V_Loops, FC_V_NCoil, FC_V_E01–E05, FB_V_E06, FC_V_E07–E13, FC_V_E15–E17, FC_V_E19). FC_V_At (AT overlay in `.s7dcl`) refused at import: "Line number 12: Syntax Error : Syntax error 'RawWord' expecting IQM address".
+- `compile` PLC_Main: Error, 41 errors, 1 warning; safety program unchanged (0xE8DB8BC0, consistent). The Verify messages are recorded in the expected.json of C27–C34 and B27–B38.
+- `plc_export_block` format documents for the 20 blocks (and source for FC_V_Loops).
+- The project was **not saved**: the file on disk is unchanged; the Verify group exists only in the running session.

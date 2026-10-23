@@ -1,0 +1,24 @@
+{
+    S7_EditorMode := "SCL";
+    S7_IECCheck := "TRUE";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_V_E12" : Void
+    VAR_TEMP
+        r : Real;
+        "i" : Int;
+        "d" : DInt;
+        "l" : LReal;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            #i := 3;
+            #r := #i;
+            #d := #i;
+            #l := #r;
+        
+    END_NETWORK
+END_FUNCTION

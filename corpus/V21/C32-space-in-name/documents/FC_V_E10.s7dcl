@@ -1,0 +1,17 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_V_E10" : Void
+    VAR_TEMP
+        "Two words" : Int;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            #"Two words" := 1;
+        
+    END_NETWORK
+END_FUNCTION

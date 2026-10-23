@@ -1,0 +1,33 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_V_Loops" : Int
+    VAR_INPUT
+        "Limit" : Int;
+    END_VAR
+    VAR_TEMP
+        Index : Int;
+        Sum : Int;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            #Sum := 0;
+            FOR #Index := 10 TO 0 BY -2 DO
+                #Sum := #Sum + #Index;
+            END_FOR;
+            IF #Sum > #Limit THEN
+                GOTO Finish;
+            END_IF;
+            #Sum := #Sum * 2;
+            IF #Limit < 0 THEN
+                #FC_V_Loops := 0;
+                RETURN;
+            END_IF;
+            Finish: #FC_V_Loops := #Sum;
+        
+    END_NETWORK
+END_FUNCTION

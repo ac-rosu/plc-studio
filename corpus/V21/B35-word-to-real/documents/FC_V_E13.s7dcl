@@ -1,0 +1,27 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_V_E13" : Void
+    VAR_TEMP
+        r : Real;
+        "i" : Int;
+        "d" : DInt;
+        "t" : Time;
+        "w" : Word;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            #i := 3;
+            #r := #i;
+            #d := 5;
+            #t := #d;
+            #d := #t;
+            #w := 16#00FF;
+            #r := #w;
+        
+    END_NETWORK
+END_FUNCTION

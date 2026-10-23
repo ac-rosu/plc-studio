@@ -1,0 +1,27 @@
+{
+    S7_Optimized := "TRUE";
+    S7_PreferredLanguage := "LAD";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_V_NCoil" : Void
+    VAR_INPUT
+        Start : Bool;
+    END_VAR
+    VAR_OUTPUT
+        Pulse : Bool;
+    END_VAR
+    VAR_IN_OUT
+        Memory : Bool;
+    END_VAR
+
+    { S7_Language := "LAD" }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( #Start )
+            N_Coil(
+                operand => #Pulse,
+                bit := #Memory
+            )
+        END_RUNG
+    END_NETWORK
+END_FUNCTION

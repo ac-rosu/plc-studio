@@ -1,0 +1,22 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_V_E19" : Void
+    VAR_TEMP
+        "b" : Bool;
+        "by" : Byte;
+        "i" : Int;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            #by := 16#01;
+            #b := #by;
+            #i := 2;
+            #b := #i;
+        
+    END_NETWORK
+END_FUNCTION

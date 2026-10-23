@@ -1,0 +1,50 @@
+{
+  "caseId": "B27",
+  "title": "FC call without its output parameter",
+  "kind": "broken",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FC_V_E01",
+      "type": "FC",
+      "number": 26,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FC_V_E01.s7dcl"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify > FC_V_E01 (FC26) > 2",
+        "block": "FC_V_E01",
+        "line": 2,
+        "network": null,
+        "description": "Number of parameters passed to the function or the function block does not match."
+      }
+    ],
+    "sources": [
+      "verification compile of PLC_Main, 2026-10-24 (corpus project not saved)"
+    ]
+  },
+  "intendedError": "the FC output OutValue is not supplied",
+  "analyzerExpect": [],
+  "notes": "Added 2026-10-24 by PLC Studio to verify checker rules against TIA V21; imported with plc_import_documents into group Verify, compiled, exported with plc_export_block (documents, tool text without BOM). The corpus project was not saved."
+}

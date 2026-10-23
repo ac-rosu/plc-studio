@@ -1,0 +1,50 @@
+{
+  "caseId": "B31",
+  "title": "Int variable on the Time input PT of TON",
+  "kind": "broken",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_V_E06",
+      "type": "FB",
+      "number": 36,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_V_E06.s7dcl"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify > FB_V_E06 (FB36) > 2",
+        "block": "FB_V_E06",
+        "line": 2,
+        "network": null,
+        "description": "Parameters of the function or the function block do not match the transferred formal parameters.  "
+      }
+    ],
+    "sources": [
+      "verification compile of PLC_Main, 2026-10-24 (corpus project not saved)"
+    ]
+  },
+  "intendedError": "PT := #p with #p : Int",
+  "analyzerExpect": [],
+  "notes": "Added 2026-10-24 by PLC Studio to verify checker rules against TIA V21; imported with plc_import_documents into group Verify, compiled, exported with plc_export_block (documents, tool text without BOM). The corpus project was not saved."
+}

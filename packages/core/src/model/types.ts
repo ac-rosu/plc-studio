@@ -160,8 +160,9 @@ function bitsOf(t: DataType): number {
 }
 
 /**
- * What TIA says about using `source` where `target` is expected. `literal` is the source
- * expression when it is a literal (integer literals into Time are rejected: corpus B14).
+ * What TIA says about using `source` where `target` is expected (assignments and parameters).
+ * Every error here is proven by a corpus case that TIA V21 rejected; the cases are named.
+ * `sourceExpression` is the source when it is a literal (literals follow their own rules).
  */
 export function conversionProblem(
   target: DataType,
@@ -169,18 +170,37 @@ export function conversionProblem(
   iecCheck: boolean,
   sourceExpression: Expression | undefined,
 ): ConversionProblem | undefined {
-  // A plain number where a duration is expected (corpus B14: PT := 5).
-  if (
-    sourceExpression?.kind === 'literal' &&
-    sourceExpression.literalKind === 'int' &&
-    target.kind === 'elementary' &&
-    target.info.class === 'time'
-  ) {
-    return {
-      rule: 'type-mismatch',
-      severity: 'error',
-      message: `The number ${sourceExpression.text} cannot be used where ${typeName(target)} is expected; write a duration such as T#5s.`,
-    };
+  const error = (message: string, rule = 'type-mismatch'): ConversionProblem => ({
+    rule,
+    severity: 'error',
+    message,
+  });
+  const tnEarly = typeName(target);
+  if (sourceExpression?.kind === 'literal' && target.kind === 'elementary') {
+    const tcl = target.info.class;
+    // a plain number where a duration is expected (B14: PT := 5)
+    if (sourceExpression.literalKind === 'int' && tcl === 'time') {
+      return error(
+        `The number ${sourceExpression.text} cannot be used where ${tnEarly} is expected; write a duration such as T#5s.`,
+      );
+    }
+    // a string literal into anything but a string or character (B37)
+    if (
+      sourceExpression.literalKind === 'string' &&
+      tcl !== 'string' &&
+      tcl !== 'char' &&
+      tcl !== 'pointer'
+    ) {
+      return error(`A text literal cannot be used where ${tnEarly} is expected.`);
+    }
+    // a real literal into an integer: TIA warns (C34)
+    if (sourceExpression.literalKind === 'real' && tcl === 'int') {
+      return {
+        rule: 'implicit-conversion',
+        severity: 'warning',
+        message: `The real number ${sourceExpression.text} is converted implicitly into ${tnEarly}; sign or precision may be lost.`,
+      };
+    }
   }
   if (isUnknown(target) || isUnknown(source)) return undefined;
   const tc = classOf(target);
@@ -203,50 +223,52 @@ export function conversionProblem(
   )
     return undefined;
 
-  // Bool and numbers do not mix (corpus B18: Int on a contact; B20: Bool on an Int input).
-  if ((tc === 'bool' && isNumericClass(sc)) || (sc === 'bool' && isNumericClass(tc))) {
-    return {
-      rule: 'type-mismatch',
-      severity: 'error',
-      message: `A ${sn} value cannot be used where ${tn} is expected.`,
-    };
-  }
-  // Nothing converts implicitly into a string except characters (corpus B17: Real into String).
-  if (tc === 'string' && sc !== 'string' && sc !== 'char') {
-    return {
-      rule: 'type-mismatch',
-      severity: 'error',
-      message: `A ${sn} value cannot be used where ${tn} is expected; convert it explicitly.`,
-    };
-  }
-  if (sc === 'string' && tc !== 'string' && tc !== 'char') {
-    return {
-      rule: 'type-mismatch',
-      severity: 'error',
-      message: `A ${sn} value cannot be used where ${tn} is expected; convert it explicitly.`,
-    };
-  }
-  // A plain number where a duration is expected (corpus B14: PT := 5).
+  // Bool does not mix with numbers or bit strings (B18, B20, B36, B38).
   if (
-    tc === 'time' &&
-    sc === 'int' &&
-    sourceExpression?.kind === 'literal' &&
-    sourceExpression.literalKind === 'int'
+    (tc === 'bool' && (isNumericClass(sc) || sc === 'bit')) ||
+    (sc === 'bool' && (isNumericClass(tc) || tc === 'bit'))
   ) {
+    return error(`A ${sn} value cannot be used where ${tn} is expected.`);
+  }
+  // Only strings and characters convert into strings, and strings into nothing else (B17).
+  if (
+    (tc === 'string' && sc !== 'string' && sc !== 'char') ||
+    (sc === 'string' && tc !== 'string' && tc !== 'char')
+  ) {
+    return error(`A ${sn} value cannot be used where ${tn} is expected; convert it explicitly.`);
+  }
+  // Bit strings do not convert into floating point (B35: Word into Real, also without IEC check).
+  if (sc === 'bit' && tc === 'real')
+    return error(`A ${sn} value cannot be used where ${tn} is expected; convert it explicitly.`);
+  if (sc === 'real' && tc === 'bit') {
     return {
-      rule: 'type-mismatch',
-      severity: 'error',
-      message: `The number ${sourceExpression.text} cannot be used where ${tn} is expected; write a duration such as T#5s.`,
+      rule: 'possible-type-mismatch',
+      severity: 'warning',
+      message: `A ${sn} value is used where ${tn} is expected; TIA probably rejects this (not yet verified against TIA).`,
     };
   }
-  if (tc === 'time' && (sc === 'int' || sc === 'real' || sc === 'bit')) {
+  // Durations: DInt and Time convert both ways (B35 lines 5–6); an Int does not (B31).
+  if (tc === 'time' && sc === 'int') {
+    if (source.kind === 'elementary' && source.info.bits === 32 && bitsOf(target) === 32)
+      return undefined;
+    if (source.kind === 'elementary' && source.info.name === 'Int')
+      return error(
+        `A ${sn} value cannot be used where ${tn} is expected; use a ${tn} value or convert it.`,
+      );
     return {
       rule: 'possible-type-mismatch',
       severity: 'warning',
       message: `A ${sn} value is used where ${tn} is expected; TIA may reject this (not yet verified against TIA).`,
     };
   }
-  // Structured types must match.
+  if (tc === 'time' && (sc === 'real' || sc === 'bit')) {
+    return {
+      rule: 'possible-type-mismatch',
+      severity: 'warning',
+      message: `A ${sn} value is used where ${tn} is expected; TIA may reject this (not yet verified against TIA).`,
+    };
+  }
+  // Structured types must match; two different PLC data types are rejected (B32).
   if (
     tc === 'struct' ||
     sc === 'struct' ||
@@ -256,6 +278,8 @@ export function conversionProblem(
     sc === 'fb'
   ) {
     if (sameStructure(target, source)) return undefined;
+    const named = (t: DataType) => t.kind === 'udt' || t.kind === 'fb' || t.kind === 'system';
+    if (named(target) && named(source)) return error(`${sn} and ${tn} are different data types.`);
     return {
       rule: 'possible-type-mismatch',
       severity: 'warning',
@@ -277,16 +301,15 @@ export function conversionProblem(
     (sc === 'bit' && tc === 'bit') ||
     (sc === 'real' && tc === 'int') ||
     (sc === 'real' && tc === 'real');
-  if (iecCheck && lossy && sc !== 'real') {
-    // corpus C10/B08: Word→Int, Int→SInt, DInt→Int, Int→Word are errors with the IEC check
-    return {
-      rule: 'iec-implicit-conversion',
-      severity: 'error',
-      message: `With the IEC check on, ${sn} is not converted implicitly into ${tn}; use an explicit conversion.`,
-    };
+  if (iecCheck && lossy) {
+    // B08/C10: Word→Int, Int→SInt, DInt→Int, Int→Word; B34: Real→Int, all errors with the IEC check
+    return error(
+      `With the IEC check on, ${sn} is not converted implicitly into ${tn}; use an explicit conversion.`,
+      'iec-implicit-conversion',
+    );
   }
   if (lossy) {
-    // corpus C10/B07: TIA accepts these without the IEC check and warns
+    // B07/C10: TIA accepts these without the IEC check and warns
     return {
       rule: 'implicit-conversion',
       severity: 'warning',

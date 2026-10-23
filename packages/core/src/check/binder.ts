@@ -281,7 +281,7 @@ export class BlockBinder {
       this.report(
         range,
         'invalid-identifier',
-        `${name} contains spaces or language-specific characters; TIA rejects such names (not yet verified against TIA).`,
+        `${name} contains spaces or language-specific characters; TIA accepts it in quotes, but it has to be quoted everywhere.`,
       );
     }
   }
@@ -512,7 +512,7 @@ export class BlockBinder {
           this.report(
             s.label.range,
             'unknown-label',
-            `The jump label ${s.label.text} does not exist in this block (not yet verified against TIA).`,
+            `The jump label ${s.label.text} does not exist in this block.`,
           );
         } else {
           this.reference(
@@ -901,7 +901,7 @@ export class BlockBinder {
       this.report(
         e.member.range,
         'unknown-member',
-        `${typeName(objectType)} has no member ${memberName} (not yet verified against TIA).`,
+        `${typeName(objectType)} has no member ${memberName}.`,
       );
     }
     return UNKNOWN;
@@ -1213,12 +1213,12 @@ export class BlockBinder {
               'member',
               p.direction === 'out' ? 'read' : 'write',
             );
-          const wantsOut = p.direction === 'out';
-          if (wantsOut !== (a.direction === 'out')) {
+          if (p.direction !== 'out' && a.direction === 'out') {
+            // corpus B29: TIA rejects '=>' on an input; ':=' on an output is accepted (C30)
             this.report(
               a.range,
               'parameter-direction',
-              `${p.name} is ${wantsOut ? "an output: use '=>'" : "an input: use ':='"} (not yet verified against TIA).`,
+              `${p.name} is an input: pass it with ':='.`,
             );
           }
         }
@@ -1259,7 +1259,7 @@ export class BlockBinder {
         this.report(
           e.range,
           'missing-fc-parameter',
-          `The parameter ${p.name} of ${opts.what} is not supplied; an FC needs all its parameters (not yet verified against TIA).`,
+          `The parameter ${p.name} of ${opts.what} is not supplied; an FC needs all its parameters.`,
         );
       }
     }
@@ -1396,7 +1396,7 @@ export class BlockBinder {
           this.report(
             label.range,
             'unknown-label',
-            `The jump label ${label.name.text} does not exist in this block (not yet verified against TIA).`,
+            `The jump label ${label.name.text} does not exist in this block.`,
           );
       }
       return;

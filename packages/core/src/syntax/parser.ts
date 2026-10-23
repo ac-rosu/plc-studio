@@ -977,7 +977,16 @@ export class Parser {
     const name = this.nameFrom(this.next());
     if (this.at(T.LBrace)) attributeBlock = this.parseAttributeBlock(); // external source style
     let at: Name | undefined;
-    if (this.eatWord('AT')) at = this.parseName('the overlaid variable');
+    if (this.eatWord('AT')) {
+      // external sources overlay a variable (x AT y); SIMATIC SD only allows an I/Q/M address
+      const t = this.tok();
+      if (t.kind === T.Address) {
+        this.next();
+        at = { text: this.text(t), quoted: false, range: { start: t.start, end: t.end } };
+      } else {
+        at = this.parseName('the overlaid variable');
+      }
+    }
     if (!this.expect(T.Colon, "':' after the member name")) {
       this.skipToStatementEnd();
       return undefined;
