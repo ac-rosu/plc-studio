@@ -24,12 +24,24 @@ export function post(message: { type: string; [key: string]: unknown }): void {
   vscode().postMessage(message);
 }
 
+/**
+ * Handles messages from the extension. After an update is drawn the view answers `rendered`; a
+ * failure is reported as `viewError` (the extension logs both; the integration tests read them).
+ */
 export function onMessage(handler: (message: HostMessage) => void): void {
-  window.addEventListener('message', (event: MessageEvent<HostMessage>) => handler(event.data));
+  window.addEventListener('message', (event: MessageEvent<HostMessage>) => {
+    try {
+      handler(event.data);
+      if (event.data.type === 'update') post({ type: 'rendered' });
+    } catch (e) {
+      post({ type: 'viewError', message: e instanceof Error ? e.message : String(e) });
+    }
+  });
 }
 
 /** Tells the extension the view is ready to receive its first update. */
 export function ready(): void {
+  window.addEventListener('error', (e) => post({ type: 'viewError', message: e.message }));
   post({ type: 'ready' });
 }
 

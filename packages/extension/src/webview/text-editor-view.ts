@@ -3,6 +3,7 @@
 // works), and the view refreshes whenever the text changes, also when edited side by side.
 import * as vscode from 'vscode';
 import type { TextEdit } from '@plcstudio/core';
+import { viewHealthMessage } from './health.ts';
 import { webviewHtml } from './html.ts';
 
 export interface ViewContext {
@@ -101,6 +102,7 @@ export function registerTextEditorView<Model>(
         diagnostics.dispose();
       });
       webview.onDidReceiveMessage(async (message: { type: string; [key: string]: unknown }) => {
+        if (viewHealthMessage(options.viewType, message)) return;
         if (message.type === 'ready') {
           ready = true;
           send();

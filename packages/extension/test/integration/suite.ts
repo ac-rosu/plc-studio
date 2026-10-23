@@ -150,6 +150,89 @@ test('quick fix: declare a variable', async () => {
   assert.ok(actions.some((a) => a.title.startsWith('Declare #Missing')));
 });
 
+test('formatting: the whole document, and only the changed lines', async () => {
+  const doc = await open('OB_Test.s7dcl');
+  const edits = (await vscode.commands.executeCommand(
+    'vscode.executeFormatDocumentProvider',
+    doc.uri,
+    { tabSize: 4, insertSpaces: true },
+  )) as vscode.TextEdit[];
+  const lines = [...new Set(edits.map((e) => e.range.start.line))].sort((a, b) => a - b);
+  assert.deepEqual(lines, [14, 15, 16]);
+  const edit = new vscode.WorkspaceEdit();
+  edit.set(doc.uri, edits);
+  await vscode.workspace.applyEdit(edit);
+  assert.match(doc.lineAt(14).text, /^ {12}IF #Volume > 1\.0 THEN$/);
+  assert.match(doc.lineAt(15).text, /^ {16}#Rounded := 0;$/);
+  await vscode.commands.executeCommand('workbench.action.files.revert');
+});
+
+test('called-from summary in CodeLens; call tree and Trace value views', async () => {
+  const doc = await open('FC_SclTypes.s7dcl');
+  const lenses = await until(async () => {
+    const l = (await vscode.commands.executeCommand(
+      'vscode.executeCodeLensProvider',
+      doc.uri,
+    )) as vscode.CodeLens[];
+    return l.some((x) => x.command?.title.includes('OB_Test')) ? l : undefined;
+  });
+  assert.match(lenses[0]!.command!.title, /called from OB_Test every cycle/);
+  await vscode.commands.executeCommand('workbench.view.extension.plcstudio');
+  await vscode.commands.executeCommand('plcstudio.refreshCallTree');
+  const ob = await open('OB_Test.s7dcl');
+  await vscode.commands.executeCommand('plcstudio.traceValue', ob.uri, position(ob, '#Rounded', 2));
+  await vscode.commands.executeCommand('plcstudio.clearTrace');
+});
+
+/** Opens a file in a custom editor and waits for its tab. */
+async function openWith(name: string, viewType: string): Promise<void> {
+  await vscode.commands.executeCommand('vscode.openWith', file(name), viewType);
+  await until(() =>
+    vscode.window.tabGroups.all
+      .flatMap((g) => g.tabs)
+      .find(
+        (t) =>
+          t.input instanceof vscode.TabInputCustom &&
+          t.input.viewType === viewType &&
+          t.input.uri.toString() === file(name).toString(),
+      ),
+  );
+}
+
+interface ViewHealth {
+  rendered: string[];
+  errors: string[];
+}
+
+/** Waits until the view type has drawn an update without a script error. */
+async function rendered(viewType: string): Promise<void> {
+  const health = await until(async () => {
+    const h = (await vscode.commands.executeCommand('plcstudio.internal.viewHealth')) as ViewHealth;
+    return h.rendered.includes(viewType) || h.errors.length > 0 ? h : undefined;
+  });
+  assert.deepEqual(health.errors, []);
+}
+
+test('custom editors render: LAD/FBD, interface, data block, translations, tag table', async () => {
+  for (const [name, viewType] of [
+    ['FC_LadContacts.s7dcl', 'plcstudio.ladderEditor'],
+    ['FB_SclSections.s7dcl', 'plcstudio.interfaceEditor'],
+    ['DB_Machine.s7dcl', 'plcstudio.dataBlockEditor'],
+    ['FB_SclSections.s7dcl', 'plcstudio.translationTable'],
+    ['PLC tags/Tags_IO.xml', 'plcstudio.tagTableEditor'],
+  ] as const) {
+    await openWith(name, viewType);
+    await rendered(viewType);
+  }
+  await vscode.commands.executeCommand('workbench.action.closeAllEditors');
+});
+
+test('program graph renders', async () => {
+  await vscode.commands.executeCommand('plcstudio.showProgramGraph');
+  await rendered('plcstudio.programGraph');
+  await vscode.commands.executeCommand('workbench.action.closeAllEditors');
+});
+
 test('commands are registered', async () => {
   const commands = await vscode.commands.getCommands(true);
   for (const c of [
@@ -157,6 +240,14 @@ test('commands are registered', async () => {
     'plcstudio.showProfileCoverage',
     'plcstudio.restartServer',
     'plcstudio.useForPlcFiles',
+    'plcstudio.openLadderView',
+    'plcstudio.openInterfaceEditor',
+    'plcstudio.openDataBlockEditor',
+    'plcstudio.openTranslationTable',
+    'plcstudio.openTagTableEditor',
+    'plcstudio.showProgramGraph',
+    'plcstudio.traceValue',
+    'plcstudio.refreshCallTree',
   ]) {
     assert.ok(commands.includes(c), c);
   }

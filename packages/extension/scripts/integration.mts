@@ -35,6 +35,12 @@ copy('C07-scl-timers/documents/FB_SclTimers.s7dcl');
 copy('C08-scl-calls/documents/FB_SclCalls.s7dcl');
 copy('C08-scl-calls/documents/IDB_SclSections.s7dcl');
 copy('C26k-dead-block/source/FC_AnaDead.scl', 'FC_Source.scl');
+copy('C02-global-db/documents/DB_Machine.s7dcl');
+copy('C02-global-db/documents/DB_Machine.s7res');
+copy('C16-lad-contacts/documents/FC_LadContacts.s7dcl');
+copy('C16-lad-contacts/documents/FC_LadContacts.s7res');
+mkdirSync(path.join(workspace, 'PLC tags'));
+copy('C04-tag-tables/tagtables/Tags_IO.xml', 'PLC tags/Tags_IO.xml');
 writeFileSync(
   path.join(workspace, 'plc.json'),
   JSON.stringify(
@@ -65,6 +71,34 @@ writeFileSync(
     '        ',
     '    END_NETWORK',
     'END_FUNCTION_BLOCK',
+    '',
+  ].join('\r\n'),
+);
+
+// an OB that calls FC_SclTypes every cycle, for the call tree and the called-from summaries
+writeFileSync(
+  path.join(workspace, 'OB_Test.s7dcl'),
+  [
+    '{',
+    '    S7_EditorMode := "SCL"',
+    '}',
+    'ORGANIZATION_BLOCK "OB_Test"',
+    '    VAR_TEMP',
+    '        Volume : Real;',
+    '        Rounded : DInt;',
+    '        Text : String;',
+    '        Total : LReal;',
+    '    END_VAR',
+    '    { S7_Language := "SCL" }',
+    '    NETWORK',
+    '        ',
+    '            #Volume := "FC_SclTypes"(InInt := 3, InReal := 1.5, OutDInt => #Rounded, OutText => #Text, Accumulator := #Total);',
+    '            if #Volume>1.0 then',
+    '            #Rounded:=0;',
+    '            end_if;',
+    '        ',
+    '    END_NETWORK',
+    'END_ORGANIZATION_BLOCK',
     '',
   ].join('\r\n'),
 );

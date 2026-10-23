@@ -2,6 +2,7 @@
 // filters by OB, unit and instance. Built from the block index and the analysed call sites.
 import * as vscode from 'vscode';
 import { analyzeProject, type Project } from '@plcstudio/core';
+import { viewHealthMessage } from '../webview/health.ts';
 import { webviewHtml } from '../webview/html.ts';
 import type { FeatureContext } from './index.ts';
 import { workspaceModel, type PlcWorkspaceModel } from './tables-workspace.ts';
@@ -140,6 +141,7 @@ export function registerGraph({ extension }: FeatureContext): void {
       );
       panel.onDidDispose(() => (panel = undefined));
       panel.webview.onDidReceiveMessage(async (m: { type: string; [key: string]: unknown }) => {
+        if (viewHealthMessage('plcstudio.programGraph', m)) return;
         if (m.type === 'ready') send();
         else if (m.type === 'selectPlc' && typeof m['root'] === 'string') {
           root = m['root'];

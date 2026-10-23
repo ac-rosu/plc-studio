@@ -1,9 +1,11 @@
 // General commands: references from CodeLens, restarting the server, profile coverage.
 import * as vscode from 'vscode';
 import { PROFILES } from '@plcstudio/profiles';
+import { registerViewHealth } from '../webview/health.ts';
 import type { FeatureContext } from './index.ts';
 
 export function registerCommands({ extension, client }: FeatureContext): void {
+  registerViewHealth(extension);
   extension.subscriptions.push(
     vscode.commands.registerCommand(
       'plcstudio.showReferences',
