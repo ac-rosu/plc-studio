@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V21" />
+  <SW.Blocks.FB ID="0">
+    <AttributeList>
+      <Interface>
+        <Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v5">
+          <Section Name="Input">
+            <Member Name="Pulse" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Count pulse</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="Output">
+            <Member Name="Count" Datatype="Int">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Number of pulses</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="InOut" />
+          <Section Name="Static">
+            <Member Name="PulseEdge" Datatype="R_TRIG" Version="1.0">
+              <AttributeList>
+                <BooleanAttribute Name="SetPoint" SystemDefined="true">true</BooleanAttribute>
+              </AttributeList>
+              <Comment>
+                <MultiLanguageText Lang="en-US">Edge of the pulse</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="Temp" />
+          <Section Name="Constant" />
+        </Sections>
+      </Interface>
+      <MemoryLayout>Optimized</MemoryLayout>
+      <MemoryReserve>100</MemoryReserve>
+      <Name>FB_AnaShared</Name>
+      <Namespace />
+      <Number>16</Number>
+      <ProgrammingLanguage>SCL</ProgrammingLanguage>
+      <SetENOAutomatically>false</SetENOAutomatically>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="3" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>Rule C26l: the instance IDB_AnaShared is called from OB_Main and from OB_Cyclic100ms</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <SW.Blocks.CompileUnit ID="4" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource>
+            <StructuredText xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/StructuredText/v4">
+              <NewLine UId="21" />
+              <Blank Num="4" UId="22" />
+              <Access Scope="LocalVariable" UId="23">
+                <Symbol UId="24">
+                  <Component Name="PulseEdge" UId="25" />
+                </Symbol>
+              </Access>
+              <Access Scope="Call" UId="26">
+                <Instruction UId="27">
+                  <Token Text="(" UId="28" />
+                  <Parameter Name="CLK" UId="29">
+                    <Blank UId="30" />
+                    <Token Text=":=" UId="31" />
+                    <Blank UId="32" />
+                    <Access Scope="LocalVariable" UId="33">
+                      <Symbol UId="34">
+                        <Component Name="Pulse" UId="35" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text=")" UId="36" />
+                </Instruction>
+              </Access>
+              <Token Text=";" UId="37" />
+              <NewLine UId="38" />
+              <Blank Num="4" UId="39" />
+              <Token Text="IF" UId="40" />
+              <Blank UId="41" />
+              <Access Scope="LocalVariable" UId="42">
+                <Symbol UId="43">
+                  <Component Name="PulseEdge" UId="44" />
+                  <Token Text="." UId="45" />
+                  <Component Name="Q" UId="46" />
+                </Symbol>
+              </Access>
+              <Blank UId="47" />
+              <Token Text="THEN" UId="48" />
+              <NewLine UId="49" />
+              <Blank Num="8" UId="50" />
+              <Access Scope="LocalVariable" UId="51">
+                <Symbol UId="52">
+                  <Component Name="Count" UId="53" />
+                </Symbol>
+              </Access>
+              <Blank UId="54" />
+              <Token Text=":=" UId="55" />
+              <Blank UId="56" />
+              <Access Scope="LocalVariable" UId="57">
+                <Symbol UId="58">
+                  <Component Name="Count" UId="59" />
+                </Symbol>
+              </Access>
+              <Blank UId="60" />
+              <Token Text="+" UId="61" />
+              <Blank UId="62" />
+              <Access Scope="LiteralConstant" UId="63">
+                <Constant UId="64">
+                  <ConstantValue UId="66">1</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="67" />
+              <NewLine UId="68" />
+              <Blank Num="4" UId="69" />
+              <Token Text="END_IF" UId="70" />
+              <Token Text=";" UId="71" />
+              <NewLine UId="72" />
+            </StructuredText>
+          </NetworkSource>
+          <ProgrammingLanguage>SCL</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="5" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="6" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="7" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="8" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="9" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="A" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <MultilingualText ID="B" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="C" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="D" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>Analyzer: instance shared by two OBs</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.FB>
+</Document>

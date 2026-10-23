@@ -1,0 +1,29 @@
+﻿FUNCTION "FC_SclAtOverlay" : Byte
+TITLE = AT overlay in a standard block
+{ S7_Optimized_Access := 'FALSE' }
+VERSION : 0.1
+//AT overlays are only allowed in blocks without optimized access
+   VAR_INPUT 
+      InWord : Word;   // Word to split into bytes
+   END_VAR
+
+   VAR_OUTPUT 
+      HighByte : Byte;   // High byte of InWord
+   END_VAR
+
+   VAR_TEMP 
+      RawWord : Word;   // Raw word
+      RawBytes AT RawWord : Array[0..1] of Byte;   // Overlay of RawWord as bytes
+   END_VAR
+
+
+BEGIN
+	
+	    REGION AT overlay
+	        #RawWord := #InWord;
+	        #HighByte := #RawBytes[0];
+	        #FC_SclAtOverlay := #RawBytes[1];
+	    END_REGION
+	
+END_FUNCTION
+

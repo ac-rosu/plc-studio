@@ -1,0 +1,14 @@
+﻿NAMESPACE Dosing
+ORGANIZATION_BLOCK "OB_Dosing"
+TITLE = Dosing cycle
+{ S7_Optimized_Access := 'TRUE' ; Published := 'FALSE' }
+VERSION : 0.1
+//Program cycle OB of the unit Dosing; calls FB_Doser
+
+BEGIN
+	
+	    IDB_Doser(Start := TRUE, Stop := FALSE);
+	
+END_ORGANIZATION_BLOCK
+END_NAMESPACE
+

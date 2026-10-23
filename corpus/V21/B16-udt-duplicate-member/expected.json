@@ -1,0 +1,68 @@
+{
+  "caseId": "B16",
+  "title": "Duplicate member name in a UDT",
+  "kind": "broken",
+  "basedOn": "C01",
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "UDT_Motor_B16",
+      "type": "UDT",
+      "number": null,
+      "language": null,
+      "unit": null,
+      "namespace": null,
+      "group": "Broken",
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/UDT_Motor_B16.s7dcl",
+      "documents/UDT_Motor_B16.s7res"
+    ],
+    "source": [
+      "source/UDT_Motor_B16.udt"
+    ],
+    "simaticml": [
+      "simaticml/UDT_Motor_B16.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/UDT_Motor_B16.s7dcl",
+      "vci/SimaticSD/UDT_Motor_B16.s7res",
+      "vci/SimaticML/UDT_Motor_B16.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "importRefused",
+    "errors": 0,
+    "warnings": 0,
+    "importRefusal": {
+      "tool": "plc_import_documents",
+      "format": "documents (.s7dcl with \"Enable\" twice)",
+      "message": "Import failed because of duplicate variable 'Enable' in declaration section. Importing from file '...\\UDT_Motor_B16.s7dcl'... 1 errors, 0 warnings : Import of udt(s) failed. please check the s7dcl file."
+    },
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > PLC data types > Broken > UDT_Motor_B16 (UDT)",
+        "block": "UDT_Motor_B16",
+        "line": null,
+        "network": null,
+        "description": "The data type was successfully updated."
+      }
+    ],
+    "messagesOfGeneratedVariant": "Success",
+    "sources": [
+      "UDT_Motor_B16: compile-broken-PLC_Main.json first"
+    ]
+  },
+  "intendedError": "duplicate member name \"Enable\" in the UDT",
+  "analyzerExpect": [],
+  "notes": "TIA refused the documents import (importRefused). The UDT in the project was imported from source, where TIA silently renamed the duplicate to \"Enable_1\"; that variant compiles. Exports are of that variant. Manual step: try the duplicate in the editor."
+}

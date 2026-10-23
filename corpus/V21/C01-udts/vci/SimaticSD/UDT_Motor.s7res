@@ -1,0 +1,15 @@
+﻿MultiLingualTexts:
+  - id: MLC_z8
+    en-US: Release from the line control
+  - id: MLC_3uG
+    en-US: 'Feedback: motor is running'
+  - id: MLC_45S
+    en-US: Motor protection tripped
+  - id: MLC_3x7
+    en-US: Speed setpoint in rpm
+  - id: MLC_r3
+    en-US: Measured speed in rpm
+  - id: MLC_48T
+    en-US: Accumulated run time
+  - id: MLC_4VD
+    en-US: Number of starts

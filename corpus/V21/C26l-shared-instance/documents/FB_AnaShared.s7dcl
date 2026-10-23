@@ -1,0 +1,29 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION_BLOCK "FB_AnaShared"
+    VAR_INPUT
+        { S7_MLC := "MLC_Lj" }
+        Pulse : Bool;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_5CK" }
+        Count : Int;
+    END_VAR
+    VAR
+        { S7_MLC := "MLC_4R4" }
+        PulseEdge : R_TRIG;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            #PulseEdge(CLK := #Pulse);
+            IF #PulseEdge.Q THEN
+                #Count := #Count + 1;
+            END_IF;
+        
+    END_NETWORK
+END_FUNCTION_BLOCK

@@ -1,0 +1,65 @@
+{
+  "caseId": "B14",
+  "title": "TON called with PT := 5",
+  "kind": "broken",
+  "basedOn": "C07",
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_SclTimers_B14",
+      "type": "FB",
+      "number": 30,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Broken",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_SclTimers_B14.s7dcl",
+      "documents/FB_SclTimers_B14.s7res"
+    ],
+    "source": [
+      "source/FB_SclTimers_B14.scl"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_SclTimers_B14.s7dcl",
+      "vci/SimaticSD/FB_SclTimers_B14.s7res"
+    ],
+    "refused": {
+      "simaticml": {
+        "FB_SclTimers_B14": "Error when calling method 'Export' of type 'Siemens.Engineering.SW.Blocks.FB'. Inconsistent blocks and PLC data types (UDT) cannot be exported."
+      },
+      "vci_SimaticML": {
+        "FB_SclTimers_B14": "Error when calling method 'ExportObject' of type 'Siemens.Engineering.VersionControl.Workspace'. FB_SclTimers_B14 [FB30] object(s) is not consistent"
+      }
+    }
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > FB_SclTimers_B14 (FB30) > 3",
+        "block": "FB_SclTimers_B14",
+        "line": 3,
+        "network": null,
+        "description": "Invalid assignment."
+      }
+    ],
+    "sources": [
+      "FB_SclTimers_B14: compile-broken-PLC_Main.json final"
+    ]
+  },
+  "intendedError": "TON_TIME called with \"PT := 5\" (Int instead of Time)",
+  "analyzerExpect": [],
+  "notes": ""
+}

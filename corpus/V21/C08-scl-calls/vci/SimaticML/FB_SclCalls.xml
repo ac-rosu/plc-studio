@@ -1,0 +1,648 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V21" />
+  <SW.Blocks.FB ID="0">
+    <AttributeList>
+      <Interface>
+        <Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v5">
+          <Section Name="Input">
+            <Member Name="Enable" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Enable the calls</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="Mode" Datatype="Int">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Mode passed to the called blocks</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="Delta" Datatype="Real">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Signed difference</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="Output">
+            <Member Name="Average" Datatype="Real">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Average from the multi-instance</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="Scaled" Datatype="Real">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Return value of FC_SclTypes</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="CallsOk" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">The checked FC call ended without error</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="InOut">
+            <Member Name="TimerBlock" Datatype="&quot;FB_SclTimers&quot;">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Parameter instance of FB_SclTimers</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="Values" Datatype="Array[0..9] of Real">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Values for the evaluation</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="Static">
+            <Member Name="Sections" Datatype="&quot;FB_SclSections&quot;">
+              <AttributeList>
+                <BooleanAttribute Name="SetPoint" SystemDefined="true">true</BooleanAttribute>
+              </AttributeList>
+              <Comment>
+                <MultiLanguageText Lang="en-US">Multi-instance of FB_SclSections</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="Total" Datatype="LReal">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Running total for FC_SclTypes</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="Rounded" Datatype="DInt">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Rounded result from FC_SclTypes</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="ResultText" Datatype="String">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Result text from FC_SclTypes</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="Magnitude" Datatype="Real">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Absolute value of Delta</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="ConvertedWord" Datatype="Word">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Return value of FC_IecOff</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="IntValue" Datatype="Int">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Output of FC_IecOff</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="ShortValue" Datatype="SInt">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Output of FC_IecOff</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="NarrowValue" Datatype="Int">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Output of FC_IecOff</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="Temp">
+            <Member Name="CallOk" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">ENO of the checked call</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="Constant" />
+        </Sections>
+      </Interface>
+      <MemoryLayout>Optimized</MemoryLayout>
+      <MemoryReserve>100</MemoryReserve>
+      <Name>FB_SclCalls</Name>
+      <Namespace />
+      <Number>4</Number>
+      <ProgrammingLanguage>SCL</ProgrammingLanguage>
+      <SetENOAutomatically>false</SetENOAutomatically>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="3" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>Multi-instance, single-instance and parameter-instance calls, FC calls, formal and non-formal parameter lists, ENO</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <SW.Blocks.CompileUnit ID="4" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource>
+            <StructuredText xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/StructuredText/v4">
+              <NewLine UId="21" />
+              <Blank Num="4" UId="22" />
+              <Token Text="REGION" UId="23" />
+              <Blank UId="24" />
+              <Text UId="25">Multi-instance call, formal parameter list</Text>
+              <NewLine UId="26" />
+              <Blank Num="8" UId="27" />
+              <Access Scope="Call" UId="28">
+                <CallInfo UId="29" BlockType="FB" Name="FB_SclSections">
+                  <Instance Scope="LocalVariable" UId="30">
+                    <Component Name="Sections" UId="31" />
+                  </Instance>
+                  <Token Text="(" UId="32" />
+                  <Parameter Name="Enable" UId="33">
+                    <Blank UId="34" />
+                    <Token Text=":=" UId="35" />
+                    <Blank UId="36" />
+                    <Access Scope="LocalVariable" UId="37">
+                      <Symbol UId="38">
+                        <Component Name="Enable" UId="39" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="40" />
+                  <NewLine UId="41" />
+                  <Blank Num="18" UId="42" />
+                  <Parameter Name="Mode" UId="43">
+                    <Blank UId="44" />
+                    <Token Text=":=" UId="45" />
+                    <Blank UId="46" />
+                    <Access Scope="LocalVariable" UId="47">
+                      <Symbol UId="48">
+                        <Component Name="Mode" UId="49" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="50" />
+                  <NewLine UId="51" />
+                  <Blank Num="18" UId="52" />
+                  <Parameter Name="Setpoint" UId="53">
+                    <Blank UId="54" />
+                    <Token Text=":=" UId="55" />
+                    <Blank UId="56" />
+                    <Access Scope="LiteralConstant" UId="57">
+                      <Constant UId="58">
+                        <ConstantValue UId="60">100.0</ConstantValue>
+                      </Constant>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="61" />
+                  <NewLine UId="62" />
+                  <Blank Num="18" UId="63" />
+                  <Parameter Name="Result" UId="64">
+                    <Blank UId="65" />
+                    <Token Text="=&gt;" UId="66" />
+                    <Blank UId="67" />
+                    <Access Scope="LocalVariable" UId="68">
+                      <Symbol UId="69">
+                        <Component Name="Average" UId="70" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="71" />
+                  <NewLine UId="72" />
+                  <Blank Num="18" UId="73" />
+                  <Parameter Name="Values" UId="74">
+                    <Blank UId="75" />
+                    <Token Text=":=" UId="76" />
+                    <Blank UId="77" />
+                    <Access Scope="LocalVariable" UId="78">
+                      <Symbol UId="79">
+                        <Component Name="Values" UId="80" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text=")" UId="83" />
+                </CallInfo>
+              </Access>
+              <Token Text=";" UId="84" />
+              <NewLine UId="85" />
+              <Blank Num="4" UId="86" />
+              <Token Text="END_REGION" UId="87" />
+              <NewLine UId="88" />
+              <Blank Num="4" UId="89" />
+              <NewLine UId="90" />
+              <Blank Num="4" UId="91" />
+              <Token Text="REGION" UId="92" />
+              <Blank UId="93" />
+              <Text UId="94">Single-instance call with an instance DB</Text>
+              <NewLine UId="95" />
+              <Blank Num="8" UId="96" />
+              <Access Scope="Call" UId="97">
+                <CallInfo UId="98" BlockType="FB" Name="FB_SclSections">
+                  <Instance Scope="GlobalVariable" UId="99">
+                    <Component Name="IDB_SclSections" UId="100">
+                      <BooleanAttribute Name="HasQuotes" UId="101">true</BooleanAttribute>
+                    </Component>
+                  </Instance>
+                  <Token Text="(" UId="102" />
+                  <Parameter Name="Enable" UId="103">
+                    <Blank UId="104" />
+                    <Token Text=":=" UId="105" />
+                    <Blank UId="106" />
+                    <Access Scope="LocalVariable" UId="107">
+                      <Symbol UId="108">
+                        <Component Name="Enable" UId="109" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="110" />
+                  <Blank UId="111" />
+                  <Parameter Name="Mode" UId="112">
+                    <Blank UId="113" />
+                    <Token Text=":=" UId="114" />
+                    <Blank UId="115" />
+                    <Access Scope="LiteralConstant" UId="116">
+                      <Constant UId="117">
+                        <ConstantValue UId="119">2</ConstantValue>
+                      </Constant>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="120" />
+                  <Blank UId="121" />
+                  <Parameter Name="Values" UId="122">
+                    <Blank UId="123" />
+                    <Token Text=":=" UId="124" />
+                    <Blank UId="125" />
+                    <Access Scope="LocalVariable" UId="126">
+                      <Symbol UId="127">
+                        <Component Name="Values" UId="128" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text=")" UId="133" />
+                </CallInfo>
+              </Access>
+              <Token Text=";" UId="134" />
+              <NewLine UId="135" />
+              <Blank Num="4" UId="136" />
+              <Token Text="END_REGION" UId="137" />
+              <NewLine UId="138" />
+              <Blank Num="4" UId="139" />
+              <NewLine UId="140" />
+              <Blank Num="4" UId="141" />
+              <Token Text="REGION" UId="142" />
+              <Blank UId="143" />
+              <Text UId="144">Parameter instance</Text>
+              <NewLine UId="145" />
+              <Blank Num="8" UId="146" />
+              <Access Scope="Call" UId="147">
+                <CallInfo UId="148" BlockType="FB" Name="FB_SclTimers">
+                  <Instance Scope="LocalVariable" UId="149">
+                    <Component Name="TimerBlock" UId="150" />
+                  </Instance>
+                  <Token Text="(" UId="151" />
+                  <Parameter Name="Start" UId="152">
+                    <Blank UId="153" />
+                    <Token Text=":=" UId="154" />
+                    <Blank UId="155" />
+                    <Access Scope="LocalVariable" UId="156">
+                      <Symbol UId="157">
+                        <Component Name="Enable" UId="158" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="159" />
+                  <Blank UId="160" />
+                  <Parameter Name="Reset" UId="161">
+                    <Blank UId="162" />
+                    <Token Text=":=" UId="163" />
+                    <Blank UId="164" />
+                    <Token Text="NOT" UId="165" />
+                    <Blank UId="166" />
+                    <Access Scope="LocalVariable" UId="167">
+                      <Symbol UId="168">
+                        <Component Name="Enable" UId="169" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text=")" UId="176" />
+                </CallInfo>
+              </Access>
+              <Token Text=";" UId="177" />
+              <NewLine UId="178" />
+              <Blank Num="4" UId="179" />
+              <Token Text="END_REGION" UId="180" />
+              <NewLine UId="181" />
+              <Blank Num="4" UId="182" />
+              <NewLine UId="183" />
+              <Blank Num="4" UId="184" />
+              <Token Text="REGION" UId="185" />
+              <Blank UId="186" />
+              <Text UId="187">FC calls with Input, Output and InOut, ENO</Text>
+              <NewLine UId="188" />
+              <Blank Num="8" UId="189" />
+              <Access Scope="LocalVariable" UId="190">
+                <Symbol UId="191">
+                  <Component Name="Scaled" UId="192" />
+                </Symbol>
+              </Access>
+              <Blank UId="193" />
+              <Token Text=":=" UId="194" />
+              <Blank UId="195" />
+              <Access Scope="Call" UId="196">
+                <CallInfo UId="197" BlockType="FC">
+                  <Instance Scope="GlobalVariable" UId="199">
+                    <Component Name="FC_SclTypes" UId="198" />
+                  </Instance>
+                  <Token Text="(" UId="200" />
+                  <Parameter Name="InInt" UId="201">
+                    <Blank UId="202" />
+                    <Token Text=":=" UId="203" />
+                    <Blank UId="204" />
+                    <Access Scope="LocalVariable" UId="205">
+                      <Symbol UId="206">
+                        <Component Name="Mode" UId="207" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="208" />
+                  <NewLine UId="209" />
+                  <Blank Num="33" UId="210" />
+                  <Parameter Name="InReal" UId="211">
+                    <Blank UId="212" />
+                    <Token Text=":=" UId="213" />
+                    <Blank UId="214" />
+                    <Access Scope="LocalVariable" UId="215">
+                      <Symbol UId="216">
+                        <Component Name="Delta" UId="217" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="218" />
+                  <NewLine UId="219" />
+                  <Blank Num="33" UId="220" />
+                  <Parameter Name="OutDInt" UId="221">
+                    <Blank UId="222" />
+                    <Token Text="=&gt;" UId="223" />
+                    <Blank UId="224" />
+                    <Access Scope="LocalVariable" UId="225">
+                      <Symbol UId="226">
+                        <Component Name="Rounded" UId="227" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="228" />
+                  <NewLine UId="229" />
+                  <Blank Num="33" UId="230" />
+                  <Parameter Name="OutText" UId="231">
+                    <Blank UId="232" />
+                    <Token Text="=&gt;" UId="233" />
+                    <Blank UId="234" />
+                    <Access Scope="LocalVariable" UId="235">
+                      <Symbol UId="236">
+                        <Component Name="ResultText" UId="237" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="238" />
+                  <NewLine UId="239" />
+                  <Blank Num="33" UId="240" />
+                  <Parameter Name="Accumulator" UId="241">
+                    <Blank UId="242" />
+                    <Token Text=":=" UId="243" />
+                    <Blank UId="244" />
+                    <Access Scope="LocalVariable" UId="245">
+                      <Symbol UId="246">
+                        <Component Name="Total" UId="247" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="248" />
+                  <NewLine UId="249" />
+                  <Blank Num="33" UId="250" />
+                  <Parameter Name="ENO" UId="251">
+                    <Blank UId="252" />
+                    <Token Text="=&gt;" UId="253" />
+                    <Blank UId="254" />
+                    <Access Scope="LocalVariable" UId="255">
+                      <Symbol UId="256">
+                        <Component Name="CallOk" UId="257" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text=")" UId="259" />
+                </CallInfo>
+              </Access>
+              <Token Text=";" UId="260" />
+              <NewLine UId="261" />
+              <Blank Num="8" UId="262" />
+              <Access Scope="LocalVariable" UId="263">
+                <Symbol UId="264">
+                  <Component Name="ConvertedWord" UId="265" />
+                </Symbol>
+              </Access>
+              <Blank UId="266" />
+              <Token Text=":=" UId="267" />
+              <Blank UId="268" />
+              <Access Scope="Call" UId="269">
+                <CallInfo UId="270" BlockType="FC">
+                  <Instance Scope="GlobalVariable" UId="272">
+                    <Component Name="FC_IecOff" UId="271" />
+                  </Instance>
+                  <Token Text="(" UId="273" />
+                  <Parameter Name="InInt" UId="274">
+                    <Blank UId="275" />
+                    <Token Text=":=" UId="276" />
+                    <Blank UId="277" />
+                    <Access Scope="LocalVariable" UId="278">
+                      <Symbol UId="279">
+                        <Component Name="Mode" UId="280" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="281" />
+                  <Blank UId="282" />
+                  <Parameter Name="InWord" UId="283">
+                    <Blank UId="284" />
+                    <Token Text=":=" UId="285" />
+                    <Blank UId="286" />
+                    <Access Scope="LiteralConstant" UId="287">
+                      <Constant UId="288">
+                        <ConstantValue UId="290">16#00FF</ConstantValue>
+                      </Constant>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="291" />
+                  <Blank UId="292" />
+                  <Parameter Name="InDInt" UId="293">
+                    <Blank UId="294" />
+                    <Token Text=":=" UId="295" />
+                    <Blank UId="296" />
+                    <Access Scope="LiteralConstant" UId="297">
+                      <Constant UId="298">
+                        <ConstantValue UId="300">1000</ConstantValue>
+                      </Constant>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="301" />
+                  <Blank UId="302" />
+                  <Parameter Name="OutInt" UId="303">
+                    <Blank UId="304" />
+                    <Token Text="=&gt;" UId="305" />
+                    <Blank UId="306" />
+                    <Access Scope="LocalVariable" UId="307">
+                      <Symbol UId="308">
+                        <Component Name="IntValue" UId="309" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="310" />
+                  <Blank UId="311" />
+                  <Parameter Name="OutSInt" UId="312">
+                    <Blank UId="313" />
+                    <Token Text="=&gt;" UId="314" />
+                    <Blank UId="315" />
+                    <Access Scope="LocalVariable" UId="316">
+                      <Symbol UId="317">
+                        <Component Name="ShortValue" UId="318" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="319" />
+                  <Blank UId="320" />
+                  <Parameter Name="OutNarrow" UId="321">
+                    <Blank UId="322" />
+                    <Token Text="=&gt;" UId="323" />
+                    <Blank UId="324" />
+                    <Access Scope="LocalVariable" UId="325">
+                      <Symbol UId="326">
+                        <Component Name="NarrowValue" UId="327" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text=")" UId="329" />
+                </CallInfo>
+              </Access>
+              <Token Text=";" UId="330" />
+              <NewLine UId="331" />
+              <Blank Num="4" UId="332" />
+              <Token Text="END_REGION" UId="333" />
+              <NewLine UId="334" />
+              <Blank Num="4" UId="335" />
+              <NewLine UId="336" />
+              <Blank Num="4" UId="337" />
+              <Token Text="REGION" UId="338" />
+              <Blank UId="339" />
+              <Text UId="340">Non-formal parameter list</Text>
+              <NewLine UId="341" />
+              <Blank Num="8" UId="342" />
+              <Access Scope="LocalVariable" UId="343">
+                <Symbol UId="344">
+                  <Component Name="Magnitude" UId="345" />
+                </Symbol>
+              </Access>
+              <Blank UId="346" />
+              <Token Text=":=" UId="347" />
+              <Blank UId="348" />
+              <Access Scope="Call" UId="349">
+                <Instruction Name="ABS" UId="350">
+                  <Token Text="(" UId="351" />
+                  <NamelessParameter UId="352">
+                    <Access Scope="LocalVariable" UId="353">
+                      <Symbol UId="354">
+                        <Component Name="Delta" UId="355" />
+                      </Symbol>
+                    </Access>
+                  </NamelessParameter>
+                  <Token Text=")" UId="357" />
+                </Instruction>
+              </Access>
+              <Token Text=";" UId="358" />
+              <NewLine UId="359" />
+              <Blank Num="4" UId="360" />
+              <Token Text="END_REGION" UId="361" />
+              <NewLine UId="362" />
+              <Blank Num="4" UId="363" />
+              <NewLine UId="364" />
+              <Blank Num="4" UId="365" />
+              <Access Scope="LocalVariable" UId="366">
+                <Symbol UId="367">
+                  <Component Name="CallsOk" UId="368" />
+                </Symbol>
+              </Access>
+              <Blank UId="369" />
+              <Token Text=":=" UId="370" />
+              <Blank UId="371" />
+              <Access Scope="LocalVariable" UId="372">
+                <Symbol UId="373">
+                  <Component Name="CallOk" UId="374" />
+                </Symbol>
+              </Access>
+              <Token Text=";" UId="375" />
+              <NewLine UId="376" />
+              <Blank Num="4" UId="377" />
+              <Access Scope="PredefinedVariable" UId="378">
+                <PredefinedVariable Name="ENO" UId="379" />
+              </Access>
+              <Blank UId="380" />
+              <Token Text=":=" UId="381" />
+              <Blank UId="382" />
+              <Access Scope="LocalVariable" UId="383">
+                <Symbol UId="384">
+                  <Component Name="CallOk" UId="385" />
+                </Symbol>
+              </Access>
+              <Token Text=";" UId="386" />
+              <NewLine UId="387" />
+            </StructuredText>
+          </NetworkSource>
+          <ProgrammingLanguage>SCL</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="5" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="6" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="7" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="8" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="9" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="A" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <MultilingualText ID="B" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="C" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="D" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>Block calls</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.FB>
+</Document>

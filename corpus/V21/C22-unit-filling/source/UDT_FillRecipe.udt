@@ -1,0 +1,15 @@
+﻿NAMESPACE Filling
+TYPE "UDT_FillRecipe"
+TITLE = Filling recipe of the filling unit
+{ Published := 'TRUE' }
+VERSION : 0.1
+   STRUCT
+      TargetVolume : Real := 1.0;   // Target volume in litres
+      FillTime : Time := T#10S;   // Maximum filling time
+      FlowFactor : Real := 0.01;   // Litres per raw flow unit
+      LastVolume : Real;   // Volume of the last filling
+   END_STRUCT;
+
+END_TYPE
+END_NAMESPACE
+

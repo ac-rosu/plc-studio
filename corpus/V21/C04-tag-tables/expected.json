@@ -1,0 +1,57 @@
+{
+  "caseId": "C04",
+  "title": "Tag tables with I/O, memory tags and user constants",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "Tags_IO",
+      "type": "TagTable",
+      "language": null,
+      "unit": null,
+      "group": null,
+      "iecCheck": null,
+      "failsafe": false
+    },
+    {
+      "name": "Tags_Memory",
+      "type": "TagTable",
+      "language": null,
+      "unit": null,
+      "group": null,
+      "iecCheck": null,
+      "failsafe": false
+    }
+  ],
+  "exports": {
+    "vci": [
+      "tagtables/Tags_IO.xml",
+      "tagtables/Tags_Memory.xml"
+    ],
+    "tagtables": [
+      "tagtables/Tags_IO.xml",
+      "tagtables/Tags_IO.json",
+      "tagtables/Tags_Memory.xml",
+      "tagtables/Tags_Memory.json"
+    ],
+    "refused": {
+      "vci_SimaticSD": {
+        "Tags_IO": "Tags_IO supports the formats SimaticML. (vci_sync INVALID_ARGUMENT for Tags_IO; tag tables have no SimaticSD format)",
+        "Tags_Memory": "Tags_IO supports the formats SimaticML. (vci_sync INVALID_ARGUMENT for Tags_IO; tag tables have no SimaticSD format)"
+      }
+    }
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [],
+    "sources": []
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "Tag tables produce no compile messages. ServiceWord is not accessible from HMI/OPC UA (ExternalAccessible false). The de-DE comments are only in the SimaticML file (plc_get_tag_table returns the editing language). No compile message names this case's objects; the PLC compiles that include them ended with 0 errors."
+}

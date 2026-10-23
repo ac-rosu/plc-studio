@@ -1,0 +1,68 @@
+{
+  "caseId": "C26d",
+  "title": "FC output not written on every path",
+  "kind": "analyzer",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FC_AnaOutputPath",
+      "type": "FC",
+      "number": 11,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Analyzer",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FC_AnaOutputPath.s7dcl",
+      "documents/FC_AnaOutputPath.s7res"
+    ],
+    "source": [
+      "source/FC_AnaOutputPath.scl"
+    ],
+    "simaticml": [
+      "simaticml/FC_AnaOutputPath.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FC_AnaOutputPath.s7dcl",
+      "vci/SimaticSD/FC_AnaOutputPath.s7res",
+      "vci/SimaticML/FC_AnaOutputPath.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Analyzer > FC_AnaOutputPath (FC11)",
+        "block": "FC_AnaOutputPath",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FC_AnaOutputPath: compile-clean-PLC_Main.json batches[s2-b12-C26-C12.json] compiles[0]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [
+    {
+      "rule": "output-not-written-on-every-path",
+      "block": "FC_AnaOutputPath",
+      "line": 2
+    }
+  ],
+  "notes": "TIA compiles it without any message."
+}

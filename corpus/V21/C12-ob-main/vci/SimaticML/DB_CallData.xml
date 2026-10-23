@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V21" />
+  <SW.Blocks.GlobalDB ID="0">
+    <AttributeList>
+      <Interface>
+        <Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v5">
+          <Section Name="Static">
+            <Member Name="Values" Datatype="Array[0..9] of Real">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Values for FB_SclCalls</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="LadMotor" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Output Motor of FC_LadContacts</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="LadPulse" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Output Pulse of FC_LadContacts</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="LadFallingPulse" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Output FallingPulse of FC_LadContacts</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="LadAlarm" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Output Alarm of FC_LadContacts</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="LadLamp" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Output Lamp of FC_LadContacts</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="LadBranch" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Output BranchResult of FC_LadContacts</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="LadLatched" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">InOut Latched of FC_LadContacts</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="LadRiseMemory" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Edge memory for FC_LadContacts</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="LadFallMemory" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Edge memory for FC_LadContacts</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="LadCoilMemory" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Edge memory for FC_LadContacts</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="FbdAnd" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Output AndOut of FC_FbdLogic</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="FbdOr" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Output OrOut of FC_FbdLogic</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="FbdXor" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Output XorOut of FC_FbdLogic</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="FbdNot" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Output NotOut of FC_FbdLogic</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="FbdSr" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Output SrOut of FC_FbdLogic</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="FbdRs" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Output RsOut of FC_FbdLogic</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="FbdEdge" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Output EdgeOut of FC_FbdLogic</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="FbdSrBit" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">InOut SrBit of FC_FbdLogic</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="FbdRsBit" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">InOut RsBit of FC_FbdLogic</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="FbdEdgeBit" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">InOut EdgeBit of FC_FbdLogic</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+        </Sections>
+      </Interface>
+      <MemoryLayout>Optimized</MemoryLayout>
+      <MemoryReserve>100</MemoryReserve>
+      <Name>DB_CallData</Name>
+      <Namespace />
+      <Number>17</Number>
+      <ProgrammingLanguage>DB</ProgrammingLanguage>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="3" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>Actual parameters of the FC calls in OB_Main that must persist between cycles</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <MultilingualText ID="4" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="5" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="6" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>Call data of OB_Main</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.GlobalDB>
+</Document>

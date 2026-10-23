@@ -1,0 +1,104 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_SclTypes" : Real
+    VAR_INPUT
+        { S7_MLC := "MLC_3Gi" }
+        InInt : Int;
+        { S7_MLC := "MLC_4aQ" }
+        InReal : Real;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_59H" }
+        OutDInt : DInt;
+        { S7_MLC := "MLC_3JQ" }
+        OutText : String;
+    END_VAR
+    VAR_IN_OUT
+        { S7_MLC := "MLC_Lt" }
+        Accumulator : LReal;
+    END_VAR
+    VAR_TEMP
+        TempBool : Bool;
+        TempByte : Byte;
+        TempWord : Word;
+        TempDWord : DWord;
+        TempLWord : LWord;
+        TempSInt : SInt;
+        TempUSInt : USInt;
+        TempInt : Int;
+        TempUInt : UInt;
+        TempDInt : DInt;
+        TempUDInt : UDInt;
+        TempLInt : LInt;
+        TempULInt : ULInt;
+        TempReal : Real;
+        TempLReal : LReal;
+        TempTime : Time;
+        TempLTime : LTime;
+        TempS5Time : S5Time;
+        TempDate : Date;
+        TempTimeOfDay : Time_Of_Day;
+        TempLTimeOfDay : LTime_Of_Day;
+        TempDateAndTime : Date_And_Time;
+        TempLdt : LDT;
+        TempChar : Char;
+        TempWChar : WChar;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            REGION Typed literals
+                #TempBool := TRUE;
+                #TempByte := 16#0F;
+                #TempWord := 2#1010_0101_1100_0011;
+                #TempDWord := DWORD#16#DEAD_BEEF;
+                #TempLWord := LWORD#16#0123_4567_89AB_CDEF;
+                #TempSInt := SINT#-12;
+                #TempUSInt := USINT#200;
+                #TempInt := INT#1000;
+                #TempUInt := UINT#60000;
+                #TempDInt := DINT#-100000;
+                #TempUDInt := UDINT#4000000000;
+                #TempLInt := LINT#-9000000000;
+                #TempULInt := ULINT#18000000000;
+                #TempReal := REAL#1.5;
+                #TempLReal := LREAL#3.141592653589793;
+                #TempTime := T#1m30s;
+                #TempLTime := LT#1s500ms250us;
+                #TempS5Time := S5T#2s;
+                #TempDate := D#2026-10-23;
+                #TempTimeOfDay := TOD#12:30:15.500;
+                #TempLTimeOfDay := LTOD#12:30:15.500000001;
+                #TempDateAndTime := DT#2026-10-23-12:30:15;
+                #TempLdt := LDT#2026-10-23-12:30:15.5;
+                #TempChar := 'x';
+                #TempWChar := WCHAR#'y';
+            END_REGION
+            
+            REGION Explicit conversions
+                #TempReal := INT_TO_REAL(#InInt) * #InReal;
+                #OutDInt := REAL_TO_DINT(#TempReal);
+                #TempInt := REAL_TO_INT(#TempReal);
+                #TempDInt := TRUNC(#TempReal);
+                #OutText := DINT_TO_STRING(#OutDInt);
+                #TempTime := DINT_TO_TIME(#OutDInt);
+            END_REGION
+            
+            REGION Implicit conversions
+                // Widening conversions that TIA performs without a conversion function
+                #TempDInt := #InInt;
+                #TempLInt := #TempDInt;
+                #TempLReal := #InReal;
+                #TempWord := #TempByte;
+                #TempUDInt := #TempUSInt;
+            END_REGION
+            
+            #Accumulator := #Accumulator + #TempLReal;
+            #FC_SclTypes := #TempReal;
+        
+    END_NETWORK
+END_FUNCTION

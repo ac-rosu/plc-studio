@@ -1,0 +1,18 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+ORGANIZATION_BLOCK "OB_Startup"
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            REGION Initialise machine data
+                "DB_Machine".MachineOn := FALSE;
+                "DB_Machine".PieceCount := 0;
+                "DB_Machine".SpeedSetpoint := 50.0;
+                "DB_Machine".MachineName := 'Filler';
+            END_REGION
+        
+    END_NETWORK
+END_ORGANIZATION_BLOCK

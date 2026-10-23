@@ -1,0 +1,73 @@
+{
+  "caseId": "B04",
+  "title": "Wrong parameter name in an FB call",
+  "kind": "broken",
+  "basedOn": "C08",
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_SclCalls_B04",
+      "type": "FB",
+      "number": 27,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Broken",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_SclCalls_B04.s7dcl",
+      "documents/FB_SclCalls_B04.s7res"
+    ],
+    "source": [
+      "source/FB_SclCalls_B04.scl"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_SclCalls_B04.s7dcl",
+      "vci/SimaticSD/FB_SclCalls_B04.s7res"
+    ],
+    "refused": {
+      "simaticml": {
+        "FB_SclCalls_B04": "Error when calling method 'Export' of type 'Siemens.Engineering.SW.Blocks.FB'. Inconsistent blocks and PLC data types (UDT) cannot be exported."
+      },
+      "vci_SimaticML": {
+        "FB_SclCalls_B04": "Error when calling method 'ExportObject' of type 'Siemens.Engineering.VersionControl.Workspace'. FB_SclCalls_B04 [FB27] object(s) is not consistent"
+      }
+    }
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 2,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > FB_SclCalls_B04 (FB27) > 3",
+        "block": "FB_SclCalls_B04",
+        "line": 3,
+        "network": null,
+        "description": "The formal parameter 'Enabel' is invalid."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > FB_SclCalls_B04 (FB27) > 3",
+        "block": "FB_SclCalls_B04",
+        "line": 3,
+        "network": null,
+        "description": "Parameters of the function or the function block do not match the transferred formal parameters.  "
+      }
+    ],
+    "sources": [
+      "FB_SclCalls_B04: compile-broken-PLC_Main.json final"
+    ]
+  },
+  "intendedError": "wrong formal parameter name \"Enabel\" in the multi-instance call #Sections(...)",
+  "analyzerExpect": [],
+  "notes": ""
+}

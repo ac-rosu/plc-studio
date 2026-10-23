@@ -1,0 +1,82 @@
+{
+  "caseId": "C12",
+  "title": "OB_Main calling every block meant to run",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "OB_Main",
+      "type": "OB",
+      "number": 1,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": null,
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "DB_CallData",
+      "type": "GlobalDB",
+      "number": 17,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": "Data",
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/OB_Main.s7dcl",
+      "documents/OB_Main.s7res",
+      "documents/DB_CallData.s7dcl",
+      "documents/DB_CallData.s7res"
+    ],
+    "source": [
+      "source/OB_Main.scl",
+      "source/DB_CallData.db"
+    ],
+    "simaticml": [
+      "simaticml/OB_Main.xml",
+      "simaticml/OB_Main.readonly.xml",
+      "simaticml/DB_CallData.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/OB_Main.s7dcl",
+      "vci/SimaticSD/OB_Main.s7res",
+      "vci/SimaticML/OB_Main.xml",
+      "vci/SimaticSD/DB_CallData.s7dcl",
+      "vci/SimaticSD/DB_CallData.s7res",
+      "vci/SimaticML/DB_CallData.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > OB_Main (OB1)",
+        "block": "OB_Main",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "OB_Main: compile-clean-PLC_Main.json batches[s2-b12-C26-C12.json] compiles[5]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "OB_Main calls every block meant to run; FC_AnaDead (C26k) is deliberately not called. The instance DBs of the called FBs are in the cases of their FBs."
+}

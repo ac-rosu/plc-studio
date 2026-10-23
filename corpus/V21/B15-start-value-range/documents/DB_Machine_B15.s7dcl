@@ -1,0 +1,141 @@
+{
+    S7_Optimized := "TRUE";
+    S7_StandardRetain := "FALSE";
+    S7_Version := "0.1"
+}
+DATA_BLOCK DB_Machine_B15
+    VAR
+        { S7_MLC := "MLC_3yS" }
+        MachineOn : Bool;
+        { S7_MLC := "MLC_NW" }
+        StatusByte : Byte;
+        { S7_MLC := "MLC_4Sh" }
+        StatusWord : Word;
+        { S7_MLC := "MLC_3ik" }
+        StatusDWord : DWord;
+        { S7_MLC := "MLC_4qy" }
+        StatusLWord : LWord;
+        { S7_MLC := "MLC_4EZ" }
+        SmallSigned : SInt;
+        { S7_MLC := "MLC_ee" }
+        SmallUnsigned : USInt;
+        { S7_MLC := "MLC_34K" }
+        PieceCount : Int;
+        { S7_MLC := "MLC_4BS" }
+        PieceCountUnsigned : UInt;
+        { S7_MLC := "MLC_4RU" }
+        TotalCount : DInt;
+        { S7_MLC := "MLC_3ey" }
+        TotalCountUnsigned : UDInt;
+        { S7_MLC := "MLC_3Yk" }
+        LongCount : LInt;
+        { S7_MLC := "MLC_34M" }
+        LongCountUnsigned : ULInt;
+        { S7_MLC := "MLC_4Xv" }
+        Temperature : Real;
+        { S7_MLC := "MLC_4HC" }
+        Pressure : LReal;
+        { S7_MLC := "MLC_3Af" }
+        CycleTime : Time;
+        { S7_MLC := "MLC_Su" }
+        PreciseTime : LTime;
+        { S7_MLC := "MLC_34Y" }
+        LegacyTime : S5Time;
+        { S7_MLC := "MLC_3Xu" }
+        ProductionDate : Date;
+        { S7_MLC := "MLC_PN" }
+        ShiftStart : Time_Of_Day;
+        { S7_MLC := "MLC_3xn" }
+        PreciseShiftStart : LTime_Of_Day;
+        { S7_MLC := "MLC_3RD" }
+        LegacyTimestamp : Date_And_Time;
+        { S7_MLC := "MLC_52P" }
+        PreciseTimestamp : LDT;
+        { S7_MLC := "MLC_YT" }
+        Separator : Char;
+        { S7_MLC := "MLC_42H" }
+        Symbol : WChar;
+        { S7_MLC := "MLC_3uu" }
+        MachineName : String[20];
+        { S7_MLC := "MLC_3AE" }
+        OperatorText : WString;
+        { S7_MLC := "MLC_3Ad" }
+        LastStart : DTL;
+        { S7_MLC := "MLC_3Km" }
+        Limits : STRUCT
+            { S7_MLC := "MLC_4LN" }
+            Minimum : Real;
+            { S7_MLC := "MLC_cR" }
+            Maximum : Real;
+        END_STRUCT;
+        { S7_MLC := "MLC_4pE" }
+        Speeds : Array[0..4] of Int;
+        { S7_MLC := "MLC_4pu" }
+        MainMotor : _.UDT_Motor;
+        {
+            S7_MLC := "MLC_4t9";
+            S7_Setpoint := "True"
+        }
+        SpeedSetpoint : Real;
+        {
+            S7_Access := "ReadOnly := External";
+            S7_MLC := "MLC_3UA";
+            S7_Visibility := "Hidden := External"
+        }
+        InternalState : Int;
+        {
+            S7_Access := "ReadOnly := External";
+            S7_MLC := "MLC_3HE"
+        }
+        ReadOnlyValue : Real;
+    END_VAR
+
+    VAR RETAIN
+        { S7_MLC := "MLC_4TX" }
+        OperatingHours : DInt;
+        { S7_MLC := "MLC_4DE" }
+        RetainedRecipe : Int;
+    END_VAR
+
+    MachineOn := FALSE;
+    StatusByte := 16#0F;
+    StatusWord := 16#00FF;
+    StatusDWord := 16#0000_FFFF;
+    StatusLWord := 16#0000_0000_FFFF_FFFF;
+    SmallSigned := -5;
+    SmallUnsigned := 200;
+    PieceCount := 40000;
+    PieceCountUnsigned := 100;
+    TotalCount := 0;
+    TotalCountUnsigned := 0;
+    LongCount := 0;
+    LongCountUnsigned := 0;
+    Temperature := 21.5;
+    Pressure := 1.013;
+    CycleTime := T#2S;
+    PreciseTime := LT#500US;
+    LegacyTime := S5T#10S;
+    ProductionDate := D#2026-01-01;
+    ShiftStart := TOD#06:00:00;
+    PreciseShiftStart := LTOD#06:00:00.000000001;
+    LegacyTimestamp := DT#2026-01-01-06:00:00;
+    PreciseTimestamp := LDT#2026-01-01-06:00:00;
+    Separator := 'A';
+    Symbol := WCHAR#'B';
+    MachineName := 'Filler';
+    OperatorText := WSTRING#'Ready';
+    LastStart := DTL#2026-01-01-00:00:00;
+    Limits.Minimum := 0.0;
+    Limits.Maximum := 100.0;
+        Speeds[0] := 0;
+        Speeds[1] := 10;
+        Speeds[2] := 20;
+        Speeds[3] := 30;
+        Speeds[4] := 40;
+    SpeedSetpoint := 50.0;
+    InternalState := 0;
+    ReadOnlyValue := 0.0;
+    OperatingHours := 0;
+    RetainedRecipe := 1;
+
+END_DATA_BLOCK

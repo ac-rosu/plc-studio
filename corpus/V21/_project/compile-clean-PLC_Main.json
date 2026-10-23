@@ -1,0 +1,2479 @@
+{
+  "plc": "PLC_Main",
+  "step": "Step 2 clean",
+  "note": "Openness has no rebuild-all (ICompilable.Compile compiles only changes). 'final' is the last compile of Step 2; TIA reports 'No block was compiled. All blocks are up-to-date.' because every block was already compiled in the batch compiles listed under 'batches' (in order; each block's own messages are in the batch that first compiled it in its final form). Batches with errors are intermediate states that were fixed afterwards (see run-log.md). The final compile is the one after setting Namespace = Dosing on IDB_Doser and OB_Dosing; it compiled only those two blocks.",
+  "final": {
+    "projectPath": "C:\\TiaProjects\\Corpus\\PlcStudioCorpus_V21\\PlcStudioCorpus_V21.ap21",
+    "target": "plc",
+    "compiled": "PLC software PLC_Main",
+    "software": {
+      "omPath": "Software['PLC_Main']",
+      "name": "PLC_Main",
+      "kind": "plc",
+      "softwareType": "PlcSoftware",
+      "device": "PLC_Main",
+      "deviceItem": "PLC_Main"
+    },
+    "safety": {
+      "plc": "PLC_Main",
+      "collectiveSignatureBefore": "0xE8DB8BC0",
+      "collectiveSignatureAfter": "0xE8DB8BC0",
+      "changed": false,
+      "consistent": true,
+      "passwordSet": false,
+      "loggedOnByServer": false
+    },
+    "state": "Warning",
+    "errorCount": 0,
+    "warningCount": 2,
+    "durationMs": 738,
+    "isModified": true,
+    "messageCount": 15,
+    "messages": [
+      {
+        "depth": 0,
+        "path": "PLC_Main",
+        "state": "Warning",
+        "warningCount": 2
+      },
+      {
+        "depth": 1,
+        "path": "PLC_Main > Safety",
+        "state": "Information",
+        "description": "Compile safety program 'Safety Administration'."
+      },
+      {
+        "depth": 1,
+        "path": "PLC_Main > Software units",
+        "state": "Success"
+      },
+      {
+        "depth": 2,
+        "path": "PLC_Main > Software units > Unit_Dosing",
+        "state": "Success"
+      },
+      {
+        "depth": 3,
+        "path": "PLC_Main > Software units > Unit_Dosing > Program blocks",
+        "state": "Success"
+      },
+      {
+        "depth": 4,
+        "path": "PLC_Main > Software units > Unit_Dosing > Program blocks > Dosing.OB_Dosing (OB124)",
+        "state": "Success",
+        "description": "Block was successfully compiled."
+      },
+      {
+        "depth": 4,
+        "path": "PLC_Main > Software units > Unit_Dosing > Program blocks > Dosing.IDB_Doser (DB6)",
+        "state": "Success",
+        "description": "Block was successfully compiled."
+      },
+      {
+        "depth": 1,
+        "path": "PLC_Main > Program blocks",
+        "state": "Information"
+      },
+      {
+        "depth": 2,
+        "path": "PLC_Main > Program blocks",
+        "state": "Information",
+        "description": "No block was compiled. All blocks are up-to-date."
+      },
+      {
+        "depth": 1,
+        "path": "PLC_Main > Consistency check",
+        "state": "Information",
+        "description": "Consistency check for safety program 'Safety Administration'."
+      },
+      {
+        "depth": 2,
+        "path": "PLC_Main > Consistency check",
+        "state": "Information",
+        "description": "The safety program is already consistent and for this reason is not recompiled."
+      },
+      {
+        "depth": 1,
+        "path": "PLC_Main > General warnings",
+        "state": "Warning",
+        "warningCount": 2
+      },
+      {
+        "depth": 2,
+        "path": "PLC_Main > General warnings > OB_HwInterrupt (OB40)",
+        "state": "Warning",
+        "description": "You have not yet defined triggers for the hardware interrupt.",
+        "warningCount": 1
+      },
+      {
+        "depth": 2,
+        "path": "PLC_Main > General warnings",
+        "state": "Warning",
+        "description": "Inputs or outputs are used that do not exist in the configured hardware.",
+        "warningCount": 1
+      },
+      {
+        "depth": 0,
+        "state": "Warning",
+        "description": "Compiling finished (errors: 0; warnings: 2)",
+        "warningCount": 1
+      }
+    ]
+  },
+  "batches": [
+    {
+      "file": "s2-b01-C01-C02.json",
+      "source": "compile plc PLC_Main, batch C01 (UDT_Motor, UDT_Recipe, UDT_Line) + C02 (DB_Machine), after reconnect",
+      "compile": {
+        "projectPath": "C:\\TiaProjects\\Corpus\\PlcStudioCorpus_V21\\PlcStudioCorpus_V21.ap21",
+        "target": "plc",
+        "compiled": "PLC software PLC_Main",
+        "software": {
+          "omPath": "Software['PLC_Main']",
+          "name": "PLC_Main",
+          "kind": "plc",
+          "softwareType": "PlcSoftware",
+          "device": "PLC_Main",
+          "deviceItem": "PLC_Main"
+        },
+        "safety": {
+          "plc": "PLC_Main",
+          "collectiveSignatureBefore": "0xC024FF40",
+          "collectiveSignatureAfter": "0xC024FF40",
+          "changed": false,
+          "consistent": true,
+          "passwordSet": false,
+          "loggedOnByServer": false
+        },
+        "state": "Success",
+        "errorCount": 0,
+        "warningCount": 0,
+        "durationMs": 3179,
+        "isModified": true,
+        "messageCount": 14,
+        "messages": [
+          {
+            "depth": 0,
+            "path": "PLC_Main",
+            "state": "Information"
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Safety",
+            "state": "Information",
+            "description": "Compile safety program 'Safety Administration'."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > PLC data types",
+            "state": "Success"
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > PLC data types > UDT_Motor (UDT)",
+            "state": "Success",
+            "description": "The data type was successfully updated."
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > PLC data types > UDT_Line (UDT)",
+            "state": "Success",
+            "description": "The data type was successfully updated."
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > PLC data types > UDT_Recipe (UDT)",
+            "state": "Success",
+            "description": "The data type was successfully updated."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Program blocks",
+            "state": "Success"
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Program blocks > Data",
+            "state": "Success"
+          },
+          {
+            "depth": 3,
+            "path": "PLC_Main > Program blocks > Data > DB_Machine (DB1)",
+            "state": "Success",
+            "description": "Block was successfully compiled."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Software units",
+            "state": "Information"
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Software units",
+            "state": "Information",
+            "description": "No block was compiled. All blocks are up-to-date."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Consistency check",
+            "state": "Information",
+            "description": "Consistency check for safety program 'Safety Administration'."
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Consistency check",
+            "state": "Information",
+            "description": "The safety program is already consistent and for this reason is not recompiled."
+          },
+          {
+            "depth": 0,
+            "state": "Success",
+            "description": "Compiling finished (errors: 0; warnings: 0)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "s2-b02-C03-C04.json",
+      "source": "compile plc PLC_Main, batch C03 (DB_Recipes) + C04 (Tags_IO, Tags_Memory: no compile messages for tag tables)",
+      "compile": {
+        "projectPath": "C:\\TiaProjects\\Corpus\\PlcStudioCorpus_V21\\PlcStudioCorpus_V21.ap21",
+        "target": "plc",
+        "compiled": "PLC software PLC_Main",
+        "software": {
+          "omPath": "Software['PLC_Main']",
+          "name": "PLC_Main",
+          "kind": "plc",
+          "softwareType": "PlcSoftware",
+          "device": "PLC_Main",
+          "deviceItem": "PLC_Main"
+        },
+        "safety": {
+          "plc": "PLC_Main",
+          "collectiveSignatureBefore": "0xC024FF40",
+          "collectiveSignatureAfter": "0xC024FF40",
+          "changed": false,
+          "consistent": true,
+          "passwordSet": false,
+          "loggedOnByServer": false
+        },
+        "state": "Success",
+        "errorCount": 0,
+        "warningCount": 0,
+        "durationMs": 720,
+        "isModified": true,
+        "messageCount": 10,
+        "messages": [
+          {
+            "depth": 0,
+            "path": "PLC_Main",
+            "state": "Information"
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Safety",
+            "state": "Information",
+            "description": "Compile safety program 'Safety Administration'."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Program blocks",
+            "state": "Success"
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Program blocks > Data",
+            "state": "Success"
+          },
+          {
+            "depth": 3,
+            "path": "PLC_Main > Program blocks > Data > DB_Recipes (DB3)",
+            "state": "Success",
+            "description": "Block was successfully compiled."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Software units",
+            "state": "Information"
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Software units",
+            "state": "Information",
+            "description": "No block was compiled. All blocks are up-to-date."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Consistency check",
+            "state": "Information",
+            "description": "Consistency check for safety program 'Safety Administration'."
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Consistency check",
+            "state": "Information",
+            "description": "The safety program is already consistent and for this reason is not recompiled."
+          },
+          {
+            "depth": 0,
+            "state": "Success",
+            "description": "Compiling finished (errors: 0; warnings: 0)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "s2-b03-C05-C07-first.json",
+      "source": "compile plc PLC_Main, batch C05 (FB_SclSections) + C06 first version (FC_SclTypes with CONVERT(IN := ...), refused) + C07 (FB_SclTimers)",
+      "compile": {
+        "projectPath": "C:\\TiaProjects\\Corpus\\PlcStudioCorpus_V21\\PlcStudioCorpus_V21.ap21",
+        "target": "plc",
+        "compiled": "PLC software PLC_Main",
+        "software": {
+          "omPath": "Software['PLC_Main']",
+          "name": "PLC_Main",
+          "kind": "plc",
+          "softwareType": "PlcSoftware",
+          "device": "PLC_Main",
+          "deviceItem": "PLC_Main"
+        },
+        "safety": {
+          "plc": "PLC_Main",
+          "collectiveSignatureBefore": "0xC024FF40",
+          "collectiveSignatureAfter": "0xC024FF40",
+          "changed": false,
+          "consistent": true,
+          "passwordSet": false,
+          "loggedOnByServer": false
+        },
+        "state": "Error",
+        "errorCount": 3,
+        "warningCount": 0,
+        "durationMs": 2030,
+        "isModified": true,
+        "messageCount": 12,
+        "messages": [
+          {
+            "depth": 0,
+            "path": "PLC_Main",
+            "state": "Error",
+            "errorCount": 3
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Safety",
+            "state": "Information",
+            "description": "Compile safety program 'Safety Administration'."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Program blocks",
+            "state": "Error",
+            "errorCount": 3
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Program blocks > Scl",
+            "state": "Error",
+            "errorCount": 3
+          },
+          {
+            "depth": 3,
+            "path": "PLC_Main > Program blocks > Scl > FC_SclTypes (FC1)",
+            "state": "Error",
+            "errorCount": 3
+          },
+          {
+            "depth": 4,
+            "path": "PLC_Main > Program blocks > Scl > FC_SclTypes (FC1) > 33",
+            "state": "Error",
+            "description": "Invalid function or invalid function block.",
+            "errorCount": 1
+          },
+          {
+            "depth": 4,
+            "path": "PLC_Main > Program blocks > Scl > FC_SclTypes (FC1) > 33",
+            "state": "Error",
+            "description": "The formal parameter 'IN' is invalid.",
+            "errorCount": 1
+          },
+          {
+            "depth": 4,
+            "path": "PLC_Main > Program blocks > Scl > FC_SclTypes (FC1) > 33",
+            "state": "Error",
+            "description": "Tag 'CONVERT' is not declared.",
+            "errorCount": 1
+          },
+          {
+            "depth": 3,
+            "path": "PLC_Main > Program blocks > Scl > FB_SclSections (FB1)",
+            "state": "Success",
+            "description": "Block was successfully compiled."
+          },
+          {
+            "depth": 3,
+            "path": "PLC_Main > Program blocks > Scl > FB_SclTimers (FB2)",
+            "state": "Success",
+            "description": "Block was successfully compiled."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Software units",
+            "state": "Success"
+          },
+          {
+            "depth": 0,
+            "state": "Error",
+            "description": "Compiling finished (errors: 3; warnings: 0)",
+            "errorCount": 1
+          }
+        ]
+      }
+    },
+    {
+      "file": "s2-b04-C06-C09-C10-identical-body.json",
+      "source": "compile plc PLC_Main, batch C06 fixed (FC_SclTypes) + C09 (FC_SclAdvanced, FC_SclAtOverlay) + C10 with IDENTICAL bodies (FC_IecOff IEC off, FC_IecOn IEC on via om_set IsIECCheckEnabled=true)",
+      "compile": {
+        "projectPath": "C:\\TiaProjects\\Corpus\\PlcStudioCorpus_V21\\PlcStudioCorpus_V21.ap21",
+        "target": "plc",
+        "compiled": "PLC software PLC_Main",
+        "software": {
+          "omPath": "Software['PLC_Main']",
+          "name": "PLC_Main",
+          "kind": "plc",
+          "softwareType": "PlcSoftware",
+          "device": "PLC_Main",
+          "deviceItem": "PLC_Main"
+        },
+        "safety": {
+          "plc": "PLC_Main",
+          "collectiveSignatureBefore": "0xC024FF40",
+          "collectiveSignatureAfter": "0xC024FF40",
+          "changed": false,
+          "consistent": true,
+          "passwordSet": false,
+          "loggedOnByServer": false
+        },
+        "state": "Error",
+        "errorCount": 4,
+        "warningCount": 4,
+        "durationMs": 891,
+        "isModified": true,
+        "messageCount": 20,
+        "messages": [
+          {
+            "depth": 0,
+            "path": "PLC_Main",
+            "state": "Error",
+            "errorCount": 4,
+            "warningCount": 4
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Safety",
+            "state": "Information",
+            "description": "Compile safety program 'Safety Administration'."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Program blocks",
+            "state": "Error",
+            "errorCount": 4,
+            "warningCount": 4
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Program blocks > Scl",
+            "state": "Error",
+            "errorCount": 4,
+            "warningCount": 4
+          },
+          {
+            "depth": 3,
+            "path": "PLC_Main > Program blocks > Scl > FC_SclTypes (FC1)",
+            "state": "Success",
+            "description": "Block was successfully compiled."
+          },
+          {
+            "depth": 3,
+            "path": "PLC_Main > Program blocks > Scl > FC_SclAdvanced (FC2)",
+            "state": "Success",
+            "description": "Block was successfully compiled."
+          },
+          {
+            "depth": 3,
+            "path": "PLC_Main > Program blocks > Scl > FC_SclAtOverlay (FC3)",
+            "state": "Success",
+            "description": "Block was successfully compiled."
+          },
+          {
+            "depth": 3,
+            "path": "PLC_Main > Program blocks > Scl > FC_IecOff (FC4)",
+            "state": "Warning",
+            "warningCount": 4
+          },
+          {
+            "depth": 4,
+            "path": "PLC_Main > Program blocks > Scl > FC_IecOff (FC4) > 3",
+            "state": "Warning",
+            "description": "The sign or the accuracy of the value may be lost.",
+            "warningCount": 1
+          },
+          {
+            "depth": 4,
+            "path": "PLC_Main > Program blocks > Scl > FC_IecOff (FC4) > 4",
+            "state": "Warning",
+            "description": "The sign or the accuracy of the value may be lost.",
+            "warningCount": 1
+          },
+          {
+            "depth": 4,
+            "path": "PLC_Main > Program blocks > Scl > FC_IecOff (FC4) > 5",
+            "state": "Warning",
+            "description": "The sign or the accuracy of the value may be lost.",
+            "warningCount": 1
+          },
+          {
+            "depth": 4,
+            "path": "PLC_Main > Program blocks > Scl > FC_IecOff (FC4) > 6",
+            "state": "Warning",
+            "description": "The sign or the accuracy of the value may be lost.",
+            "warningCount": 1
+          },
+          {
+            "depth": 4,
+            "path": "PLC_Main > Program blocks > Scl > FC_IecOff (FC4)",
+            "state": "Success",
+            "description": "Block was successfully compiled."
+          },
+          {
+            "depth": 3,
+            "path": "PLC_Main > Program blocks > Scl > FC_IecOn (FC5)",
+            "state": "Error",
+            "errorCount": 4
+          },
+          {
+            "depth": 4,
+            "path": "PLC_Main > Program blocks > Scl > FC_IecOn (FC5) > 3",
+            "state": "Error",
+            "description": "Data type 'Word' cannot be converted implicitly into data type 'Int'.",
+            "errorCount": 1
+          },
+          {
+            "depth": 4,
+            "path": "PLC_Main > Program blocks > Scl > FC_IecOn (FC5) > 4",
+            "state": "Error",
+            "description": "Data type 'Int' cannot be converted implicitly into data type 'SInt'.",
+            "errorCount": 1
+          },
+          {
+            "depth": 4,
+            "path": "PLC_Main > Program blocks > Scl > FC_IecOn (FC5) > 5",
+            "state": "Error",
+            "description": "Data type 'DInt' cannot be converted implicitly into data type 'Int'.",
+            "errorCount": 1
+          },
+          {
+            "depth": 4,
+            "path": "PLC_Main > Program blocks > Scl > FC_IecOn (FC5) > 6",
+            "state": "Error",
+            "description": "Data type 'Int' cannot be converted implicitly into data type 'Word'.",
+            "errorCount": 1
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Software units",
+            "state": "Success"
+          },
+          {
+            "depth": 0,
+            "state": "Error",
+            "description": "Compiling finished (errors: 4; warnings: 4)",
+            "errorCount": 1
+          }
+        ]
+      }
+    },
+    {
+      "file": "s2-b05-C08-C10fixed.json",
+      "source": "compile plc PLC_Main, batch C08 (IDB_SclSections generated consistent, FB_SclCalls) + C10 FC_IecOn fixed (explicit conversions, IEC check on)",
+      "compile": {
+        "projectPath": "C:\\TiaProjects\\Corpus\\PlcStudioCorpus_V21\\PlcStudioCorpus_V21.ap21",
+        "target": "plc",
+        "compiled": "PLC software PLC_Main",
+        "software": {
+          "omPath": "Software['PLC_Main']",
+          "name": "PLC_Main",
+          "kind": "plc",
+          "softwareType": "PlcSoftware",
+          "device": "PLC_Main",
+          "deviceItem": "PLC_Main"
+        },
+        "safety": {
+          "plc": "PLC_Main",
+          "collectiveSignatureBefore": "0xC024FF40",
+          "collectiveSignatureAfter": "0xC024FF40",
+          "changed": false,
+          "consistent": true,
+          "passwordSet": false,
+          "loggedOnByServer": false
+        },
+        "state": "Success",
+        "errorCount": 0,
+        "warningCount": 0,
+        "durationMs": 740,
+        "isModified": true,
+        "messageCount": 11,
+        "messages": [
+          {
+            "depth": 0,
+            "path": "PLC_Main",
+            "state": "Information"
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Safety",
+            "state": "Information",
+            "description": "Compile safety program 'Safety Administration'."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Program blocks",
+            "state": "Success"
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Program blocks > Scl",
+            "state": "Success"
+          },
+          {
+            "depth": 3,
+            "path": "PLC_Main > Program blocks > Scl > FB_SclCalls (FB4)",
+            "state": "Success",
+            "description": "Block was successfully compiled."
+          },
+          {
+            "depth": 3,
+            "path": "PLC_Main > Program blocks > Scl > FC_IecOn (FC5)",
+            "state": "Success",
+            "description": "Block was successfully compiled."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Software units",
+            "state": "Information"
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Software units",
+            "state": "Information",
+            "description": "No block was compiled. All blocks are up-to-date."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Consistency check",
+            "state": "Information",
+            "description": "Consistency check for safety program 'Safety Administration'."
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Consistency check",
+            "state": "Information",
+            "description": "The safety program is already consistent and for this reason is not recompiled."
+          },
+          {
+            "depth": 0,
+            "state": "Success",
+            "description": "Compiling finished (errors: 0; warnings: 0)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "s2-b06-C11.json",
+      "source": "compile plc PLC_Main after C11 (IDB_SclSections regenerated with changed start values; the IDB itself is generated consistent, FB_SclCalls recompiled)",
+      "compile": {
+        "projectPath": "C:\\TiaProjects\\Corpus\\PlcStudioCorpus_V21\\PlcStudioCorpus_V21.ap21",
+        "target": "plc",
+        "compiled": "PLC software PLC_Main",
+        "software": {
+          "omPath": "Software['PLC_Main']",
+          "name": "PLC_Main",
+          "kind": "plc",
+          "softwareType": "PlcSoftware",
+          "device": "PLC_Main",
+          "deviceItem": "PLC_Main"
+        },
+        "safety": {
+          "plc": "PLC_Main",
+          "collectiveSignatureBefore": "0xC024FF40",
+          "collectiveSignatureAfter": "0xC024FF40",
+          "changed": false,
+          "consistent": true,
+          "passwordSet": false,
+          "loggedOnByServer": false
+        },
+        "state": "Success",
+        "errorCount": 0,
+        "warningCount": 0,
+        "durationMs": 735,
+        "isModified": true,
+        "messageCount": 10,
+        "messages": [
+          {
+            "depth": 0,
+            "path": "PLC_Main",
+            "state": "Information"
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Safety",
+            "state": "Information",
+            "description": "Compile safety program 'Safety Administration'."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Program blocks",
+            "state": "Success"
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Program blocks > Scl",
+            "state": "Success"
+          },
+          {
+            "depth": 3,
+            "path": "PLC_Main > Program blocks > Scl > FB_SclCalls (FB4)",
+            "state": "Success",
+            "description": "Block was successfully compiled."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Software units",
+            "state": "Information"
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Software units",
+            "state": "Information",
+            "description": "No block was compiled. All blocks are up-to-date."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Consistency check",
+            "state": "Information",
+            "description": "Consistency check for safety program 'Safety Administration'."
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Consistency check",
+            "state": "Information",
+            "description": "The safety program is already consistent and for this reason is not recompiled."
+          },
+          {
+            "depth": 0,
+            "state": "Success",
+            "description": "Compiling finished (errors: 0; warnings: 0)"
+          }
+        ]
+      }
+    },
+    {
+      "file": "s2-b07-C13-C15.json",
+      "source": "compile plc PLC_Main, batch C13 (OB_Cyclic100ms OB35), C14 (OB_Startup OB100), C15 (OB_DiagError OB82 priority 7, OB_HwInterrupt OB40), all imported from SimaticML; IDB_SclTimersCyclic generated consistent",
+      "compile": {
+        "projectPath": "C:\\TiaProjects\\Corpus\\PlcStudioCorpus_V21\\PlcStudioCorpus_V21.ap21",
+        "target": "plc",
+        "compiled": "PLC software PLC_Main",
+        "software": {
+          "omPath": "Software['PLC_Main']",
+          "name": "PLC_Main",
+          "kind": "plc",
+          "softwareType": "PlcSoftware",
+          "device": "PLC_Main",
+          "deviceItem": "PLC_Main"
+        },
+        "safety": {
+          "plc": "PLC_Main",
+          "collectiveSignatureBefore": "0xC024FF40",
+          "collectiveSignatureAfter": "0xC024FF40",
+          "changed": false,
+          "consistent": true,
+          "passwordSet": false,
+          "loggedOnByServer": false
+        },
+        "state": "Warning",
+        "errorCount": 0,
+        "warningCount": 2,
+        "durationMs": 772,
+        "isModified": true,
+        "messageCount": 15,
+        "messages": [
+          {
+            "depth": 0,
+            "path": "PLC_Main",
+            "state": "Warning",
+            "warningCount": 2
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Safety",
+            "state": "Information",
+            "description": "Compile safety program 'Safety Administration'."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Program blocks",
+            "state": "Success"
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Program blocks > OB_Cyclic100ms (OB35)",
+            "state": "Success",
+            "description": "Block was successfully compiled."
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Program blocks > OB_HwInterrupt (OB40)",
+            "state": "Success",
+            "description": "Block was successfully compiled."
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Program blocks > OB_DiagError (OB82)",
+            "state": "Success",
+            "description": "Block was successfully compiled."
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Program blocks > OB_Startup (OB100)",
+            "state": "Success",
+            "description": "Block was successfully compiled."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Software units",
+            "state": "Information"
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Software units",
+            "state": "Information",
+            "description": "No block was compiled. All blocks are up-to-date."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Consistency check",
+            "state": "Information",
+            "description": "Consistency check for safety program 'Safety Administration'."
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Consistency check",
+            "state": "Information",
+            "description": "The safety program is already consistent and for this reason is not recompiled."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > General warnings",
+            "state": "Warning",
+            "warningCount": 2
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > General warnings > OB_HwInterrupt (OB40)",
+            "state": "Warning",
+            "description": "You have not yet defined triggers for the hardware interrupt.",
+            "warningCount": 1
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > General warnings",
+            "state": "Warning",
+            "description": "Inputs or outputs are used that do not exist in the configured hardware.",
+            "warningCount": 1
+          },
+          {
+            "depth": 0,
+            "state": "Warning",
+            "description": "Compiling finished (errors: 0; warnings: 2)",
+            "warningCount": 1
+          }
+        ]
+      }
+    },
+    {
+      "file": "s2-b08-C16-C21.json",
+      "source": "LAD/FBD/mixed batch compiles of PLC_Main (C16-C21). Three compile results in order; probe blocks Probe_Lad (FB5), Probe_Boxes (FC7), Probe_Calls (FB6) were deleted afterwards and are omitted from the per-block lists below only where marked.",
+      "compiles": [
+        {
+          "note": "after C16 FC_LadContacts import and Probe_Boxes import",
+          "state": "Warning",
+          "errorCount": 0,
+          "warningCount": 2,
+          "messages": [
+            {
+              "depth": 0,
+              "path": "PLC_Main",
+              "state": "Warning",
+              "warningCount": 2
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Safety",
+              "state": "Information",
+              "description": "Compile safety program 'Safety Administration'."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Program blocks",
+              "state": "Success"
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Program blocks > Lad",
+              "state": "Success"
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Lad > FC_LadContacts (FC6)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Program blocks > Probe_Boxes (FC7)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Software units",
+              "state": "Information"
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Software units",
+              "state": "Information",
+              "description": "No block was compiled. All blocks are up-to-date."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Consistency check",
+              "state": "Information",
+              "description": "Consistency check for safety program 'Safety Administration'."
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Consistency check",
+              "state": "Information",
+              "description": "The safety program is already consistent and for this reason is not recompiled."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > General warnings",
+              "state": "Warning",
+              "warningCount": 2
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > General warnings > OB_HwInterrupt (OB40)",
+              "state": "Warning",
+              "description": "You have not yet defined triggers for the hardware interrupt.",
+              "warningCount": 1
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > General warnings",
+              "state": "Warning",
+              "description": "Inputs or outputs are used that do not exist in the configured hardware.",
+              "warningCount": 1
+            },
+            {
+              "depth": 0,
+              "state": "Warning",
+              "description": "Compiling finished (errors: 0; warnings: 2)",
+              "warningCount": 1
+            }
+          ]
+        },
+        {
+          "note": "after C19 FC_FbdLogic (SimaticML) import",
+          "state": "Warning",
+          "errorCount": 0,
+          "warningCount": 2,
+          "messages": [
+            {
+              "depth": 0,
+              "path": "PLC_Main",
+              "state": "Warning",
+              "warningCount": 2
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Safety",
+              "state": "Information",
+              "description": "Compile safety program 'Safety Administration'."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Program blocks",
+              "state": "Success"
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Program blocks > Fbd",
+              "state": "Success"
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Fbd > FC_FbdLogic (FC8)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Software units",
+              "state": "Information"
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Software units",
+              "state": "Information",
+              "description": "No block was compiled. All blocks are up-to-date."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Consistency check",
+              "state": "Information",
+              "description": "Consistency check for safety program 'Safety Administration'."
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Consistency check",
+              "state": "Information",
+              "description": "The safety program is already consistent and for this reason is not recompiled."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > General warnings",
+              "state": "Warning",
+              "warningCount": 2
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > General warnings > OB_HwInterrupt (OB40)",
+              "state": "Warning",
+              "description": "You have not yet defined triggers for the hardware interrupt.",
+              "warningCount": 1
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > General warnings",
+              "state": "Warning",
+              "description": "Inputs or outputs are used that do not exist in the configured hardware.",
+              "warningCount": 1
+            },
+            {
+              "depth": 0,
+              "state": "Warning",
+              "description": "Compiling finished (errors: 0; warnings: 2)",
+              "warningCount": 1
+            }
+          ]
+        },
+        {
+          "note": "after C17 FB_LadBoxes and first C18 FB_LadOpenBranch (open branch ending in a contact)",
+          "state": "Error",
+          "errorCount": 1,
+          "warningCount": 0,
+          "messages": [
+            {
+              "depth": 0,
+              "path": "PLC_Main",
+              "state": "Error",
+              "errorCount": 1
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Safety",
+              "state": "Information",
+              "description": "Compile safety program 'Safety Administration'."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Program blocks",
+              "state": "Error",
+              "errorCount": 1
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Program blocks > Lad",
+              "state": "Error",
+              "errorCount": 1
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Lad > FB_LadBoxes (FB7)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Lad > FB_LadOpenBranch (FB8)",
+              "state": "Error",
+              "errorCount": 1
+            },
+            {
+              "depth": 4,
+              "path": "PLC_Main > Program blocks > Lad > FB_LadOpenBranch (FB8) > Network 2",
+              "state": "Error",
+              "description": "A coil/assignment is required.",
+              "errorCount": 1
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Software units",
+              "state": "Success"
+            },
+            {
+              "depth": 0,
+              "state": "Error",
+              "description": "Compiling finished (errors: 1; warnings: 0)",
+              "errorCount": 1
+            }
+          ]
+        },
+        {
+          "note": "after C18 fixed, C20 FB_FbdBoxes and C21 FB_Mixed",
+          "state": "Warning",
+          "errorCount": 0,
+          "warningCount": 2,
+          "messages": [
+            {
+              "depth": 0,
+              "path": "PLC_Main",
+              "state": "Warning",
+              "warningCount": 2
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Safety",
+              "state": "Information",
+              "description": "Compile safety program 'Safety Administration'."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Program blocks",
+              "state": "Success"
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Program blocks > Fbd",
+              "state": "Success"
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Fbd > FB_FbdBoxes (FB10)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Program blocks > Lad",
+              "state": "Success"
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Lad > FB_LadOpenBranch (FB8)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Program blocks > Mixed",
+              "state": "Success"
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Mixed > FB_Mixed (FB9)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Software units",
+              "state": "Information"
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Software units",
+              "state": "Information",
+              "description": "No block was compiled. All blocks are up-to-date."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Consistency check",
+              "state": "Information",
+              "description": "Consistency check for safety program 'Safety Administration'."
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Consistency check",
+              "state": "Information",
+              "description": "The safety program is already consistent and for this reason is not recompiled."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > General warnings",
+              "state": "Warning",
+              "warningCount": 2
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > General warnings > OB_HwInterrupt (OB40)",
+              "state": "Warning",
+              "description": "You have not yet defined triggers for the hardware interrupt.",
+              "warningCount": 1
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > General warnings",
+              "state": "Warning",
+              "description": "Inputs or outputs are used that do not exist in the configured hardware.",
+              "warningCount": 1
+            },
+            {
+              "depth": 0,
+              "state": "Warning",
+              "description": "Compiling finished (errors: 0; warnings: 2)",
+              "warningCount": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "s2-b09-C22-C23.json",
+      "source": "Unit batch compiles of PLC_Main (C22 Unit_Filling, C23 Unit_Dosing). Three compile results in order.",
+      "compiles": [
+        {
+          "note": "after C22 (UDT_FillRecipe, Tags_Filling, FC_FillHelper, FB_Filler; namespace still empty)",
+          "state": "Warning",
+          "errorCount": 0,
+          "warningCount": 2,
+          "messages": [
+            {
+              "depth": 0,
+              "path": "PLC_Main",
+              "state": "Warning",
+              "warningCount": 2
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Safety",
+              "state": "Information",
+              "description": "Compile safety program 'Safety Administration'."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Software units",
+              "state": "Success"
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Software units > Unit_Filling",
+              "state": "Success"
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Software units > Unit_Filling > PLC data types",
+              "state": "Success"
+            },
+            {
+              "depth": 4,
+              "path": "PLC_Main > Software units > Unit_Filling > PLC data types > UDT_FillRecipe (UDT)",
+              "state": "Success",
+              "description": "The data type was successfully updated."
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Software units > Unit_Filling > Program blocks",
+              "state": "Success"
+            },
+            {
+              "depth": 4,
+              "path": "PLC_Main > Software units > Unit_Filling > Program blocks > FB_Filler (FB5)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 4,
+              "path": "PLC_Main > Software units > Unit_Filling > Program blocks > FC_FillHelper (FC7)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Program blocks",
+              "state": "Information"
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Program blocks",
+              "state": "Information",
+              "description": "No block was compiled. All blocks are up-to-date."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Consistency check",
+              "state": "Information",
+              "description": "Consistency check for safety program 'Safety Administration'."
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Consistency check",
+              "state": "Information",
+              "description": "The safety program is already consistent and for this reason is not recompiled."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > General warnings",
+              "state": "Warning",
+              "warningCount": 2
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > General warnings > OB_HwInterrupt (OB40)",
+              "state": "Warning",
+              "description": "You have not yet defined triggers for the hardware interrupt.",
+              "warningCount": 1
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > General warnings",
+              "state": "Warning",
+              "description": "Inputs or outputs are used that do not exist in the configured hardware.",
+              "warningCount": 1
+            },
+            {
+              "depth": 0,
+              "state": "Warning",
+              "description": "Compiling finished (errors: 0; warnings: 2)",
+              "warningCount": 1
+            }
+          ]
+        },
+        {
+          "note": "after om_set Namespace Filling (UDT_FillRecipe, FB_Filler, FC_FillHelper) and Dosing (FB_Doser imported from .s7dcl)",
+          "state": "Warning",
+          "errorCount": 0,
+          "warningCount": 2,
+          "messages": [
+            {
+              "depth": 0,
+              "path": "PLC_Main",
+              "state": "Warning",
+              "warningCount": 2
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Safety",
+              "state": "Information",
+              "description": "Compile safety program 'Safety Administration'."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Software units",
+              "state": "Success"
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Software units > Unit_Filling",
+              "state": "Success"
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Software units > Unit_Filling > PLC data types",
+              "state": "Success"
+            },
+            {
+              "depth": 4,
+              "path": "PLC_Main > Software units > Unit_Filling > PLC data types > Filling.UDT_FillRecipe (UDT)",
+              "state": "Success",
+              "description": "The data type was successfully updated."
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Software units > Unit_Filling > Program blocks",
+              "state": "Success"
+            },
+            {
+              "depth": 4,
+              "path": "PLC_Main > Software units > Unit_Filling > Program blocks > Filling.FB_Filler (FB5)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 4,
+              "path": "PLC_Main > Software units > Unit_Filling > Program blocks > Filling.FC_FillHelper (FC7)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Software units > Unit_Dosing",
+              "state": "Success"
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Software units > Unit_Dosing > Program blocks",
+              "state": "Success"
+            },
+            {
+              "depth": 4,
+              "path": "PLC_Main > Software units > Unit_Dosing > Program blocks > Dosing.FB_Doser (FB6)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Program blocks",
+              "state": "Information"
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Program blocks",
+              "state": "Information",
+              "description": "No block was compiled. All blocks are up-to-date."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Consistency check",
+              "state": "Information",
+              "description": "Consistency check for safety program 'Safety Administration'."
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Consistency check",
+              "state": "Information",
+              "description": "The safety program is already consistent and for this reason is not recompiled."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > General warnings",
+              "state": "Warning",
+              "warningCount": 2
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > General warnings > OB_HwInterrupt (OB40)",
+              "state": "Warning",
+              "description": "You have not yet defined triggers for the hardware interrupt.",
+              "warningCount": 1
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > General warnings",
+              "state": "Warning",
+              "description": "Inputs or outputs are used that do not exist in the configured hardware.",
+              "warningCount": 1
+            },
+            {
+              "depth": 0,
+              "state": "Warning",
+              "description": "Compiling finished (errors: 0; warnings: 2)",
+              "warningCount": 1
+            }
+          ]
+        },
+        {
+          "note": "after IDB_Doser (.s7dcl) and OB_Dosing (SCL source, ProgramCycle OB124) in Unit_Dosing",
+          "state": "Warning",
+          "errorCount": 0,
+          "warningCount": 2,
+          "messages": [
+            {
+              "depth": 0,
+              "path": "PLC_Main",
+              "state": "Warning",
+              "warningCount": 2
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Safety",
+              "state": "Information",
+              "description": "Compile safety program 'Safety Administration'."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Software units",
+              "state": "Success"
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Software units > Unit_Dosing",
+              "state": "Success"
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Software units > Unit_Dosing > Program blocks",
+              "state": "Success"
+            },
+            {
+              "depth": 4,
+              "path": "PLC_Main > Software units > Unit_Dosing > Program blocks > OB_Dosing (OB124)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 4,
+              "path": "PLC_Main > Software units > Unit_Dosing > Program blocks > IDB_Doser (DB6)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Program blocks",
+              "state": "Information"
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Program blocks",
+              "state": "Information",
+              "description": "No block was compiled. All blocks are up-to-date."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Consistency check",
+              "state": "Information",
+              "description": "Consistency check for safety program 'Safety Administration'."
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Consistency check",
+              "state": "Information",
+              "description": "The safety program is already consistent and for this reason is not recompiled."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > General warnings",
+              "state": "Warning",
+              "warningCount": 2
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > General warnings > OB_HwInterrupt (OB40)",
+              "state": "Warning",
+              "description": "You have not yet defined triggers for the hardware interrupt.",
+              "warningCount": 1
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > General warnings",
+              "state": "Warning",
+              "description": "Inputs or outputs are used that do not exist in the configured hardware.",
+              "warningCount": 1
+            },
+            {
+              "depth": 0,
+              "state": "Warning",
+              "description": "Compiling finished (errors: 0; warnings: 2)",
+              "warningCount": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "s2-b10-C24.json",
+      "source": "C24 fail-safe compiles of PLC_Main. Two compile results in order.",
+      "compiles": [
+        {
+          "note": "after documents overwrite of the main safety block F_FB_MainSafety (RTG1 lost its main safety block)",
+          "safety": {
+            "plc": "PLC_Main",
+            "collectiveSignatureBefore": "0x00000000",
+            "collectiveSignatureAfter": "0x00000000",
+            "changed": false,
+            "consistent": false,
+            "passwordSet": false,
+            "loggedOnByServer": false
+          },
+          "state": "Error",
+          "errorCount": 1,
+          "warningCount": 0,
+          "messages": [
+            {
+              "depth": 0,
+              "path": "PLC_Main",
+              "state": "Error",
+              "errorCount": 1
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Safety",
+              "state": "Error",
+              "description": "Compile safety program 'Safety Administration'.",
+              "errorCount": 1
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Safety",
+              "state": "Error",
+              "description": "The F-runtime group \"RTG1\" does not have a valid main safety block.",
+              "errorCount": 1
+            },
+            {
+              "depth": 0,
+              "state": "Error",
+              "description": "Compiling finished (errors: 1; warnings: 0)",
+              "errorCount": 1
+            }
+          ]
+        },
+        {
+          "note": "after safety_delete_runtime_group RTG1 + safety_set_runtime_group create RTG1 (F_FB_MainSafety, F_IDB_MainSafety)",
+          "safety": {
+            "plc": "PLC_Main",
+            "collectiveSignatureBefore": "0x00000000",
+            "collectiveSignatureAfter": "0xE8DB8BC0",
+            "changed": true,
+            "consistent": true,
+            "passwordSet": false,
+            "loggedOnByServer": false
+          },
+          "state": "Warning",
+          "errorCount": 0,
+          "warningCount": 2,
+          "messages": [
+            {
+              "depth": 0,
+              "path": "PLC_Main",
+              "state": "Warning",
+              "warningCount": 2
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Safety",
+              "state": "Information",
+              "description": "Compile safety program 'Safety Administration'."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > OPC UA communication",
+              "state": "Success"
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > OPC UA communication > Server interfaces",
+              "state": "Success"
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > PLC data types",
+              "state": "Success"
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > PLC data types > UDT_FSignals (UDT)",
+              "state": "Success",
+              "description": "The data type was successfully updated."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Program blocks",
+              "state": "Success"
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Program blocks > F_FB_MainSafety (FB3)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Program blocks > F_DB_Settings (DB7)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Program blocks > F_FC_Logic (FC9)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Program blocks > System blocks",
+              "state": "Success"
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > System blocks > STEP 7 Safety",
+              "state": "Success"
+            },
+            {
+              "depth": 4,
+              "path": "PLC_Main > Program blocks > System blocks > STEP 7 Safety > RTG1SysInfo (DB30000)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 4,
+              "path": "PLC_Main > Program blocks > System blocks > STEP 7 Safety > RTG1SysInfo (DB30000)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 4,
+              "path": "PLC_Main > Program blocks > System blocks > STEP 7 Safety > F_SystemInfo_DB (DB30001)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 4,
+              "path": "PLC_Main > Program blocks > System blocks > STEP 7 Safety > Compiler blocks",
+              "state": "Success"
+            },
+            {
+              "depth": 5,
+              "path": "PLC_Main > Program blocks > System blocks > STEP 7 Safety > Compiler blocks > FB3_C (FB32774)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 5,
+              "path": "PLC_Main > Program blocks > System blocks > STEP 7 Safety > Compiler blocks > FC9_C (FB32768)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 5,
+              "path": "PLC_Main > Program blocks > System blocks > STEP 7 Safety > Compiler blocks > SPLIT_FOB_1_1 (FC32769)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 5,
+              "path": "PLC_Main > Program blocks > System blocks > STEP 7 Safety > Compiler blocks > DB2_C (DB30002)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 5,
+              "path": "PLC_Main > Program blocks > System blocks > STEP 7 Safety > Compiler blocks > FOB_GLOBAL_11 (FC32770)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 5,
+              "path": "PLC_Main > Program blocks > System blocks > STEP 7 Safety > Compiler blocks > DB7_C (DB30008)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 5,
+              "path": "PLC_Main > Program blocks > System blocks > STEP 7 Safety > Compiler blocks > FOB_RTG1_GCTX_DB (DB30014)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 5,
+              "path": "PLC_Main > Program blocks > System blocks > STEP 7 Safety > Compiler blocks > FB3_C_GCTX_DB (DB30015)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 5,
+              "path": "PLC_Main > Program blocks > System blocks > STEP 7 Safety > Compiler blocks > FC9_C_GCTX_DB (DB30016)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 5,
+              "path": "PLC_Main > Program blocks > System blocks > STEP 7 Safety > Compiler blocks > FB32769_IDB2_C (DB30009)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 5,
+              "path": "PLC_Main > Program blocks > System blocks > STEP 7 Safety > Compiler blocks > FB32770_IDB2_C (DB30010)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 5,
+              "path": "PLC_Main > Program blocks > System blocks > STEP 7 Safety > Compiler blocks > FB32771_IDB2_C (DB30011)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 5,
+              "path": "PLC_Main > Program blocks > System blocks > STEP 7 Safety > Compiler blocks > FB32772_IDB2_C (DB30012)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 5,
+              "path": "PLC_Main > Program blocks > System blocks > STEP 7 Safety > Compiler blocks > FB32773_IDB2_C (DB30013)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Program blocks > F_IDB_MainSafety (DB2)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Program blocks > FOB_RTG1 (OB123)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Software units",
+              "state": "Information"
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Software units",
+              "state": "Information",
+              "description": "No block was compiled. All blocks are up-to-date."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Consistency check",
+              "state": "Information",
+              "description": "Consistency check for safety program 'Safety Administration'."
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Consistency check > RTG1",
+              "state": "Information",
+              "description": "Consistency check for F-runtime group 'RTG1'."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > General warnings",
+              "state": "Warning",
+              "warningCount": 2
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > General warnings > OB_HwInterrupt (OB40)",
+              "state": "Warning",
+              "description": "You have not yet defined triggers for the hardware interrupt.",
+              "warningCount": 1
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > General warnings",
+              "state": "Warning",
+              "description": "Inputs or outputs are used that do not exist in the configured hardware.",
+              "warningCount": 1
+            },
+            {
+              "depth": 0,
+              "state": "Warning",
+              "description": "Compiling finished (errors: 0; warnings: 2)",
+              "warningCount": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "s2-b12-C26-C12.json",
+      "source": "Analyzer (C26) and OB_Main (C12) compiles of PLC_Main, in order",
+      "compiles": [
+        {
+          "note": "after generating the 14 analyzer blocks (FC_AnaForCounter with a direct assignment to the FOR counter)",
+          "state": "Error",
+          "errorCount": 1,
+          "warningCount": 2,
+          "messages": [
+            {
+              "depth": 0,
+              "path": "PLC_Main",
+              "state": "Error",
+              "errorCount": 1,
+              "warningCount": 2
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Safety",
+              "state": "Information",
+              "description": "Compile safety program 'Safety Administration'."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Program blocks",
+              "state": "Error",
+              "errorCount": 1,
+              "warningCount": 2
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Program blocks > Analyzer",
+              "state": "Error",
+              "errorCount": 1,
+              "warningCount": 2
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Analyzer > FC_AnaTempRead (FC10)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Analyzer > FC_AnaOutputPath (FC11)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Analyzer > FC_AnaWriteInput (FC12)",
+              "state": "Warning",
+              "warningCount": 1
+            },
+            {
+              "depth": 4,
+              "path": "PLC_Main > Program blocks > Analyzer > FC_AnaWriteInput (FC12) > 2",
+              "state": "Warning",
+              "description": "When the input parameter '#Value' is written, you do not access the operand that was transferred as actual parameter, but rather only the formal parameter of the block.",
+              "warningCount": 1
+            },
+            {
+              "depth": 4,
+              "path": "PLC_Main > Program blocks > Analyzer > FC_AnaWriteInput (FC12)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Analyzer > FC_AnaForCounter (FC13)",
+              "state": "Error",
+              "errorCount": 1
+            },
+            {
+              "depth": 4,
+              "path": "PLC_Main > Program blocks > Analyzer > FC_AnaForCounter (FC13) > 3",
+              "state": "Error",
+              "description": "You are attempting to change the counter value '#Index' of a FOR loop.",
+              "errorCount": 1
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Analyzer > FC_AnaCaseReal (FC14)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Analyzer > FC_AnaDead (FC15)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Analyzer > FB_AnaTimerInIf (FB11)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Analyzer > FB_AnaDoubleCall (FB12)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Analyzer > FB_AnaDoubleAssign (FB13)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Analyzer > FB_AnaGlobalAccess (FB14)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Analyzer > FB_AnaUnused (FB15)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Analyzer > FB_AnaShared (FB16)",
+              "state": "Warning",
+              "warningCount": 1
+            },
+            {
+              "depth": 4,
+              "path": "PLC_Main > Program blocks > Analyzer > FB_AnaShared (FB16) > 4",
+              "state": "Warning",
+              "description": "The parameter '#Count' might not be initialized.",
+              "warningCount": 1
+            },
+            {
+              "depth": 4,
+              "path": "PLC_Main > Program blocks > Analyzer > FB_AnaShared (FB16)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Analyzer > FB_AnaTimerInner (FB17)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Analyzer > FB_AnaStatusIgnored (FB18)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Software units",
+              "state": "Success"
+            },
+            {
+              "depth": 0,
+              "state": "Error",
+              "description": "Compiling finished (errors: 1; warnings: 2)",
+              "errorCount": 1
+            }
+          ]
+        },
+        {
+          "note": "after FC_AnaForCounter changed to modify the counter through the InOut of FC_AnaBumpIndex, and FB_AnaTimerCaller added",
+          "state": "Error",
+          "errorCount": 1,
+          "warningCount": 0,
+          "messages": [
+            {
+              "depth": 0,
+              "path": "PLC_Main",
+              "state": "Error",
+              "errorCount": 1
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Safety",
+              "state": "Information",
+              "description": "Compile safety program 'Safety Administration'."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Program blocks",
+              "state": "Error",
+              "errorCount": 1
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Program blocks > Analyzer",
+              "state": "Error",
+              "errorCount": 1
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Analyzer > FB_AnaTimerCaller (FB19)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Analyzer > FC_AnaForCounter (FC13)",
+              "state": "Error",
+              "errorCount": 1
+            },
+            {
+              "depth": 4,
+              "path": "PLC_Main > Program blocks > Analyzer > FC_AnaForCounter (FC13) > 3",
+              "state": "Error",
+              "description": "You are attempting to change the counter value '#Index' of a FOR loop.",
+              "errorCount": 1
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Analyzer > FC_AnaBumpIndex (FC16)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Software units",
+              "state": "Success"
+            },
+            {
+              "depth": 0,
+              "state": "Error",
+              "description": "Compiling finished (errors: 1; warnings: 0)",
+              "errorCount": 1
+            }
+          ]
+        },
+        {
+          "note": "after FC_AnaForCounter and FC_AnaBumpIndex deleted and FB_AnaForCounter (counter changed through REF_TO) generated",
+          "state": "Warning",
+          "errorCount": 0,
+          "warningCount": 2,
+          "messages": [
+            {
+              "depth": 0,
+              "path": "PLC_Main",
+              "state": "Warning",
+              "warningCount": 2
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Safety",
+              "state": "Information",
+              "description": "Compile safety program 'Safety Administration'."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Program blocks",
+              "state": "Success"
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Program blocks > Analyzer",
+              "state": "Success"
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > Analyzer > FB_AnaForCounter (FB20)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Software units",
+              "state": "Information"
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Software units",
+              "state": "Information",
+              "description": "No block was compiled. All blocks are up-to-date."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Consistency check",
+              "state": "Information",
+              "description": "Consistency check for safety program 'Safety Administration'."
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Consistency check",
+              "state": "Information",
+              "description": "The safety program is already consistent and for this reason is not recompiled."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > General warnings",
+              "state": "Warning",
+              "warningCount": 2
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > General warnings > OB_HwInterrupt (OB40)",
+              "state": "Warning",
+              "description": "You have not yet defined triggers for the hardware interrupt.",
+              "warningCount": 1
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > General warnings",
+              "state": "Warning",
+              "description": "Inputs or outputs are used that do not exist in the configured hardware.",
+              "warningCount": 1
+            },
+            {
+              "depth": 0,
+              "state": "Warning",
+              "description": "Compiling finished (errors: 0; warnings: 2)",
+              "warningCount": 1
+            }
+          ]
+        },
+        {
+          "note": "after Probe_Cyc (deleted afterwards) - only Probe_Cyc compiled, omitted"
+        },
+        {
+          "note": "after OB_Cyclic100ms re-import (second call for C26l) and OB_Main first version (DataBlock := \"DB_Machine\")",
+          "state": "Error",
+          "errorCount": 2,
+          "warningCount": 0,
+          "messages": [
+            {
+              "depth": 0,
+              "path": "PLC_Main",
+              "state": "Error",
+              "errorCount": 2
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Safety",
+              "state": "Information",
+              "description": "Compile safety program 'Safety Administration'."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Program blocks",
+              "state": "Error",
+              "errorCount": 2
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Program blocks > OB_Main (OB1)",
+              "state": "Error",
+              "errorCount": 2
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > OB_Main (OB1) > 9",
+              "state": "Error",
+              "description": "Global access to a data block with memory reserve is not permitted here.",
+              "errorCount": 1
+            },
+            {
+              "depth": 3,
+              "path": "PLC_Main > Program blocks > OB_Main (OB1) > 9",
+              "state": "Error",
+              "description": "Data type 'DB_Machine' cannot be converted implicitly into data type 'DB_ANY'.",
+              "errorCount": 1
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Program blocks > OB_Cyclic100ms (OB35)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Software units",
+              "state": "Success"
+            },
+            {
+              "depth": 0,
+              "state": "Error",
+              "description": "Compiling finished (errors: 2; warnings: 0)",
+              "errorCount": 1
+            }
+          ]
+        },
+        {
+          "note": "after OB_Main regenerated with DataBlock := \"DB_Recipes\"",
+          "state": "Warning",
+          "errorCount": 0,
+          "warningCount": 2,
+          "messages": [
+            {
+              "depth": 0,
+              "path": "PLC_Main",
+              "state": "Warning",
+              "warningCount": 2
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Safety",
+              "state": "Information",
+              "description": "Compile safety program 'Safety Administration'."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Program blocks",
+              "state": "Success"
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Program blocks > OB_Main (OB1)",
+              "state": "Success",
+              "description": "Block was successfully compiled."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Software units",
+              "state": "Information"
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Software units",
+              "state": "Information",
+              "description": "No block was compiled. All blocks are up-to-date."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > Consistency check",
+              "state": "Information",
+              "description": "Consistency check for safety program 'Safety Administration'."
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > Consistency check",
+              "state": "Information",
+              "description": "The safety program is already consistent and for this reason is not recompiled."
+            },
+            {
+              "depth": 1,
+              "path": "PLC_Main > General warnings",
+              "state": "Warning",
+              "warningCount": 2
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > General warnings > OB_HwInterrupt (OB40)",
+              "state": "Warning",
+              "description": "You have not yet defined triggers for the hardware interrupt.",
+              "warningCount": 1
+            },
+            {
+              "depth": 2,
+              "path": "PLC_Main > General warnings",
+              "state": "Warning",
+              "description": "Inputs or outputs are used that do not exist in the configured hardware.",
+              "warningCount": 1
+            },
+            {
+              "depth": 0,
+              "state": "Warning",
+              "description": "Compiling finished (errors: 0; warnings: 2)",
+              "warningCount": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "s2-b13-C23-namespaces.json",
+      "source": "compile plc PLC_Main after om_set Namespace = Dosing on IDB_Doser and OB_Dosing (owner remark: they had no namespace); last compile of Step 2 for PLC_Main",
+      "compile": {
+        "projectPath": "C:\\TiaProjects\\Corpus\\PlcStudioCorpus_V21\\PlcStudioCorpus_V21.ap21",
+        "target": "plc",
+        "compiled": "PLC software PLC_Main",
+        "software": {
+          "omPath": "Software['PLC_Main']",
+          "name": "PLC_Main",
+          "kind": "plc",
+          "softwareType": "PlcSoftware",
+          "device": "PLC_Main",
+          "deviceItem": "PLC_Main"
+        },
+        "safety": {
+          "plc": "PLC_Main",
+          "collectiveSignatureBefore": "0xE8DB8BC0",
+          "collectiveSignatureAfter": "0xE8DB8BC0",
+          "changed": false,
+          "consistent": true,
+          "passwordSet": false,
+          "loggedOnByServer": false
+        },
+        "state": "Warning",
+        "errorCount": 0,
+        "warningCount": 2,
+        "durationMs": 738,
+        "isModified": true,
+        "messageCount": 15,
+        "messages": [
+          {
+            "depth": 0,
+            "path": "PLC_Main",
+            "state": "Warning",
+            "warningCount": 2
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Safety",
+            "state": "Information",
+            "description": "Compile safety program 'Safety Administration'."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Software units",
+            "state": "Success"
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Software units > Unit_Dosing",
+            "state": "Success"
+          },
+          {
+            "depth": 3,
+            "path": "PLC_Main > Software units > Unit_Dosing > Program blocks",
+            "state": "Success"
+          },
+          {
+            "depth": 4,
+            "path": "PLC_Main > Software units > Unit_Dosing > Program blocks > Dosing.OB_Dosing (OB124)",
+            "state": "Success",
+            "description": "Block was successfully compiled."
+          },
+          {
+            "depth": 4,
+            "path": "PLC_Main > Software units > Unit_Dosing > Program blocks > Dosing.IDB_Doser (DB6)",
+            "state": "Success",
+            "description": "Block was successfully compiled."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Program blocks",
+            "state": "Information"
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Program blocks",
+            "state": "Information",
+            "description": "No block was compiled. All blocks are up-to-date."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > Consistency check",
+            "state": "Information",
+            "description": "Consistency check for safety program 'Safety Administration'."
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > Consistency check",
+            "state": "Information",
+            "description": "The safety program is already consistent and for this reason is not recompiled."
+          },
+          {
+            "depth": 1,
+            "path": "PLC_Main > General warnings",
+            "state": "Warning",
+            "warningCount": 2
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > General warnings > OB_HwInterrupt (OB40)",
+            "state": "Warning",
+            "description": "You have not yet defined triggers for the hardware interrupt.",
+            "warningCount": 1
+          },
+          {
+            "depth": 2,
+            "path": "PLC_Main > General warnings",
+            "state": "Warning",
+            "description": "Inputs or outputs are used that do not exist in the configured hardware.",
+            "warningCount": 1
+          },
+          {
+            "depth": 0,
+            "state": "Warning",
+            "description": "Compiling finished (errors: 0; warnings: 2)",
+            "warningCount": 1
+          }
+        ]
+      }
+    }
+  ]
+}

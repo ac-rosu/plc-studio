@@ -1,0 +1,11 @@
+﻿MultiLingualTexts:
+  - id: MLC_492
+    en-US: Line name
+  - id: MLC_uu
+    en-US: Conveyor drive
+  - id: MLC_3E9
+    en-US: Product pump
+  - id: MLC_4mx
+    en-US: Number of the active recipe
+  - id: MLC_4WT
+    en-US: Line is in production

@@ -1,0 +1,7 @@
+MultiLingualTexts:
+  - id: MLC_3B3
+    en-US: Start
+  - id: MLC_3dk
+    en-US: Stop
+  - id: MLC_4KY
+    en-US: Motor on

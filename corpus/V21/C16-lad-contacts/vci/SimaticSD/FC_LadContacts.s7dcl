@@ -1,0 +1,152 @@
+﻿{
+    S7_Optimized := "TRUE";
+    S7_PreferredLanguage := "LAD";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_LadContacts" : Void
+    VAR_INPUT
+        { S7_MLC := "MLC_I1" }
+        Start : Bool;
+        { S7_MLC := "MLC_I2" }
+        Stop : Bool;
+        { S7_MLC := "MLC_I3" }
+        Sensor : Bool;
+        { S7_MLC := "MLC_I4" }
+        Enable : Bool;
+        { S7_MLC := "MLC_I5" }
+        Reset : Bool;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_O1" }
+        Motor : Bool;
+        { S7_MLC := "MLC_O2" }
+        Pulse : Bool;
+        { S7_MLC := "MLC_O3" }
+        FallingPulse : Bool;
+        { S7_MLC := "MLC_O4" }
+        Alarm : Bool;
+        { S7_MLC := "MLC_O5" }
+        Lamp : Bool;
+        { S7_MLC := "MLC_O6" }
+        BranchResult : Bool;
+    END_VAR
+    VAR_IN_OUT
+        { S7_MLC := "MLC_X1" }
+        Latched : Bool;
+        { S7_MLC := "MLC_X2" }
+        RiseMemory : Bool;
+        { S7_MLC := "MLC_X3" }
+        FallMemory : Bool;
+        { S7_MLC := "MLC_X4" }
+        CoilMemory : Bool;
+    END_VAR
+
+    {
+        S7_Language := "LAD";
+        S7_NetworkComment := "MLC_N1C";
+        S7_NetworkTitle := "MLC_N1T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( #Start )
+            I_Contact( #Stop )
+            Coil( #Motor )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "LAD";
+        S7_NetworkComment := "MLC_N2C";
+        S7_NetworkTitle := "MLC_N2T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            P_Contact(
+                operand := #Sensor,
+                bit := #RiseMemory
+            )
+            Coil( #Pulse )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "LAD";
+        S7_NetworkComment := "MLC_N3C";
+        S7_NetworkTitle := "MLC_N3T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            N_Contact(
+                operand := #Sensor,
+                bit := #FallMemory
+            )
+            Coil( #FallingPulse )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "LAD";
+        S7_NetworkComment := "MLC_N4C";
+        S7_NetworkTitle := "MLC_N4T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( #Enable )
+            I_Coil( #Alarm )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "LAD";
+        S7_NetworkComment := "MLC_N5C";
+        S7_NetworkTitle := "MLC_N5T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( #Start )
+            S_Coil( #Latched )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "LAD";
+        S7_NetworkComment := "MLC_N6C";
+        S7_NetworkTitle := "MLC_N6T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( #Reset )
+            R_Coil( #Latched )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "LAD";
+        S7_NetworkComment := "MLC_N7C";
+        S7_NetworkTitle := "MLC_N7T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( #Enable )
+            P_Coil(
+                operand => #Lamp,
+                bit := #CoilMemory
+            )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "LAD";
+        S7_NetworkComment := "MLC_N8C";
+        S7_NetworkTitle := "MLC_N8T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( #Start )
+            wire#w1
+            I_Contact( #Stop )
+            Coil( #BranchResult )
+        END_RUNG
+        RUNG wire#powerrail
+            Contact( #Sensor )
+            wire#w2
+            Contact( #Enable )
+        END_RUNG wire#w1
+        RUNG wire#w2
+            Contact( #Reset )
+        END_RUNG wire#w1
+    END_NETWORK
+END_FUNCTION

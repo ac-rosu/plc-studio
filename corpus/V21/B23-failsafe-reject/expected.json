@@ -1,0 +1,65 @@
+{
+  "caseId": "B23",
+  "title": "Access the fail-safe environment rejects",
+  "kind": "broken",
+  "basedOn": "C24",
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "F_FC_Logic_B23",
+      "type": "FC",
+      "number": 22,
+      "language": "F_FBD",
+      "unit": null,
+      "namespace": null,
+      "group": "Broken",
+      "iecCheck": false,
+      "failsafe": true,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/F_FC_Logic_B23.s7dcl",
+      "documents/F_FC_Logic_B23.s7res"
+    ],
+    "vci": [
+      "vci/SimaticSD/F_FC_Logic_B23.s7dcl",
+      "vci/SimaticSD/F_FC_Logic_B23.s7res"
+    ],
+    "refused": {
+      "source": {
+        "F_FC_Logic_B23": "Error when calling method 'GenerateSource' of type 'Siemens.Engineering.SW.ExternalSources.PlcExternalSourceSystemGroup'. Select a block that only includes SCL or STL and is not know-how protected. External source files can only be generated when all selected code blocks have been created in SCL or STL. The language of all blocks is shown in the overview of the project tree in the \"Details\" tab."
+      },
+      "simaticml": {
+        "F_FC_Logic_B23": "Error when calling method 'Export' of type 'Siemens.Engineering.SW.Blocks.FC'. Inconsistent blocks and PLC data types (UDT) cannot be exported."
+      },
+      "vci_SimaticML": {
+        "F_FC_Logic_B23": "Error when calling method 'ExportObject' of type 'Siemens.Engineering.VersionControl.Workspace'. F_FC_Logic_B23 [FC22] object(s) is not consistent"
+      }
+    }
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > F_FC_Logic_B23 (FC22) > Interface",
+        "block": "F_FC_Logic_B23",
+        "line": null,
+        "network": null,
+        "description": "The type Real is not permitted in the fail-safe block interface."
+      }
+    ],
+    "sources": [
+      "F_FC_Logic_B23: compile-broken-PLC_Main.json final"
+    ]
+  },
+  "intendedError": "F-FC with an Input of type Real (not permitted in a fail-safe block interface)",
+  "analyzerExpect": [],
+  "notes": "The erroneous F-FC is not part of the safety program (not called); the safety program stays consistent (0xE8DB8BC0)."
+}

@@ -1,0 +1,63 @@
+﻿NAMESPACE Filling
+    {
+        S7_EditorMode := "SCL";
+        S7_Optimized := "TRUE";
+        S7_UnitAccess := "Published";
+        S7_Version := "0.1"
+    }
+    FUNCTION_BLOCK "FB_Filler_B22"
+        VAR_INPUT
+            { S7_MLC := "MLC_4qg" }
+            Start : Bool;
+            { S7_MLC := "MLC_3Mc" }
+            Stop : Bool;
+        END_VAR
+        VAR_OUTPUT
+            { S7_MLC := "MLC_377" }
+            Filling : Bool;
+            { S7_MLC := "MLC_3Cd" }
+            Done : Bool;
+        END_VAR
+        VAR_IN_OUT
+            { S7_MLC := "MLC_4dk" }
+            Recipe : UDT_FillRecipe;
+        END_VAR
+        VAR
+            { S7_MLC := "MLC_4zu" }
+            FillTimer : TON_TIME;
+            { S7_MLC := "MLC_4Td" }
+            Active : Bool;
+            { S7_MLC := "MLC_B22" }
+            Doser : "_.Dosing.FB_Doser";
+        END_VAR
+        VAR_TEMP
+            { S7_MLC := "MLC_4rY" }
+            Volume : Real;
+        END_VAR
+
+        { S7_Language := "SCL" }
+        NETWORK
+            
+                REGION Command
+                    IF #Stop THEN
+                        #Active := FALSE;
+                    ELSIF #Start THEN
+                        #Active := TRUE;
+                    END_IF;
+                END_REGION
+                
+                REGION Filling
+                    #Volume := FC_FillHelper(RawFlow := WORD_TO_INT(_.FillFlowRaw), Factor := #Recipe.FlowFactor);
+                    #FillTimer(IN := #Active, PT := #Recipe.FillTime);
+                    _.FillValveOpen := #Active AND NOT #FillTimer.Q AND NOT _.FillLevelHigh;
+                END_REGION
+                
+                REGION Outputs
+                    #Filling := _.FillValveOpen;
+                    #Done := #FillTimer.Q OR _.FillLevelHigh;
+                    #Recipe.LastVolume := #Volume;
+                END_REGION
+            
+        END_NETWORK
+    END_FUNCTION_BLOCK
+END_NAMESPACE

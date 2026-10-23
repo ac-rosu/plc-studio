@@ -1,0 +1,103 @@
+﻿MultiLingualTexts:
+  - id: MLC_I1
+    de-DE: Startbefehl
+    en-US: Start command
+  - id: MLC_I2
+    de-DE: Eingangswert
+    en-US: Input value
+  - id: MLC_I3
+    de-DE: Grenzwert für den Vergleich
+    en-US: Limit for the comparison
+  - id: MLC_O1
+    de-DE: Start um drei Sekunden verzögert
+    en-US: Start delayed by three seconds
+  - id: MLC_O2
+    de-DE: Kopie des Eingangswerts
+    en-US: Copy of the input value
+  - id: MLC_O3
+    de-DE: Eingangswert plus Grenzwert
+    en-US: Input value plus limit
+  - id: MLC_O4
+    de-DE: Eingangswert gleich dem Grenzwert
+    en-US: Input value equal to the limit
+  - id: MLC_O5
+    de-DE: ENO des Aufrufs von FB_SclTimers
+    en-US: ENO of the FB_SclTimers call
+  - id: MLC_O6
+    de-DE: Nur gesetzt, wenn nicht gesprungen wird
+    en-US: Set only when the jump is not taken
+  - id: MLC_O7
+    de-DE: Netzwerk nach der Sprungmarke
+    en-US: Network after the jump label
+  - id: MLC_S1
+    de-DE: Einschaltverzögerung
+    en-US: On-delay timer
+  - id: MLC_S2
+    de-DE: Abgelaufene Zeit der Einschaltverzögerung
+    en-US: Elapsed time of the on-delay timer
+  - id: MLC_S3
+    de-DE: Multiinstanz von FB_SclTimers
+    en-US: Multi-instance of FB_SclTimers
+  - id: MLC_S4
+    de-DE: Nachlaufausgang von FB_SclTimers
+    en-US: Run-on output of FB_SclTimers
+  - id: MLC_S5
+    de-DE: Impulsausgang von FB_SclTimers
+    en-US: Pulse output of FB_SclTimers
+  - id: MLC_S6
+    de-DE: Zählausgang von FB_SclTimers
+    en-US: Count output of FB_SclTimers
+  - id: MLC_S7
+    de-DE: Verzögerter Ausgang von FB_SclTimers
+    en-US: Delayed output of FB_SclTimers
+  - id: MLC_S8
+    de-DE: Ausgang Zählwert erreicht von FB_SclTimers
+    en-US: Count reached output of FB_SclTimers
+  - id: MLC_N1T
+    de-DE: Einschaltverzögerung als Multiinstanz
+    en-US: On-delay timer as multi-instance
+  - id: MLC_N1C
+    de-DE: Der Ausgang folgt dem Startbefehl nach drei Sekunden.
+    en-US: The output follows the start command after three seconds.
+  - id: MLC_N2T
+    de-DE: MOVE-Box
+    en-US: MOVE box
+  - id: MLC_N2C
+    de-DE: Kopiert den Eingangswert.
+    en-US: Copies the input value.
+  - id: MLC_N3T
+    de-DE: ADD-Box
+    en-US: ADD box
+  - id: MLC_N3C
+    de-DE: Addiert den Grenzwert zum Eingangswert.
+    en-US: Adds the limit to the input value.
+  - id: MLC_N4T
+    de-DE: Vergleich gleich
+    en-US: Compare equal
+  - id: MLC_N4C
+    de-DE: Wahr, wenn der Eingangswert dem Grenzwert entspricht.
+    en-US: True when the input value equals the limit.
+  - id: MLC_N5T
+    de-DE: FB-Aufruf mit EN und ENO
+    en-US: FB call with EN and ENO
+  - id: MLC_N5C
+    de-DE: Ruft FB_SclTimers als Multiinstanz auf, wenn Start an ist.
+    en-US: Calls FB_SclTimers as a multi-instance when start is on.
+  - id: MLC_N6T
+    de-DE: Sprung zur Marke Skip
+    en-US: Jump to label Skip
+  - id: MLC_N6C
+    de-DE: Springt über das nächste Netzwerk, wenn Start aus ist.
+    en-US: Jumps over the next network when start is off.
+  - id: MLC_N7T
+    de-DE: Vom Sprung übersprungenes Netzwerk
+    en-US: Network skipped by the jump
+  - id: MLC_N7C
+    de-DE: Läuft nur, wenn nicht gesprungen wird.
+    en-US: Runs only when the jump is not taken.
+  - id: MLC_N8T
+    de-DE: Sprungziel
+    en-US: Jump target
+  - id: MLC_N8C
+    de-DE: Die Marke Skip kennzeichnet dieses Netzwerk.
+    en-US: The label Skip marks this network.

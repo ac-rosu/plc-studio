@@ -1,0 +1,17 @@
+﻿ORGANIZATION_BLOCK "OB_Main"
+TITLE = Main program of PLC_1200
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Calls the conveyor with the onboard inputs and output of the CPU 1214C
+
+BEGIN
+	
+	    REGION Conveyor
+	        "IDB_Conveyor1200"(Start := "BeltStart",
+	                           Stop := "BeltStop",
+	                           SpeedRaw := "BeltSpeedRaw",
+	                           Motor => "BeltMotor");
+	    END_REGION
+	
+END_ORGANIZATION_BLOCK
+

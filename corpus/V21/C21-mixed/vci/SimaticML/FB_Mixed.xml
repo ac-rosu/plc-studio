@@ -1,0 +1,381 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V21" />
+  <SW.Blocks.FB ID="0">
+    <AttributeList>
+      <Interface>
+        <Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v5">
+          <Section Name="Input">
+            <Member Name="Start" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="de-DE">Startbefehl</MultiLanguageText>
+                <MultiLanguageText Lang="en-US">Start command</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="RawValue" Datatype="Int">
+              <Comment>
+                <MultiLanguageText Lang="de-DE">Rohwert</MultiLanguageText>
+                <MultiLanguageText Lang="en-US">Raw value</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="Output">
+            <Member Name="Running" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="de-DE">Läuft</MultiLanguageText>
+                <MultiLanguageText Lang="en-US">Running</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="Scaled" Datatype="Real">
+              <Comment>
+                <MultiLanguageText Lang="de-DE">Skalierter Wert</MultiLanguageText>
+                <MultiLanguageText Lang="en-US">Scaled value</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="AboveLimit" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="de-DE">Läuft und über dem Grenzwert</MultiLanguageText>
+                <MultiLanguageText Lang="en-US">Running and above the limit</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="InOut" />
+          <Section Name="Static">
+            <Member Name="Factor" Datatype="Real">
+              <Comment>
+                <MultiLanguageText Lang="de-DE">Skalierungsfaktor</MultiLanguageText>
+                <MultiLanguageText Lang="en-US">Scaling factor</MultiLanguageText>
+              </Comment>
+              <StartValue>2.5</StartValue>
+            </Member>
+            <Member Name="Limit" Datatype="Real">
+              <Comment>
+                <MultiLanguageText Lang="de-DE">Grenzwert</MultiLanguageText>
+                <MultiLanguageText Lang="en-US">Limit</MultiLanguageText>
+              </Comment>
+              <StartValue>100.0</StartValue>
+            </Member>
+            <Member Name="IsAbove" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="de-DE">Skalierter Wert über dem Grenzwert</MultiLanguageText>
+                <MultiLanguageText Lang="en-US">Scaled value above the limit</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="Temp" />
+          <Section Name="Constant" />
+        </Sections>
+      </Interface>
+      <MemoryLayout>Optimized</MemoryLayout>
+      <MemoryReserve>100</MemoryReserve>
+      <Name>FB_Mixed</Name>
+      <Namespace />
+      <Number>9</Number>
+      <ProgrammingLanguage>LAD</ProgrammingLanguage>
+      <SetENOAutomatically>false</SetENOAutomatically>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="3" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <SW.Blocks.CompileUnit ID="4" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource>
+            <FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v5">
+              <Parts>
+                <Access Scope="LocalVariable" UId="21">
+                  <Symbol>
+                    <Component Name="Start" />
+                  </Symbol>
+                </Access>
+                <Access Scope="LocalVariable" UId="22">
+                  <Symbol>
+                    <Component Name="Running" />
+                  </Symbol>
+                </Access>
+                <Part Name="Contact" UId="23" />
+                <Part Name="Coil" UId="24" />
+              </Parts>
+              <Wires>
+                <Wire UId="25">
+                  <Powerrail />
+                  <NameCon UId="23" Name="in" />
+                </Wire>
+                <Wire UId="26">
+                  <IdentCon UId="21" />
+                  <NameCon UId="23" Name="operand" />
+                </Wire>
+                <Wire UId="27">
+                  <NameCon UId="23" Name="out" />
+                  <NameCon UId="24" Name="in" />
+                </Wire>
+                <Wire UId="28">
+                  <IdentCon UId="22" />
+                  <NameCon UId="24" Name="operand" />
+                </Wire>
+              </Wires>
+            </FlgNet>
+          </NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="5" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="6" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="7" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="8" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="9" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text>KOP-Netzwerk vor dem SCL-Netzwerk</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="A" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>LAD network before the SCL network</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="B" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource>
+            <StructuredText xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/StructuredText/v4">
+              <NewLine UId="21" />
+              <Blank Num="4" UId="22" />
+              <LineComment UId="23">
+                <Text UId="24"> Scale the raw value and compare it with the limit</Text>
+              </LineComment>
+              <NewLine UId="25" />
+              <Blank Num="4" UId="26" />
+              <Access Scope="LocalVariable" UId="27">
+                <Symbol UId="28">
+                  <Component Name="Scaled" UId="29" />
+                </Symbol>
+              </Access>
+              <Blank UId="30" />
+              <Token Text=":=" UId="31" />
+              <Blank UId="32" />
+              <Access Scope="Call" UId="33">
+                <Instruction Name="INT_TO_REAL" UId="34">
+                  <Token Text="(" UId="35" />
+                  <NamelessParameter UId="36">
+                    <Access Scope="LocalVariable" UId="37">
+                      <Symbol UId="38">
+                        <Component Name="RawValue" UId="39" />
+                      </Symbol>
+                    </Access>
+                  </NamelessParameter>
+                  <Token Text=")" UId="41" />
+                </Instruction>
+              </Access>
+              <Blank UId="42" />
+              <Token Text="*" UId="43" />
+              <Blank UId="44" />
+              <Access Scope="LocalVariable" UId="45">
+                <Symbol UId="46">
+                  <Component Name="Factor" UId="47" />
+                </Symbol>
+              </Access>
+              <Token Text=";" UId="48" />
+              <NewLine UId="49" />
+              <Blank Num="4" UId="50" />
+              <Access Scope="LocalVariable" UId="51">
+                <Symbol UId="52">
+                  <Component Name="IsAbove" UId="53" />
+                </Symbol>
+              </Access>
+              <Blank UId="54" />
+              <Token Text=":=" UId="55" />
+              <Blank UId="56" />
+              <Access Scope="LocalVariable" UId="57">
+                <Symbol UId="58">
+                  <Component Name="Scaled" UId="59" />
+                </Symbol>
+              </Access>
+              <Blank UId="60" />
+              <Token Text="&gt;" UId="61" />
+              <Blank UId="62" />
+              <Access Scope="LocalVariable" UId="63">
+                <Symbol UId="64">
+                  <Component Name="Limit" UId="65" />
+                </Symbol>
+              </Access>
+              <Token Text=";" UId="66" />
+              <NewLine UId="67" />
+            </StructuredText>
+          </NetworkSource>
+          <ProgrammingLanguage>SCL</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="C" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="D" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="E" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="F" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="10" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text>SCL-Netzwerk im KOP-Baustein</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="11" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>SCL network inside the LAD block</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <SW.Blocks.CompileUnit ID="12" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource>
+            <FlgNet xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v5">
+              <Parts>
+                <Access Scope="LocalVariable" UId="21">
+                  <Symbol>
+                    <Component Name="Running" />
+                  </Symbol>
+                </Access>
+                <Access Scope="LocalVariable" UId="22">
+                  <Symbol>
+                    <Component Name="IsAbove" />
+                  </Symbol>
+                </Access>
+                <Access Scope="LocalVariable" UId="23">
+                  <Symbol>
+                    <Component Name="AboveLimit" />
+                  </Symbol>
+                </Access>
+                <Part Name="Contact" UId="24" />
+                <Part Name="Contact" UId="25" />
+                <Part Name="Coil" UId="26" />
+              </Parts>
+              <Wires>
+                <Wire UId="27">
+                  <Powerrail />
+                  <NameCon UId="24" Name="in" />
+                </Wire>
+                <Wire UId="28">
+                  <IdentCon UId="21" />
+                  <NameCon UId="24" Name="operand" />
+                </Wire>
+                <Wire UId="29">
+                  <NameCon UId="24" Name="out" />
+                  <NameCon UId="25" Name="in" />
+                </Wire>
+                <Wire UId="30">
+                  <IdentCon UId="22" />
+                  <NameCon UId="25" Name="operand" />
+                </Wire>
+                <Wire UId="31">
+                  <NameCon UId="25" Name="out" />
+                  <NameCon UId="26" Name="in" />
+                </Wire>
+                <Wire UId="32">
+                  <IdentCon UId="23" />
+                  <NameCon UId="26" Name="operand" />
+                </Wire>
+              </Wires>
+            </FlgNet>
+          </NetworkSource>
+          <ProgrammingLanguage>LAD</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="13" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="14" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="15" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="16" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="17" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text>KOP-Netzwerk nach dem SCL-Netzwerk</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="18" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text>LAD network after the SCL network</Text>
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <MultilingualText ID="19" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="1A" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text>KOP-Baustein mit SCL-Netzwerk</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="1B" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>LAD block with an SCL network</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.FB>
+</Document>

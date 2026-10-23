@@ -1,0 +1,28 @@
+﻿FUNCTION_BLOCK "FB_AnaTimerCaller"
+TITLE = Analyzer: FB with a timer called inside IF
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Rule C26m (caller): FB_AnaTimerInner contains a timer and is called only while Enable is TRUE
+   VAR_INPUT 
+      Enable : Bool;   // Enable
+      Start : Bool;   // Start of the inner timer
+   END_VAR
+
+   VAR_OUTPUT 
+      Done : Bool;   // Output of the inner timer
+   END_VAR
+
+   VAR 
+      Inner : "FB_AnaTimerInner";   // FB that contains a timer
+   END_VAR
+
+
+BEGIN
+	
+	    IF #Enable THEN
+	        #Inner(Start := #Start);
+	    END_IF;
+	    #Done := #Inner.Done;
+	
+END_FUNCTION_BLOCK
+

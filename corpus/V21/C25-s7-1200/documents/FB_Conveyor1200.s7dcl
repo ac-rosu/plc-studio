@@ -1,0 +1,55 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION_BLOCK "FB_Conveyor1200"
+    VAR_INPUT
+        { S7_MLC := "MLC_eg" }
+        Start : Bool;
+        { S7_MLC := "MLC_3xH" }
+        Stop : Bool;
+        { S7_MLC := "MLC_YU" }
+        SpeedRaw : Int;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_4wy" }
+        Motor : Bool;
+        { S7_MLC := "MLC_dA" }
+        Speed : Real;
+        { S7_MLC := "MLC_h7" }
+        DelayMilliseconds : DInt;
+    END_VAR
+    VAR
+        { S7_MLC := "MLC_35c" }
+        StartDelay : TON_TIME;
+        { S7_MLC := "MLC_34A" }
+        Running : Bool;
+    END_VAR
+    VAR CONSTANT
+        { S7_MLC := "MLC_uu" }
+        RAW_FULL_SCALE : Int := 27648;
+        { S7_MLC := "MLC_59p" }
+        MAXIMUM_SPEED : Real := 30.0;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            REGION Command
+                IF #Stop THEN
+                    #Running := FALSE;
+                ELSIF #Start THEN
+                    #Running := TRUE;
+                END_IF;
+            END_REGION
+            
+            REGION Start delay and speed
+                #StartDelay(IN := #Running, PT := T#2s);
+                #Motor := #StartDelay.Q;
+                #Speed := SCALE_X(MIN := 0.0, VALUE := NORM_X(MIN := 0, VALUE := #SpeedRaw, MAX := #RAW_FULL_SCALE), MAX := #MAXIMUM_SPEED);
+                #DelayMilliseconds := TIME_TO_DINT(#StartDelay.ET);
+            END_REGION
+        
+    END_NETWORK
+END_FUNCTION_BLOCK

@@ -1,0 +1,16 @@
+{
+    S7_Optimized := "TRUE";
+    S7_Safety := "True";
+    S7_StandardRetain := "FALSE";
+    S7_Version := "0.1"
+}
+DATA_BLOCK F_DB_Settings
+    VAR
+        { S7_MLC := "MLC_D1" }
+        Signals : _.UDT_FSignals;
+        { S7_MLC := "MLC_D2" }
+        SetupMode : Bool;
+        { S7_MLC := "MLC_D3" }
+        MachineReleased : Bool;
+    END_VAR
+END_DATA_BLOCK

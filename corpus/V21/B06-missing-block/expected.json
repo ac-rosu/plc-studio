@@ -1,0 +1,113 @@
+{
+  "caseId": "B06",
+  "title": "Call of a block that does not exist",
+  "kind": "broken",
+  "basedOn": "C08",
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_SclCalls_B06",
+      "type": "FB",
+      "number": 29,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Broken",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_SclCalls_B06.s7dcl",
+      "documents/FB_SclCalls_B06.s7res"
+    ],
+    "source": [
+      "source/FB_SclCalls_B06.scl"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_SclCalls_B06.s7dcl",
+      "vci/SimaticSD/FB_SclCalls_B06.s7res"
+    ],
+    "refused": {
+      "simaticml": {
+        "FB_SclCalls_B06": "Error when calling method 'Export' of type 'Siemens.Engineering.SW.Blocks.FB'. Inconsistent blocks and PLC data types (UDT) cannot be exported."
+      },
+      "vci_SimaticML": {
+        "FB_SclCalls_B06": "Error when calling method 'ExportObject' of type 'Siemens.Engineering.VersionControl.Workspace'. FB_SclCalls_B06 [FB29] object(s) is not consistent"
+      }
+    }
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 7,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > FB_SclCalls_B06 (FB29) > 25",
+        "block": "FB_SclCalls_B06",
+        "line": 25,
+        "network": null,
+        "description": "Tag \"FC_IecMissing\" not defined."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > FB_SclCalls_B06 (FB29) > 25",
+        "block": "FB_SclCalls_B06",
+        "line": 25,
+        "network": null,
+        "description": "The formal parameter 'InInt' is invalid."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > FB_SclCalls_B06 (FB29) > 25",
+        "block": "FB_SclCalls_B06",
+        "line": 25,
+        "network": null,
+        "description": "The formal parameter 'InWord' is invalid."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > FB_SclCalls_B06 (FB29) > 25",
+        "block": "FB_SclCalls_B06",
+        "line": 25,
+        "network": null,
+        "description": "The formal parameter 'InDInt' is invalid."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > FB_SclCalls_B06 (FB29) > 25",
+        "block": "FB_SclCalls_B06",
+        "line": 25,
+        "network": null,
+        "description": "The formal parameter 'OutInt' is invalid."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > FB_SclCalls_B06 (FB29) > 25",
+        "block": "FB_SclCalls_B06",
+        "line": 25,
+        "network": null,
+        "description": "The formal parameter 'OutSInt' is invalid."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > FB_SclCalls_B06 (FB29) > 25",
+        "block": "FB_SclCalls_B06",
+        "line": 25,
+        "network": null,
+        "description": "The formal parameter 'OutNarrow' is invalid."
+      }
+    ],
+    "sources": [
+      "FB_SclCalls_B06: compile-broken-PLC_Main.json final"
+    ]
+  },
+  "intendedError": "call of the block \"FC_IecMissing\", which does not exist",
+  "analyzerExpect": [],
+  "notes": ""
+}

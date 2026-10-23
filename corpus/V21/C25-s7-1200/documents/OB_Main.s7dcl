@@ -1,0 +1,18 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+ORGANIZATION_BLOCK "OB_Main"
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            REGION Conveyor
+                "IDB_Conveyor1200"(Start := "BeltStart",
+                                   Stop := "BeltStop",
+                                   SpeedRaw := "BeltSpeedRaw",
+                                   Motor => "BeltMotor");
+            END_REGION
+        
+    END_NETWORK
+END_ORGANIZATION_BLOCK

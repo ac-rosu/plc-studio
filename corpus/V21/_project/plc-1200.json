@@ -1,0 +1,45 @@
+{
+  "$comment": "DRAFT PLC Studio manifest written by the corpus build (Step 4). The runbook defines no schema; field names are a proposal for the extension, values come from setup.json and the TIA tool results.",
+  "manifestVersion": 0,
+  "name": "PLC_1200",
+  "tiaVersion": "V21",
+  "tiaProject": "C:\\TiaProjects\\Corpus\\PlcStudioCorpus_V21\\PlcStudioCorpus_V21.ap21",
+  "device": {
+    "name": "PLC_1200",
+    "cpuItem": "PLC_1200",
+    "typeIdentifier": "OrderNumber:6ES7 214-1AG40-0XB0/V4.7",
+    "articleNumber": "6ES7 214-1AG40-0XB0",
+    "typeName": "CPU 1214C DC/DC/DC",
+    "firmware": "V4.7",
+    "failsafe": false
+  },
+  "languages": [
+    "en-US",
+    "de-DE"
+  ],
+  "editingLanguage": "en-US",
+  "sourceFormat": "documents",
+  "formats": {
+    "documents": [
+      ".s7dcl",
+      ".s7res"
+    ],
+    "source": [
+      ".scl",
+      ".db",
+      ".udt"
+    ],
+    "simaticml": [
+      ".xml"
+    ]
+  },
+  "blockGroups": [
+    "S7-1200"
+  ],
+  "softwareUnits": [],
+  "safety": null,
+  "cases": [
+    "C25-s7-1200",
+    "B24-s7-1500-only"
+  ]
+}

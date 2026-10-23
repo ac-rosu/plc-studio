@@ -1,0 +1,32 @@
+﻿{
+    S7_Optimized := "TRUE";
+    S7_PreferredLanguage := "FBD";
+    S7_Safety := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "F_FC_Logic" : Void
+    VAR_INPUT
+        { S7_MLC := "MLC_I1" }
+        GuardClosed : Bool;
+        { S7_MLC := "MLC_I2" }
+        SetupMode : Bool;
+        { S7_MLC := "MLC_I3" }
+        EmergencyStopOk : Bool;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_O1" }
+        Release : Bool;
+    END_VAR
+
+    {
+        S7_Language := "FBD";
+        S7_NetworkTitle := "MLC_N1T"
+    }
+    NETWORK
+        RUNG #GuardClosed
+            O( in2 := #SetupMode )
+            A( in2 := #EmergencyStopOk )
+            Coil( #Release )
+        END_RUNG
+    END_NETWORK
+END_FUNCTION

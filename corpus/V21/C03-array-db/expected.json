@@ -1,0 +1,60 @@
+{
+  "caseId": "C03",
+  "title": "Array DB of UDT_Recipe",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "DB_Recipes",
+      "type": "ArrayDB",
+      "number": 3,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": "Data",
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/DB_Recipes.s7dcl"
+    ],
+    "source": [
+      "source/DB_Recipes.db"
+    ],
+    "simaticml": [
+      "simaticml/DB_Recipes.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/DB_Recipes.s7dcl",
+      "vci/SimaticML/DB_Recipes.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Data > DB_Recipes (DB3)",
+        "block": "DB_Recipes",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "DB_Recipes: compile-clean-PLC_Main.json batches[s2-b02-C03-C04.json]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "TIA requires lower bound 0 for an array DB (\"The specified indicies to create array db are invalid.\" for Array[1..10]); the case uses Array[0..9] of UDT_Recipe."
+}

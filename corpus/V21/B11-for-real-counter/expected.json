@@ -1,0 +1,65 @@
+{
+  "caseId": "B11",
+  "title": "FOR with a Real counter",
+  "kind": "broken",
+  "basedOn": "C05",
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_SclSections_B11",
+      "type": "FB",
+      "number": 25,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Broken",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_SclSections_B11.s7dcl",
+      "documents/FB_SclSections_B11.s7res"
+    ],
+    "source": [
+      "source/FB_SclSections_B11.scl"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_SclSections_B11.s7dcl",
+      "vci/SimaticSD/FB_SclSections_B11.s7res"
+    ],
+    "refused": {
+      "simaticml": {
+        "FB_SclSections_B11": "Error when calling method 'Export' of type 'Siemens.Engineering.SW.Blocks.FB'. Inconsistent blocks and PLC data types (UDT) cannot be exported."
+      },
+      "vci_SimaticML": {
+        "FB_SclSections_B11": "Error when calling method 'ExportObject' of type 'Siemens.Engineering.VersionControl.Workspace'. FB_SclSections_B11 [FB25] object(s) is not consistent"
+      }
+    }
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > FB_SclSections_B11 (FB25) > 31",
+        "block": "FB_SclSections_B11",
+        "line": 31,
+        "network": null,
+        "description": "Invalid data type in the FOR instruction."
+      }
+    ],
+    "sources": [
+      "FB_SclSections_B11: compile-broken-PLC_Main.json final"
+    ]
+  },
+  "intendedError": "FOR loop with a Real counter \"FOR #Average := 0.0 TO 9.0 DO\"",
+  "analyzerExpect": [],
+  "notes": ""
+}

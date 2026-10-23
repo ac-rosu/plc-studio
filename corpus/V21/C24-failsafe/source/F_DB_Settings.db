@@ -1,0 +1,15 @@
+﻿DATA_BLOCK "F_DB_Settings"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+NON_RETAIN
+   VAR 
+      Signals : "UDT_FSignals";   // Safety signals
+      SetupMode : Bool;   // Setup mode selected
+      MachineReleased : Bool;   // Machine released by the safety program
+   END_VAR
+
+
+BEGIN
+
+END_DATA_BLOCK
+

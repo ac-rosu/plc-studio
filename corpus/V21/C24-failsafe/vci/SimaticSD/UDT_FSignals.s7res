@@ -1,0 +1,10 @@
+﻿MultiLingualTexts:
+  - id: MLC_5Ap
+    de-DE: Schutztür geschlossen
+    en-US: Guard door closed
+  - id: MLC_4dY
+    de-DE: Not-Halt nicht betätigt
+    en-US: Emergency stop not pressed
+  - id: MLC_4qu
+    de-DE: Quittierung durch den Bediener
+    en-US: Operator acknowledgement

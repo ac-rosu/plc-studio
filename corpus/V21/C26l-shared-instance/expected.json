@@ -1,0 +1,98 @@
+{
+  "caseId": "C26l",
+  "title": "Same instance reached from OB_Main and OB_Cyclic100ms",
+  "kind": "analyzer",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_AnaShared",
+      "type": "FB",
+      "number": 16,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Analyzer",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "IDB_AnaShared",
+      "type": "InstanceDB",
+      "number": 14,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": "Analyzer",
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_AnaShared.s7dcl",
+      "documents/FB_AnaShared.s7res",
+      "documents/IDB_AnaShared.s7dcl"
+    ],
+    "source": [
+      "source/FB_AnaShared.scl",
+      "source/IDB_AnaShared.db"
+    ],
+    "simaticml": [
+      "simaticml/FB_AnaShared.xml",
+      "simaticml/IDB_AnaShared.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_AnaShared.s7dcl",
+      "vci/SimaticSD/FB_AnaShared.s7res",
+      "vci/SimaticML/FB_AnaShared.xml",
+      "vci/SimaticSD/IDB_AnaShared.s7dcl",
+      "vci/SimaticML/IDB_AnaShared.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Warning",
+    "errors": 0,
+    "warnings": 1,
+    "messages": [
+      {
+        "severity": "Warning",
+        "path": "PLC_Main > Program blocks > Analyzer > FB_AnaShared (FB16) > 4",
+        "block": "FB_AnaShared",
+        "line": 4,
+        "network": null,
+        "description": "The parameter '#Count' might not be initialized."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Analyzer > FB_AnaShared (FB16)",
+        "block": "FB_AnaShared",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FB_AnaShared: compile-clean-PLC_Main.json batches[s2-b12-C26-C12.json] compiles[0]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [
+    {
+      "rule": "instance-shared-by-two-obs",
+      "block": "OB_Main",
+      "line": 59
+    },
+    {
+      "rule": "instance-shared-by-two-obs",
+      "block": "OB_Cyclic100ms",
+      "line": 8
+    }
+  ],
+  "notes": "TIA warns at line 4 of FB_AnaShared (\"The parameter '#Count' might not be initialized.\")."
+}

@@ -1,0 +1,93 @@
+﻿ORGANIZATION_BLOCK "OB_Main"
+TITLE = Main program
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Calls every FB and FC of the corpus that is meant to run; FC_AnaDead (C26k) is deliberately not called
+   VAR_TEMP 
+      Samples : Array[0..3] of Int;   // Samples for FC_SclAdvanced
+      Volume : Real;   // Return value of FC_SclTypes
+      Total : LReal;   // Accumulator for FC_SclTypes
+      Rounded : DInt;   // Output of FC_SclTypes
+      Text : String;   // Output of FC_SclTypes
+      TextLength : Int;   // Output of FC_SclAdvanced
+      DbNumber : UInt;   // Output of FC_SclAdvanced
+      TypeCode : Int;   // Return value of FC_SclAdvanced
+      HighByte : Byte;   // Output of FC_SclAtOverlay
+      LowByte : Byte;   // Return value of FC_SclAtOverlay
+      IecWord : Word;   // Return value of FC_IecOn
+      IecInt : Int;   // Output of FC_IecOn
+      IecShort : SInt;   // Output of FC_IecOn
+      IecNarrow : Int;   // Output of FC_IecOn
+      TempResult : Int;   // Return value of FC_AnaTempRead
+      PathResult : Int;   // Output of FC_AnaOutputPath
+      InputResult : Int;   // Return value of FC_AnaWriteInput
+      CaseResult : Int;   // Return value of FC_AnaCaseReal
+   END_VAR
+
+
+BEGIN
+	
+	    REGION SCL blocks
+	        "IDB_SclCalls"(Enable := "StartButton",
+	                       Mode := 2,
+	                       Delta := -1.5,
+	                       TimerBlock := "IDB_SclTimersParam",
+	                       Values := "DB_CallData".Values);
+	        #Volume := "FC_SclTypes"(InInt := 3, InReal := 1.5, OutDInt => #Rounded, OutText => #Text, Accumulator := #Total);
+	        #TypeCode := "FC_SclAdvanced"(AnyValue := #Volume, DataBlock := "DB_Recipes", Text := 'Corpus', TextLength => #TextLength, DbNumber => #DbNumber, Samples := #Samples);
+	        #LowByte := "FC_SclAtOverlay"(InWord := "DB_Machine".StatusWord, HighByte => #HighByte);
+	        #IecWord := "FC_IecOn"(InInt := 5, InWord := 16#0005, InDInt := 5, OutInt => #IecInt, OutSInt => #IecShort, OutNarrow => #IecNarrow);
+	    END_REGION
+	    
+	    REGION LAD, FBD and mixed blocks
+	        "FC_LadContacts"(Start := "StartButton",
+	                         Stop := "StopButton",
+	                         Sensor := "LevelHigh",
+	                         Enable := "HelperBit",
+	                         Reset := "PulseBit",
+	                         Motor => "DB_CallData".LadMotor,
+	                         Pulse => "DB_CallData".LadPulse,
+	                         FallingPulse => "DB_CallData".LadFallingPulse,
+	                         Alarm => "DB_CallData".LadAlarm,
+	                         Lamp => "DB_CallData".LadLamp,
+	                         BranchResult => "DB_CallData".LadBranch,
+	                         Latched := "DB_CallData".LadLatched,
+	                         RiseMemory := "DB_CallData".LadRiseMemory,
+	                         FallMemory := "DB_CallData".LadFallMemory,
+	                         CoilMemory := "DB_CallData".LadCoilMemory);
+	        "IDB_LadBoxes"(Start := "StartButton", InValue := "PieceCountMemory", Limit := 100);
+	        "IDB_LadOpenBranch"(Start := "StartButton", Stop := "StopButton");
+	        "FC_FbdLogic"(InA := "StartButton",
+	                      InB := "LevelHigh",
+	                      AndOut => "DB_CallData".FbdAnd,
+	                      OrOut => "DB_CallData".FbdOr,
+	                      XorOut => "DB_CallData".FbdXor,
+	                      NotOut => "DB_CallData".FbdNot,
+	                      SrOut => "DB_CallData".FbdSr,
+	                      RsOut => "DB_CallData".FbdRs,
+	                      EdgeOut => "DB_CallData".FbdEdge,
+	                      SrBit := "DB_CallData".FbdSrBit,
+	                      RsBit := "DB_CallData".FbdRsBit,
+	                      EdgeBit := "DB_CallData".FbdEdgeBit);
+	        "IDB_FbdBoxes"(Start := "StartButton", InValue := "PieceCountMemory", Limit := 100);
+	        "IDB_Mixed"(Start := "StartButton", RawValue := WORD_TO_INT("FlowRaw"));
+	    END_REGION
+	    
+	    REGION Analyzer cases
+	        "IDB_AnaTimerInIf"(Enable := "LevelHigh", Start := "StartButton");
+	        "IDB_AnaDoubleCall"(PulseA := "StartButton", PulseB := "StopButton");
+	        #TempResult := "FC_AnaTempRead"(Value := 1);
+	        "FC_AnaOutputPath"(Select := "LevelHigh", Value := 7, Result => #PathResult);
+	        "IDB_AnaDoubleAssign"(Start := "StartButton", Stop := "StopButton");
+	        #InputResult := "FC_AnaWriteInput"(Value := 3);
+	        "IDB_AnaGlobalAccess"();
+	        "IDB_AnaForCounter"(Limit := 20);
+	        #CaseResult := "FC_AnaCaseReal"(Mode := 1, Level := 1.5);
+	        "IDB_AnaUnused"(UsedInput := 2, UnusedInput := 3);
+	        "IDB_AnaShared"(Pulse := "StartButton");
+	        "IDB_AnaTimerCaller"(Enable := "LevelHigh", Start := "StartButton");
+	        "IDB_AnaStatusIgnored"();
+	    END_REGION
+	
+END_ORGANIZATION_BLOCK
+

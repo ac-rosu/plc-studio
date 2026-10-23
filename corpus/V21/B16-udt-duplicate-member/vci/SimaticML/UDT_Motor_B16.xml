@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V21" />
+  <SW.Types.PlcStruct ID="0">
+    <AttributeList>
+      <Interface>
+        <Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v5">
+          <Section Name="None">
+            <Member Name="Enable" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Release from the line control</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="Running" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Feedback: motor is running</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="Fault" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Motor protection tripped</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="SpeedSetpoint" Datatype="Real">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Speed setpoint in rpm</MultiLanguageText>
+              </Comment>
+              <StartValue>1450.0</StartValue>
+            </Member>
+            <Member Name="ActualSpeed" Datatype="Real">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Measured speed in rpm</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="RunTime" Datatype="Time">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Accumulated run time</MultiLanguageText>
+              </Comment>
+              <StartValue>T#0MS</StartValue>
+            </Member>
+            <Member Name="StartCount" Datatype="DInt">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Number of starts</MultiLanguageText>
+              </Comment>
+              <StartValue>0</StartValue>
+            </Member>
+            <Member Name="Enable_1" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Duplicate member name</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+        </Sections>
+      </Interface>
+      <Name>UDT_Motor_B16</Name>
+      <Namespace />
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="3" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <MultilingualText ID="4" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="5" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="6" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>Motor data</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Types.PlcStruct>
+</Document>

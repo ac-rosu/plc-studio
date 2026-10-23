@@ -1,0 +1,209 @@
+{
+  "caseId": "C24",
+  "title": "Fail-safe runtime group RTG1",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "F_FB_MainSafety",
+      "type": "FB",
+      "number": 3,
+      "language": "F_LAD",
+      "unit": null,
+      "namespace": null,
+      "group": null,
+      "iecCheck": false,
+      "failsafe": true,
+      "consistent": true
+    },
+    {
+      "name": "F_IDB_MainSafety",
+      "type": "InstanceDB",
+      "number": 2,
+      "language": "F_DB",
+      "unit": null,
+      "namespace": null,
+      "group": null,
+      "iecCheck": null,
+      "failsafe": true,
+      "consistent": true
+    },
+    {
+      "name": "F_FC_Logic",
+      "type": "FC",
+      "number": 9,
+      "language": "F_FBD",
+      "unit": null,
+      "namespace": null,
+      "group": null,
+      "iecCheck": false,
+      "failsafe": true,
+      "consistent": true
+    },
+    {
+      "name": "F_DB_Settings",
+      "type": "GlobalDB",
+      "number": 7,
+      "language": "F_DB",
+      "unit": null,
+      "namespace": null,
+      "group": null,
+      "iecCheck": null,
+      "failsafe": true,
+      "consistent": true
+    },
+    {
+      "name": "UDT_FSignals",
+      "type": "UDT",
+      "number": null,
+      "language": null,
+      "unit": null,
+      "namespace": null,
+      "group": null,
+      "iecCheck": null,
+      "failsafe": true,
+      "consistent": true
+    },
+    {
+      "name": "FOB_RTG1",
+      "type": "OB",
+      "number": 123,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": null,
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/F_FB_MainSafety.s7dcl",
+      "documents/F_FB_MainSafety.s7res",
+      "documents/F_IDB_MainSafety.s7dcl",
+      "documents/F_FC_Logic.s7dcl",
+      "documents/F_FC_Logic.s7res",
+      "documents/F_DB_Settings.s7dcl",
+      "documents/F_DB_Settings.s7res",
+      "documents/UDT_FSignals.s7dcl",
+      "documents/UDT_FSignals.s7res"
+    ],
+    "source": [
+      "source/F_IDB_MainSafety.db",
+      "source/F_DB_Settings.db",
+      "source/UDT_FSignals.udt"
+    ],
+    "simaticml": [
+      "simaticml/F_FB_MainSafety.xml",
+      "simaticml/F_IDB_MainSafety.xml",
+      "simaticml/F_FC_Logic.xml",
+      "simaticml/F_DB_Settings.xml",
+      "simaticml/UDT_FSignals.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/F_FB_MainSafety.s7dcl",
+      "vci/SimaticSD/F_FB_MainSafety.s7res",
+      "vci/SimaticML/F_FB_MainSafety.xml",
+      "vci/SimaticSD/F_IDB_MainSafety.s7dcl",
+      "vci/SimaticML/F_IDB_MainSafety.xml",
+      "vci/SimaticSD/F_FC_Logic.s7dcl",
+      "vci/SimaticSD/F_FC_Logic.s7res",
+      "vci/SimaticML/F_FC_Logic.xml",
+      "vci/SimaticSD/F_DB_Settings.s7dcl",
+      "vci/SimaticSD/F_DB_Settings.s7res",
+      "vci/SimaticML/F_DB_Settings.xml",
+      "vci/SimaticSD/UDT_FSignals.s7dcl",
+      "vci/SimaticSD/UDT_FSignals.s7res",
+      "vci/SimaticML/UDT_FSignals.xml"
+    ],
+    "refused": {
+      "source": {
+        "F_FB_MainSafety": "Error when calling method 'GenerateSource' of type 'Siemens.Engineering.SW.ExternalSources.PlcExternalSourceSystemGroup'. Select a block that only includes SCL or STL and is not know-how protected. External source files can only be generated when all selected code blocks have been created in SCL or STL. The language of all blocks is shown in the overview of the project tree in the \"Details\" tab.",
+        "F_FC_Logic": "Error when calling method 'GenerateSource' of type 'Siemens.Engineering.SW.ExternalSources.PlcExternalSourceSystemGroup'. Select a block that only includes SCL or STL and is not know-how protected. External source files can only be generated when all selected code blocks have been created in SCL or STL. The language of all blocks is shown in the overview of the project tree in the \"Details\" tab.",
+        "FOB_RTG1": "Error when calling method 'GenerateSource' of type 'Siemens.Engineering.SW.ExternalSources.PlcExternalSourceSystemGroup'. Select a block that only includes SCL or STL and is not know-how protected. External source files can only be generated when all selected code blocks have been created in SCL or STL. The language of all blocks is shown in the overview of the project tree in the \"Details\" tab."
+      },
+      "documents": {
+        "FOB_RTG1": "Error when calling method 'ExportAsDocuments' of type 'Siemens.Engineering.SW.Blocks.OB'. The block is know-how-protected and cannot be exported."
+      },
+      "simaticml": {
+        "FOB_RTG1": "Error when calling method 'Export' of type 'Siemens.Engineering.SW.Blocks.OB'. The export of block 'FOB_RTG1' is not permitted."
+      },
+      "vci_SimaticSD": {
+        "FOB_RTG1": "TIA Portal crashed: vci_sync export SimaticSD returned OPENNESS_ERROR \"Openness error in vci.sync: Error when calling method ExportObject of type Siemens.Engineering.VersionControl.Workspace.\" (Siemens.Engineering.NonRecoverableException); tia_list_instances afterwards showed no TIA V21 instance. Combination skipped (runbook Step 4)."
+      },
+      "vci_SimaticML": {
+        "FOB_RTG1": "Not attempted: the VCI SimaticSD export of this know-how protected F-OB crashed TIA Portal; its SimaticML export is refused by TIA anyway (om Export: The export of block FOB_RTG1 is not permitted.)."
+      }
+    }
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > F_FB_MainSafety (FB3)",
+        "block": "F_FB_MainSafety",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > F_IDB_MainSafety (DB2)",
+        "block": "F_IDB_MainSafety",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > F_FC_Logic (FC9)",
+        "block": "F_FC_Logic",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > F_DB_Settings (DB7)",
+        "block": "F_DB_Settings",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > PLC data types > UDT_FSignals (UDT)",
+        "block": "UDT_FSignals",
+        "line": null,
+        "network": null,
+        "description": "The data type was successfully updated."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > FOB_RTG1 (OB123)",
+        "block": "FOB_RTG1",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "F_FB_MainSafety: compile-clean-PLC_Main.json batches[s2-b10-C24.json] compiles[1]",
+      "F_IDB_MainSafety: compile-clean-PLC_Main.json batches[s2-b10-C24.json] compiles[1]",
+      "F_FC_Logic: compile-clean-PLC_Main.json batches[s2-b10-C24.json] compiles[1]",
+      "F_DB_Settings: compile-clean-PLC_Main.json batches[s2-b10-C24.json] compiles[1]",
+      "UDT_FSignals: compile-clean-PLC_Main.json batches[s2-b10-C24.json] compiles[1]",
+      "FOB_RTG1: compile-clean-PLC_Main.json batches[s2-b10-C24.json] compiles[1]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "Fail-safe: RTG1 with F_FB_MainSafety/F_IDB_MainSafety; collective F-signature 0xE8DB8BC0; not accepted (must be verified and accepted by a qualified person before any use). FOB_RTG1 is the know-how protected F-OB generated by TIA: every export format is refused, and its VCI SimaticSD export crashed TIA."
+}

@@ -1,0 +1,26 @@
+﻿{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_AnaOutputPath" : Void
+    VAR_INPUT
+        { S7_MLC := "MLC_3ew" }
+        Select : Bool;
+        { S7_MLC := "MLC_3S6" }
+        Value : Int;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_wJ" }
+        Result : Int;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            IF #Select THEN
+                #Result := #Value;
+            END_IF;
+        
+    END_NETWORK
+END_FUNCTION

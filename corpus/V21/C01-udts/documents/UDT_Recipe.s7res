@@ -1,0 +1,11 @@
+MultiLingualTexts:
+  - id: MLC_3bK
+    en-US: Recipe number
+  - id: MLC_4mq
+    en-US: Recipe name
+  - id: MLC_3wa
+    en-US: Volume per filling step in litres
+  - id: MLC_58c
+    en-US: Maximum filling time per step
+  - id: MLC_3j7
+    en-US: Product temperature in degrees Celsius

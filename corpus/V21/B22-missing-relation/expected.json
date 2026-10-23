@@ -1,0 +1,65 @@
+{
+  "caseId": "B22",
+  "title": "Unit_Filling uses Dosing.FB_Doser without a relation",
+  "kind": "broken",
+  "basedOn": "C23",
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_Filler_B22",
+      "type": "FB",
+      "number": 35,
+      "language": "SCL",
+      "unit": "Unit_Filling",
+      "namespace": "Filling",
+      "group": "Broken",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_Filler_B22.s7dcl",
+      "documents/FB_Filler_B22.s7res"
+    ],
+    "source": [
+      "source/FB_Filler_B22.scl"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_Filler_B22.s7dcl",
+      "vci/SimaticSD/FB_Filler_B22.s7res"
+    ],
+    "refused": {
+      "simaticml": {
+        "FB_Filler_B22": "Error when calling method 'Export' of type 'Siemens.Engineering.SW.Blocks.FB'. Inconsistent blocks and PLC data types (UDT) cannot be exported."
+      },
+      "vci_SimaticML": {
+        "FB_Filler_B22": "Error when calling method 'ExportObject' of type 'Siemens.Engineering.VersionControl.Workspace'. FB_Filler_B22 object(s) is not consistent"
+      }
+    }
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Software units > Unit_Filling > Program blocks > Broken > Filling.FB_Filler_B22 (FB35) > Interface",
+        "block": "FB_Filler_B22",
+        "line": null,
+        "network": null,
+        "description": "Access is not possible because you have not set up a relation from 'Unit_Filling' to 'Unit_Dosing'."
+      }
+    ],
+    "sources": [
+      "FB_Filler_B22: compile-broken-PLC_Main.json final"
+    ]
+  },
+  "intendedError": "Unit_Filling declares a Static of type Dosing.FB_Doser without a relation from Unit_Filling to Unit_Dosing",
+  "analyzerExpect": [],
+  "notes": "An obsolete duplicate FB_Filler_B22 (FB36, no namespace) existed during Step 3 and was deleted by the owner; its messages are not part of this case."
+}

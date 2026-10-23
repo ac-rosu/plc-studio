@@ -1,0 +1,32 @@
+﻿{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "FALSE";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_SclAtOverlay" : Byte
+    VAR_INPUT
+        { S7_MLC := "MLC_uH" }
+        InWord : Word;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_3xV" }
+        HighByte : Byte;
+    END_VAR
+    VAR_TEMP
+        { S7_MLC := "MLC_4SV" }
+        RawWord : Word;
+        { S7_MLC := "MLC_4e9" }
+        RawBytes : Array[0..1] of Byte;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            REGION AT overlay
+                #RawWord := #InWord;
+                #HighByte := #RawBytes[0];
+                #FC_SclAtOverlay := #RawBytes[1];
+            END_REGION
+        
+    END_NETWORK
+END_FUNCTION

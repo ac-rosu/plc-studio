@@ -1,0 +1,31 @@
+﻿FUNCTION "FC_AnaCaseReal" : Int
+TITLE = Analyzer: CASE without ELSE, REAL compared with =
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Rule C26i: the CASE has no ELSE, and a REAL is compared with =
+   VAR_INPUT 
+      Mode : Int;   // Mode
+      Level : Real;   // Level
+   END_VAR
+
+   VAR_TEMP 
+      Code : Int;   // Result code
+   END_VAR
+
+
+BEGIN
+	
+	    #Code := 0;
+	    CASE #Mode OF
+	        1:
+	            #Code := 10;
+	        2:
+	            #Code := 20;
+	    END_CASE;
+	    IF #Level = 1.5 THEN
+	        #Code := #Code + 1;
+	    END_IF;
+	    #FC_AnaCaseReal := #Code;
+	
+END_FUNCTION
+

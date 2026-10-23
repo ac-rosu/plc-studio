@@ -1,0 +1,13 @@
+﻿TYPE "UDT_Line"
+TITLE = Production line
+VERSION : 0.1
+   STRUCT
+      LineName : String[20] := 'Line';   // Line name
+      Conveyor : "UDT_Motor";   // Conveyor drive
+      Pump : "UDT_Motor";   // Product pump
+      ActiveRecipe : Int := 1;   // Number of the active recipe
+      Running : Bool;   // Line is in production
+   END_STRUCT;
+
+END_TYPE
+

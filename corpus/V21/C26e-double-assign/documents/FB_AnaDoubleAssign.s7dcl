@@ -1,0 +1,25 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION_BLOCK "FB_AnaDoubleAssign"
+    VAR_INPUT
+        { S7_MLC := "MLC_3B3" }
+        Start : Bool;
+        { S7_MLC := "MLC_3dk" }
+        Stop : Bool;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_4KY" }
+        Motor : Bool;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            #Motor := #Start;
+            #Motor := #Motor AND NOT #Stop;
+        
+    END_NETWORK
+END_FUNCTION_BLOCK

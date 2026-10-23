@@ -1,0 +1,73 @@
+{
+  "caseId": "C26i",
+  "title": "CASE without ELSE, REAL compared with =",
+  "kind": "analyzer",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FC_AnaCaseReal",
+      "type": "FC",
+      "number": 14,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Analyzer",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FC_AnaCaseReal.s7dcl",
+      "documents/FC_AnaCaseReal.s7res"
+    ],
+    "source": [
+      "source/FC_AnaCaseReal.scl"
+    ],
+    "simaticml": [
+      "simaticml/FC_AnaCaseReal.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FC_AnaCaseReal.s7dcl",
+      "vci/SimaticSD/FC_AnaCaseReal.s7res",
+      "vci/SimaticML/FC_AnaCaseReal.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Analyzer > FC_AnaCaseReal (FC14)",
+        "block": "FC_AnaCaseReal",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FC_AnaCaseReal: compile-clean-PLC_Main.json batches[s2-b12-C26-C12.json] compiles[0]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [
+    {
+      "rule": "case-without-else",
+      "block": "FC_AnaCaseReal",
+      "line": 3
+    },
+    {
+      "rule": "real-compared-with-equal",
+      "block": "FC_AnaCaseReal",
+      "line": 9
+    }
+  ],
+  "notes": ""
+}

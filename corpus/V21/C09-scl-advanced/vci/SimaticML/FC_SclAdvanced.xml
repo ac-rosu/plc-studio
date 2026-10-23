@@ -1,0 +1,761 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V21" />
+  <SW.Blocks.FC ID="0">
+    <AttributeList>
+      <Interface>
+        <Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v5">
+          <Section Name="Input">
+            <Member Name="AnyValue" Datatype="Variant">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Value of any type</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="DataBlock" Datatype="DB_ANY">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Any data block</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="Text" Datatype="String">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Input text</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="Output">
+            <Member Name="TextLength" Datatype="Int">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Length of the combined text</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="DbNumber" Datatype="UInt">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Number of the data block</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="InOut">
+            <Member Name="Samples" Datatype="Array[*] of Int">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Samples of any length</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="Temp">
+            <Member Name="Index" Datatype="DInt">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Loop index</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="Total" Datatype="DInt">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Sum of the samples</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="TypeCode" Datatype="Int">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Code of the data type behind AnyValue</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="Measurement" Datatype="Struct">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Nested structure</MultiLanguageText>
+              </Comment>
+              <Member Name="Header" Datatype="Struct">
+                <Comment>
+                  <MultiLanguageText Lang="en-US">Header of the measurement</MultiLanguageText>
+                </Comment>
+                <Member Name="Id" Datatype="Int">
+                  <Comment>
+                    <MultiLanguageText Lang="en-US">Measurement number</MultiLanguageText>
+                  </Comment>
+                </Member>
+                <Member Name="Label" Datatype="String[10]">
+                  <Comment>
+                    <MultiLanguageText Lang="en-US">Short label</MultiLanguageText>
+                  </Comment>
+                </Member>
+              </Member>
+              <Member Name="Value" Datatype="Real">
+                <Comment>
+                  <MultiLanguageText Lang="en-US">Measured value</MultiLanguageText>
+                </Comment>
+              </Member>
+            </Member>
+            <Member Name="Combined" Datatype="String[40]">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Combined text</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="Position" Datatype="Int">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Position of a substring</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="TemperatureRef" Datatype="REF_TO Real">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Reference to a temperature</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="Constant" />
+          <Section Name="Return">
+            <Member Name="Ret_Val" Datatype="Int" />
+          </Section>
+        </Sections>
+      </Interface>
+      <MemoryLayout>Optimized</MemoryLayout>
+      <Name>FC_SclAdvanced</Name>
+      <Namespace />
+      <Number>2</Number>
+      <ProgrammingLanguage>SCL</ProgrammingLanguage>
+      <SetENOAutomatically>false</SetENOAutomatically>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="3" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>VARIANT, references, DB_ANY, Array[*], strings and nested structs; the AT overlay is in FC_SclAtOverlay</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <SW.Blocks.CompileUnit ID="4" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource>
+            <StructuredText xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/StructuredText/v4">
+              <NewLine UId="21" />
+              <Blank Num="4" UId="22" />
+              <Token Text="REGION" UId="23" />
+              <Blank UId="24" />
+              <Text UId="25">Variant</Text>
+              <NewLine UId="26" />
+              <Blank Num="8" UId="27" />
+              <Token Text="CASE" UId="28" />
+              <Blank UId="29" />
+              <Access Scope="Call" UId="30">
+                <Instruction Name="TypeOf" UId="31">
+                  <Token Text="(" UId="32" />
+                  <NamelessParameter UId="33">
+                    <Access Scope="LocalVariable" UId="34">
+                      <Symbol UId="35">
+                        <Component Name="AnyValue" UId="36" />
+                      </Symbol>
+                    </Access>
+                  </NamelessParameter>
+                  <Token Text=")" UId="38" />
+                </Instruction>
+              </Access>
+              <Blank UId="39" />
+              <Token Text="OF" UId="40" />
+              <NewLine UId="41" />
+              <Blank Num="12" UId="42" />
+              <Access Scope="SystemType" UId="43">
+                <DataType UId="44">Int</DataType>
+              </Access>
+              <Token Text=":" UId="45" />
+              <NewLine UId="46" />
+              <Blank Num="16" UId="47" />
+              <Access Scope="LocalVariable" UId="48">
+                <Symbol UId="49">
+                  <Component Name="TypeCode" UId="50" />
+                </Symbol>
+              </Access>
+              <Blank UId="51" />
+              <Token Text=":=" UId="52" />
+              <Blank UId="53" />
+              <Access Scope="LiteralConstant" UId="54">
+                <Constant UId="55">
+                  <ConstantValue UId="57">1</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="58" />
+              <NewLine UId="59" />
+              <Blank Num="12" UId="60" />
+              <Access Scope="SystemType" UId="61">
+                <DataType UId="62">Real</DataType>
+              </Access>
+              <Token Text=":" UId="63" />
+              <NewLine UId="64" />
+              <Blank Num="16" UId="65" />
+              <Access Scope="LocalVariable" UId="66">
+                <Symbol UId="67">
+                  <Component Name="TypeCode" UId="68" />
+                </Symbol>
+              </Access>
+              <Blank UId="69" />
+              <Token Text=":=" UId="70" />
+              <Blank UId="71" />
+              <Access Scope="LiteralConstant" UId="72">
+                <Constant UId="73">
+                  <ConstantValue UId="75">2</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="76" />
+              <NewLine UId="77" />
+              <Blank Num="12" UId="78" />
+              <Token Text="ELSE" UId="79" />
+              <NewLine UId="80" />
+              <Blank Num="16" UId="81" />
+              <Access Scope="LocalVariable" UId="82">
+                <Symbol UId="83">
+                  <Component Name="TypeCode" UId="84" />
+                </Symbol>
+              </Access>
+              <Blank UId="85" />
+              <Token Text=":=" UId="86" />
+              <Blank UId="87" />
+              <Access Scope="LiteralConstant" UId="88">
+                <Constant UId="89">
+                  <ConstantValue UId="91">0</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="92" />
+              <NewLine UId="93" />
+              <Blank Num="8" UId="94" />
+              <Token Text="END_CASE" UId="95" />
+              <Token Text=";" UId="96" />
+              <NewLine UId="97" />
+              <Blank Num="4" UId="98" />
+              <Token Text="END_REGION" UId="99" />
+              <NewLine UId="100" />
+              <Blank Num="4" UId="101" />
+              <NewLine UId="102" />
+              <Blank Num="4" UId="103" />
+              <Token Text="REGION" UId="104" />
+              <Blank UId="105" />
+              <Text UId="106">Reference</Text>
+              <NewLine UId="107" />
+              <Blank Num="8" UId="108" />
+              <Access Scope="LocalVariable" UId="109">
+                <Symbol UId="110">
+                  <Component Name="TemperatureRef" UId="111" />
+                </Symbol>
+              </Access>
+              <Blank UId="112" />
+              <Token Text=":=" UId="113" />
+              <Blank UId="114" />
+              <Token Text="REF" UId="115" />
+              <Token Text="(" UId="116" />
+              <Access Scope="GlobalVariable" UId="117">
+                <Symbol UId="118">
+                  <Component Name="DB_Machine" UId="119">
+                    <BooleanAttribute Name="HasQuotes" UId="120">true</BooleanAttribute>
+                  </Component>
+                  <Token Text="." UId="121" />
+                  <Component Name="Temperature" UId="122" />
+                </Symbol>
+              </Access>
+              <Token Text=")" UId="123" />
+              <Token Text=";" UId="124" />
+              <NewLine UId="125" />
+              <Blank Num="8" UId="126" />
+              <Token Text="IF" UId="127" />
+              <Blank UId="128" />
+              <Access Scope="LocalVariable" UId="129">
+                <Symbol UId="130">
+                  <Component Name="TemperatureRef" UId="131" />
+                </Symbol>
+              </Access>
+              <Blank UId="132" />
+              <Token Text="&lt;&gt;" UId="133" />
+              <Blank UId="134" />
+              <Access Scope="LiteralConstant" UId="135">
+                <Constant UId="136">
+                  <ConstantValue UId="138">NULL</ConstantValue>
+                </Constant>
+              </Access>
+              <Blank UId="139" />
+              <Token Text="THEN" UId="140" />
+              <NewLine UId="141" />
+              <Blank Num="12" UId="142" />
+              <Access Scope="LocalVariable" UId="143">
+                <Symbol UId="144">
+                  <Component Name="TemperatureRef" UId="145" />
+                  <Token Text="^" UId="146" />
+                </Symbol>
+              </Access>
+              <Blank UId="147" />
+              <Token Text=":=" UId="148" />
+              <Blank UId="149" />
+              <Access Scope="LocalVariable" UId="150">
+                <Symbol UId="151">
+                  <Component Name="TemperatureRef" UId="152" />
+                  <Token Text="^" UId="153" />
+                </Symbol>
+              </Access>
+              <Blank UId="154" />
+              <Token Text="+" UId="155" />
+              <Blank UId="156" />
+              <Access Scope="LiteralConstant" UId="157">
+                <Constant UId="158">
+                  <ConstantValue UId="160">0.1</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="161" />
+              <NewLine UId="162" />
+              <Blank Num="8" UId="163" />
+              <Token Text="END_IF" UId="164" />
+              <Token Text=";" UId="165" />
+              <NewLine UId="166" />
+              <Blank Num="4" UId="167" />
+              <Token Text="END_REGION" UId="168" />
+              <NewLine UId="169" />
+              <Blank Num="4" UId="170" />
+              <NewLine UId="171" />
+              <Blank Num="4" UId="172" />
+              <Token Text="REGION" UId="173" />
+              <Blank UId="174" />
+              <Text UId="175">Data block</Text>
+              <NewLine UId="176" />
+              <Blank Num="8" UId="177" />
+              <Access Scope="LocalVariable" UId="178">
+                <Symbol UId="179">
+                  <Component Name="DbNumber" UId="180" />
+                </Symbol>
+              </Access>
+              <Blank UId="181" />
+              <Token Text=":=" UId="182" />
+              <Blank UId="183" />
+              <Access Scope="Call" UId="184">
+                <Instruction Name="DB_ANY_TO_UINT" UId="185">
+                  <Token Text="(" UId="186" />
+                  <NamelessParameter UId="187">
+                    <Access Scope="LocalVariable" UId="188">
+                      <Symbol UId="189">
+                        <Component Name="DataBlock" UId="190" />
+                      </Symbol>
+                    </Access>
+                  </NamelessParameter>
+                  <Token Text=")" UId="192" />
+                </Instruction>
+              </Access>
+              <Token Text=";" UId="193" />
+              <NewLine UId="194" />
+              <Blank Num="4" UId="195" />
+              <Token Text="END_REGION" UId="196" />
+              <NewLine UId="197" />
+              <Blank Num="4" UId="198" />
+              <NewLine UId="199" />
+              <Blank Num="4" UId="200" />
+              <Token Text="REGION" UId="201" />
+              <Blank UId="202" />
+              <Text UId="203">Array of any length</Text>
+              <NewLine UId="204" />
+              <Blank Num="8" UId="205" />
+              <Access Scope="LocalVariable" UId="206">
+                <Symbol UId="207">
+                  <Component Name="Total" UId="208" />
+                </Symbol>
+              </Access>
+              <Blank UId="209" />
+              <Token Text=":=" UId="210" />
+              <Blank UId="211" />
+              <Access Scope="LiteralConstant" UId="212">
+                <Constant UId="213">
+                  <ConstantValue UId="215">0</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="216" />
+              <NewLine UId="217" />
+              <Blank Num="8" UId="218" />
+              <Token Text="FOR" UId="219" />
+              <Blank UId="220" />
+              <Access Scope="LocalVariable" UId="221">
+                <Symbol UId="222">
+                  <Component Name="Index" UId="223" />
+                </Symbol>
+              </Access>
+              <Blank UId="224" />
+              <Token Text=":=" UId="225" />
+              <Blank UId="226" />
+              <Access Scope="Call" UId="227">
+                <Instruction Name="LOWER_BOUND" UId="228">
+                  <Token Text="(" UId="229" />
+                  <Parameter Name="ARR" UId="230">
+                    <Blank UId="231" />
+                    <Token Text=":=" UId="232" />
+                    <Blank UId="233" />
+                    <Access Scope="LocalVariable" UId="234">
+                      <Symbol UId="235">
+                        <Component Name="Samples" UId="236" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="237" />
+                  <Blank UId="238" />
+                  <Parameter Name="DIM" UId="239">
+                    <Blank UId="240" />
+                    <Token Text=":=" UId="241" />
+                    <Blank UId="242" />
+                    <Access Scope="LiteralConstant" UId="243">
+                      <Constant UId="244">
+                        <ConstantValue UId="246">1</ConstantValue>
+                      </Constant>
+                    </Access>
+                  </Parameter>
+                  <Token Text=")" UId="248" />
+                </Instruction>
+              </Access>
+              <Blank UId="249" />
+              <Token Text="TO" UId="250" />
+              <Blank UId="251" />
+              <Access Scope="Call" UId="252">
+                <Instruction Name="UPPER_BOUND" UId="253">
+                  <Token Text="(" UId="254" />
+                  <Parameter Name="ARR" UId="255">
+                    <Blank UId="256" />
+                    <Token Text=":=" UId="257" />
+                    <Blank UId="258" />
+                    <Access Scope="LocalVariable" UId="259">
+                      <Symbol UId="260">
+                        <Component Name="Samples" UId="261" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="262" />
+                  <Blank UId="263" />
+                  <Parameter Name="DIM" UId="264">
+                    <Blank UId="265" />
+                    <Token Text=":=" UId="266" />
+                    <Blank UId="267" />
+                    <Access Scope="LiteralConstant" UId="268">
+                      <Constant UId="269">
+                        <ConstantValue UId="271">1</ConstantValue>
+                      </Constant>
+                    </Access>
+                  </Parameter>
+                  <Token Text=")" UId="273" />
+                </Instruction>
+              </Access>
+              <Blank UId="274" />
+              <Token Text="DO" UId="275" />
+              <NewLine UId="276" />
+              <Blank Num="12" UId="277" />
+              <Access Scope="LocalVariable" UId="278">
+                <Symbol UId="279">
+                  <Component Name="Total" UId="280" />
+                </Symbol>
+              </Access>
+              <Blank UId="281" />
+              <Token Text=":=" UId="282" />
+              <Blank UId="283" />
+              <Access Scope="LocalVariable" UId="284">
+                <Symbol UId="285">
+                  <Component Name="Total" UId="286" />
+                </Symbol>
+              </Access>
+              <Blank UId="287" />
+              <Token Text="+" UId="288" />
+              <Blank UId="289" />
+              <Access Scope="LocalVariable" UId="290">
+                <Symbol UId="291">
+                  <Component Name="Samples" UId="292">
+                    <Token Text="[" UId="293" />
+                    <Access Scope="LocalVariable" UId="294">
+                      <Symbol UId="295">
+                        <Component Name="Index" UId="296" />
+                      </Symbol>
+                    </Access>
+                    <Token Text="]" UId="297" />
+                  </Component>
+                </Symbol>
+              </Access>
+              <Token Text=";" UId="298" />
+              <NewLine UId="299" />
+              <Blank Num="8" UId="300" />
+              <Token Text="END_FOR" UId="301" />
+              <Token Text=";" UId="302" />
+              <NewLine UId="303" />
+              <Blank Num="4" UId="304" />
+              <Token Text="END_REGION" UId="305" />
+              <NewLine UId="306" />
+              <Blank Num="4" UId="307" />
+              <NewLine UId="308" />
+              <Blank Num="4" UId="309" />
+              <Token Text="REGION" UId="310" />
+              <Blank UId="311" />
+              <Text UId="312">Strings and nested structs</Text>
+              <NewLine UId="313" />
+              <Blank Num="8" UId="314" />
+              <Access Scope="LocalVariable" UId="315">
+                <Symbol UId="316">
+                  <Component Name="Measurement" UId="317" />
+                  <Token Text="." UId="318" />
+                  <Component Name="Header" UId="319" />
+                  <Token Text="." UId="320" />
+                  <Component Name="Id" UId="321" />
+                </Symbol>
+              </Access>
+              <Blank UId="322" />
+              <Token Text=":=" UId="323" />
+              <Blank UId="324" />
+              <Access Scope="LiteralConstant" UId="325">
+                <Constant UId="326">
+                  <ConstantValue UId="328">7</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="329" />
+              <NewLine UId="330" />
+              <Blank Num="8" UId="331" />
+              <Access Scope="LocalVariable" UId="332">
+                <Symbol UId="333">
+                  <Component Name="Measurement" UId="334" />
+                  <Token Text="." UId="335" />
+                  <Component Name="Header" UId="336" />
+                  <Token Text="." UId="337" />
+                  <Component Name="Label" UId="338" />
+                </Symbol>
+              </Access>
+              <Blank UId="339" />
+              <Token Text=":=" UId="340" />
+              <Blank UId="341" />
+              <Access Scope="Call" UId="342">
+                <Instruction Name="LEFT" UId="343">
+                  <Token Text="(" UId="344" />
+                  <Parameter Name="IN" UId="345">
+                    <Blank UId="346" />
+                    <Token Text=":=" UId="347" />
+                    <Blank UId="348" />
+                    <Access Scope="LocalVariable" UId="349">
+                      <Symbol UId="350">
+                        <Component Name="Text" UId="351" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="352" />
+                  <Blank UId="353" />
+                  <Parameter Name="L" UId="354">
+                    <Blank UId="355" />
+                    <Token Text=":=" UId="356" />
+                    <Blank UId="357" />
+                    <Access Scope="LiteralConstant" UId="358">
+                      <Constant UId="359">
+                        <ConstantValue UId="361">10</ConstantValue>
+                      </Constant>
+                    </Access>
+                  </Parameter>
+                  <Token Text=")" UId="363" />
+                </Instruction>
+              </Access>
+              <Token Text=";" UId="364" />
+              <NewLine UId="365" />
+              <Blank Num="8" UId="366" />
+              <Access Scope="LocalVariable" UId="367">
+                <Symbol UId="368">
+                  <Component Name="Measurement" UId="369" />
+                  <Token Text="." UId="370" />
+                  <Component Name="Value" UId="371" />
+                </Symbol>
+              </Access>
+              <Blank UId="372" />
+              <Token Text=":=" UId="373" />
+              <Blank UId="374" />
+              <Access Scope="Call" UId="375">
+                <Instruction Name="DINT_TO_REAL" UId="376">
+                  <Token Text="(" UId="377" />
+                  <NamelessParameter UId="378">
+                    <Access Scope="LocalVariable" UId="379">
+                      <Symbol UId="380">
+                        <Component Name="Total" UId="381" />
+                      </Symbol>
+                    </Access>
+                  </NamelessParameter>
+                  <Token Text=")" UId="383" />
+                </Instruction>
+              </Access>
+              <Token Text=";" UId="384" />
+              <NewLine UId="385" />
+              <Blank Num="8" UId="386" />
+              <Access Scope="LocalVariable" UId="387">
+                <Symbol UId="388">
+                  <Component Name="Combined" UId="389" />
+                </Symbol>
+              </Access>
+              <Blank UId="390" />
+              <Token Text=":=" UId="391" />
+              <Blank UId="392" />
+              <Access Scope="Call" UId="393">
+                <Instruction Name="CONCAT" UId="394">
+                  <Token Text="(" UId="395" />
+                  <Parameter Name="IN1" UId="396">
+                    <Blank UId="397" />
+                    <Token Text=":=" UId="398" />
+                    <Blank UId="399" />
+                    <Access Scope="LocalVariable" UId="400">
+                      <Symbol UId="401">
+                        <Component Name="Measurement" UId="402" />
+                        <Token Text="." UId="403" />
+                        <Component Name="Header" UId="404" />
+                        <Token Text="." UId="405" />
+                        <Component Name="Label" UId="406" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="407" />
+                  <Blank UId="408" />
+                  <Parameter Name="IN2" UId="409">
+                    <Blank UId="410" />
+                    <Token Text=":=" UId="411" />
+                    <Blank UId="412" />
+                    <Access Scope="LiteralConstant" UId="413">
+                      <Constant UId="414">
+                        <ConstantValue UId="416">'-OK'</ConstantValue>
+                      </Constant>
+                    </Access>
+                  </Parameter>
+                  <Token Text=")" UId="418" />
+                </Instruction>
+              </Access>
+              <Token Text=";" UId="419" />
+              <NewLine UId="420" />
+              <Blank Num="8" UId="421" />
+              <Access Scope="LocalVariable" UId="422">
+                <Symbol UId="423">
+                  <Component Name="Position" UId="424" />
+                </Symbol>
+              </Access>
+              <Blank UId="425" />
+              <Token Text=":=" UId="426" />
+              <Blank UId="427" />
+              <Access Scope="Call" UId="428">
+                <Instruction Name="FIND" UId="429">
+                  <Token Text="(" UId="430" />
+                  <Parameter Name="IN1" UId="431">
+                    <Blank UId="432" />
+                    <Token Text=":=" UId="433" />
+                    <Blank UId="434" />
+                    <Access Scope="LocalVariable" UId="435">
+                      <Symbol UId="436">
+                        <Component Name="Combined" UId="437" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="438" />
+                  <Blank UId="439" />
+                  <Parameter Name="IN2" UId="440">
+                    <Blank UId="441" />
+                    <Token Text=":=" UId="442" />
+                    <Blank UId="443" />
+                    <Access Scope="LiteralConstant" UId="444">
+                      <Constant UId="445">
+                        <ConstantValue UId="447">'OK'</ConstantValue>
+                      </Constant>
+                    </Access>
+                  </Parameter>
+                  <Token Text=")" UId="449" />
+                </Instruction>
+              </Access>
+              <Token Text=";" UId="450" />
+              <NewLine UId="451" />
+              <Blank Num="8" UId="452" />
+              <Access Scope="LocalVariable" UId="453">
+                <Symbol UId="454">
+                  <Component Name="TextLength" UId="455" />
+                </Symbol>
+              </Access>
+              <Blank UId="456" />
+              <Token Text=":=" UId="457" />
+              <Blank UId="458" />
+              <Access Scope="Call" UId="459">
+                <Instruction Name="LEN" UId="460">
+                  <Token Text="(" UId="461" />
+                  <NamelessParameter UId="462">
+                    <Access Scope="LocalVariable" UId="463">
+                      <Symbol UId="464">
+                        <Component Name="Combined" UId="465" />
+                      </Symbol>
+                    </Access>
+                  </NamelessParameter>
+                  <Token Text=")" UId="467" />
+                </Instruction>
+              </Access>
+              <Token Text=";" UId="468" />
+              <NewLine UId="469" />
+              <Blank Num="4" UId="470" />
+              <Token Text="END_REGION" UId="471" />
+              <NewLine UId="472" />
+              <Blank Num="4" UId="473" />
+              <NewLine UId="474" />
+              <Blank Num="4" UId="475" />
+              <Access Scope="LocalVariable" UId="476">
+                <Symbol UId="477">
+                  <Component Name="FC_SclAdvanced" UId="478" />
+                </Symbol>
+              </Access>
+              <Blank UId="479" />
+              <Token Text=":=" UId="480" />
+              <Blank UId="481" />
+              <Access Scope="LocalVariable" UId="482">
+                <Symbol UId="483">
+                  <Component Name="TypeCode" UId="484" />
+                </Symbol>
+              </Access>
+              <Token Text=";" UId="485" />
+              <NewLine UId="486" />
+            </StructuredText>
+          </NetworkSource>
+          <ProgrammingLanguage>SCL</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="5" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="6" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="7" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="8" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="9" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="A" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <MultilingualText ID="B" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="C" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="D" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>Advanced SCL constructs</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.FC>
+</Document>

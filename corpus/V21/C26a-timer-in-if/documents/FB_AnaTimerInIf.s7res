@@ -1,0 +1,9 @@
+MultiLingualTexts:
+  - id: MLC_579
+    en-US: Enable
+  - id: MLC_3Pd
+    en-US: Timer input
+  - id: MLC_3Ff
+    en-US: Timer output
+  - id: MLC_3js
+    en-US: On-delay timer

@@ -1,0 +1,61 @@
+{
+  "caseId": "C14",
+  "title": "Startup OB initialising DB_Machine",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "OB_Startup",
+      "type": "OB",
+      "number": 100,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": null,
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/OB_Startup.s7dcl"
+    ],
+    "source": [
+      "source/OB_Startup.scl"
+    ],
+    "simaticml": [
+      "simaticml/OB_Startup.xml",
+      "simaticml/OB_Startup.readonly.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/OB_Startup.s7dcl",
+      "vci/SimaticML/OB_Startup.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > OB_Startup (OB100)",
+        "block": "OB_Startup",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "OB_Startup: compile-clean-PLC_Main.json batches[s2-b07-C13-C15.json]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": ""
+}

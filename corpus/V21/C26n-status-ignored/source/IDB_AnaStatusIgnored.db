@@ -1,0 +1,10 @@
+﻿DATA_BLOCK "IDB_AnaStatusIgnored"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+NON_RETAIN
+"FB_AnaStatusIgnored"
+
+BEGIN
+
+END_DATA_BLOCK
+

@@ -1,0 +1,9 @@
+MultiLingualTexts:
+  - id: MLC_4zK
+    en-US: Target volume in litres
+  - id: MLC_4BH
+    en-US: Maximum filling time
+  - id: MLC_3BT
+    en-US: Litres per raw flow unit
+  - id: MLC_vz
+    en-US: Volume of the last filling

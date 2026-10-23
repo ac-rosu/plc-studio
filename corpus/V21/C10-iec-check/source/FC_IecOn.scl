@@ -1,0 +1,28 @@
+﻿FUNCTION "FC_IecOn" : Word
+TITLE = Conversions, IEC check on
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Body of FC_IecOff with every implicit conversion made explicit; this block has the IEC check switched on
+   VAR_INPUT 
+      InInt : Int;   // Integer input
+      InWord : Word;   // Bit string input
+      InDInt : DInt;   // Double integer input
+   END_VAR
+
+   VAR_OUTPUT 
+      OutInt : Int;   // Integer output
+      OutSInt : SInt;   // Short integer output
+      OutNarrow : Int;   // Narrowed double integer
+   END_VAR
+
+
+BEGIN
+	
+	    // Explicit conversions between bit strings and integers, and narrowing conversions
+	    #OutInt := WORD_TO_INT(#InWord);
+	    #OutSInt := INT_TO_SINT(#InInt);
+	    #OutNarrow := DINT_TO_INT(#InDInt);
+	    #FC_IecOn := INT_TO_WORD(#InInt);
+	
+END_FUNCTION
+

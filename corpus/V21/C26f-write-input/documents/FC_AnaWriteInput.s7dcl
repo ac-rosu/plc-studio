@@ -1,0 +1,19 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_AnaWriteInput" : Int
+    VAR_INPUT
+        { S7_MLC := "MLC_3bp" }
+        Value : Int;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            #Value := #Value * 2;
+            #FC_AnaWriteInput := #Value;
+        
+    END_NETWORK
+END_FUNCTION

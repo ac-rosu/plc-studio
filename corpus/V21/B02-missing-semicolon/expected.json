@@ -1,0 +1,65 @@
+{
+  "caseId": "B02",
+  "title": "Missing semicolon",
+  "kind": "broken",
+  "basedOn": "C05",
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_SclSections_B02",
+      "type": "FB",
+      "number": 22,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Broken",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_SclSections_B02.s7dcl",
+      "documents/FB_SclSections_B02.s7res"
+    ],
+    "source": [
+      "source/FB_SclSections_B02.scl"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_SclSections_B02.s7dcl",
+      "vci/SimaticSD/FB_SclSections_B02.s7res"
+    ],
+    "refused": {
+      "simaticml": {
+        "FB_SclSections_B02": "Error when calling method 'Export' of type 'Siemens.Engineering.SW.Blocks.FB'. Inconsistent blocks and PLC data types (UDT) cannot be exported."
+      },
+      "vci_SimaticML": {
+        "FB_SclSections_B02": "Error when calling method 'ExportObject' of type 'Siemens.Engineering.VersionControl.Workspace'. FB_SclSections_B02 [FB22] object(s) is not consistent"
+      }
+    }
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > FB_SclSections_B02 (FB22) > 29",
+        "block": "FB_SclSections_B02",
+        "line": 29,
+        "network": null,
+        "description": "Semicolon missing."
+      }
+    ],
+    "sources": [
+      "FB_SclSections_B02: compile-broken-PLC_Main.json final"
+    ]
+  },
+  "intendedError": "missing \";\" after \"#Sum := 0.0\" in REGION Loops",
+  "analyzerExpect": [],
+  "notes": ""
+}

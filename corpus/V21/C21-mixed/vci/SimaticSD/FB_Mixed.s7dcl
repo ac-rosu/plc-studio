@@ -1,0 +1,62 @@
+﻿{
+    S7_Optimized := "TRUE";
+    S7_PreferredLanguage := "LAD";
+    S7_Version := "0.1"
+}
+FUNCTION_BLOCK "FB_Mixed"
+    VAR_INPUT
+        { S7_MLC := "MLC_I1" }
+        Start : Bool;
+        { S7_MLC := "MLC_I2" }
+        RawValue : Int;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_O1" }
+        Running : Bool;
+        { S7_MLC := "MLC_O2" }
+        Scaled : Real;
+        { S7_MLC := "MLC_O3" }
+        AboveLimit : Bool;
+    END_VAR
+    VAR
+        { S7_MLC := "MLC_S1" }
+        Factor : Real := 2.5;
+        { S7_MLC := "MLC_S2" }
+        "Limit" : Real := 100.0;
+        { S7_MLC := "MLC_S3" }
+        IsAbove : Bool;
+    END_VAR
+
+    {
+        S7_Language := "LAD";
+        S7_NetworkTitle := "MLC_N1T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( #Start )
+            Coil( #Running )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "SCL";
+        S7_NetworkTitle := "MLC_N2T"
+    }
+    NETWORK
+        
+            // Scale the raw value and compare it with the limit
+            #Scaled := INT_TO_REAL(#RawValue) * #Factor;
+            #IsAbove := #Scaled > #Limit;
+        
+    END_NETWORK
+    {
+        S7_Language := "LAD";
+        S7_NetworkTitle := "MLC_N3T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( #Running )
+            Contact( #IsAbove )
+            Coil( #AboveLimit )
+        END_RUNG
+    END_NETWORK
+END_FUNCTION_BLOCK

@@ -1,0 +1,19 @@
+﻿MultiLingualTexts:
+  - id: MLC_I1
+    de-DE: Schutztür geschlossen
+    en-US: Guard door closed
+  - id: MLC_I2
+    de-DE: Einrichtbetrieb angewählt
+    en-US: Setup mode selected
+  - id: MLC_I3
+    de-DE: Not-Halt nicht betätigt
+    en-US: Emergency stop not pressed
+  - id: MLC_I4
+    de-DE: Drehzahlgrenze vom Datentyp Real
+    en-US: Speed limit of data type Real
+  - id: MLC_O1
+    de-DE: Freigabe der Maschine
+    en-US: Release of the machine
+  - id: MLC_N1T
+    de-DE: Schutztür oder Einrichtbetrieb, und Not-Halt in Ordnung
+    en-US: Guard or setup mode, and emergency stop ok

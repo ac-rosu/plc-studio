@@ -1,0 +1,85 @@
+{
+  "caseId": "C26n",
+  "title": "Status output of a system instruction never evaluated",
+  "kind": "analyzer",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_AnaStatusIgnored",
+      "type": "FB",
+      "number": 18,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Analyzer",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "IDB_AnaStatusIgnored",
+      "type": "InstanceDB",
+      "number": 16,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": "Analyzer",
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_AnaStatusIgnored.s7dcl",
+      "documents/FB_AnaStatusIgnored.s7res",
+      "documents/IDB_AnaStatusIgnored.s7dcl"
+    ],
+    "source": [
+      "source/FB_AnaStatusIgnored.scl",
+      "source/IDB_AnaStatusIgnored.db"
+    ],
+    "simaticml": [
+      "simaticml/FB_AnaStatusIgnored.xml",
+      "simaticml/IDB_AnaStatusIgnored.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_AnaStatusIgnored.s7dcl",
+      "vci/SimaticSD/FB_AnaStatusIgnored.s7res",
+      "vci/SimaticML/FB_AnaStatusIgnored.xml",
+      "vci/SimaticSD/IDB_AnaStatusIgnored.s7dcl",
+      "vci/SimaticML/IDB_AnaStatusIgnored.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Analyzer > FB_AnaStatusIgnored (FB18)",
+        "block": "FB_AnaStatusIgnored",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FB_AnaStatusIgnored: compile-clean-PLC_Main.json batches[s2-b12-C26-C12.json] compiles[0]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [
+    {
+      "rule": "status-not-evaluated",
+      "block": "FB_AnaStatusIgnored",
+      "line": 2
+    }
+  ],
+  "notes": ""
+}

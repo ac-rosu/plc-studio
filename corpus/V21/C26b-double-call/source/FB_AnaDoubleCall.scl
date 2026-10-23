@@ -1,0 +1,27 @@
+﻿FUNCTION_BLOCK "FB_AnaDoubleCall"
+TITLE = Analyzer: same instance called twice
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Rule C26b: the counter instance PartCounter is called twice in one cycle
+   VAR_INPUT 
+      PulseA : Bool;   // First count pulse
+      PulseB : Bool;   // Second count pulse
+   END_VAR
+
+   VAR_OUTPUT 
+      Count : Int;   // Counter value
+   END_VAR
+
+   VAR 
+      PartCounter {InstructionName := 'CTU_INT'; LibVersion := '1.0'} : CTU_INT;   // Up counter
+   END_VAR
+
+
+BEGIN
+	
+	    #PartCounter(CU := #PulseA, R := FALSE, PV := 100);
+	    #PartCounter(CU := #PulseB, R := FALSE, PV := 100);
+	    #Count := #PartCounter.CV;
+	
+END_FUNCTION_BLOCK
+

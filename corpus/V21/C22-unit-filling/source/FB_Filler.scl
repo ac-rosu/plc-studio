@@ -1,0 +1,55 @@
+﻿NAMESPACE Filling
+FUNCTION_BLOCK "FB_Filler"
+TITLE = Filler
+{ S7_Optimized_Access := 'TRUE' ; Published := 'TRUE' }
+VERSION : 0.1
+//Published filler of the filling unit; uses FC_FillHelper, UDT_FillRecipe and the tags of Tags_Filling
+   VAR_INPUT 
+      Start : Bool;   // Start filling
+      Stop : Bool;   // Stop filling
+   END_VAR
+
+   VAR_OUTPUT 
+      Filling : Bool;   // Valve is open
+      Done : Bool;   // Filling time elapsed or level high
+   END_VAR
+
+   VAR_IN_OUT 
+      Recipe : UDT_FillRecipe;   // Active recipe
+   END_VAR
+
+   VAR 
+      FillTimer {InstructionName := 'TON_TIME'; LibVersion := '1.0'} : TON_TIME;   // Maximum filling time
+      Active : Bool;   // Filling is active
+   END_VAR
+
+   VAR_TEMP 
+      Volume : Real;   // Volume from the raw flow
+   END_VAR
+
+
+BEGIN
+	
+	    REGION Command
+	        IF #Stop THEN
+	            #Active := FALSE;
+	        ELSIF #Start THEN
+	            #Active := TRUE;
+	        END_IF;
+	    END_REGION
+	    
+	    REGION Filling
+	        #Volume := FC_FillHelper(RawFlow := WORD_TO_INT(_.FillFlowRaw), Factor := #Recipe.FlowFactor);
+	        #FillTimer(IN := #Active, PT := #Recipe.FillTime);
+	        _.FillValveOpen := #Active AND NOT #FillTimer.Q AND NOT _.FillLevelHigh;
+	    END_REGION
+	    
+	    REGION Outputs
+	        #Filling := _.FillValveOpen;
+	        #Done := #FillTimer.Q OR _.FillLevelHigh;
+	        #Recipe.LastVolume := #Volume;
+	    END_REGION
+	
+END_FUNCTION_BLOCK
+END_NAMESPACE
+

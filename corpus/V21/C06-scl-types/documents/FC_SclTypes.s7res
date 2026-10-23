@@ -1,0 +1,11 @@
+MultiLingualTexts:
+  - id: MLC_3Gi
+    en-US: Integer input
+  - id: MLC_4aQ
+    en-US: Real input
+  - id: MLC_59H
+    en-US: Rounded result
+  - id: MLC_3JQ
+    en-US: Result as text
+  - id: MLC_Lt
+    en-US: Running total

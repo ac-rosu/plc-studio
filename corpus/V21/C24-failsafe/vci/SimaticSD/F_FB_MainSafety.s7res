@@ -1,0 +1,22 @@
+﻿MultiLingualTexts:
+  - id: MLC_S1
+    de-DE: Schutztür geschlossen und Not-Halt in Ordnung
+    en-US: Guard closed and emergency stop ok
+  - id: MLC_S2
+    de-DE: Maschine freigegeben
+    en-US: Machine released
+  - id: MLC_S3
+    de-DE: Freigabe aus F_FC_Logic
+    en-US: Release from F_FC_Logic
+  - id: MLC_N1T
+    de-DE: F-DB lesen
+    en-US: Read the F-DB
+  - id: MLC_N2T
+    de-DE: F_FC_Logic aufrufen
+    en-US: Call F_FC_Logic
+  - id: MLC_N3T
+    de-DE: Freigabe mit Kontakten und Spule
+    en-US: Release with contacts and coil
+  - id: MLC_N4T
+    de-DE: Freigabe in den F-DB schreiben
+    en-US: Write the release to the F-DB

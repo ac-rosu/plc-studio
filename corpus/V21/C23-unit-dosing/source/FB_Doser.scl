@@ -1,0 +1,32 @@
+﻿NAMESPACE Dosing
+FUNCTION_BLOCK "FB_Doser"
+{ S7_Optimized_Access := 'TRUE' ; Published := 'TRUE' }
+VERSION : 0.1
+   VAR_INPUT 
+      Start : Bool;   // Start dosing
+      Stop : Bool;   // Stop dosing
+   END_VAR
+
+   VAR_OUTPUT 
+      Dosing : Bool;   // Dosing is running
+      Done : Bool;   // Dosing finished
+   END_VAR
+
+   VAR 
+      Filler : _.Filling.FB_Filler;   // Filler of the unit Filling
+      Recipe : _.Filling.UDT_FillRecipe;   // Recipe of the unit Filling
+   END_VAR
+
+
+BEGIN
+	
+	    REGION Dosing through the filler
+	        #Recipe.TargetVolume := 0.5;
+	        #Filler(Start := #Start, Stop := #Stop, Recipe := #Recipe);
+	        #Dosing := #Filler.Filling;
+	        #Done := #Filler.Done;
+	    END_REGION
+	
+END_FUNCTION_BLOCK
+END_NAMESPACE
+

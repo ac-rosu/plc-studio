@@ -1,0 +1,113 @@
+{
+  "caseId": "C08",
+  "title": "Block calls: multi-instance, single instance, FC calls, parameter instance, ENO",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_SclCalls",
+      "type": "FB",
+      "number": 4,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Scl",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "IDB_SclSections",
+      "type": "InstanceDB",
+      "number": 4,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": "Data",
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "IDB_SclCalls",
+      "type": "InstanceDB",
+      "number": 18,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": "Data",
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "IDB_SclTimersParam",
+      "type": "InstanceDB",
+      "number": 19,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": "Data",
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_SclCalls.s7dcl",
+      "documents/FB_SclCalls.s7res",
+      "documents/IDB_SclSections.s7dcl",
+      "documents/IDB_SclCalls.s7dcl",
+      "documents/IDB_SclTimersParam.s7dcl"
+    ],
+    "source": [
+      "source/FB_SclCalls.scl",
+      "source/IDB_SclSections.db",
+      "source/IDB_SclCalls.db",
+      "source/IDB_SclTimersParam.db"
+    ],
+    "simaticml": [
+      "simaticml/FB_SclCalls.xml",
+      "simaticml/IDB_SclSections.xml",
+      "simaticml/IDB_SclCalls.xml",
+      "simaticml/IDB_SclTimersParam.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_SclCalls.s7dcl",
+      "vci/SimaticSD/FB_SclCalls.s7res",
+      "vci/SimaticML/FB_SclCalls.xml",
+      "vci/SimaticSD/IDB_SclSections.s7dcl",
+      "vci/SimaticML/IDB_SclSections.xml",
+      "vci/SimaticSD/IDB_SclCalls.s7dcl",
+      "vci/SimaticML/IDB_SclCalls.xml",
+      "vci/SimaticSD/IDB_SclTimersParam.s7dcl",
+      "vci/SimaticML/IDB_SclTimersParam.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Scl > FB_SclCalls (FB4)",
+        "block": "FB_SclCalls",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FB_SclCalls: compile-clean-PLC_Main.json batches[s2-b06-C11.json]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "IDB_SclSections is also the object of C11 and is exported here in its C11 state (changed start values)."
+}

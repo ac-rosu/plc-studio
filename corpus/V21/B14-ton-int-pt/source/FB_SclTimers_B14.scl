@@ -1,0 +1,52 @@
+﻿FUNCTION_BLOCK "FB_SclTimers_B14"
+TITLE = IEC timers, counters and edges
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Every IEC timer, edge and counter as a multi-instance, each called every cycle
+   VAR_INPUT 
+      Start : Bool;   // Start signal
+      Reset : Bool;   // Reset the counter
+      DelayTime : Time := T#2S;   // On-delay time
+   END_VAR
+
+   VAR_OUTPUT 
+      DelayedOn : Bool;   // Start delayed by DelayTime
+      RunOn : Bool;   // Start with run-on time
+      Pulse : Bool;   // Pulse on the rising edge of Start
+      Count : Int;   // Number of falling edges of Start
+      CountReached : Bool;   // Count has reached the preset
+   END_VAR
+
+   VAR 
+      OnDelay {InstructionName := 'TON_TIME'; LibVersion := '1.0'} : TON_TIME;   // On-delay timer
+      OffDelay {InstructionName := 'TOF_TIME'; LibVersion := '1.0'} : TOF_TIME;   // Off-delay timer
+      PulseTimer {InstructionName := 'TP_TIME'; LibVersion := '1.0'} : TP_TIME;   // Pulse timer
+      StartEdge {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;   // Rising edge of Start
+      StopEdge {InstructionName := 'F_TRIG'; LibVersion := '1.0'} : F_TRIG;   // Falling edge of Start
+      PartCounter {InstructionName := 'CTU_INT'; LibVersion := '1.0'} : CTU_INT;   // Up counter
+   END_VAR
+
+   VAR CONSTANT 
+      COUNT_PRESET : Int := 10;   // Counter preset
+   END_VAR
+
+
+BEGIN
+	
+	    REGION Timers
+	        #OnDelay(IN := #Start, PT := 5, Q => #DelayedOn);
+	        #OffDelay(IN := #Start, PT := T#3s, Q => #RunOn);
+	    END_REGION
+	    
+	    REGION Edges and pulse
+	        #StartEdge(CLK := #Start);
+	        #StopEdge(CLK := #Start);
+	        #PulseTimer(IN := #StartEdge.Q, PT := T#500ms, Q => #Pulse);
+	    END_REGION
+	    
+	    REGION Counter
+	        #PartCounter(CU := #StopEdge.Q, R := #Reset, PV := #COUNT_PRESET, Q => #CountReached, CV => #Count);
+	    END_REGION
+	
+END_FUNCTION_BLOCK
+

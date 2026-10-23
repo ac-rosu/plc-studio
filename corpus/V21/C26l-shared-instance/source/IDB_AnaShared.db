@@ -1,0 +1,10 @@
+﻿DATA_BLOCK "IDB_AnaShared"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+NON_RETAIN
+"FB_AnaShared"
+
+BEGIN
+
+END_DATA_BLOCK
+

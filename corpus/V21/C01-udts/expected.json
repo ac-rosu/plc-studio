@@ -1,0 +1,118 @@
+{
+  "caseId": "C01",
+  "title": "PLC data types with nested UDT, array and start values",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "UDT_Motor",
+      "type": "UDT",
+      "number": null,
+      "language": null,
+      "unit": null,
+      "namespace": null,
+      "group": null,
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "UDT_Recipe",
+      "type": "UDT",
+      "number": null,
+      "language": null,
+      "unit": null,
+      "namespace": null,
+      "group": null,
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "UDT_Line",
+      "type": "UDT",
+      "number": null,
+      "language": null,
+      "unit": null,
+      "namespace": null,
+      "group": null,
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/UDT_Motor.s7dcl",
+      "documents/UDT_Motor.s7res",
+      "documents/UDT_Recipe.s7dcl",
+      "documents/UDT_Recipe.s7res",
+      "documents/UDT_Line.s7dcl",
+      "documents/UDT_Line.s7res"
+    ],
+    "source": [
+      "source/UDT_Motor.udt",
+      "source/UDT_Recipe.udt",
+      "source/UDT_Line.udt"
+    ],
+    "simaticml": [
+      "simaticml/UDT_Motor.xml",
+      "simaticml/UDT_Recipe.xml",
+      "simaticml/UDT_Line.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/UDT_Motor.s7dcl",
+      "vci/SimaticSD/UDT_Motor.s7res",
+      "vci/SimaticML/UDT_Motor.xml",
+      "vci/SimaticSD/UDT_Recipe.s7dcl",
+      "vci/SimaticSD/UDT_Recipe.s7res",
+      "vci/SimaticML/UDT_Recipe.xml",
+      "vci/SimaticSD/UDT_Line.s7dcl",
+      "vci/SimaticSD/UDT_Line.s7res",
+      "vci/SimaticML/UDT_Line.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > PLC data types > UDT_Motor (UDT)",
+        "block": "UDT_Motor",
+        "line": null,
+        "network": null,
+        "description": "The data type was successfully updated."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > PLC data types > UDT_Recipe (UDT)",
+        "block": "UDT_Recipe",
+        "line": null,
+        "network": null,
+        "description": "The data type was successfully updated."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > PLC data types > UDT_Line (UDT)",
+        "block": "UDT_Line",
+        "line": null,
+        "network": null,
+        "description": "The data type was successfully updated."
+      }
+    ],
+    "sources": [
+      "UDT_Motor: compile-clean-PLC_Main.json batches[s2-b01-C01-C02.json]",
+      "UDT_Recipe: compile-clean-PLC_Main.json batches[s2-b01-C01-C02.json]",
+      "UDT_Line: compile-clean-PLC_Main.json batches[s2-b01-C01-C02.json]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": ""
+}

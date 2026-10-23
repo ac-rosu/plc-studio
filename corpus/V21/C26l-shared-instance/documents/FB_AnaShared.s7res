@@ -1,0 +1,7 @@
+MultiLingualTexts:
+  - id: MLC_Lj
+    en-US: Count pulse
+  - id: MLC_5CK
+    en-US: Number of pulses
+  - id: MLC_4R4
+    en-US: Edge of the pulse

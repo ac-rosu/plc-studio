@@ -1,0 +1,9 @@
+﻿MultiLingualTexts:
+  - id: MLC_3xz
+    en-US: Stop when the total exceeds this
+  - id: MLC_wi
+    en-US: Sum of the indices
+  - id: MLC_3AK
+    en-US: Loop counter
+  - id: MLC_4Bn
+    en-US: Reference to the loop counter

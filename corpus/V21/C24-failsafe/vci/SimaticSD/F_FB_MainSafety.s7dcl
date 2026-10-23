@@ -1,0 +1,63 @@
+﻿{
+    S7_Optimized := "TRUE";
+    S7_PreferredLanguage := "LAD";
+    S7_Safety := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION_BLOCK "F_FB_MainSafety"
+    VAR
+        { S7_MLC := "MLC_S1" }
+        Enable : Bool;
+        { S7_MLC := "MLC_S2" }
+        Released : Bool;
+        { S7_MLC := "MLC_S3" }
+        LogicRelease : Bool;
+    END_VAR
+
+    {
+        S7_Language := "LAD";
+        S7_NetworkTitle := "MLC_N1T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( "F_DB_Settings".Signals.GuardClosed )
+            Contact( "F_DB_Settings".Signals.EmergencyStopOk )
+            Coil( #Enable )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "LAD";
+        S7_NetworkTitle := "MLC_N2T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            "F_FC_Logic"(
+                GuardClosed := "F_DB_Settings".Signals.GuardClosed,
+                SetupMode := "F_DB_Settings".SetupMode,
+                EmergencyStopOk := "F_DB_Settings".Signals.EmergencyStopOk,
+                Release => #LogicRelease
+            )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "LAD";
+        S7_NetworkTitle := "MLC_N3T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( #Enable )
+            Contact( #LogicRelease )
+            Coil( #Released )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "LAD";
+        S7_NetworkTitle := "MLC_N4T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( #Released )
+            Coil( "F_DB_Settings".MachineReleased )
+        END_RUNG
+    END_NETWORK
+END_FUNCTION_BLOCK

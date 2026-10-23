@@ -1,0 +1,11 @@
+﻿TYPE
+    { S7_Safety := "True" }
+    UDT_FSignals : STRUCT
+        { S7_MLC := "MLC_5Ap" }
+        GuardClosed : Bool;
+        { S7_MLC := "MLC_4dY" }
+        EmergencyStopOk : Bool;
+        { S7_MLC := "MLC_4qu" }
+        Acknowledge : Bool;
+    END_STRUCT;
+END_TYPE

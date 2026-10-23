@@ -1,0 +1,62 @@
+{
+  "caseId": "B13",
+  "title": "FC calls itself",
+  "kind": "clean",
+  "basedOn": "C06",
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FC_SclTypes_B13",
+      "type": "FC",
+      "number": 17,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Broken",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FC_SclTypes_B13.s7dcl",
+      "documents/FC_SclTypes_B13.s7res"
+    ],
+    "source": [
+      "source/FC_SclTypes_B13.scl"
+    ],
+    "simaticml": [
+      "simaticml/FC_SclTypes_B13.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FC_SclTypes_B13.s7dcl",
+      "vci/SimaticSD/FC_SclTypes_B13.s7res",
+      "vci/SimaticML/FC_SclTypes_B13.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Broken > FC_SclTypes_B13 (FC17)",
+        "block": "FC_SclTypes_B13",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FC_SclTypes_B13: compile-broken-PLC_Main.json first"
+    ]
+  },
+  "intendedError": "the FC calls itself; TIA compiles it, so the case is clean",
+  "analyzerExpect": [],
+  "notes": "Reclassified clean (runbook hard rule 6): TIA compiles the recursive FC."
+}

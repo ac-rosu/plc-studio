@@ -1,0 +1,14 @@
+﻿{
+    S7_Optimized := "TRUE";
+    S7_StandardRetain := "FALSE";
+    S7_Version := "0.1"
+}
+DATA_BLOCK IDB_SclSections : FB_SclSections
+    Enable := TRUE;
+    Mode := 2;
+    Setpoint := 50.0;
+    Busy := TRUE;
+    State := 10;
+    Sum := 12.5;
+    Iterations := 3;
+END_DATA_BLOCK

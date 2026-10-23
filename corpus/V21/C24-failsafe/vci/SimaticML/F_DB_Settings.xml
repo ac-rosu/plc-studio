@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V21" />
+  <SW.Blocks.GlobalDB ID="0">
+    <AttributeList>
+      <Interface>
+        <Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v5">
+          <Section Name="Static">
+            <Member Name="Signals" Datatype="&quot;UDT_FSignals&quot;">
+              <Comment>
+                <MultiLanguageText Lang="de-DE">Sicherheitssignale</MultiLanguageText>
+                <MultiLanguageText Lang="en-US">Safety signals</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="SetupMode" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="de-DE">Einrichtbetrieb angewählt</MultiLanguageText>
+                <MultiLanguageText Lang="en-US">Setup mode selected</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="MachineReleased" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="de-DE">Maschine vom Sicherheitsprogramm freigegeben</MultiLanguageText>
+                <MultiLanguageText Lang="en-US">Machine released by the safety program</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+        </Sections>
+      </Interface>
+      <MemoryLayout>Optimized</MemoryLayout>
+      <Name>F_DB_Settings</Name>
+      <Namespace />
+      <Number>7</Number>
+      <ProgrammingLanguage>F_DB</ProgrammingLanguage>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="3" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <MultilingualText ID="4" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="5" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="6" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.GlobalDB>
+</Document>

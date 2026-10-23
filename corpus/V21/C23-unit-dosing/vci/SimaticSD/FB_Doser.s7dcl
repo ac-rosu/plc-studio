@@ -1,0 +1,40 @@
+﻿NAMESPACE Dosing
+    {
+        S7_EditorMode := "SCL";
+        S7_Optimized := "TRUE";
+        S7_UnitAccess := "Published";
+        S7_Version := "0.1"
+    }
+    FUNCTION_BLOCK "FB_Doser"
+        VAR_INPUT
+            { S7_MLC := "MLC_I1" }
+            Start : Bool;
+            { S7_MLC := "MLC_I2" }
+            Stop : Bool;
+        END_VAR
+        VAR_OUTPUT
+            { S7_MLC := "MLC_O1" }
+            Dosing : Bool;
+            { S7_MLC := "MLC_O2" }
+            Done : Bool;
+        END_VAR
+        VAR
+            { S7_MLC := "MLC_S1" }
+            Filler : _.Filling.FB_Filler;
+            { S7_MLC := "MLC_S2" }
+            Recipe : _.Filling.UDT_FillRecipe;
+        END_VAR
+
+        { S7_Language := "SCL" }
+        NETWORK
+            
+                REGION Dosing through the filler
+                    #Recipe.TargetVolume := 0.5;
+                    #Filler(Start := #Start, Stop := #Stop, Recipe := #Recipe);
+                    #Dosing := #Filler.Filling;
+                    #Done := #Filler.Done;
+                END_REGION
+            
+        END_NETWORK
+    END_FUNCTION_BLOCK
+END_NAMESPACE

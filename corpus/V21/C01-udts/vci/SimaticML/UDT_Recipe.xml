@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V21" />
+  <SW.Types.PlcStruct ID="0">
+    <AttributeList>
+      <Interface>
+        <Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v5">
+          <Section Name="None">
+            <Member Name="Id" Datatype="Int">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Recipe number</MultiLanguageText>
+              </Comment>
+              <StartValue>1</StartValue>
+            </Member>
+            <Member Name="RecipeName" Datatype="String[20]">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Recipe name</MultiLanguageText>
+              </Comment>
+              <StartValue>'Default'</StartValue>
+            </Member>
+            <Member Name="Volumes" Datatype="Array[1..10] of Real">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Volume per filling step in litres</MultiLanguageText>
+              </Comment>
+              <Subelement Path="1">
+                <StartValue>1.0</StartValue>
+              </Subelement>
+              <Subelement Path="2">
+                <StartValue>2.0</StartValue>
+              </Subelement>
+              <Subelement Path="3">
+                <StartValue>0.5</StartValue>
+              </Subelement>
+              <Subelement Path="4">
+                <StartValue>0.5</StartValue>
+              </Subelement>
+              <Subelement Path="5">
+                <StartValue>0.5</StartValue>
+              </Subelement>
+              <Subelement Path="6">
+                <StartValue>0.5</StartValue>
+              </Subelement>
+              <Subelement Path="7">
+                <StartValue>0.5</StartValue>
+              </Subelement>
+              <Subelement Path="8">
+                <StartValue>0.5</StartValue>
+              </Subelement>
+              <Subelement Path="9">
+                <StartValue>0.5</StartValue>
+              </Subelement>
+              <Subelement Path="10">
+                <StartValue>0.5</StartValue>
+              </Subelement>
+            </Member>
+            <Member Name="FillTime" Datatype="Time">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Maximum filling time per step</MultiLanguageText>
+              </Comment>
+              <StartValue>T#5S</StartValue>
+            </Member>
+            <Member Name="Temperature" Datatype="Real">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Product temperature in degrees Celsius</MultiLanguageText>
+              </Comment>
+              <StartValue>20.0</StartValue>
+            </Member>
+          </Section>
+        </Sections>
+      </Interface>
+      <Name>UDT_Recipe</Name>
+      <Namespace />
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="3" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <MultilingualText ID="4" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="5" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="6" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>Filling recipe</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Types.PlcStruct>
+</Document>

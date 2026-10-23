@@ -1,0 +1,32 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION_BLOCK "FB_AnaUnused"
+    VAR_INPUT
+        { S7_MLC := "MLC_42f" }
+        UsedInput : Int;
+        { S7_MLC := "MLC_3i8" }
+        UnusedInput : Int;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_436" }
+        Result : Int;
+    END_VAR
+    VAR
+        { S7_MLC := "MLC_4Cc" }
+        UnusedStatic : Int;
+    END_VAR
+    VAR_TEMP
+        { S7_MLC := "MLC_3Se" }
+        UnusedTemp : Int;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            #Result := #UsedInput * 2;
+        
+    END_NETWORK
+END_FUNCTION_BLOCK

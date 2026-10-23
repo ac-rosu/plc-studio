@@ -1,0 +1,158 @@
+{
+    S7_Optimized := "TRUE";
+    S7_PreferredLanguage := "FBD";
+    S7_Version := "0.1"
+}
+FUNCTION_BLOCK "FB_FbdBoxes"
+    VAR_INPUT
+        { S7_MLC := "MLC_I1" }
+        Start : Bool;
+        { S7_MLC := "MLC_I2" }
+        InValue : Int;
+        { S7_MLC := "MLC_I3" }
+        "Limit" : Int := 100;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_O1" }
+        Delayed : Bool;
+        { S7_MLC := "MLC_O2" }
+        Copy : Int;
+        { S7_MLC := "MLC_O3" }
+        Sum : Int;
+        { S7_MLC := "MLC_O4" }
+        IsEqual : Bool;
+        { S7_MLC := "MLC_O5" }
+        SectionsOk : Bool;
+        { S7_MLC := "MLC_O6" }
+        Skipped : Bool;
+        { S7_MLC := "MLC_O7" }
+        AfterJump : Bool;
+    END_VAR
+    VAR
+        { S7_MLC := "MLC_S1" }
+        Delay : TON_TIME;
+        { S7_MLC := "MLC_S2" }
+        DelayElapsed : Time;
+        { S7_MLC := "MLC_S3" }
+        Timers : _.FB_SclTimers;
+        { S7_MLC := "MLC_S4" }
+        TimerRunOn : Bool;
+        { S7_MLC := "MLC_S5" }
+        TimerPulse : Bool;
+        { S7_MLC := "MLC_S6" }
+        TimerCount : Int;
+        { S7_MLC := "MLC_S7" }
+        TimerDelayed : Bool;
+        { S7_MLC := "MLC_S8" }
+        TimerReached : Bool;
+    END_VAR
+
+    {
+        S7_Language := "FBD";
+        S7_NetworkComment := "MLC_N1C";
+        S7_NetworkTitle := "MLC_N1T"
+    }
+    NETWORK
+        RUNG #Start
+            { S7_Templates := "time_type := Time" }
+            #Delay.TON(
+                pt := T#3s,
+                et => #DelayElapsed
+            )
+            Coil( #Delayed )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "FBD";
+        S7_NetworkComment := "MLC_N2C";
+        S7_NetworkTitle := "MLC_N2T"
+    }
+    NETWORK
+        RUNG
+            Move(
+                in := #InValue,
+                out1 => #Copy
+            )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "FBD";
+        S7_NetworkComment := "MLC_N3C";
+        S7_NetworkTitle := "MLC_N3T"
+    }
+    NETWORK
+        RUNG
+            Add(
+                in1 := #InValue,
+                in2 := #"Limit",
+                out => #Sum
+            )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "FBD";
+        S7_NetworkComment := "MLC_N4C";
+        S7_NetworkTitle := "MLC_N4T"
+    }
+    NETWORK
+        RUNG
+            { S7_Templates := "SrcType := Int" }
+            EQ_Contact(
+                in1 := #InValue,
+                in2 := #"Limit"
+            )
+            Coil( #IsEqual )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "FBD";
+        S7_NetworkComment := "MLC_N5C";
+        S7_NetworkTitle := "MLC_N5T"
+    }
+    NETWORK
+        RUNG #Start
+            #Timers(
+                Start := #Start,
+                Reset := FALSE,
+                DelayTime := T#1s,
+                DelayedOn => #TimerDelayed,
+                RunOn => #TimerRunOn,
+                Pulse => #TimerPulse,
+                Count => #TimerCount,
+                CountReached => #TimerReached
+            )
+            Coil( #SectionsOk )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "FBD";
+        S7_NetworkComment := "MLC_N6C";
+        S7_NetworkTitle := "MLC_N6T"
+    }
+    NETWORK
+        RUNG #Start
+            NOT JumpCoil( Skip )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "FBD";
+        S7_NetworkComment := "MLC_N7C";
+        S7_NetworkTitle := "MLC_N7T"
+    }
+    NETWORK
+        RUNG #Start
+            Coil( #Skipped )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "FBD";
+        S7_NetworkComment := "MLC_N8C";
+        S7_NetworkTitle := "MLC_N8T"
+    }
+    NETWORK
+        Label(Skip)
+        RUNG #Start
+            Coil( #AfterJump )
+        END_RUNG
+    END_NETWORK
+END_FUNCTION_BLOCK

@@ -1,0 +1,19 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION_BLOCK "FB_AnaGlobalAccess"
+    VAR_OUTPUT
+        { S7_MLC := "MLC_3rh" }
+        Speed : Real;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            #Speed := "DB_Machine".SpeedSetpoint;
+            "ConveyorRun" := "StartButton";
+        
+    END_NETWORK
+END_FUNCTION_BLOCK

@@ -1,0 +1,65 @@
+{
+  "caseId": "B01",
+  "title": "Undeclared local variable",
+  "kind": "broken",
+  "basedOn": "C05",
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_SclSections_B01",
+      "type": "FB",
+      "number": 21,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Broken",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_SclSections_B01.s7dcl",
+      "documents/FB_SclSections_B01.s7res"
+    ],
+    "source": [
+      "source/FB_SclSections_B01.scl"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_SclSections_B01.s7dcl",
+      "vci/SimaticSD/FB_SclSections_B01.s7res"
+    ],
+    "refused": {
+      "simaticml": {
+        "FB_SclSections_B01": "Error when calling method 'Export' of type 'Siemens.Engineering.SW.Blocks.FB'. Inconsistent blocks and PLC data types (UDT) cannot be exported."
+      },
+      "vci_SimaticML": {
+        "FB_SclSections_B01": "Error when calling method 'ExportObject' of type 'Siemens.Engineering.VersionControl.Workspace'. FB_SclSections_B01 [FB21] object(s) is not consistent"
+      }
+    }
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > FB_SclSections_B01 (FB21) > 64",
+        "block": "FB_SclSections_B01",
+        "line": 64,
+        "network": null,
+        "description": "Tag #Speed not defined."
+      }
+    ],
+    "sources": [
+      "FB_SclSections_B01: compile-broken-PLC_Main.json final"
+    ]
+  },
+  "intendedError": "undeclared local variable: \"#Speed := #Average;\" in REGION Outputs (#Speed is not declared)",
+  "analyzerExpect": [],
+  "notes": ""
+}

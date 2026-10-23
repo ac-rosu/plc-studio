@@ -1,0 +1,85 @@
+{
+  "caseId": "C26h",
+  "title": "FOR counter modified in the loop",
+  "kind": "analyzer",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_AnaForCounter",
+      "type": "FB",
+      "number": 20,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Analyzer",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "IDB_AnaForCounter",
+      "type": "InstanceDB",
+      "number": 12,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": "Analyzer",
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_AnaForCounter.s7dcl",
+      "documents/FB_AnaForCounter.s7res",
+      "documents/IDB_AnaForCounter.s7dcl"
+    ],
+    "source": [
+      "source/FB_AnaForCounter.scl",
+      "source/IDB_AnaForCounter.db"
+    ],
+    "simaticml": [
+      "simaticml/FB_AnaForCounter.xml",
+      "simaticml/IDB_AnaForCounter.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_AnaForCounter.s7dcl",
+      "vci/SimaticSD/FB_AnaForCounter.s7res",
+      "vci/SimaticML/FB_AnaForCounter.xml",
+      "vci/SimaticSD/IDB_AnaForCounter.s7dcl",
+      "vci/SimaticML/IDB_AnaForCounter.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Analyzer > FB_AnaForCounter (FB20)",
+        "block": "FB_AnaForCounter",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FB_AnaForCounter: compile-clean-PLC_Main.json batches[s2-b12-C26-C12.json] compiles[2]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [
+    {
+      "rule": "for-counter-modified",
+      "block": "FB_AnaForCounter",
+      "line": 7
+    }
+  ],
+  "notes": "TIA refuses a direct change of the FOR counter (see B26); the case changes it through a REF_TO."
+}

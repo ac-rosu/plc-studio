@@ -1,0 +1,22 @@
+﻿FUNCTION_BLOCK "FB_AnaDoubleAssign"
+TITLE = Analyzer: output assigned twice
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Rule C26e: Motor is assigned twice in one cycle
+   VAR_INPUT 
+      Start : Bool;   // Start
+      Stop : Bool;   // Stop
+   END_VAR
+
+   VAR_OUTPUT 
+      Motor : Bool;   // Motor on
+   END_VAR
+
+
+BEGIN
+	
+	    #Motor := #Start;
+	    #Motor := #Motor AND NOT #Stop;
+	
+END_FUNCTION_BLOCK
+

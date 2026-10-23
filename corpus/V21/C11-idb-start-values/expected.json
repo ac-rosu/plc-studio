@@ -1,0 +1,49 @@
+{
+  "caseId": "C11",
+  "title": "Instance DB with changed start values",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "IDB_SclSections",
+      "type": "InstanceDB",
+      "number": 4,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": "Data",
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/IDB_SclSections.s7dcl"
+    ],
+    "source": [
+      "source/IDB_SclSections.db"
+    ],
+    "simaticml": [
+      "simaticml/IDB_SclSections.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/IDB_SclSections.s7dcl",
+      "vci/SimaticML/IDB_SclSections.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [],
+    "sources": []
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "No compile message names this case's objects; the PLC compiles that include them ended with 0 errors."
+}

@@ -1,0 +1,31 @@
+﻿{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION_BLOCK "FB_AnaTimerInIf"
+    VAR_INPUT
+        { S7_MLC := "MLC_579" }
+        Enable : Bool;
+        { S7_MLC := "MLC_3Pd" }
+        Start : Bool;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_3Ff" }
+        Done : Bool;
+    END_VAR
+    VAR
+        { S7_MLC := "MLC_3js" }
+        Delay : TON_TIME;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            IF #Enable THEN
+                #Delay(IN := #Start, PT := T#1s);
+            END_IF;
+            #Done := #Delay.Q;
+        
+    END_NETWORK
+END_FUNCTION_BLOCK

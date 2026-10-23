@@ -1,0 +1,21 @@
+MultiLingualTexts:
+  - id: MLC_eg
+    en-US: Start the belt
+  - id: MLC_3xH
+    en-US: Stop the belt
+  - id: MLC_YU
+    en-US: Raw value of the onboard analog input, 0..27648
+  - id: MLC_4wy
+    en-US: Belt motor on
+  - id: MLC_dA
+    en-US: Belt speed in m/min
+  - id: MLC_h7
+    en-US: Elapsed start delay in ms (DInt, no LInt on S7-1200)
+  - id: MLC_35c
+    en-US: Start delay; TON_TIME, not TON_LTIME
+  - id: MLC_34A
+    en-US: Belt is commanded on
+  - id: MLC_uu
+    en-US: Nominal range of the onboard analog input
+  - id: MLC_59p
+    en-US: Belt speed at full scale in m/min

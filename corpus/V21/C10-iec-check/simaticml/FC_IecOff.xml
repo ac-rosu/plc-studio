@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V21" />
+  <DocumentInfo>
+    <Created>2026-10-23T20:42:29.8996432Z</Created>
+    <ExportSetting>WithDefaults</ExportSetting>
+    <InstalledProducts>
+      <Product>
+        <DisplayName>Totally Integrated Automation Portal</DisplayName>
+        <DisplayVersion>V21 Update 1</DisplayVersion>
+      </Product>
+      <Product>
+        <DisplayName>SINAMICS Startdrive Advanced</DisplayName>
+        <DisplayVersion>V21 HF2</DisplayVersion>
+      </Product>
+      <OptionPackage>
+        <DisplayName>SINAMICS Startdrive G110M, G120, G120C, G120D, G120P, G115D</DisplayName>
+        <DisplayVersion>V21 HF2</DisplayVersion>
+      </OptionPackage>
+      <OptionPackage>
+        <DisplayName>SINAMICS Startdrive G130, G150, S120, S150, G200, G220, S200, S210, S220, Innomotics MVD</DisplayName>
+        <DisplayVersion>V21 HF2</DisplayVersion>
+      </OptionPackage>
+      <Product>
+        <DisplayName>STEP 7 Professional</DisplayName>
+        <DisplayVersion>V21 Update 1</DisplayVersion>
+      </Product>
+      <OptionPackage>
+        <DisplayName>STEP 7 Safety</DisplayName>
+        <DisplayVersion>V21</DisplayVersion>
+      </OptionPackage>
+      <OptionPackage>
+        <DisplayName>Tech WebApplication</DisplayName>
+        <DisplayVersion>V21</DisplayVersion>
+      </OptionPackage>
+      <Product>
+        <DisplayName>WinCC Basic/Comfort/Advanced</DisplayName>
+        <DisplayVersion>V21 Update 1</DisplayVersion>
+      </Product>
+      <Product>
+        <DisplayName>WinCC Unified</DisplayName>
+        <DisplayVersion>V21 Update 1</DisplayVersion>
+      </Product>
+    </InstalledProducts>
+  </DocumentInfo>
+  <SW.Blocks.FC ID="0">
+    <AttributeList>
+      <AutoNumber>true</AutoNumber>
+      <HeaderAuthor />
+      <HeaderFamily />
+      <HeaderName />
+      <HeaderVersion>0.1</HeaderVersion>
+      <Interface>
+        <Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v5">
+          <Section Name="Input">
+            <Member Name="InInt" Datatype="Int" Accessibility="Public">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Integer input</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="InWord" Datatype="Word" Accessibility="Public">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Bit string input</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="InDInt" Datatype="DInt" Accessibility="Public">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Double integer input</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="Output">
+            <Member Name="OutInt" Datatype="Int" Accessibility="Public">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Integer output</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="OutSInt" Datatype="SInt" Accessibility="Public">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Short integer output</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="OutNarrow" Datatype="Int" Accessibility="Public">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Narrowed double integer</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="InOut" />
+          <Section Name="Temp" />
+          <Section Name="Constant" />
+          <Section Name="Return">
+            <Member Name="Ret_Val" Datatype="Word" Accessibility="Public" />
+          </Section>
+        </Sections>
+      </Interface>
+      <IsIECCheckEnabled>false</IsIECCheckEnabled>
+      <MemoryLayout>Optimized</MemoryLayout>
+      <Name>FC_IecOff</Name>
+      <Namespace />
+      <Number>4</Number>
+      <ProgrammingLanguage>SCL</ProgrammingLanguage>
+      <SetENOAutomatically>false</SetENOAutomatically>
+      <UDABlockProperties />
+      <UDAEnableTagReadback>false</UDAEnableTagReadback>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="3" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>Same body as FC_IecOn; this block has the IEC check switched off</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <SW.Blocks.CompileUnit ID="4" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource>
+            <StructuredText xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/StructuredText/v4">
+              <NewLine Num="1" UId="21" />
+              <Blank Num="4" UId="22" />
+              <LineComment Inserted="false" NoClosingBracket="false" UId="23">
+                <Text UId="24"> Implicit conversions between bit strings and integers, and narrowing conversions</Text>
+              </LineComment>
+              <NewLine Num="1" UId="25" />
+              <Blank Num="4" UId="26" />
+              <Access Scope="LocalVariable" UId="27">
+                <Symbol UId="28">
+                  <Component Name="OutInt" UId="29" />
+                </Symbol>
+              </Access>
+              <Blank Num="1" UId="30" />
+              <Token Text=":=" UId="31" />
+              <Blank Num="1" UId="32" />
+              <Access Scope="LocalVariable" UId="33">
+                <Symbol UId="34">
+                  <Component Name="InWord" UId="35" />
+                </Symbol>
+              </Access>
+              <Token Text=";" UId="36" />
+              <NewLine Num="1" UId="37" />
+              <Blank Num="4" UId="38" />
+              <Access Scope="LocalVariable" UId="39">
+                <Symbol UId="40">
+                  <Component Name="OutSInt" UId="41" />
+                </Symbol>
+              </Access>
+              <Blank Num="1" UId="42" />
+              <Token Text=":=" UId="43" />
+              <Blank Num="1" UId="44" />
+              <Access Scope="LocalVariable" UId="45">
+                <Symbol UId="46">
+                  <Component Name="InInt" UId="47" />
+                </Symbol>
+              </Access>
+              <Token Text=";" UId="48" />
+              <NewLine Num="1" UId="49" />
+              <Blank Num="4" UId="50" />
+              <Access Scope="LocalVariable" UId="51">
+                <Symbol UId="52">
+                  <Component Name="OutNarrow" UId="53" />
+                </Symbol>
+              </Access>
+              <Blank Num="1" UId="54" />
+              <Token Text=":=" UId="55" />
+              <Blank Num="1" UId="56" />
+              <Access Scope="LocalVariable" UId="57">
+                <Symbol UId="58">
+                  <Component Name="InDInt" UId="59" />
+                </Symbol>
+              </Access>
+              <Token Text=";" UId="60" />
+              <NewLine Num="1" UId="61" />
+              <Blank Num="4" UId="62" />
+              <Access Scope="LocalVariable" UId="63">
+                <Symbol UId="64">
+                  <Component Name="FC_IecOff" UId="65" />
+                </Symbol>
+              </Access>
+              <Blank Num="1" UId="66" />
+              <Token Text=":=" UId="67" />
+              <Blank Num="1" UId="68" />
+              <Access Scope="LocalVariable" UId="69">
+                <Symbol UId="70">
+                  <Component Name="InInt" UId="71" />
+                </Symbol>
+              </Access>
+              <Token Text=";" UId="72" />
+              <NewLine Num="1" UId="73" />
+            </StructuredText>
+          </NetworkSource>
+          <ProgrammingLanguage>SCL</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="5" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="6" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="7" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="8" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="9" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="A" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <MultilingualText ID="B" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="C" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="D" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>Implicit conversions, IEC check off</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.FC>
+</Document>

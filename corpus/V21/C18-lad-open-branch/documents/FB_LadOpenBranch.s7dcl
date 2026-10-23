@@ -1,0 +1,78 @@
+{
+    S7_Optimized := "TRUE";
+    S7_PreferredLanguage := "LAD";
+    S7_Version := "0.1"
+}
+FUNCTION_BLOCK "FB_LadOpenBranch"
+    VAR_INPUT
+        { S7_MLC := "MLC_I1" }
+        Start : Bool;
+        { S7_MLC := "MLC_I2" }
+        Stop : Bool;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_O1" }
+        CoilA : Bool;
+        { S7_MLC := "MLC_O2" }
+        CoilB : Bool;
+        { S7_MLC := "MLC_O3" }
+        CoilC : Bool;
+        { S7_MLC := "MLC_O4" }
+        BranchOut : Bool;
+        { S7_MLC := "MLC_O5" }
+        StopLatched : Bool;
+    END_VAR
+    VAR
+        { S7_MLC := "MLC_S1" }
+        StartCount : Int;
+    END_VAR
+
+    {
+        S7_Language := "LAD";
+        S7_NetworkTitle := "MLC_N1T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( #Start )
+            wire#w1
+            Coil( #CoilA )
+        END_RUNG
+        RUNG wire#w1
+            Coil( #CoilB )
+        END_RUNG
+        RUNG wire#w1
+            I_Contact( #Stop )
+            Coil( #CoilC )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "LAD";
+        S7_NetworkTitle := "MLC_N2T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( #Start )
+            wire#w1
+            Coil( #BranchOut )
+        END_RUNG
+        RUNG wire#w1
+            Contact( #Stop )
+            S_Coil( #StopLatched )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "LAD";
+        S7_NetworkTitle := "MLC_N3T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( #Start )
+            
+            Add(
+                in1 := #StartCount,
+                in2 := 1,
+                out => #StartCount
+            )
+        END_RUNG
+    END_NETWORK
+END_FUNCTION_BLOCK

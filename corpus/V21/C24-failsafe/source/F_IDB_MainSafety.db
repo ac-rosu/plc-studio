@@ -1,0 +1,11 @@
+﻿DATA_BLOCK "F_IDB_MainSafety"
+{ S7_Optimized_Access := 'TRUE' }
+NAME : FUSI
+VERSION : 0.1
+NON_RETAIN
+"F_FB_MainSafety"
+
+BEGIN
+
+END_DATA_BLOCK
+

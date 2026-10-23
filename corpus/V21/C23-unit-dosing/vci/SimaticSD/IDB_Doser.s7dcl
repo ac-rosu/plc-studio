@@ -1,0 +1,10 @@
+﻿NAMESPACE Dosing
+    {
+        S7_Optimized := "TRUE";
+        S7_StandardRetain := "FALSE";
+        S7_UnitAccess := "Unpublished";
+        S7_Version := "0.1"
+    }
+    DATA_BLOCK IDB_Doser : FB_Doser
+    END_DATA_BLOCK
+END_NAMESPACE

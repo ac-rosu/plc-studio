@@ -1,0 +1,65 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION_BLOCK "FB_SclTimers_B14"
+    VAR_INPUT
+        { S7_MLC := "MLC_475" }
+        Start : Bool;
+        { S7_MLC := "MLC_3cG" }
+        Reset : Bool;
+        { S7_MLC := "MLC_3gX" }
+        DelayTime : Time := T#2S;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_5AA" }
+        DelayedOn : Bool;
+        { S7_MLC := "MLC_3UD" }
+        RunOn : Bool;
+        { S7_MLC := "MLC_47j" }
+        Pulse : Bool;
+        { S7_MLC := "MLC_54K" }
+        Count : Int;
+        { S7_MLC := "MLC_56j" }
+        CountReached : Bool;
+    END_VAR
+    VAR
+        { S7_MLC := "MLC_e3" }
+        OnDelay : TON_TIME;
+        { S7_MLC := "MLC_4e8" }
+        OffDelay : TOF_TIME;
+        { S7_MLC := "MLC_3vm" }
+        PulseTimer : TP_TIME;
+        { S7_MLC := "MLC_N6" }
+        StartEdge : R_TRIG;
+        { S7_MLC := "MLC_3Fi" }
+        StopEdge : F_TRIG;
+        { S7_MLC := "MLC_3Lc" }
+        PartCounter : CTU_INT;
+    END_VAR
+    VAR CONSTANT
+        { S7_MLC := "MLC_3uQ" }
+        COUNT_PRESET : Int := 10;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            REGION Timers
+                #OnDelay(IN := #Start, PT := 5, Q => #DelayedOn);
+                #OffDelay(IN := #Start, PT := T#3s, Q => #RunOn);
+            END_REGION
+            
+            REGION Edges and pulse
+                #StartEdge(CLK := #Start);
+                #StopEdge(CLK := #Start);
+                #PulseTimer(IN := #StartEdge.Q, PT := T#500ms, Q => #Pulse);
+            END_REGION
+            
+            REGION Counter
+                #PartCounter(CU := #StopEdge.Q, R := #Reset, PV := #COUNT_PRESET, Q => #CountReached, CV => #Count);
+            END_REGION
+        
+    END_NETWORK
+END_FUNCTION_BLOCK

@@ -1,0 +1,70 @@
+{
+  "caseId": "B07",
+  "title": "Int := Real assignment without conversion",
+  "kind": "clean",
+  "basedOn": "C06",
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FC_SclTypes_B07",
+      "type": "FC",
+      "number": 13,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Broken",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FC_SclTypes_B07.s7dcl",
+      "documents/FC_SclTypes_B07.s7res"
+    ],
+    "source": [
+      "source/FC_SclTypes_B07.scl"
+    ],
+    "simaticml": [
+      "simaticml/FC_SclTypes_B07.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FC_SclTypes_B07.s7dcl",
+      "vci/SimaticSD/FC_SclTypes_B07.s7res",
+      "vci/SimaticML/FC_SclTypes_B07.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Warning",
+    "errors": 0,
+    "warnings": 1,
+    "messages": [
+      {
+        "severity": "Warning",
+        "path": "PLC_Main > Program blocks > Broken > FC_SclTypes_B07 (FC13) > 33",
+        "block": "FC_SclTypes_B07",
+        "line": 33,
+        "network": null,
+        "description": "The sign or the accuracy of the value may be lost."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Broken > FC_SclTypes_B07 (FC13)",
+        "block": "FC_SclTypes_B07",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FC_SclTypes_B07: compile-broken-PLC_Main.json first"
+    ]
+  },
+  "intendedError": "\"#TempInt := #TempReal;\" (Int := Real without conversion); TIA only warns, so the case is clean",
+  "analyzerExpect": [],
+  "notes": "Reclassified clean (runbook hard rule 6): TIA only warns."
+}

@@ -1,0 +1,17 @@
+﻿FUNCTION "FC_AnaWriteInput" : Int
+TITLE = Analyzer: write to an input parameter
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Rule C26f: the input parameter Value is written
+   VAR_INPUT 
+      Value : Int;   // Input value
+   END_VAR
+
+
+BEGIN
+	
+	    #Value := #Value * 2;
+	    #FC_AnaWriteInput := #Value;
+	
+END_FUNCTION
+

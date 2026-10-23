@@ -1,0 +1,65 @@
+{
+  "caseId": "B09",
+  "title": "Assignment to a constant",
+  "kind": "broken",
+  "basedOn": "C06",
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FC_SclTypes_B09",
+      "type": "FC",
+      "number": 16,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Broken",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FC_SclTypes_B09.s7dcl",
+      "documents/FC_SclTypes_B09.s7res"
+    ],
+    "source": [
+      "source/FC_SclTypes_B09.scl"
+    ],
+    "vci": [
+      "vci/SimaticSD/FC_SclTypes_B09.s7dcl",
+      "vci/SimaticSD/FC_SclTypes_B09.s7res"
+    ],
+    "refused": {
+      "simaticml": {
+        "FC_SclTypes_B09": "Error when calling method 'Export' of type 'Siemens.Engineering.SW.Blocks.FC'. Inconsistent blocks and PLC data types (UDT) cannot be exported."
+      },
+      "vci_SimaticML": {
+        "FC_SclTypes_B09": "Error when calling method 'ExportObject' of type 'Siemens.Engineering.VersionControl.Workspace'. FC_SclTypes_B09 [FC16] object(s) is not consistent"
+      }
+    }
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > FC_SclTypes_B09 (FC16) > 10",
+        "block": "FC_SclTypes_B09",
+        "line": 10,
+        "network": null,
+        "description": "A constant is not permitted here."
+      }
+    ],
+    "sources": [
+      "FC_SclTypes_B09: compile-broken-PLC_Main.json final"
+    ]
+  },
+  "intendedError": "assignment to the user constant \"MAXIMUM_PIECES\" (Tags_Memory)",
+  "analyzerExpect": [],
+  "notes": ""
+}

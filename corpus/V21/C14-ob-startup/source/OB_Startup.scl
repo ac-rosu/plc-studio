@@ -1,0 +1,17 @@
+﻿ORGANIZATION_BLOCK "OB_Startup"
+TITLE = Startup
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Initialises machine data at startup
+
+BEGIN
+	
+	    REGION Initialise machine data
+	        "DB_Machine".MachineOn := FALSE;
+	        "DB_Machine".PieceCount := 0;
+	        "DB_Machine".SpeedSetpoint := 50.0;
+	        "DB_Machine".MachineName := 'Filler';
+	    END_REGION
+	
+END_ORGANIZATION_BLOCK
+

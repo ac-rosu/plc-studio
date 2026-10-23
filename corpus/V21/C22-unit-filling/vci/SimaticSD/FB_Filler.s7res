@@ -1,0 +1,17 @@
+﻿MultiLingualTexts:
+  - id: MLC_4qg
+    en-US: Start filling
+  - id: MLC_3Mc
+    en-US: Stop filling
+  - id: MLC_377
+    en-US: Valve is open
+  - id: MLC_3Cd
+    en-US: Filling time elapsed or level high
+  - id: MLC_4dk
+    en-US: Active recipe
+  - id: MLC_4zu
+    en-US: Maximum filling time
+  - id: MLC_4Td
+    en-US: Filling is active
+  - id: MLC_4rY
+    en-US: Volume from the raw flow

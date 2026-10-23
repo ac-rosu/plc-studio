@@ -1,0 +1,65 @@
+{
+  "caseId": "B05",
+  "title": "Required InOut parameter left out of a call",
+  "kind": "broken",
+  "basedOn": "C08",
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_SclCalls_B05",
+      "type": "FB",
+      "number": 28,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Broken",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_SclCalls_B05.s7dcl",
+      "documents/FB_SclCalls_B05.s7res"
+    ],
+    "source": [
+      "source/FB_SclCalls_B05.scl"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_SclCalls_B05.s7dcl",
+      "vci/SimaticSD/FB_SclCalls_B05.s7res"
+    ],
+    "refused": {
+      "simaticml": {
+        "FB_SclCalls_B05": "Error when calling method 'Export' of type 'Siemens.Engineering.SW.Blocks.FB'. Inconsistent blocks and PLC data types (UDT) cannot be exported."
+      },
+      "vci_SimaticML": {
+        "FB_SclCalls_B05": "Error when calling method 'ExportObject' of type 'Siemens.Engineering.VersionControl.Workspace'. FB_SclCalls_B05 [FB28] object(s) is not consistent"
+      }
+    }
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > FB_SclCalls_B05 (FB28) > 3",
+        "block": "FB_SclCalls_B05",
+        "line": 3,
+        "network": null,
+        "description": "Parameter 'Values' has to be used."
+      }
+    ],
+    "sources": [
+      "FB_SclCalls_B05: compile-broken-PLC_Main.json final"
+    ]
+  },
+  "intendedError": "required InOut parameter \"Values\" left out of the multi-instance call #Sections(...)",
+  "analyzerExpect": [],
+  "notes": ""
+}

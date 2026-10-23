@@ -1,0 +1,16 @@
+﻿FUNCTION "FC_AnaDead" : Int
+TITLE = Analyzer: dead block
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Rule C26k: no OB calls this block
+   VAR_INPUT 
+      Value : Int;   // Value
+   END_VAR
+
+
+BEGIN
+	
+	    #FC_AnaDead := #Value + 1;
+	
+END_FUNCTION
+

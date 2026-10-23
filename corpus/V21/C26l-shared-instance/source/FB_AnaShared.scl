@@ -1,0 +1,27 @@
+﻿FUNCTION_BLOCK "FB_AnaShared"
+TITLE = Analyzer: instance shared by two OBs
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Rule C26l: the instance IDB_AnaShared is called from OB_Main and from OB_Cyclic100ms
+   VAR_INPUT 
+      Pulse : Bool;   // Count pulse
+   END_VAR
+
+   VAR_OUTPUT 
+      Count : Int;   // Number of pulses
+   END_VAR
+
+   VAR 
+      PulseEdge {InstructionName := 'R_TRIG'; LibVersion := '1.0'} : R_TRIG;   // Edge of the pulse
+   END_VAR
+
+
+BEGIN
+	
+	    #PulseEdge(CLK := #Pulse);
+	    IF #PulseEdge.Q THEN
+	        #Count := #Count + 1;
+	    END_IF;
+	
+END_FUNCTION_BLOCK
+

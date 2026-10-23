@@ -1,0 +1,34 @@
+﻿{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_AnaCaseReal" : Int
+    VAR_INPUT
+        { S7_MLC := "MLC_4CH" }
+        Mode : Int;
+        { S7_MLC := "MLC_MX" }
+        Level : Real;
+    END_VAR
+    VAR_TEMP
+        { S7_MLC := "MLC_4yU" }
+        Code : Int;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            #Code := 0;
+            CASE #Mode OF
+                1:
+                    #Code := 10;
+                2:
+                    #Code := 20;
+            END_CASE;
+            IF #Level = 1.5 THEN
+                #Code := #Code + 1;
+            END_IF;
+            #FC_AnaCaseReal := #Code;
+        
+    END_NETWORK
+END_FUNCTION

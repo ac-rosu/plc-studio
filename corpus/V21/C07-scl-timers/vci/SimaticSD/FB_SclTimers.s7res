@@ -1,0 +1,31 @@
+﻿MultiLingualTexts:
+  - id: MLC_yV
+    en-US: Start signal
+  - id: MLC_3bG
+    en-US: Reset the counter
+  - id: MLC_49r
+    en-US: On-delay time
+  - id: MLC_48Y
+    en-US: Start delayed by DelayTime
+  - id: MLC_4u3
+    en-US: Start with run-on time
+  - id: MLC_3Bm
+    en-US: Pulse on the rising edge of Start
+  - id: MLC_TG
+    en-US: Number of falling edges of Start
+  - id: MLC_4Nn
+    en-US: Count has reached the preset
+  - id: MLC_4tM
+    en-US: On-delay timer
+  - id: MLC_3qB
+    en-US: Off-delay timer
+  - id: MLC_3kK
+    en-US: Pulse timer
+  - id: MLC_4QL
+    en-US: Rising edge of Start
+  - id: MLC_4in
+    en-US: Falling edge of Start
+  - id: MLC_4vE
+    en-US: Up counter
+  - id: MLC_3ia
+    en-US: Counter preset

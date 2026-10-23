@@ -1,0 +1,20 @@
+﻿FUNCTION_BLOCK "FB_AnaStatusIgnored"
+TITLE = Analyzer: status never evaluated
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Rule C26n: RET_VAL of RD_LOC_T is stored but never evaluated
+   VAR 
+      Now {InstructionName := 'DTL'; LibVersion := '1.0'} : DTL;   // Local time
+   END_VAR
+
+   VAR_TEMP 
+      RetVal : Int;   // Status of RD_LOC_T
+   END_VAR
+
+
+BEGIN
+	
+	    #RetVal := RD_LOC_T(OUT => #Now);
+	
+END_FUNCTION_BLOCK
+

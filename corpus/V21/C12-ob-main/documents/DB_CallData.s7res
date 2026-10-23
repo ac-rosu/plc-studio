@@ -1,0 +1,43 @@
+MultiLingualTexts:
+  - id: MLC_3Eh
+    en-US: Values for FB_SclCalls
+  - id: MLC_3Mx
+    en-US: Output Motor of FC_LadContacts
+  - id: MLC_3Tk
+    en-US: Output Pulse of FC_LadContacts
+  - id: MLC_4vk
+    en-US: Output FallingPulse of FC_LadContacts
+  - id: MLC_3Df
+    en-US: Output Alarm of FC_LadContacts
+  - id: MLC_43m
+    en-US: Output Lamp of FC_LadContacts
+  - id: MLC_5CC
+    en-US: Output BranchResult of FC_LadContacts
+  - id: MLC_gQ
+    en-US: InOut Latched of FC_LadContacts
+  - id: MLC_aw
+    en-US: Edge memory for FC_LadContacts
+  - id: MLC_49q
+    en-US: Edge memory for FC_LadContacts
+  - id: MLC_3fB
+    en-US: Edge memory for FC_LadContacts
+  - id: MLC_4Da
+    en-US: Output AndOut of FC_FbdLogic
+  - id: MLC_3RF
+    en-US: Output OrOut of FC_FbdLogic
+  - id: MLC_W4
+    en-US: Output XorOut of FC_FbdLogic
+  - id: MLC_3Gv
+    en-US: Output NotOut of FC_FbdLogic
+  - id: MLC_52E
+    en-US: Output SrOut of FC_FbdLogic
+  - id: MLC_4am
+    en-US: Output RsOut of FC_FbdLogic
+  - id: MLC_XB
+    en-US: Output EdgeOut of FC_FbdLogic
+  - id: MLC_4Te
+    en-US: InOut SrBit of FC_FbdLogic
+  - id: MLC_yb
+    en-US: InOut RsBit of FC_FbdLogic
+  - id: MLC_4Nv
+    en-US: InOut EdgeBit of FC_FbdLogic

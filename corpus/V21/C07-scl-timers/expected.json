@@ -1,0 +1,62 @@
+{
+  "caseId": "C07",
+  "title": "IEC timers, counters and edges as multi-instances",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_SclTimers",
+      "type": "FB",
+      "number": 2,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Scl",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_SclTimers.s7dcl",
+      "documents/FB_SclTimers.s7res"
+    ],
+    "source": [
+      "source/FB_SclTimers.scl"
+    ],
+    "simaticml": [
+      "simaticml/FB_SclTimers.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_SclTimers.s7dcl",
+      "vci/SimaticSD/FB_SclTimers.s7res",
+      "vci/SimaticML/FB_SclTimers.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Scl > FB_SclTimers (FB2)",
+        "block": "FB_SclTimers",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FB_SclTimers: compile-clean-PLC_Main.json batches[s2-b03-C05-C07-first.json]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": ""
+}

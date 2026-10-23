@@ -1,0 +1,10 @@
+﻿DATA_BLOCK "DB_Recipes"
+TITLE = Recipe storage
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+NON_RETAIN
+//Array DB holding ten filling recipes
+Array[0..9] of "UDT_Recipe";
+BEGIN
+END_DATA_BLOCK
+

@@ -1,0 +1,13 @@
+﻿ORGANIZATION_BLOCK "OB_HwInterrupt"
+TITLE = Hardware interrupt
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Minimal hardware interrupt OB
+
+BEGIN
+	
+	    // Count hardware interrupts
+	    "DB_Machine".TotalCountUnsigned := "DB_Machine".TotalCountUnsigned + 1;
+	
+END_ORGANIZATION_BLOCK
+

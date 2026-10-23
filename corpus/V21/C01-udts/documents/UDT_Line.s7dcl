@@ -1,0 +1,14 @@
+TYPE
+    UDT_Line : STRUCT
+        { S7_MLC := "MLC_492" }
+        LineName : String[20] := 'Line';
+        { S7_MLC := "MLC_uu" }
+        Conveyor : _.UDT_Motor;
+        { S7_MLC := "MLC_3E9" }
+        Pump : _.UDT_Motor;
+        { S7_MLC := "MLC_4mx" }
+        ActiveRecipe : Int := 1;
+        { S7_MLC := "MLC_4WT" }
+        Running : Bool;
+    END_STRUCT;
+END_TYPE

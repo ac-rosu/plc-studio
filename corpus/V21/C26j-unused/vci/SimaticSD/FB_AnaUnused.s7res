@@ -1,0 +1,11 @@
+﻿MultiLingualTexts:
+  - id: MLC_42f
+    en-US: Used input
+  - id: MLC_3i8
+    en-US: Unused input
+  - id: MLC_436
+    en-US: Result
+  - id: MLC_4Cc
+    en-US: Unused static variable
+  - id: MLC_3Se
+    en-US: Unused temporary variable

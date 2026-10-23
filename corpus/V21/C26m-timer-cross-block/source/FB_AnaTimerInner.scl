@@ -1,0 +1,25 @@
+﻿FUNCTION_BLOCK "FB_AnaTimerInner"
+TITLE = Analyzer: FB with a timer
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Rule C26m (callee): the timer is called every time this FB runs
+   VAR_INPUT 
+      Start : Bool;   // Timer input
+   END_VAR
+
+   VAR_OUTPUT 
+      Done : Bool;   // Timer output
+   END_VAR
+
+   VAR 
+      Delay {InstructionName := 'TON_TIME'; LibVersion := '1.0'} : TON_TIME;   // On-delay timer
+   END_VAR
+
+
+BEGIN
+	
+	    #Delay(IN := #Start, PT := T#2s);
+	    #Done := #Delay.Q;
+	
+END_FUNCTION_BLOCK
+

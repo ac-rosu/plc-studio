@@ -1,0 +1,85 @@
+{
+  "caseId": "C26b",
+  "title": "Same FB instance called twice",
+  "kind": "analyzer",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_AnaDoubleCall",
+      "type": "FB",
+      "number": 12,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Analyzer",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "IDB_AnaDoubleCall",
+      "type": "InstanceDB",
+      "number": 9,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": "Analyzer",
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_AnaDoubleCall.s7dcl",
+      "documents/FB_AnaDoubleCall.s7res",
+      "documents/IDB_AnaDoubleCall.s7dcl"
+    ],
+    "source": [
+      "source/FB_AnaDoubleCall.scl",
+      "source/IDB_AnaDoubleCall.db"
+    ],
+    "simaticml": [
+      "simaticml/FB_AnaDoubleCall.xml",
+      "simaticml/IDB_AnaDoubleCall.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_AnaDoubleCall.s7dcl",
+      "vci/SimaticSD/FB_AnaDoubleCall.s7res",
+      "vci/SimaticML/FB_AnaDoubleCall.xml",
+      "vci/SimaticSD/IDB_AnaDoubleCall.s7dcl",
+      "vci/SimaticML/IDB_AnaDoubleCall.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Analyzer > FB_AnaDoubleCall (FB12)",
+        "block": "FB_AnaDoubleCall",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FB_AnaDoubleCall: compile-clean-PLC_Main.json batches[s2-b12-C26-C12.json] compiles[0]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [
+    {
+      "rule": "instance-called-twice",
+      "block": "FB_AnaDoubleCall",
+      "line": 3
+    }
+  ],
+  "notes": ""
+}

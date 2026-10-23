@@ -1,0 +1,20 @@
+﻿{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+ORGANIZATION_BLOCK "OB_Cyclic100ms"
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            REGION Timers every 100 ms
+                "IDB_SclTimersCyclic"(Start := "LevelHigh", Reset := "StopButton", DelayTime := T#1s);
+            END_REGION
+            
+            REGION Analyzer C26l
+                // The same instance is also called from OB_Main
+                "IDB_AnaShared"(Pulse := "LevelHigh");
+            END_REGION
+        
+    END_NETWORK
+END_ORGANIZATION_BLOCK

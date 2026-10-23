@@ -1,0 +1,65 @@
+{
+  "caseId": "B25",
+  "title": "Syntax error inside the SCL network of the mixed block",
+  "kind": "broken",
+  "basedOn": "C21",
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_Mixed_B25",
+      "type": "FB",
+      "number": 33,
+      "language": "LAD",
+      "unit": null,
+      "namespace": null,
+      "group": "Broken",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_Mixed_B25.s7dcl",
+      "documents/FB_Mixed_B25.s7res"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_Mixed_B25.s7dcl",
+      "vci/SimaticSD/FB_Mixed_B25.s7res"
+    ],
+    "refused": {
+      "source": {
+        "FB_Mixed_B25": "Error when calling method 'GenerateSource' of type 'Siemens.Engineering.SW.ExternalSources.PlcExternalSourceSystemGroup'. Select a block that only includes SCL or STL and is not know-how protected. External source files can only be generated when all selected code blocks have been created in SCL or STL. The language of all blocks is shown in the overview of the project tree in the \"Details\" tab."
+      },
+      "simaticml": {
+        "FB_Mixed_B25": "Error when calling method 'Export' of type 'Siemens.Engineering.SW.Blocks.FB'. Inconsistent blocks and PLC data types (UDT) cannot be exported."
+      },
+      "vci_SimaticML": {
+        "FB_Mixed_B25": "Error when calling method 'ExportObject' of type 'Siemens.Engineering.VersionControl.Workspace'. FB_Mixed_B25 [FB33] object(s) is not consistent"
+      }
+    }
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > FB_Mixed_B25 (FB33) > Network 2",
+        "block": "FB_Mixed_B25",
+        "line": null,
+        "network": 2,
+        "description": "')' expected."
+      }
+    ],
+    "sources": [
+      "FB_Mixed_B25: compile-broken-PLC_Main.json final"
+    ]
+  },
+  "intendedError": "missing \")\" in the SCL network: \"INT_TO_REAL(#RawValue * #Factor;\"",
+  "analyzerExpect": [],
+  "notes": ""
+}

@@ -1,0 +1,76 @@
+{
+  "caseId": "C26f",
+  "title": "Write to an input parameter",
+  "kind": "analyzer",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FC_AnaWriteInput",
+      "type": "FC",
+      "number": 12,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Analyzer",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FC_AnaWriteInput.s7dcl",
+      "documents/FC_AnaWriteInput.s7res"
+    ],
+    "source": [
+      "source/FC_AnaWriteInput.scl"
+    ],
+    "simaticml": [
+      "simaticml/FC_AnaWriteInput.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FC_AnaWriteInput.s7dcl",
+      "vci/SimaticSD/FC_AnaWriteInput.s7res",
+      "vci/SimaticML/FC_AnaWriteInput.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Warning",
+    "errors": 0,
+    "warnings": 1,
+    "messages": [
+      {
+        "severity": "Warning",
+        "path": "PLC_Main > Program blocks > Analyzer > FC_AnaWriteInput (FC12) > 2",
+        "block": "FC_AnaWriteInput",
+        "line": 2,
+        "network": null,
+        "description": "When the input parameter '#Value' is written, you do not access the operand that was transferred as actual parameter, but rather only the formal parameter of the block."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Analyzer > FC_AnaWriteInput (FC12)",
+        "block": "FC_AnaWriteInput",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FC_AnaWriteInput: compile-clean-PLC_Main.json batches[s2-b12-C26-C12.json] compiles[0]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [
+    {
+      "rule": "write-to-input",
+      "block": "FC_AnaWriteInput",
+      "line": 2
+    }
+  ],
+  "notes": "TIA warns at line 2."
+}

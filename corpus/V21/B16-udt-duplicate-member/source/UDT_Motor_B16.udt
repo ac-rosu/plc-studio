@@ -1,0 +1,16 @@
+﻿TYPE "UDT_Motor_B16"
+TITLE = Motor data
+VERSION : 0.1
+   STRUCT
+      Enable : Bool;   // Release from the line control
+      Running : Bool;   // Feedback: motor is running
+      Fault : Bool;   // Motor protection tripped
+      SpeedSetpoint : Real := 1450.0;   // Speed setpoint in rpm
+      ActualSpeed : Real;   // Measured speed in rpm
+      RunTime : Time := T#0MS;   // Accumulated run time
+      StartCount : DInt := 0;   // Number of starts
+      Enable_1 : Bool;   // Duplicate member name
+   END_STRUCT;
+
+END_TYPE
+

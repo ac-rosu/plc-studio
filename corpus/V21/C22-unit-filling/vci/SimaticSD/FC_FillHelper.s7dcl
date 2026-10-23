@@ -1,0 +1,23 @@
+﻿NAMESPACE Filling
+    {
+        S7_EditorMode := "SCL";
+        S7_Optimized := "TRUE";
+        S7_UnitAccess := "Unpublished";
+        S7_Version := "0.1"
+    }
+    FUNCTION "FC_FillHelper" : Real
+        VAR_INPUT
+            { S7_MLC := "MLC_b6" }
+            RawFlow : Int;
+            { S7_MLC := "MLC_3v9" }
+            Factor : Real;
+        END_VAR
+
+        { S7_Language := "SCL" }
+        NETWORK
+            
+                #FC_FillHelper := INT_TO_REAL(#RawFlow) * #Factor;
+            
+        END_NETWORK
+    END_FUNCTION
+END_NAMESPACE

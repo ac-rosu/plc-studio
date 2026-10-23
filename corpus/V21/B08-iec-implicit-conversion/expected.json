@@ -1,0 +1,65 @@
+{
+  "caseId": "B08",
+  "title": "Implicit conversion with IEC check on",
+  "kind": "broken",
+  "basedOn": "C10",
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FC_IecOn_B08",
+      "type": "FC",
+      "number": 18,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Broken",
+      "iecCheck": true,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FC_IecOn_B08.s7dcl",
+      "documents/FC_IecOn_B08.s7res"
+    ],
+    "source": [
+      "source/FC_IecOn_B08.scl"
+    ],
+    "vci": [
+      "vci/SimaticSD/FC_IecOn_B08.s7dcl",
+      "vci/SimaticSD/FC_IecOn_B08.s7res"
+    ],
+    "refused": {
+      "simaticml": {
+        "FC_IecOn_B08": "Error when calling method 'Export' of type 'Siemens.Engineering.SW.Blocks.FC'. Inconsistent blocks and PLC data types (UDT) cannot be exported."
+      },
+      "vci_SimaticML": {
+        "FC_IecOn_B08": "Error when calling method 'ExportObject' of type 'Siemens.Engineering.VersionControl.Workspace'. FC_IecOn_B08 [FC18] object(s) is not consistent"
+      }
+    }
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > FC_IecOn_B08 (FC18) > 3",
+        "block": "FC_IecOn_B08",
+        "line": 3,
+        "network": null,
+        "description": "Data type 'Word' cannot be converted implicitly into data type 'Int'."
+      }
+    ],
+    "sources": [
+      "FC_IecOn_B08: compile-broken-PLC_Main.json final"
+    ]
+  },
+  "intendedError": "implicit Word -> Int conversion \"#OutInt := #InWord;\" in an FC with IEC check on",
+  "analyzerExpect": [],
+  "notes": ""
+}

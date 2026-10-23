@@ -1,0 +1,9 @@
+﻿MultiLingualTexts:
+  - id: MLC_uH
+    en-US: Word to split into bytes
+  - id: MLC_3xV
+    en-US: High byte of InWord
+  - id: MLC_4SV
+    en-US: Raw word
+  - id: MLC_4e9
+    en-US: Overlay of RawWord as bytes

@@ -1,0 +1,122 @@
+{
+  "caseId": "C10",
+  "title": "IEC check on and off",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FC_IecOn",
+      "type": "FC",
+      "number": 5,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Scl",
+      "iecCheck": true,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "FC_IecOff",
+      "type": "FC",
+      "number": 4,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Scl",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FC_IecOn.s7dcl",
+      "documents/FC_IecOn.s7res",
+      "documents/FC_IecOff.s7dcl",
+      "documents/FC_IecOff.s7res"
+    ],
+    "source": [
+      "source/FC_IecOn.scl",
+      "source/FC_IecOff.scl"
+    ],
+    "simaticml": [
+      "simaticml/FC_IecOn.xml",
+      "simaticml/FC_IecOff.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FC_IecOn.s7dcl",
+      "vci/SimaticSD/FC_IecOn.s7res",
+      "vci/SimaticML/FC_IecOn.xml",
+      "vci/SimaticSD/FC_IecOff.s7dcl",
+      "vci/SimaticSD/FC_IecOff.s7res",
+      "vci/SimaticML/FC_IecOff.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Warning",
+    "errors": 0,
+    "warnings": 4,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Scl > FC_IecOn (FC5)",
+        "block": "FC_IecOn",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      },
+      {
+        "severity": "Warning",
+        "path": "PLC_Main > Program blocks > Scl > FC_IecOff (FC4) > 3",
+        "block": "FC_IecOff",
+        "line": 3,
+        "network": null,
+        "description": "The sign or the accuracy of the value may be lost."
+      },
+      {
+        "severity": "Warning",
+        "path": "PLC_Main > Program blocks > Scl > FC_IecOff (FC4) > 4",
+        "block": "FC_IecOff",
+        "line": 4,
+        "network": null,
+        "description": "The sign or the accuracy of the value may be lost."
+      },
+      {
+        "severity": "Warning",
+        "path": "PLC_Main > Program blocks > Scl > FC_IecOff (FC4) > 5",
+        "block": "FC_IecOff",
+        "line": 5,
+        "network": null,
+        "description": "The sign or the accuracy of the value may be lost."
+      },
+      {
+        "severity": "Warning",
+        "path": "PLC_Main > Program blocks > Scl > FC_IecOff (FC4) > 6",
+        "block": "FC_IecOff",
+        "line": 6,
+        "network": null,
+        "description": "The sign or the accuracy of the value may be lost."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Scl > FC_IecOff (FC4)",
+        "block": "FC_IecOff",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FC_IecOn: compile-clean-PLC_Main.json batches[s2-b05-C08-C10fixed.json]",
+      "FC_IecOff: compile-clean-PLC_Main.json batches[s2-b04-C06-C09-C10-identical-body.json]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "The runbook asked for identical bodies; with IEC check on TIA refuses the implicit conversions (errors), so FC_IecOn uses explicit conversions (hard rule 6). B08 puts one implicit conversion back."
+}

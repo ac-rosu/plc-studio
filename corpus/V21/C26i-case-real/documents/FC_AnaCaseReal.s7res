@@ -1,0 +1,7 @@
+MultiLingualTexts:
+  - id: MLC_4CH
+    en-US: Mode
+  - id: MLC_MX
+    en-US: Level
+  - id: MLC_4yU
+    en-US: Result code

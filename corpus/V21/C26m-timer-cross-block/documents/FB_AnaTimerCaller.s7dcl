@@ -1,0 +1,31 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION_BLOCK "FB_AnaTimerCaller"
+    VAR_INPUT
+        { S7_MLC := "MLC_3xE" }
+        Enable : Bool;
+        { S7_MLC := "MLC_4pE" }
+        Start : Bool;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_4fN" }
+        Done : Bool;
+    END_VAR
+    VAR
+        { S7_MLC := "MLC_4XP" }
+        Inner : _.FB_AnaTimerInner;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            IF #Enable THEN
+                #Inner(Start := #Start);
+            END_IF;
+            #Done := #Inner.Done;
+        
+    END_NETWORK
+END_FUNCTION_BLOCK

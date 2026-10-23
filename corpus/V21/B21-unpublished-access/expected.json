@@ -1,0 +1,65 @@
+{
+  "caseId": "B21",
+  "title": "Unit_Dosing uses the unpublished Filling.FC_FillHelper",
+  "kind": "broken",
+  "basedOn": "C23",
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_Doser_B21",
+      "type": "FB",
+      "number": 34,
+      "language": "SCL",
+      "unit": "Unit_Dosing",
+      "namespace": "Dosing",
+      "group": "Broken",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_Doser_B21.s7dcl",
+      "documents/FB_Doser_B21.s7res"
+    ],
+    "source": [
+      "source/FB_Doser_B21.scl"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_Doser_B21.s7dcl",
+      "vci/SimaticSD/FB_Doser_B21.s7res"
+    ],
+    "refused": {
+      "simaticml": {
+        "FB_Doser_B21": "Error when calling method 'Export' of type 'Siemens.Engineering.SW.Blocks.FB'. Inconsistent blocks and PLC data types (UDT) cannot be exported."
+      },
+      "vci_SimaticML": {
+        "FB_Doser_B21": "Error when calling method 'ExportObject' of type 'Siemens.Engineering.VersionControl.Workspace'. FB_Doser_B21 object(s) is not consistent"
+      }
+    }
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Software units > Unit_Dosing > Program blocks > Broken > Dosing.FB_Doser_B21 (FB34) > 3",
+        "block": "FB_Doser_B21",
+        "line": 3,
+        "network": null,
+        "description": "Access is not possible because 'Filling.FC_FillHelper' is not published."
+      }
+    ],
+    "sources": [
+      "FB_Doser_B21: compile-broken-PLC_Main.json final"
+    ]
+  },
+  "intendedError": "Unit_Dosing calls the unpublished Filling.FC_FillHelper",
+  "analyzerExpect": [],
+  "notes": ""
+}

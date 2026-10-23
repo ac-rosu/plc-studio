@@ -1,0 +1,90 @@
+{
+  "caseId": "C26g",
+  "title": "Global DB and PLC tag accessed inside an FB",
+  "kind": "analyzer",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_AnaGlobalAccess",
+      "type": "FB",
+      "number": 14,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Analyzer",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "IDB_AnaGlobalAccess",
+      "type": "InstanceDB",
+      "number": 11,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": "Analyzer",
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_AnaGlobalAccess.s7dcl",
+      "documents/FB_AnaGlobalAccess.s7res",
+      "documents/IDB_AnaGlobalAccess.s7dcl"
+    ],
+    "source": [
+      "source/FB_AnaGlobalAccess.scl",
+      "source/IDB_AnaGlobalAccess.db"
+    ],
+    "simaticml": [
+      "simaticml/FB_AnaGlobalAccess.xml",
+      "simaticml/IDB_AnaGlobalAccess.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_AnaGlobalAccess.s7dcl",
+      "vci/SimaticSD/FB_AnaGlobalAccess.s7res",
+      "vci/SimaticML/FB_AnaGlobalAccess.xml",
+      "vci/SimaticSD/IDB_AnaGlobalAccess.s7dcl",
+      "vci/SimaticML/IDB_AnaGlobalAccess.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Analyzer > FB_AnaGlobalAccess (FB14)",
+        "block": "FB_AnaGlobalAccess",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FB_AnaGlobalAccess: compile-clean-PLC_Main.json batches[s2-b12-C26-C12.json] compiles[0]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [
+    {
+      "rule": "global-db-access-in-fb",
+      "block": "FB_AnaGlobalAccess",
+      "line": 2
+    },
+    {
+      "rule": "plc-tag-access-in-fb",
+      "block": "FB_AnaGlobalAccess",
+      "line": 3
+    }
+  ],
+  "notes": ""
+}

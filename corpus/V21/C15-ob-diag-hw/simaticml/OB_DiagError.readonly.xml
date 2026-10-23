@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V21" />
+  <DocumentInfo>
+    <Created>2026-10-23T21:22:23.0525591Z</Created>
+    <ExportSetting>WithReadOnly</ExportSetting>
+    <InstalledProducts>
+      <Product>
+        <DisplayName>Totally Integrated Automation Portal</DisplayName>
+        <DisplayVersion>V21 Update 1</DisplayVersion>
+      </Product>
+      <Product>
+        <DisplayName>SINAMICS Startdrive Advanced</DisplayName>
+        <DisplayVersion>V21 HF2</DisplayVersion>
+      </Product>
+      <OptionPackage>
+        <DisplayName>SINAMICS Startdrive G110M, G120, G120C, G120D, G120P, G115D</DisplayName>
+        <DisplayVersion>V21 HF2</DisplayVersion>
+      </OptionPackage>
+      <OptionPackage>
+        <DisplayName>SINAMICS Startdrive G130, G150, S120, S150, G200, G220, S200, S210, S220, Innomotics MVD</DisplayName>
+        <DisplayVersion>V21 HF2</DisplayVersion>
+      </OptionPackage>
+      <Product>
+        <DisplayName>STEP 7 Professional</DisplayName>
+        <DisplayVersion>V21 Update 1</DisplayVersion>
+      </Product>
+      <OptionPackage>
+        <DisplayName>STEP 7 Safety</DisplayName>
+        <DisplayVersion>V21</DisplayVersion>
+      </OptionPackage>
+      <OptionPackage>
+        <DisplayName>Tech WebApplication</DisplayName>
+        <DisplayVersion>V21</DisplayVersion>
+      </OptionPackage>
+      <Product>
+        <DisplayName>WinCC Basic/Comfort/Advanced</DisplayName>
+        <DisplayVersion>V21 Update 1</DisplayVersion>
+      </Product>
+      <Product>
+        <DisplayName>WinCC Unified</DisplayName>
+        <DisplayVersion>V21 Update 1</DisplayVersion>
+      </Product>
+    </InstalledProducts>
+  </DocumentInfo>
+  <SW.Blocks.OB ID="0">
+    <AttributeList>
+      <CodeModifiedDate ReadOnly="true">2026-10-23T19:38:39.0176487Z</CodeModifiedDate>
+      <CompileDate ReadOnly="true">2026-10-23T19:38:39.0176487Z</CompileDate>
+      <ConstantName ReadOnly="true">OB_OB_DiagError</ConstantName>
+      <CreationDate ReadOnly="true">2026-10-23T19:37:59.6610761Z</CreationDate>
+      <DownloadDate ReadOnly="true">0001-01-01T00:00:00Z</DownloadDate>
+      <EventClass ReadOnly="true">Diagnostic interrupt</EventClass>
+      <Interface>
+        <Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v5">
+          <Section Name="Input">
+            <Member Name="IO_State" Datatype="Word" Informative="true">
+              <AttributeList />
+              <Comment>
+                <MultiLanguageText Lang="en-US">IO state of the HW object</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="LADDR" Datatype="HW_ANY" Informative="true">
+              <AttributeList />
+              <Comment>
+                <MultiLanguageText Lang="en-US">Hardware identifier</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="Channel" Datatype="UInt" Informative="true">
+              <AttributeList />
+              <Comment>
+                <MultiLanguageText Lang="en-US">Channel number</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="MultiError" Datatype="Bool" Informative="true">
+              <AttributeList />
+              <Comment>
+                <MultiLanguageText Lang="en-US">=true if more than one error is present</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="Temp" />
+          <Section Name="Constant" />
+        </Sections>
+      </Interface>
+      <InterfaceModifiedDate ReadOnly="true">2008-07-22T16:55:41.2736645Z</InterfaceModifiedDate>
+      <IsConsistent ReadOnly="true">true</IsConsistent>
+      <LoadMemoryLength ReadOnly="true">3699</LoadMemoryLength>
+      <MemoryLayout>Optimized</MemoryLayout>
+      <ModifiedDate ReadOnly="true">2026-10-23T19:38:39.0176487Z</ModifiedDate>
+      <Name>OB_DiagError</Name>
+      <Namespace />
+      <Number>82</Number>
+      <ParameterModified ReadOnly="true">2008-07-22T16:55:41.2736645Z</ParameterModified>
+      <PriorityNumber ReadOnly="true">7</PriorityNumber>
+      <ProcessImagePartNumber ReadOnly="true">65535</ProcessImagePartNumber>
+      <ProgrammingLanguage>SCL</ProgrammingLanguage>
+      <SecondaryType>DiagnosticErrorInterrupt</SecondaryType>
+      <SetENOAutomatically>false</SetENOAutomatically>
+      <StructureModified ReadOnly="true">2008-07-22T16:55:41.2736645Z</StructureModified>
+      <WorkMemoryLength ReadOnly="true">120</WorkMemoryLength>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text>Minimaler Diagnosefehler-OB</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="3" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>Minimal diagnostic error OB</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <SW.Blocks.CompileUnit ID="4" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource>
+            <StructuredText xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/StructuredText/v4">
+              <NewLine UId="21" />
+              <Blank Num="4" UId="22" />
+              <LineComment UId="23">
+                <Text UId="24"> Flag the diagnostic event</Text>
+              </LineComment>
+              <NewLine UId="25" />
+              <Blank Num="4" UId="26" />
+              <Access Scope="GlobalVariable" UId="27">
+                <Symbol UId="28">
+                  <Component Name="DB_Machine" UId="29">
+                    <BooleanAttribute Name="HasQuotes" UId="30">true</BooleanAttribute>
+                  </Component>
+                  <Token Text="." UId="31" />
+                  <Component Name="StatusWord" UId="32" />
+                  <Address Area="None" Type="Word" BlockNumber="1" BitOffset="1152" Informative="true" />
+                </Symbol>
+              </Access>
+              <Blank UId="33" />
+              <Token Text=":=" UId="34" />
+              <Blank UId="35" />
+              <Access Scope="GlobalVariable" UId="36">
+                <Symbol UId="37">
+                  <Component Name="DB_Machine" UId="38">
+                    <BooleanAttribute Name="HasQuotes" UId="39">true</BooleanAttribute>
+                  </Component>
+                  <Token Text="." UId="40" />
+                  <Component Name="StatusWord" UId="41" />
+                  <Address Area="None" Type="Word" BlockNumber="1" BitOffset="1152" Informative="true" />
+                </Symbol>
+              </Access>
+              <Blank UId="42" />
+              <Token Text="OR" UId="43" />
+              <Blank UId="44" />
+              <Access Scope="LiteralConstant" UId="45">
+                <Constant UId="46">
+                  <ConstantType Informative="true" UId="47">Word</ConstantType>
+                  <ConstantValue UId="48">16#0001</ConstantValue>
+                  <StringAttribute Name="Format" Informative="true">Hex</StringAttribute>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="49" />
+              <NewLine UId="50" />
+            </StructuredText>
+          </NetworkSource>
+          <ProgrammingLanguage>SCL</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="5" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="6" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="7" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="8" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="9" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="A" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <MultilingualText ID="B" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="C" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text>Diagnosefehleralarm</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="D" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>Diagnostic error interrupt</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.OB>
+</Document>

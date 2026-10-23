@@ -1,0 +1,15 @@
+﻿NAMESPACE Filling
+    TYPE
+        { S7_UnitAccess := "Published" }
+        UDT_FillRecipe : STRUCT
+            { S7_MLC := "MLC_4zK" }
+            TargetVolume : Real := 1.0;
+            { S7_MLC := "MLC_4BH" }
+            FillTime : Time := T#10S;
+            { S7_MLC := "MLC_3BT" }
+            FlowFactor : Real := 0.01;
+            { S7_MLC := "MLC_vz" }
+            LastVolume : Real;
+        END_STRUCT;
+    END_TYPE
+END_NAMESPACE

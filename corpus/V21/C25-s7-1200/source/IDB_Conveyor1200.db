@@ -1,0 +1,10 @@
+﻿DATA_BLOCK "IDB_Conveyor1200"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+NON_RETAIN
+"FB_Conveyor1200"
+
+BEGIN
+
+END_DATA_BLOCK
+

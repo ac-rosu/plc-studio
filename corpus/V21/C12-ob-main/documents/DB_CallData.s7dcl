@@ -1,0 +1,51 @@
+{
+    S7_Optimized := "TRUE";
+    S7_StandardRetain := "FALSE";
+    S7_Version := "0.1"
+}
+DATA_BLOCK DB_CallData
+    VAR
+        { S7_MLC := "MLC_3Eh" }
+        Values : Array[0..9] of Real;
+        { S7_MLC := "MLC_3Mx" }
+        LadMotor : Bool;
+        { S7_MLC := "MLC_3Tk" }
+        LadPulse : Bool;
+        { S7_MLC := "MLC_4vk" }
+        LadFallingPulse : Bool;
+        { S7_MLC := "MLC_3Df" }
+        LadAlarm : Bool;
+        { S7_MLC := "MLC_43m" }
+        LadLamp : Bool;
+        { S7_MLC := "MLC_5CC" }
+        LadBranch : Bool;
+        { S7_MLC := "MLC_gQ" }
+        LadLatched : Bool;
+        { S7_MLC := "MLC_aw" }
+        LadRiseMemory : Bool;
+        { S7_MLC := "MLC_49q" }
+        LadFallMemory : Bool;
+        { S7_MLC := "MLC_3fB" }
+        LadCoilMemory : Bool;
+        { S7_MLC := "MLC_4Da" }
+        FbdAnd : Bool;
+        { S7_MLC := "MLC_3RF" }
+        FbdOr : Bool;
+        { S7_MLC := "MLC_W4" }
+        FbdXor : Bool;
+        { S7_MLC := "MLC_3Gv" }
+        FbdNot : Bool;
+        { S7_MLC := "MLC_52E" }
+        FbdSr : Bool;
+        { S7_MLC := "MLC_4am" }
+        FbdRs : Bool;
+        { S7_MLC := "MLC_XB" }
+        FbdEdge : Bool;
+        { S7_MLC := "MLC_4Te" }
+        FbdSrBit : Bool;
+        { S7_MLC := "MLC_yb" }
+        FbdRsBit : Bool;
+        { S7_MLC := "MLC_4Nv" }
+        FbdEdgeBit : Bool;
+    END_VAR
+END_DATA_BLOCK

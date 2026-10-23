@@ -1,0 +1,18 @@
+﻿TYPE
+    UDT_Motor : STRUCT
+        { S7_MLC := "MLC_z8" }
+        Enable : Bool;
+        { S7_MLC := "MLC_3uG" }
+        Running : Bool;
+        { S7_MLC := "MLC_45S" }
+        Fault : Bool;
+        { S7_MLC := "MLC_3x7" }
+        SpeedSetpoint : Real := 1450.0;
+        { S7_MLC := "MLC_r3" }
+        ActualSpeed : Real;
+        { S7_MLC := "MLC_48T" }
+        RunTime : Time := T#0MS;
+        { S7_MLC := "MLC_4VD" }
+        StartCount : DInt := 0;
+    END_STRUCT;
+END_TYPE

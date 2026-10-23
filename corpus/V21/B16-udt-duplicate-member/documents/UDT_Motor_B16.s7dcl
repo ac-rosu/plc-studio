@@ -1,0 +1,20 @@
+TYPE
+    UDT_Motor_B16 : STRUCT
+        { S7_MLC := "MLC_3cy" }
+        Enable : Bool;
+        { S7_MLC := "MLC_4DK" }
+        Running : Bool;
+        { S7_MLC := "MLC_3U8" }
+        Fault : Bool;
+        { S7_MLC := "MLC_3X2" }
+        SpeedSetpoint : Real := 1450.0;
+        { S7_MLC := "MLC_58e" }
+        ActualSpeed : Real;
+        { S7_MLC := "MLC_4nf" }
+        RunTime : Time := T#0MS;
+        { S7_MLC := "MLC_4h3" }
+        StartCount : DInt := 0;
+        { S7_MLC := "MLC_4S5" }
+        Enable_1 : Bool;
+    END_STRUCT;
+END_TYPE

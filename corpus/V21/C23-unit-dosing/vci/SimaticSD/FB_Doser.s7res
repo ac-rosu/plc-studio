@@ -1,0 +1,13 @@
+﻿MultiLingualTexts:
+  - id: MLC_I1
+    en-US: Start dosing
+  - id: MLC_I2
+    en-US: Stop dosing
+  - id: MLC_O1
+    en-US: Dosing is running
+  - id: MLC_O2
+    en-US: Dosing finished
+  - id: MLC_S1
+    en-US: Filler of the unit Filling
+  - id: MLC_S2
+    en-US: Recipe of the unit Filling

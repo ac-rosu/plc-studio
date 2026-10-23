@@ -1,0 +1,65 @@
+{
+  "caseId": "B20",
+  "title": "Wrong data type on an FBD box input",
+  "kind": "broken",
+  "basedOn": "C20",
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_FbdBoxes_B20",
+      "type": "FB",
+      "number": 32,
+      "language": "FBD",
+      "unit": null,
+      "namespace": null,
+      "group": "Broken",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_FbdBoxes_B20.s7dcl",
+      "documents/FB_FbdBoxes_B20.s7res"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_FbdBoxes_B20.s7dcl",
+      "vci/SimaticSD/FB_FbdBoxes_B20.s7res"
+    ],
+    "refused": {
+      "source": {
+        "FB_FbdBoxes_B20": "Error when calling method 'GenerateSource' of type 'Siemens.Engineering.SW.ExternalSources.PlcExternalSourceSystemGroup'. Select a block that only includes SCL or STL and is not know-how protected. External source files can only be generated when all selected code blocks have been created in SCL or STL. The language of all blocks is shown in the overview of the project tree in the \"Details\" tab."
+      },
+      "simaticml": {
+        "FB_FbdBoxes_B20": "Error when calling method 'Export' of type 'Siemens.Engineering.SW.Blocks.FB'. Inconsistent blocks and PLC data types (UDT) cannot be exported."
+      },
+      "vci_SimaticML": {
+        "FB_FbdBoxes_B20": "Error when calling method 'ExportObject' of type 'Siemens.Engineering.VersionControl.Workspace'. FB_FbdBoxes_B20 [FB32] object(s) is not consistent"
+      }
+    }
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > FB_FbdBoxes_B20 (FB32) > Network 3",
+        "block": "FB_FbdBoxes_B20",
+        "line": null,
+        "network": 3,
+        "description": "The data type Bool of the actual parameter does not match the data type Int of the formal parameter."
+      }
+    ],
+    "sources": [
+      "FB_FbdBoxes_B20: compile-broken-PLC_Main.json final"
+    ]
+  },
+  "intendedError": "Bool operand #Start on the Int input IN2 of the ADD box in Network 3",
+  "analyzerExpect": [],
+  "notes": ""
+}

@@ -1,0 +1,9 @@
+MultiLingualTexts:
+  - id: MLC_4bv
+    en-US: First count pulse
+  - id: MLC_sK
+    en-US: Second count pulse
+  - id: MLC_4CG
+    en-US: Counter value
+  - id: MLC_3pC
+    en-US: Up counter

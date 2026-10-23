@@ -1,0 +1,70 @@
+{
+  "caseId": "B10",
+  "title": "Duplicate CASE label",
+  "kind": "clean",
+  "basedOn": "C05",
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_SclSections_B10",
+      "type": "FB",
+      "number": 24,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Broken",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_SclSections_B10.s7dcl",
+      "documents/FB_SclSections_B10.s7res"
+    ],
+    "source": [
+      "source/FB_SclSections_B10.scl"
+    ],
+    "simaticml": [
+      "simaticml/FB_SclSections_B10.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_SclSections_B10.s7dcl",
+      "vci/SimaticSD/FB_SclSections_B10.s7res",
+      "vci/SimaticML/FB_SclSections_B10.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Warning",
+    "errors": 0,
+    "warnings": 1,
+    "messages": [
+      {
+        "severity": "Warning",
+        "path": "PLC_Main > Program blocks > Broken > FB_SclSections_B10 (FB24) > 20",
+        "block": "FB_SclSections_B10",
+        "line": 20,
+        "network": null,
+        "description": "Invalid value specification in multiple branch."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Broken > FB_SclSections_B10 (FB24)",
+        "block": "FB_SclSections_B10",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FB_SclSections_B10: compile-broken-PLC_Main.json first"
+    ]
+  },
+  "intendedError": "duplicate CASE label \"1:\"; TIA only warns, so the case is clean",
+  "analyzerExpect": [],
+  "notes": "Reclassified clean (runbook hard rule 6): TIA only warns."
+}

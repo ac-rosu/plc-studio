@@ -1,0 +1,13 @@
+﻿ORGANIZATION_BLOCK "OB_DiagError"
+TITLE = Diagnostic error interrupt
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Minimal diagnostic error OB
+
+BEGIN
+	
+	    // Flag the diagnostic event
+	    "DB_Machine".StatusWord := "DB_Machine".StatusWord OR 16#0001;
+	
+END_ORGANIZATION_BLOCK
+

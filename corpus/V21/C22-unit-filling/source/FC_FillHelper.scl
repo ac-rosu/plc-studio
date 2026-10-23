@@ -1,0 +1,19 @@
+﻿NAMESPACE Filling
+FUNCTION "FC_FillHelper" : Real
+TITLE = Volume from raw flow
+{ S7_Optimized_Access := 'TRUE' ; Published := 'FALSE' }
+VERSION : 0.1
+//Unpublished helper of the filling unit
+   VAR_INPUT 
+      RawFlow : Int;   // Raw flow value
+      Factor : Real;   // Litres per raw unit
+   END_VAR
+
+
+BEGIN
+	
+	    #FC_FillHelper := INT_TO_REAL(#RawFlow) * #Factor;
+	
+END_FUNCTION
+END_NAMESPACE
+

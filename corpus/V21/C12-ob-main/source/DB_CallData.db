@@ -1,0 +1,35 @@
+﻿DATA_BLOCK "DB_CallData"
+TITLE = Call data of OB_Main
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+NON_RETAIN
+//Actual parameters of the FC calls in OB_Main that must persist between cycles
+   VAR 
+      Values : Array[0..9] of Real;   // Values for FB_SclCalls
+      LadMotor : Bool;   // Output Motor of FC_LadContacts
+      LadPulse : Bool;   // Output Pulse of FC_LadContacts
+      LadFallingPulse : Bool;   // Output FallingPulse of FC_LadContacts
+      LadAlarm : Bool;   // Output Alarm of FC_LadContacts
+      LadLamp : Bool;   // Output Lamp of FC_LadContacts
+      LadBranch : Bool;   // Output BranchResult of FC_LadContacts
+      LadLatched : Bool;   // InOut Latched of FC_LadContacts
+      LadRiseMemory : Bool;   // Edge memory for FC_LadContacts
+      LadFallMemory : Bool;   // Edge memory for FC_LadContacts
+      LadCoilMemory : Bool;   // Edge memory for FC_LadContacts
+      FbdAnd : Bool;   // Output AndOut of FC_FbdLogic
+      FbdOr : Bool;   // Output OrOut of FC_FbdLogic
+      FbdXor : Bool;   // Output XorOut of FC_FbdLogic
+      FbdNot : Bool;   // Output NotOut of FC_FbdLogic
+      FbdSr : Bool;   // Output SrOut of FC_FbdLogic
+      FbdRs : Bool;   // Output RsOut of FC_FbdLogic
+      FbdEdge : Bool;   // Output EdgeOut of FC_FbdLogic
+      FbdSrBit : Bool;   // InOut SrBit of FC_FbdLogic
+      FbdRsBit : Bool;   // InOut RsBit of FC_FbdLogic
+      FbdEdgeBit : Bool;   // InOut EdgeBit of FC_FbdLogic
+   END_VAR
+
+
+BEGIN
+
+END_DATA_BLOCK
+

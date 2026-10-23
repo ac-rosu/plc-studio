@@ -1,0 +1,73 @@
+{
+  "caseId": "B03",
+  "title": "Missing END_IF",
+  "kind": "broken",
+  "basedOn": "C05",
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_SclSections_B03",
+      "type": "FB",
+      "number": 23,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Broken",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_SclSections_B03.s7dcl",
+      "documents/FB_SclSections_B03.s7res"
+    ],
+    "source": [
+      "source/FB_SclSections_B03.scl"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_SclSections_B03.s7dcl",
+      "vci/SimaticSD/FB_SclSections_B03.s7res"
+    ],
+    "refused": {
+      "simaticml": {
+        "FB_SclSections_B03": "Error when calling method 'Export' of type 'Siemens.Engineering.SW.Blocks.FB'. Inconsistent blocks and PLC data types (UDT) cannot be exported."
+      },
+      "vci_SimaticML": {
+        "FB_SclSections_B03": "Error when calling method 'ExportObject' of type 'Siemens.Engineering.VersionControl.Workspace'. FB_SclSections_B03 [FB23] object(s) is not consistent"
+      }
+    }
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 2,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > FB_SclSections_B03 (FB23) > 62",
+        "block": "FB_SclSections_B03",
+        "line": 62,
+        "network": null,
+        "description": "'END_IF' expected."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > FB_SclSections_B03 (FB23) > 62",
+        "block": "FB_SclSections_B03",
+        "line": 62,
+        "network": null,
+        "description": "Semicolon missing."
+      }
+    ],
+    "sources": [
+      "FB_SclSections_B03: compile-broken-PLC_Main.json final"
+    ]
+  },
+  "intendedError": "missing END_IF of \"IF #Iterations > 0 THEN\" in REGION Outputs",
+  "analyzerExpect": [],
+  "notes": ""
+}

@@ -1,0 +1,35 @@
+﻿{
+    S7_EditorMode := "SCL";
+    S7_IECCheck := "TRUE";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_IecOn_B08" : Word
+    VAR_INPUT
+        { S7_MLC := "MLC_4kf" }
+        InInt : Int;
+        { S7_MLC := "MLC_4B9" }
+        InWord : Word;
+        { S7_MLC := "MLC_39T" }
+        InDInt : DInt;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_Y5" }
+        OutInt : Int;
+        { S7_MLC := "MLC_4zq" }
+        OutSInt : SInt;
+        { S7_MLC := "MLC_3Mx" }
+        OutNarrow : Int;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            // Explicit conversions between bit strings and integers, and narrowing conversions
+            #OutInt := #InWord;
+            #OutSInt := INT_TO_SINT(#InInt);
+            #OutNarrow := DINT_TO_INT(#InDInt);
+            #FC_IecOn_B08 := INT_TO_WORD(#InInt);
+        
+    END_NETWORK
+END_FUNCTION

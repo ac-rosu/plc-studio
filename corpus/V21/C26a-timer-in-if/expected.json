@@ -1,0 +1,85 @@
+{
+  "caseId": "C26a",
+  "title": "Timer called inside an IF",
+  "kind": "analyzer",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_AnaTimerInIf",
+      "type": "FB",
+      "number": 11,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Analyzer",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "IDB_AnaTimerInIf",
+      "type": "InstanceDB",
+      "number": 8,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": "Analyzer",
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_AnaTimerInIf.s7dcl",
+      "documents/FB_AnaTimerInIf.s7res",
+      "documents/IDB_AnaTimerInIf.s7dcl"
+    ],
+    "source": [
+      "source/FB_AnaTimerInIf.scl",
+      "source/IDB_AnaTimerInIf.db"
+    ],
+    "simaticml": [
+      "simaticml/FB_AnaTimerInIf.xml",
+      "simaticml/IDB_AnaTimerInIf.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_AnaTimerInIf.s7dcl",
+      "vci/SimaticSD/FB_AnaTimerInIf.s7res",
+      "vci/SimaticML/FB_AnaTimerInIf.xml",
+      "vci/SimaticSD/IDB_AnaTimerInIf.s7dcl",
+      "vci/SimaticML/IDB_AnaTimerInIf.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Analyzer > FB_AnaTimerInIf (FB11)",
+        "block": "FB_AnaTimerInIf",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FB_AnaTimerInIf: compile-clean-PLC_Main.json batches[s2-b12-C26-C12.json] compiles[0]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [
+    {
+      "rule": "timer-not-called-every-cycle",
+      "block": "FB_AnaTimerInIf",
+      "line": 3
+    }
+  ],
+  "notes": ""
+}

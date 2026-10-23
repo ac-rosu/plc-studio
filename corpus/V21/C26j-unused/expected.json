@@ -1,0 +1,98 @@
+{
+  "caseId": "C26j",
+  "title": "Unused Temp, Static and Input",
+  "kind": "analyzer",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_AnaUnused",
+      "type": "FB",
+      "number": 15,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Analyzer",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "IDB_AnaUnused",
+      "type": "InstanceDB",
+      "number": 13,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": "Analyzer",
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_AnaUnused.s7dcl",
+      "documents/FB_AnaUnused.s7res",
+      "documents/IDB_AnaUnused.s7dcl"
+    ],
+    "source": [
+      "source/FB_AnaUnused.scl",
+      "source/IDB_AnaUnused.db"
+    ],
+    "simaticml": [
+      "simaticml/FB_AnaUnused.xml",
+      "simaticml/IDB_AnaUnused.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_AnaUnused.s7dcl",
+      "vci/SimaticSD/FB_AnaUnused.s7res",
+      "vci/SimaticML/FB_AnaUnused.xml",
+      "vci/SimaticSD/IDB_AnaUnused.s7dcl",
+      "vci/SimaticML/IDB_AnaUnused.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Analyzer > FB_AnaUnused (FB15)",
+        "block": "FB_AnaUnused",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FB_AnaUnused: compile-clean-PLC_Main.json batches[s2-b12-C26-C12.json] compiles[0]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [
+    {
+      "rule": "unused-temp",
+      "block": "FB_AnaUnused",
+      "line": null,
+      "member": "UnusedTemp"
+    },
+    {
+      "rule": "unused-static",
+      "block": "FB_AnaUnused",
+      "line": null,
+      "member": "UnusedStatic"
+    },
+    {
+      "rule": "unused-input",
+      "block": "FB_AnaUnused",
+      "line": null,
+      "member": "UnusedInput"
+    }
+  ],
+  "notes": ""
+}

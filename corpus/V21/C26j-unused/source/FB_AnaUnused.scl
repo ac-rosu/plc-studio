@@ -1,0 +1,29 @@
+﻿FUNCTION_BLOCK "FB_AnaUnused"
+TITLE = Analyzer: unused variables
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Rule C26j: UnusedInput, UnusedStatic and UnusedTemp are never used
+   VAR_INPUT 
+      UsedInput : Int;   // Used input
+      UnusedInput : Int;   // Unused input
+   END_VAR
+
+   VAR_OUTPUT 
+      Result : Int;   // Result
+   END_VAR
+
+   VAR 
+      UnusedStatic : Int;   // Unused static variable
+   END_VAR
+
+   VAR_TEMP 
+      UnusedTemp : Int;   // Unused temporary variable
+   END_VAR
+
+
+BEGIN
+	
+	    #Result := #UsedInput * 2;
+	
+END_FUNCTION_BLOCK
+

@@ -1,0 +1,12 @@
+﻿NAMESPACE Dosing
+DATA_BLOCK "IDB_Doser"
+{ S7_Optimized_Access := 'TRUE' ; Published := 'FALSE' }
+VERSION : 0.1
+NON_RETAIN
+_.Dosing.FB_Doser
+
+BEGIN
+
+END_DATA_BLOCK
+END_NAMESPACE
+

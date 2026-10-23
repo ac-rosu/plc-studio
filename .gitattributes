@@ -1,0 +1,8 @@
+# Our own text files: LF in the repository and in the working tree, on every OS.
+* text=auto eol=lf
+
+# Files exported from TIA must stay byte-identical (CRLF, UTF-8 BOM): git never converts them.
+corpus/** -text
+corpus-private/** -text
+
+*.png binary

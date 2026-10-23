@@ -1,0 +1,34 @@
+﻿MultiLingualTexts:
+  - id: MLC_I1
+    de-DE: Startbefehl
+    en-US: Start command
+  - id: MLC_I2
+    de-DE: Rohwert
+    en-US: Raw value
+  - id: MLC_O1
+    de-DE: Läuft
+    en-US: Running
+  - id: MLC_O2
+    de-DE: Skalierter Wert
+    en-US: Scaled value
+  - id: MLC_O3
+    de-DE: Läuft und über dem Grenzwert
+    en-US: Running and above the limit
+  - id: MLC_S1
+    de-DE: Skalierungsfaktor
+    en-US: Scaling factor
+  - id: MLC_S2
+    de-DE: Grenzwert
+    en-US: Limit
+  - id: MLC_S3
+    de-DE: Skalierter Wert über dem Grenzwert
+    en-US: Scaled value above the limit
+  - id: MLC_N1T
+    de-DE: KOP-Netzwerk vor dem SCL-Netzwerk
+    en-US: LAD network before the SCL network
+  - id: MLC_N2T
+    de-DE: SCL-Netzwerk im KOP-Baustein
+    en-US: SCL network inside the LAD block
+  - id: MLC_N3T
+    de-DE: KOP-Netzwerk nach dem SCL-Netzwerk
+    en-US: LAD network after the SCL network

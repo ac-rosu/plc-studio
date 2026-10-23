@@ -1,0 +1,37 @@
+﻿MultiLingualTexts:
+  - id: MLC_3ur
+    en-US: Enable the evaluation
+  - id: MLC_UE
+    en-US: 'Mode: 0 = off, 1 = manual, 2..5 = automatic'
+  - id: MLC_3FV
+    en-US: Setpoint for the "sum" check
+  - id: MLC_35B
+    en-US: Evaluation is running
+  - id: MLC_4bA
+    en-US: Average of the 'valid' values
+  - id: MLC_4wc
+    en-US: 'Number of steps # executed'
+  - id: MLC_4S7
+    en-US: Measured values & limits
+  - id: MLC_4nf
+    en-US: State of the evaluation
+  - id: MLC_3nE
+    en-US: Running sum
+  - id: MLC_3UY
+    en-US: Loop iterations of the last call
+  - id: MLC_4Tb
+    en-US: Loop index
+  - id: MLC_4m9
+    en-US: Loop guard
+  - id: MLC_32t
+    en-US: Calculated average
+  - id: MLC_5A2
+    en-US: Highest array index
+  - id: MLC_3kN
+    en-US: Loop limit
+  - id: MLC_55h
+    en-US: Idle state
+  - id: MLC_ne
+    en-US: Running state
+  - id: MLC_4kj
+    en-US: Upper limit for a single value

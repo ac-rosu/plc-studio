@@ -1,0 +1,73 @@
+{
+  "caseId": "B24",
+  "title": "S7-1500-only data type on PLC_1200",
+  "kind": "broken",
+  "basedOn": "C25",
+  "tiaVersion": "V21",
+  "plc": "PLC_1200",
+  "cpu": "OrderNumber:6ES7 214-1AG40-0XB0/V4.7",
+  "objects": [
+    {
+      "name": "FB_Conveyor1200_B24",
+      "type": "FB",
+      "number": 2,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Broken",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_Conveyor1200_B24.s7dcl",
+      "documents/FB_Conveyor1200_B24.s7res"
+    ],
+    "source": [
+      "source/FB_Conveyor1200_B24.scl"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_Conveyor1200_B24.s7dcl",
+      "vci/SimaticSD/FB_Conveyor1200_B24.s7res"
+    ],
+    "refused": {
+      "simaticml": {
+        "FB_Conveyor1200_B24": "Error when calling method 'Export' of type 'Siemens.Engineering.SW.Blocks.FB'. Inconsistent blocks and PLC data types (UDT) cannot be exported."
+      },
+      "vci_SimaticML": {
+        "FB_Conveyor1200_B24": "Error when calling method 'ExportObject' of type 'Siemens.Engineering.VersionControl.Workspace'. FB_Conveyor1200_B24 [FB2] object(s) is not consistent"
+      }
+    }
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 2,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_1200 > Program blocks > Broken > FB_Conveyor1200_B24 (FB2) > 14",
+        "block": "FB_Conveyor1200_B24",
+        "line": 14,
+        "network": null,
+        "description": "Invalid constant 'LT#2s'. This data type may not be available on the current CPU."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_1200 > Program blocks > Broken > FB_Conveyor1200_B24 (FB2) > 14",
+        "block": "FB_Conveyor1200_B24",
+        "line": 14,
+        "network": null,
+        "description": "Tag LTIME_TO_DINT not defined."
+      }
+    ],
+    "sources": [
+      "FB_Conveyor1200_B24: compile-broken-PLC_1200.json final"
+    ]
+  },
+  "intendedError": "S7-1500-only LTIME: \"LTIME_TO_DINT(LT#2s)\" on PLC_1200",
+  "analyzerExpect": [],
+  "notes": ""
+}

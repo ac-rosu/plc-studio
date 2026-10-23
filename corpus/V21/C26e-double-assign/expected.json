@@ -1,0 +1,85 @@
+{
+  "caseId": "C26e",
+  "title": "Output assigned twice in one cycle",
+  "kind": "analyzer",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_AnaDoubleAssign",
+      "type": "FB",
+      "number": 13,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Analyzer",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "IDB_AnaDoubleAssign",
+      "type": "InstanceDB",
+      "number": 10,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": "Analyzer",
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_AnaDoubleAssign.s7dcl",
+      "documents/FB_AnaDoubleAssign.s7res",
+      "documents/IDB_AnaDoubleAssign.s7dcl"
+    ],
+    "source": [
+      "source/FB_AnaDoubleAssign.scl",
+      "source/IDB_AnaDoubleAssign.db"
+    ],
+    "simaticml": [
+      "simaticml/FB_AnaDoubleAssign.xml",
+      "simaticml/IDB_AnaDoubleAssign.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_AnaDoubleAssign.s7dcl",
+      "vci/SimaticSD/FB_AnaDoubleAssign.s7res",
+      "vci/SimaticML/FB_AnaDoubleAssign.xml",
+      "vci/SimaticSD/IDB_AnaDoubleAssign.s7dcl",
+      "vci/SimaticML/IDB_AnaDoubleAssign.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Analyzer > FB_AnaDoubleAssign (FB13)",
+        "block": "FB_AnaDoubleAssign",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FB_AnaDoubleAssign: compile-clean-PLC_Main.json batches[s2-b12-C26-C12.json] compiles[0]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [
+    {
+      "rule": "output-assigned-twice",
+      "block": "FB_AnaDoubleAssign",
+      "line": 3
+    }
+  ],
+  "notes": ""
+}

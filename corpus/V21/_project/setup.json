@@ -1,0 +1,69 @@
+{
+  "tiaVersion": "V21",
+  "project": {
+    "name": "PlcStudioCorpus_V21",
+    "path": "C:\\TiaProjects\\Corpus\\PlcStudioCorpus_V21\\PlcStudioCorpus_V21.ap21",
+    "source": "project_create, project_info"
+  },
+  "languages": {
+    "editing": "en-US",
+    "reference": "en-US",
+    "active": ["en-US", "de-DE"],
+    "howSet": "om_invoke LanguageSettings/ActiveLanguages.Add(LanguageSettings/Languages[10] = de-DE); en-US (Languages[24]) was already editing, reference and active language of the new project"
+  },
+  "devices": [
+    {
+      "device": "PLC_Main",
+      "cpuItem": "PLC_Main",
+      "software": "PLC_Main",
+      "deviceTypeIdentifier": "System:Device.S71500",
+      "typeIdentifier": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+      "typeName": "CPU 1516F-3 PN/DP",
+      "articleNumber": "6ES7 516-3FP03-0AB0",
+      "firmware": "V4.1",
+      "isFailsafe": true,
+      "note": "Newest firmware offered by hw_catalog_search for CPU 1516F-3 PN/DP (standard article)."
+    },
+    {
+      "device": "PLC_1200",
+      "cpuItem": "PLC_1200",
+      "software": "PLC_1200",
+      "deviceTypeIdentifier": "System:Device.S71200",
+      "typeIdentifier": "OrderNumber:6ES7 214-1AG40-0XB0/V4.7",
+      "typeName": "CPU 1214C DC/DC/DC",
+      "articleNumber": "6ES7 214-1AG40-0XB0",
+      "firmware": "V4.7",
+      "isFailsafe": false,
+      "note": "Classic S7-1200, newest firmware offered for this article. The catalog also offers the S7-1200 G2 CPU 1214C DC/DC/DC (OrderNumber:6ES7 214-1AH50-0XB0/V4.1); not used."
+    }
+  ],
+  "softwareUnits": [
+    { "plc": "PLC_Main", "name": "Unit_Filling", "kind": "standard", "namespace": "Filling", "relations": [] },
+    { "plc": "PLC_Main", "name": "Unit_Dosing", "kind": "standard", "namespace": "Dosing", "relations": ["Unit_Filling (softwareUnit)"] }
+  ],
+  "namespaceNote": "The unit attribute is NamespacePreset (Filling / Dosing). Objects created through Openness got Namespace \"\"; the Namespace attribute was set with om_set on Filling.UDT_FillRecipe, Filling.FB_Filler, Filling.FC_FillHelper, Dosing.FB_Doser, Dosing.IDB_Doser and Dosing.OB_Dosing (Step 2). Tag tables (Tags_Filling) have no Namespace attribute in Openness.",
+  "safety": {
+    "plc": "PLC_Main",
+    "passwordSet": false,
+    "safetySystemVersion": "V2.8",
+    "runtimeGroups": [
+      {
+        "name": "RTG1",
+        "fob": { "name": "FOB_RTG1", "number": 123, "eventClass": "Cyclic interrupt", "cycleTimeUs": 100000, "phaseShiftUs": 0, "priority": 12 },
+        "warnCycleTimeUs": 110000,
+        "maximumCycleTimeUs": 120000,
+        "mainSafetyBlock": { "name": "F_FB_MainSafety", "type": "FB", "number": 3, "language": "F_LAD" },
+        "mainSafetyInstanceDb": { "name": "F_IDB_MainSafety", "type": "InstanceDB", "number": 2, "language": "F_DB" },
+        "infoDb": "RTG1SysInfo"
+      }
+    ],
+    "collectiveSignatureAfterStep1": "0xC024FF40",
+    "collectiveSignatureAfterStep2": "0xE8DB8BC0",
+    "acceptance": "Not accepted. The safety program must be verified and accepted by a qualified person before any use; the corpus is never downloaded.",
+    "note": "TIA created a default group 'F-runtime group 1' (main safety block Main_Safety_RTG1, F_FBD) with the F-CPU. Its Name and MainSafetyBlockName are read-only in Openness, so it was deleted and RTG1 created with an F-LAD main safety FB; TIA reused FOB_RTG1 and RTG1SysInfo. The unused Main_Safety_RTG1 and Main_Safety_RTG1_DB were deleted."
+  },
+  "blockGroups": {
+    "PLC_Main": ["Scl", "Lad", "Fbd", "Mixed", "Data", "Analyzer", "Broken"],
+    "PLC_1200": ["S7-1200"]
+  }
+}

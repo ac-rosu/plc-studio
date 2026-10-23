@@ -1,0 +1,21 @@
+﻿FUNCTION "FC_AnaTempRead" : Int
+TITLE = Analyzer: Temp read before written
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Rule C26c: Sum is read before it is written
+   VAR_INPUT 
+      Value : Int;   // Value to add
+   END_VAR
+
+   VAR_TEMP 
+      Sum : Int;   // Temporary sum
+   END_VAR
+
+
+BEGIN
+	
+	    #Sum := #Sum + #Value;
+	    #FC_AnaTempRead := #Sum;
+	
+END_FUNCTION
+

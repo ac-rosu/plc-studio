@@ -1,0 +1,146 @@
+{
+  "$comment": "DRAFT PLC Studio manifest written by the corpus build (Step 4). The runbook defines no schema; field names are a proposal for the extension, values come from setup.json and the TIA tool results.",
+  "manifestVersion": 0,
+  "name": "PLC_Main",
+  "tiaVersion": "V21",
+  "tiaProject": "C:\\TiaProjects\\Corpus\\PlcStudioCorpus_V21\\PlcStudioCorpus_V21.ap21",
+  "device": {
+    "name": "PLC_Main",
+    "cpuItem": "PLC_Main",
+    "typeIdentifier": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+    "articleNumber": "6ES7 516-3FP03-0AB0",
+    "typeName": "CPU 1516F-3 PN/DP",
+    "firmware": "V4.1",
+    "failsafe": true
+  },
+  "languages": [
+    "en-US",
+    "de-DE"
+  ],
+  "editingLanguage": "en-US",
+  "sourceFormat": "documents",
+  "formats": {
+    "documents": [
+      ".s7dcl",
+      ".s7res"
+    ],
+    "source": [
+      ".scl",
+      ".db",
+      ".udt"
+    ],
+    "simaticml": [
+      ".xml"
+    ]
+  },
+  "blockGroups": [
+    "Scl",
+    "Lad",
+    "Fbd",
+    "Mixed",
+    "Data",
+    "Analyzer",
+    "Broken"
+  ],
+  "softwareUnits": [
+    {
+      "name": "Unit_Filling",
+      "namespace": "Filling",
+      "relations": [],
+      "published": [
+        "FB_Filler",
+        "FB_Filler_B22",
+        "Tags_Filling",
+        "UDT_FillRecipe"
+      ]
+    },
+    {
+      "name": "Unit_Dosing",
+      "namespace": "Dosing",
+      "relations": [
+        "Unit_Filling"
+      ],
+      "published": [
+        "FB_Doser"
+      ]
+    }
+  ],
+  "safety": {
+    "runtimeGroups": [
+      {
+        "name": "RTG1",
+        "mainSafetyBlock": "F_FB_MainSafety",
+        "mainSafetyInstanceDb": "F_IDB_MainSafety",
+        "fob": "FOB_RTG1",
+        "cycleTimeUs": 100000
+      }
+    ],
+    "collectiveSignature": "0xE8DB8BC0",
+    "accepted": false
+  },
+  "cases": [
+    "C01-udts",
+    "C02-global-db",
+    "C03-array-db",
+    "C04-tag-tables",
+    "C05-scl-sections",
+    "C06-scl-types",
+    "C07-scl-timers",
+    "C08-scl-calls",
+    "C09-scl-advanced",
+    "C10-iec-check",
+    "C11-idb-start-values",
+    "C12-ob-main",
+    "C13-ob-cyclic",
+    "C14-ob-startup",
+    "C15-ob-diag-hw",
+    "C16-lad-contacts",
+    "C17-lad-boxes",
+    "C18-lad-open-branch",
+    "C19-fbd-logic",
+    "C20-fbd-boxes",
+    "C21-mixed",
+    "C22-unit-filling",
+    "C23-unit-dosing",
+    "C24-failsafe",
+    "C26a-timer-in-if",
+    "C26b-double-call",
+    "C26c-temp-read",
+    "C26d-output-path",
+    "C26e-double-assign",
+    "C26f-write-input",
+    "C26g-global-access",
+    "C26h-for-counter",
+    "C26i-case-real",
+    "C26j-unused",
+    "C26k-dead-block",
+    "C26l-shared-instance",
+    "C26m-timer-cross-block",
+    "C26n-status-ignored",
+    "B01-undeclared-variable",
+    "B02-missing-semicolon",
+    "B03-missing-end-if",
+    "B04-wrong-parameter-name",
+    "B05-missing-inout",
+    "B06-missing-block",
+    "B07-int-real-assignment",
+    "B08-iec-implicit-conversion",
+    "B09-assign-constant",
+    "B10-duplicate-case-label",
+    "B11-for-real-counter",
+    "B12-case-only-duplicate",
+    "B13-recursion",
+    "B14-ton-int-pt",
+    "B15-start-value-range",
+    "B16-udt-duplicate-member",
+    "B17-ref-wrong-type",
+    "B18-lad-int-contact",
+    "B19-lad-unwired-input",
+    "B20-fbd-wrong-type",
+    "B21-unpublished-access",
+    "B22-missing-relation",
+    "B23-failsafe-reject",
+    "B25-mixed-scl-syntax",
+    "B26-for-counter-direct"
+  ]
+}

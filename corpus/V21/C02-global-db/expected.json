@@ -1,0 +1,62 @@
+{
+  "caseId": "C02",
+  "title": "Global DB with every elementary type",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "DB_Machine",
+      "type": "GlobalDB",
+      "number": 1,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": "Data",
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/DB_Machine.s7dcl",
+      "documents/DB_Machine.s7res"
+    ],
+    "source": [
+      "source/DB_Machine.db"
+    ],
+    "simaticml": [
+      "simaticml/DB_Machine.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/DB_Machine.s7dcl",
+      "vci/SimaticSD/DB_Machine.s7res",
+      "vci/SimaticML/DB_Machine.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Data > DB_Machine (DB1)",
+        "block": "DB_Machine",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "DB_Machine: compile-clean-PLC_Main.json batches[s2-b01-C01-C02.json]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "Comment MLC_4DE (RetainedRecipe) deliberately has no de-DE text (empty translation, format question 3)."
+}

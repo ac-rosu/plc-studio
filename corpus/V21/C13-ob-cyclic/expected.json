@@ -1,0 +1,78 @@
+{
+  "caseId": "C13",
+  "title": "Cyclic interrupt OB 100 ms with phase offset",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "OB_Cyclic100ms",
+      "type": "OB",
+      "number": 35,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": null,
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "IDB_SclTimersCyclic",
+      "type": "InstanceDB",
+      "number": 5,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": "Data",
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/OB_Cyclic100ms.s7dcl",
+      "documents/IDB_SclTimersCyclic.s7dcl"
+    ],
+    "source": [
+      "source/OB_Cyclic100ms.scl",
+      "source/IDB_SclTimersCyclic.db"
+    ],
+    "simaticml": [
+      "simaticml/OB_Cyclic100ms.xml",
+      "simaticml/OB_Cyclic100ms.readonly.xml",
+      "simaticml/IDB_SclTimersCyclic.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/OB_Cyclic100ms.s7dcl",
+      "vci/SimaticML/OB_Cyclic100ms.xml",
+      "vci/SimaticSD/IDB_SclTimersCyclic.s7dcl",
+      "vci/SimaticML/IDB_SclTimersCyclic.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > OB_Cyclic100ms (OB35)",
+        "block": "OB_Cyclic100ms",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "OB_Cyclic100ms: compile-clean-PLC_Main.json batches[s2-b12-C26-C12.json] compiles[4]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "OB_Cyclic100ms: OB35, cyclic time 100000 us, phase offset 20000 us (SimaticML); also calls IDB_AnaShared (C26l)."
+}

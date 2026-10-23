@@ -1,0 +1,188 @@
+﻿{
+    S7_Optimized := "TRUE";
+    S7_PreferredLanguage := "LAD";
+    S7_Version := "0.1"
+}
+FUNCTION_BLOCK "FB_LadBoxes"
+    VAR_INPUT
+        { S7_MLC := "MLC_I1" }
+        Start : Bool;
+        { S7_MLC := "MLC_I2" }
+        InValue : Int;
+        { S7_MLC := "MLC_I3" }
+        "Limit" : Int := 100;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_O1" }
+        Delayed : Bool;
+        { S7_MLC := "MLC_O2" }
+        Copy : Int;
+        { S7_MLC := "MLC_O3" }
+        Sum : Int;
+        { S7_MLC := "MLC_O4" }
+        IsEqual : Bool;
+        { S7_MLC := "MLC_O5" }
+        IsGreater : Bool;
+        { S7_MLC := "MLC_O6" }
+        IsLessEqual : Bool;
+        { S7_MLC := "MLC_O7" }
+        Average : Real;
+        { S7_MLC := "MLC_O8" }
+        SectionsOk : Bool;
+        { S7_MLC := "MLC_O9" }
+        Skipped : Bool;
+        { S7_MLC := "MLC_O10" }
+        AfterJump : Bool;
+    END_VAR
+    VAR
+        { S7_MLC := "MLC_S1" }
+        Delay : TON_TIME;
+        { S7_MLC := "MLC_S7" }
+        DelayElapsed : Time;
+        { S7_MLC := "MLC_S2" }
+        Sections : _.FB_SclSections;
+        { S7_MLC := "MLC_S3" }
+        Values : Array[0..9] of Real;
+        { S7_MLC := "MLC_S4" }
+        SectionsBusy : Bool;
+        { S7_MLC := "MLC_S5" }
+        SectionsSteps : Int;
+        { S7_MLC := "MLC_S6" }
+        Setpoint : Real := 50.0;
+    END_VAR
+
+    {
+        S7_Language := "LAD";
+        S7_NetworkTitle := "MLC_N1T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( #Start )
+            { S7_Templates := "time_type := Time" }
+            #Delay.TON(
+                pt := T#3s,
+                et => #DelayElapsed
+            )
+            Coil( #Delayed )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "LAD";
+        S7_NetworkTitle := "MLC_N2T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            
+            Move(
+                in := #InValue,
+                out1 => #Copy
+            )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "LAD";
+        S7_NetworkTitle := "MLC_N3T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            
+            Add(
+                in1 := #InValue,
+                in2 := #"Limit",
+                out => #Sum
+            )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "LAD";
+        S7_NetworkTitle := "MLC_N4T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            { S7_Templates := "SrcType := Int" }
+            EQ_Contact(
+                in1 := #InValue,
+                in2 := #"Limit"
+            )
+            Coil( #IsEqual )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "LAD";
+        S7_NetworkTitle := "MLC_N5T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            { S7_Templates := "SrcType := Int" }
+            GT_Contact(
+                in1 := #InValue,
+                in2 := #"Limit"
+            )
+            Coil( #IsGreater )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "LAD";
+        S7_NetworkTitle := "MLC_N6T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            { S7_Templates := "SrcType := Int" }
+            LE_Contact(
+                in1 := #InValue,
+                in2 := #"Limit"
+            )
+            Coil( #IsLessEqual )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "LAD";
+        S7_NetworkTitle := "MLC_N7T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( #Start )
+            #Sections(
+                Enable := #Start,
+                Mode := 2,
+                Setpoint := #Setpoint,
+                Values := #Values,
+                Busy => #SectionsBusy,
+                Result => #Average,
+                StepCount => #SectionsSteps
+            )
+            Coil( #SectionsOk )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "LAD";
+        S7_NetworkTitle := "MLC_N8T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            I_Contact( #Start )
+            JumpCoil( Skip )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "LAD";
+        S7_NetworkTitle := "MLC_N9T"
+    }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( #Start )
+            Coil( #Skipped )
+        END_RUNG
+    END_NETWORK
+    {
+        S7_Language := "LAD";
+        S7_NetworkTitle := "MLC_N10T"
+    }
+    NETWORK
+        Label(Skip)
+        RUNG wire#powerrail
+            Contact( #Start )
+            Coil( #AfterJump )
+        END_RUNG
+    END_NETWORK
+END_FUNCTION_BLOCK

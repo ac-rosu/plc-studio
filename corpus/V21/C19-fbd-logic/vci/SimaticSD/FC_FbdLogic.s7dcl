@@ -1,0 +1,81 @@
+﻿{
+    S7_Optimized := "TRUE";
+    S7_PreferredLanguage := "FBD";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_FbdLogic" : Void
+    VAR_INPUT
+        InA : Bool;
+        InB : Bool;
+    END_VAR
+    VAR_OUTPUT
+        AndOut : Bool;
+        OrOut : Bool;
+        XorOut : Bool;
+        NotOut : Bool;
+        SrOut : Bool;
+        RsOut : Bool;
+        EdgeOut : Bool;
+    END_VAR
+    VAR_IN_OUT
+        SrBit : Bool;
+        RsBit : Bool;
+        EdgeBit : Bool;
+    END_VAR
+
+    { S7_Language := "FBD" }
+    NETWORK
+        RUNG #InA
+            A( in2 := #InB )
+            Coil( #AndOut )
+        END_RUNG
+    END_NETWORK
+    { S7_Language := "FBD" }
+    NETWORK
+        RUNG #InA
+            O( in2 := #InB )
+            Coil( #OrOut )
+        END_RUNG
+    END_NETWORK
+    { S7_Language := "FBD" }
+    NETWORK
+        RUNG #InA
+            X( in2 := #InB )
+            Coil( #XorOut )
+        END_RUNG
+    END_NETWORK
+    { S7_Language := "FBD" }
+    NETWORK
+        RUNG #InA
+            NOT A( in2 := #InB )
+            Coil( #NotOut )
+        END_RUNG
+    END_NETWORK
+    { S7_Language := "FBD" }
+    NETWORK
+        RUNG #InA
+            S_SR(
+                operand := #SrBit,
+                r1 := #InB
+            )
+            Coil( #SrOut )
+        END_RUNG
+    END_NETWORK
+    { S7_Language := "FBD" }
+    NETWORK
+        RUNG #InA
+            S_RS(
+                operand := #RsBit,
+                s1 := #InB
+            )
+            Coil( #RsOut )
+        END_RUNG
+    END_NETWORK
+    { S7_Language := "FBD" }
+    NETWORK
+        RUNG #InA
+            P_Trig( #EdgeBit )
+            Coil( #EdgeOut )
+        END_RUNG
+    END_NETWORK
+END_FUNCTION

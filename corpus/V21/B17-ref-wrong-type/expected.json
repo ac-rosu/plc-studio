@@ -1,0 +1,65 @@
+{
+  "caseId": "B17",
+  "title": "REF_TO dereferenced with a wrong type",
+  "kind": "broken",
+  "basedOn": "C09",
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FC_SclAdvanced_B17",
+      "type": "FC",
+      "number": 19,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Broken",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FC_SclAdvanced_B17.s7dcl",
+      "documents/FC_SclAdvanced_B17.s7res"
+    ],
+    "source": [
+      "source/FC_SclAdvanced_B17.scl"
+    ],
+    "vci": [
+      "vci/SimaticSD/FC_SclAdvanced_B17.s7dcl",
+      "vci/SimaticSD/FC_SclAdvanced_B17.s7res"
+    ],
+    "refused": {
+      "simaticml": {
+        "FC_SclAdvanced_B17": "Error when calling method 'Export' of type 'Siemens.Engineering.SW.Blocks.FC'. Inconsistent blocks and PLC data types (UDT) cannot be exported."
+      },
+      "vci_SimaticML": {
+        "FC_SclAdvanced_B17": "Error when calling method 'ExportObject' of type 'Siemens.Engineering.VersionControl.Workspace'. FC_SclAdvanced_B17 [FC19] object(s) is not consistent"
+      }
+    }
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > FC_SclAdvanced_B17 (FC19) > 16",
+        "block": "FC_SclAdvanced_B17",
+        "line": 16,
+        "network": null,
+        "description": "Data type 'Real' cannot be converted implicitly into data type 'String'."
+      }
+    ],
+    "sources": [
+      "FC_SclAdvanced_B17: compile-broken-PLC_Main.json final"
+    ]
+  },
+  "intendedError": "REF_TO Real dereferenced into a String: \"#Measurement.Header.Label := #TemperatureRef^;\"",
+  "analyzerExpect": [],
+  "notes": ""
+}

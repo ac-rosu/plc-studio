@@ -1,0 +1,17 @@
+﻿FUNCTION_BLOCK "FB_AnaGlobalAccess"
+TITLE = Analyzer: global access inside an FB
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Rule C26g: a global DB and PLC tags are accessed inside the FB
+   VAR_OUTPUT 
+      Speed : Real;   // Speed setpoint from the global DB
+   END_VAR
+
+
+BEGIN
+	
+	    #Speed := "DB_Machine".SpeedSetpoint;
+	    "ConveyorRun" := "StartButton";
+	
+END_FUNCTION_BLOCK
+

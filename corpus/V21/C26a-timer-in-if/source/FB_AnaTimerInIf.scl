@@ -1,0 +1,28 @@
+﻿FUNCTION_BLOCK "FB_AnaTimerInIf"
+TITLE = Analyzer: timer called inside IF
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Rule C26a: the timer is only called while Enable is TRUE, so it freezes otherwise
+   VAR_INPUT 
+      Enable : Bool;   // Enable
+      Start : Bool;   // Timer input
+   END_VAR
+
+   VAR_OUTPUT 
+      Done : Bool;   // Timer output
+   END_VAR
+
+   VAR 
+      Delay {InstructionName := 'TON_TIME'; LibVersion := '1.0'} : TON_TIME;   // On-delay timer
+   END_VAR
+
+
+BEGIN
+	
+	    IF #Enable THEN
+	        #Delay(IN := #Start, PT := T#1s);
+	    END_IF;
+	    #Done := #Delay.Q;
+	
+END_FUNCTION_BLOCK
+

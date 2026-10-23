@@ -1,0 +1,96 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_SclAdvanced_B17" : Int
+    VAR_INPUT
+        { S7_MLC := "MLC_3Q9" }
+        AnyValue : Variant;
+        { S7_MLC := "MLC_pc" }
+        DataBlock : DB_ANY;
+        { S7_MLC := "MLC_52X" }
+        Text : String;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_4cu" }
+        TextLength : Int;
+        { S7_MLC := "MLC_3wq" }
+        DbNumber : UInt;
+    END_VAR
+    VAR_IN_OUT
+        { S7_MLC := "MLC_WY" }
+        Samples : Array[*] of Int;
+    END_VAR
+    VAR_TEMP
+        { S7_MLC := "MLC_4n5" }
+        Index : DInt;
+        { S7_MLC := "MLC_4RX" }
+        Total : DInt;
+        { S7_MLC := "MLC_3vJ" }
+        TypeCode : Int;
+        { S7_MLC := "MLC_4g6" }
+        Measurement : STRUCT
+            { S7_MLC := "MLC_3Ed" }
+            Header : STRUCT
+                { S7_MLC := "MLC_4vb" }
+                "Id" : Int;
+                { S7_MLC := "MLC_3gs" }
+                "Label" : String[10];
+            END_STRUCT;
+            { S7_MLC := "MLC_4zX" }
+            Value : Real;
+        END_STRUCT;
+        { S7_MLC := "MLC_g9" }
+        Combined : String[40];
+        { S7_MLC := "MLC_4Tj" }
+        Position : Int;
+        { S7_MLC := "MLC_4Js" }
+        TemperatureRef : REF_TO Real;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            REGION Variant
+                CASE TypeOf(#AnyValue) OF
+                    Int:
+                        #TypeCode := 1;
+                    Real:
+                        #TypeCode := 2;
+                    ELSE
+                        #TypeCode := 0;
+                END_CASE;
+            END_REGION
+            
+            REGION Reference
+                #TemperatureRef := REF("DB_Machine".Temperature);
+                IF #TemperatureRef <> NULL THEN
+                    #Measurement.Header.Label := #TemperatureRef^;
+                END_IF;
+            END_REGION
+            
+            REGION Data block
+                #DbNumber := DB_ANY_TO_UINT(#DataBlock);
+            END_REGION
+            
+            REGION Array of any length
+                #Total := 0;
+                FOR #Index := LOWER_BOUND(ARR := #Samples, DIM := 1) TO UPPER_BOUND(ARR := #Samples, DIM := 1) DO
+                    #Total := #Total + #Samples[#Index];
+                END_FOR;
+            END_REGION
+            
+            REGION Strings and nested structs
+                #Measurement.Header.Id := 7;
+                #Measurement.Header.Label := LEFT(IN := #Text, L := 10);
+                #Measurement.Value := DINT_TO_REAL(#Total);
+                #Combined := CONCAT(IN1 := #Measurement.Header.Label, IN2 := '-OK');
+                #Position := FIND(IN1 := #Combined, IN2 := 'OK');
+                #TextLength := LEN(#Combined);
+            END_REGION
+            
+            #FC_SclAdvanced_B17 := #TypeCode;
+        
+    END_NETWORK
+END_FUNCTION

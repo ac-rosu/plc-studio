@@ -1,0 +1,665 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V21" />
+  <DocumentInfo>
+    <Created>2026-10-23T20:42:23.8551304Z</Created>
+    <ExportSetting>WithDefaults</ExportSetting>
+    <InstalledProducts>
+      <Product>
+        <DisplayName>Totally Integrated Automation Portal</DisplayName>
+        <DisplayVersion>V21 Update 1</DisplayVersion>
+      </Product>
+      <Product>
+        <DisplayName>SINAMICS Startdrive Advanced</DisplayName>
+        <DisplayVersion>V21 HF2</DisplayVersion>
+      </Product>
+      <OptionPackage>
+        <DisplayName>SINAMICS Startdrive G110M, G120, G120C, G120D, G120P, G115D</DisplayName>
+        <DisplayVersion>V21 HF2</DisplayVersion>
+      </OptionPackage>
+      <OptionPackage>
+        <DisplayName>SINAMICS Startdrive G130, G150, S120, S150, G200, G220, S200, S210, S220, Innomotics MVD</DisplayName>
+        <DisplayVersion>V21 HF2</DisplayVersion>
+      </OptionPackage>
+      <Product>
+        <DisplayName>STEP 7 Professional</DisplayName>
+        <DisplayVersion>V21 Update 1</DisplayVersion>
+      </Product>
+      <OptionPackage>
+        <DisplayName>STEP 7 Safety</DisplayName>
+        <DisplayVersion>V21</DisplayVersion>
+      </OptionPackage>
+      <OptionPackage>
+        <DisplayName>Tech WebApplication</DisplayName>
+        <DisplayVersion>V21</DisplayVersion>
+      </OptionPackage>
+      <Product>
+        <DisplayName>WinCC Basic/Comfort/Advanced</DisplayName>
+        <DisplayVersion>V21 Update 1</DisplayVersion>
+      </Product>
+      <Product>
+        <DisplayName>WinCC Unified</DisplayName>
+        <DisplayVersion>V21 Update 1</DisplayVersion>
+      </Product>
+    </InstalledProducts>
+  </DocumentInfo>
+  <SW.Blocks.FB ID="0">
+    <AttributeList>
+      <AutoNumber>true</AutoNumber>
+      <HeaderAuthor />
+      <HeaderFamily />
+      <HeaderName />
+      <HeaderVersion>0.1</HeaderVersion>
+      <Interface>
+        <Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v5">
+          <Section Name="Input">
+            <Member Name="Start" Datatype="Bool" Remanence="NonRetain" Accessibility="Public">
+              <AttributeList>
+                <BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute>
+              </AttributeList>
+              <Comment>
+                <MultiLanguageText Lang="en-US">Start signal</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="Reset" Datatype="Bool" Remanence="NonRetain" Accessibility="Public">
+              <AttributeList>
+                <BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute>
+              </AttributeList>
+              <Comment>
+                <MultiLanguageText Lang="en-US">Reset the counter</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="DelayTime" Datatype="Time" Remanence="NonRetain" Accessibility="Public">
+              <AttributeList>
+                <BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute>
+              </AttributeList>
+              <Comment>
+                <MultiLanguageText Lang="en-US">On-delay time</MultiLanguageText>
+              </Comment>
+              <StartValue>T#2S</StartValue>
+            </Member>
+          </Section>
+          <Section Name="Output">
+            <Member Name="DelayedOn" Datatype="Bool" Remanence="NonRetain" Accessibility="Public">
+              <AttributeList>
+                <BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute>
+              </AttributeList>
+              <Comment>
+                <MultiLanguageText Lang="en-US">Start delayed by DelayTime</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="RunOn" Datatype="Bool" Remanence="NonRetain" Accessibility="Public">
+              <AttributeList>
+                <BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute>
+              </AttributeList>
+              <Comment>
+                <MultiLanguageText Lang="en-US">Start with run-on time</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="Pulse" Datatype="Bool" Remanence="NonRetain" Accessibility="Public">
+              <AttributeList>
+                <BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute>
+              </AttributeList>
+              <Comment>
+                <MultiLanguageText Lang="en-US">Pulse on the rising edge of Start</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="Count" Datatype="Int" Remanence="NonRetain" Accessibility="Public">
+              <AttributeList>
+                <BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute>
+              </AttributeList>
+              <Comment>
+                <MultiLanguageText Lang="en-US">Number of falling edges of Start</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="CountReached" Datatype="Bool" Remanence="NonRetain" Accessibility="Public">
+              <AttributeList>
+                <BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute>
+              </AttributeList>
+              <Comment>
+                <MultiLanguageText Lang="en-US">Count has reached the preset</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="InOut" />
+          <Section Name="Static">
+            <Member Name="OnDelay" Datatype="TON_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public">
+              <AttributeList>
+                <BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="SetPoint" SystemDefined="true">true</BooleanAttribute>
+              </AttributeList>
+              <Comment>
+                <MultiLanguageText Lang="en-US">On-delay timer</MultiLanguageText>
+              </Comment>
+              <Sections>
+                <Section Name="None">
+                  <Member Name="PT" Datatype="Time" />
+                  <Member Name="ET" Datatype="Time" />
+                  <Member Name="IN" Datatype="Bool" />
+                  <Member Name="Q" Datatype="Bool" />
+                </Section>
+              </Sections>
+            </Member>
+            <Member Name="OffDelay" Datatype="TOF_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public">
+              <AttributeList>
+                <BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="SetPoint" SystemDefined="true">true</BooleanAttribute>
+              </AttributeList>
+              <Comment>
+                <MultiLanguageText Lang="en-US">Off-delay timer</MultiLanguageText>
+              </Comment>
+              <Sections>
+                <Section Name="None">
+                  <Member Name="PT" Datatype="Time" />
+                  <Member Name="ET" Datatype="Time" />
+                  <Member Name="IN" Datatype="Bool" />
+                  <Member Name="Q" Datatype="Bool" />
+                </Section>
+              </Sections>
+            </Member>
+            <Member Name="PulseTimer" Datatype="TP_TIME" Version="1.0" Remanence="NonRetain" Accessibility="Public">
+              <AttributeList>
+                <BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="SetPoint" SystemDefined="true">true</BooleanAttribute>
+              </AttributeList>
+              <Comment>
+                <MultiLanguageText Lang="en-US">Pulse timer</MultiLanguageText>
+              </Comment>
+              <Sections>
+                <Section Name="None">
+                  <Member Name="PT" Datatype="Time" />
+                  <Member Name="ET" Datatype="Time" />
+                  <Member Name="IN" Datatype="Bool" />
+                  <Member Name="Q" Datatype="Bool" />
+                </Section>
+              </Sections>
+            </Member>
+            <Member Name="StartEdge" Datatype="R_TRIG" Version="1.0" Accessibility="Public">
+              <AttributeList>
+                <BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="SetPoint" SystemDefined="true">true</BooleanAttribute>
+              </AttributeList>
+              <Comment>
+                <MultiLanguageText Lang="en-US">Rising edge of Start</MultiLanguageText>
+              </Comment>
+              <Sections>
+                <Section Name="Input">
+                  <Member Name="CLK" Datatype="Bool" />
+                </Section>
+                <Section Name="Output">
+                  <Member Name="Q" Datatype="Bool" />
+                </Section>
+                <Section Name="InOut" />
+                <Section Name="Static">
+                  <Member Name="Stat_Bit" Datatype="Bool" />
+                </Section>
+              </Sections>
+            </Member>
+            <Member Name="StopEdge" Datatype="F_TRIG" Version="1.0" Accessibility="Public">
+              <AttributeList>
+                <BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="SetPoint" SystemDefined="true">true</BooleanAttribute>
+              </AttributeList>
+              <Comment>
+                <MultiLanguageText Lang="en-US">Falling edge of Start</MultiLanguageText>
+              </Comment>
+              <Sections>
+                <Section Name="Input">
+                  <Member Name="CLK" Datatype="Bool" />
+                </Section>
+                <Section Name="Output">
+                  <Member Name="Q" Datatype="Bool" />
+                </Section>
+                <Section Name="InOut" />
+                <Section Name="Static">
+                  <Member Name="Stat_Bit" Datatype="Bool" />
+                </Section>
+              </Sections>
+            </Member>
+            <Member Name="PartCounter" Datatype="CTU_INT" Version="1.0" Remanence="NonRetain" Accessibility="Public">
+              <AttributeList>
+                <BooleanAttribute Name="ExternalAccessible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalVisible" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="ExternalWritable" SystemDefined="true">true</BooleanAttribute>
+                <BooleanAttribute Name="SetPoint" SystemDefined="true">true</BooleanAttribute>
+              </AttributeList>
+              <Comment>
+                <MultiLanguageText Lang="en-US">Up counter</MultiLanguageText>
+              </Comment>
+              <Sections>
+                <Section Name="None">
+                  <Member Name="CU" Datatype="Bool" />
+                  <Member Name="CD" Datatype="Bool" />
+                  <Member Name="R" Datatype="Bool" />
+                  <Member Name="LD" Datatype="Bool" />
+                  <Member Name="QU" Datatype="Bool" />
+                  <Member Name="QD" Datatype="Bool" />
+                  <Member Name="PV" Datatype="Int" />
+                  <Member Name="CV" Datatype="Int" />
+                </Section>
+              </Sections>
+            </Member>
+          </Section>
+          <Section Name="Temp" />
+          <Section Name="Constant">
+            <Member Name="COUNT_PRESET" Datatype="Int" Accessibility="Public">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Counter preset</MultiLanguageText>
+              </Comment>
+              <StartValue>10</StartValue>
+            </Member>
+          </Section>
+        </Sections>
+      </Interface>
+      <IsIECCheckEnabled>false</IsIECCheckEnabled>
+      <IsRetainMemResEnabled>false</IsRetainMemResEnabled>
+      <MemoryLayout>Optimized</MemoryLayout>
+      <MemoryReserve>100</MemoryReserve>
+      <Name>FB_SclTimers</Name>
+      <Namespace />
+      <Number>2</Number>
+      <ProgrammingLanguage>SCL</ProgrammingLanguage>
+      <SetENOAutomatically>false</SetENOAutomatically>
+      <UDABlockProperties />
+      <UDAEnableTagReadback>false</UDAEnableTagReadback>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="3" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>Every IEC timer, edge and counter as a multi-instance, each called every cycle</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <SW.Blocks.CompileUnit ID="4" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource>
+            <StructuredText xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/StructuredText/v4">
+              <NewLine Num="1" UId="21" />
+              <Blank Num="4" UId="22" />
+              <Token Text="REGION" UId="23" />
+              <Blank Num="1" UId="24" />
+              <Text UId="25">Timers</Text>
+              <NewLine Num="1" UId="26" />
+              <Blank Num="8" UId="27" />
+              <Access Scope="LocalVariable" UId="28">
+                <Symbol UId="29">
+                  <Component Name="OnDelay" UId="30" />
+                </Symbol>
+              </Access>
+              <Access Scope="Call" UId="31">
+                <Instruction UId="32">
+                  <Token Text="(" UId="33" />
+                  <Parameter Name="IN" UId="34">
+                    <Blank Num="1" UId="35" />
+                    <Token Text=":=" UId="36" />
+                    <Blank Num="1" UId="37" />
+                    <Access Scope="LocalVariable" UId="38">
+                      <Symbol UId="39">
+                        <Component Name="Start" UId="40" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="41" />
+                  <Blank Num="1" UId="42" />
+                  <Parameter Name="PT" UId="43">
+                    <Blank Num="1" UId="44" />
+                    <Token Text=":=" UId="45" />
+                    <Blank Num="1" UId="46" />
+                    <Access Scope="LocalVariable" UId="47">
+                      <Symbol UId="48">
+                        <Component Name="DelayTime" UId="49" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="50" />
+                  <Blank Num="1" UId="51" />
+                  <Parameter Name="Q" UId="52">
+                    <Blank Num="1" UId="53" />
+                    <Token Text="=&gt;" UId="54" />
+                    <Blank Num="1" UId="55" />
+                    <Access Scope="LocalVariable" UId="56">
+                      <Symbol UId="57">
+                        <Component Name="DelayedOn" UId="58" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text=")" UId="59" />
+                </Instruction>
+              </Access>
+              <Token Text=";" UId="60" />
+              <NewLine Num="1" UId="61" />
+              <Blank Num="8" UId="62" />
+              <Access Scope="LocalVariable" UId="63">
+                <Symbol UId="64">
+                  <Component Name="OffDelay" UId="65" />
+                </Symbol>
+              </Access>
+              <Access Scope="Call" UId="66">
+                <Instruction UId="67">
+                  <Token Text="(" UId="68" />
+                  <Parameter Name="IN" UId="69">
+                    <Blank Num="1" UId="70" />
+                    <Token Text=":=" UId="71" />
+                    <Blank Num="1" UId="72" />
+                    <Access Scope="LocalVariable" UId="73">
+                      <Symbol UId="74">
+                        <Component Name="Start" UId="75" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="76" />
+                  <Blank Num="1" UId="77" />
+                  <Parameter Name="PT" UId="78">
+                    <Blank Num="1" UId="79" />
+                    <Token Text=":=" UId="80" />
+                    <Blank Num="1" UId="81" />
+                    <Access Scope="TypedConstant" UId="82">
+                      <Constant UId="83">
+                        <ConstantValue UId="84">T#3s</ConstantValue>
+                      </Constant>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="85" />
+                  <Blank Num="1" UId="86" />
+                  <Parameter Name="Q" UId="87">
+                    <Blank Num="1" UId="88" />
+                    <Token Text="=&gt;" UId="89" />
+                    <Blank Num="1" UId="90" />
+                    <Access Scope="LocalVariable" UId="91">
+                      <Symbol UId="92">
+                        <Component Name="RunOn" UId="93" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text=")" UId="94" />
+                </Instruction>
+              </Access>
+              <Token Text=";" UId="95" />
+              <NewLine Num="1" UId="96" />
+              <Blank Num="4" UId="97" />
+              <Token Text="END_REGION" UId="98" />
+              <NewLine Num="1" UId="99" />
+              <Blank Num="4" UId="100" />
+              <NewLine Num="1" UId="101" />
+              <Blank Num="4" UId="102" />
+              <Token Text="REGION" UId="103" />
+              <Blank Num="1" UId="104" />
+              <Text UId="105">Edges and pulse</Text>
+              <NewLine Num="1" UId="106" />
+              <Blank Num="8" UId="107" />
+              <Access Scope="LocalVariable" UId="108">
+                <Symbol UId="109">
+                  <Component Name="StartEdge" UId="110" />
+                </Symbol>
+              </Access>
+              <Access Scope="Call" UId="111">
+                <Instruction UId="112">
+                  <Token Text="(" UId="113" />
+                  <Parameter Name="CLK" UId="114">
+                    <Blank Num="1" UId="115" />
+                    <Token Text=":=" UId="116" />
+                    <Blank Num="1" UId="117" />
+                    <Access Scope="LocalVariable" UId="118">
+                      <Symbol UId="119">
+                        <Component Name="Start" UId="120" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text=")" UId="121" />
+                </Instruction>
+              </Access>
+              <Token Text=";" UId="122" />
+              <NewLine Num="1" UId="123" />
+              <Blank Num="8" UId="124" />
+              <Access Scope="LocalVariable" UId="125">
+                <Symbol UId="126">
+                  <Component Name="StopEdge" UId="127" />
+                </Symbol>
+              </Access>
+              <Access Scope="Call" UId="128">
+                <Instruction UId="129">
+                  <Token Text="(" UId="130" />
+                  <Parameter Name="CLK" UId="131">
+                    <Blank Num="1" UId="132" />
+                    <Token Text=":=" UId="133" />
+                    <Blank Num="1" UId="134" />
+                    <Access Scope="LocalVariable" UId="135">
+                      <Symbol UId="136">
+                        <Component Name="Start" UId="137" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text=")" UId="138" />
+                </Instruction>
+              </Access>
+              <Token Text=";" UId="139" />
+              <NewLine Num="1" UId="140" />
+              <Blank Num="8" UId="141" />
+              <Access Scope="LocalVariable" UId="142">
+                <Symbol UId="143">
+                  <Component Name="PulseTimer" UId="144" />
+                </Symbol>
+              </Access>
+              <Access Scope="Call" UId="145">
+                <Instruction UId="146">
+                  <Token Text="(" UId="147" />
+                  <Parameter Name="IN" UId="148">
+                    <Blank Num="1" UId="149" />
+                    <Token Text=":=" UId="150" />
+                    <Blank Num="1" UId="151" />
+                    <Access Scope="LocalVariable" UId="152">
+                      <Symbol UId="153">
+                        <Component Name="StartEdge" UId="154" />
+                        <Token Text="." UId="155" />
+                        <Component Name="Q" UId="156" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="157" />
+                  <Blank Num="1" UId="158" />
+                  <Parameter Name="PT" UId="159">
+                    <Blank Num="1" UId="160" />
+                    <Token Text=":=" UId="161" />
+                    <Blank Num="1" UId="162" />
+                    <Access Scope="TypedConstant" UId="163">
+                      <Constant UId="164">
+                        <ConstantValue UId="165">T#500ms</ConstantValue>
+                      </Constant>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="166" />
+                  <Blank Num="1" UId="167" />
+                  <Parameter Name="Q" UId="168">
+                    <Blank Num="1" UId="169" />
+                    <Token Text="=&gt;" UId="170" />
+                    <Blank Num="1" UId="171" />
+                    <Access Scope="LocalVariable" UId="172">
+                      <Symbol UId="173">
+                        <Component Name="Pulse" UId="174" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text=")" UId="175" />
+                </Instruction>
+              </Access>
+              <Token Text=";" UId="176" />
+              <NewLine Num="1" UId="177" />
+              <Blank Num="4" UId="178" />
+              <Token Text="END_REGION" UId="179" />
+              <NewLine Num="1" UId="180" />
+              <Blank Num="4" UId="181" />
+              <NewLine Num="1" UId="182" />
+              <Blank Num="4" UId="183" />
+              <Token Text="REGION" UId="184" />
+              <Blank Num="1" UId="185" />
+              <Text UId="186">Counter</Text>
+              <NewLine Num="1" UId="187" />
+              <Blank Num="8" UId="188" />
+              <Access Scope="LocalVariable" UId="189">
+                <Symbol UId="190">
+                  <Component Name="PartCounter" UId="191" />
+                </Symbol>
+              </Access>
+              <Access Scope="Call" UId="192">
+                <Instruction UId="193">
+                  <Token Text="(" UId="194" />
+                  <Parameter Name="CU" UId="195">
+                    <Blank Num="1" UId="196" />
+                    <Token Text=":=" UId="197" />
+                    <Blank Num="1" UId="198" />
+                    <Access Scope="LocalVariable" UId="199">
+                      <Symbol UId="200">
+                        <Component Name="StopEdge" UId="201" />
+                        <Token Text="." UId="202" />
+                        <Component Name="Q" UId="203" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="204" />
+                  <Blank Num="1" UId="205" />
+                  <Parameter Name="R" UId="206">
+                    <Blank Num="1" UId="207" />
+                    <Token Text=":=" UId="208" />
+                    <Blank Num="1" UId="209" />
+                    <Access Scope="LocalVariable" UId="210">
+                      <Symbol UId="211">
+                        <Component Name="Reset" UId="212" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="213" />
+                  <Blank Num="1" UId="214" />
+                  <Parameter Name="PV" UId="215">
+                    <Blank Num="1" UId="216" />
+                    <Token Text=":=" UId="217" />
+                    <Blank Num="1" UId="218" />
+                    <Access Scope="LocalConstant" UId="219">
+                      <Constant Name="COUNT_PRESET" UId="220" />
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="223" />
+                  <Blank Num="1" UId="224" />
+                  <Parameter Name="Q" UId="225">
+                    <Blank Num="1" UId="226" />
+                    <Token Text="=&gt;" UId="227" />
+                    <Blank Num="1" UId="228" />
+                    <Access Scope="LocalVariable" UId="229">
+                      <Symbol UId="230">
+                        <Component Name="CountReached" UId="231" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="232" />
+                  <Blank Num="1" UId="233" />
+                  <Parameter Name="CV" UId="234">
+                    <Blank Num="1" UId="235" />
+                    <Token Text="=&gt;" UId="236" />
+                    <Blank Num="1" UId="237" />
+                    <Access Scope="LocalVariable" UId="238">
+                      <Symbol UId="239">
+                        <Component Name="Count" UId="240" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text=")" UId="241" />
+                </Instruction>
+              </Access>
+              <Token Text=";" UId="242" />
+              <NewLine Num="1" UId="243" />
+              <Blank Num="4" UId="244" />
+              <Token Text="END_REGION" UId="245" />
+              <NewLine Num="1" UId="246" />
+            </StructuredText>
+          </NetworkSource>
+          <ProgrammingLanguage>SCL</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="5" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="6" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="7" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="8" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="9" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="A" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <MultilingualText ID="B" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="C" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="D" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>IEC timers, counters and edges</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.FB>
+</Document>

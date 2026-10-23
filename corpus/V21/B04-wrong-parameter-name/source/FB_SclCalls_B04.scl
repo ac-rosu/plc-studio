@@ -1,0 +1,76 @@
+﻿FUNCTION_BLOCK "FB_SclCalls_B04"
+TITLE = Block calls
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Multi-instance, single-instance and parameter-instance calls, FC calls, formal and non-formal parameter lists, ENO
+   VAR_INPUT 
+      Enable : Bool;   // Enable the calls
+      Mode : Int;   // Mode passed to the called blocks
+      Delta : Real;   // Signed difference
+   END_VAR
+
+   VAR_OUTPUT 
+      Average : Real;   // Average from the multi-instance
+      Scaled : Real;   // Return value of FC_SclTypes
+      CallsOk : Bool;   // The checked FC call ended without error
+   END_VAR
+
+   VAR_IN_OUT 
+      TimerBlock : "FB_SclTimers";   // Parameter instance of FB_SclTimers
+      Values : Array[0..9] of Real;   // Values for the evaluation
+   END_VAR
+
+   VAR 
+      Sections : "FB_SclSections";   // Multi-instance of FB_SclSections
+      Total : LReal;   // Running total for FC_SclTypes
+      Rounded : DInt;   // Rounded result from FC_SclTypes
+      ResultText : String;   // Result text from FC_SclTypes
+      Magnitude : Real;   // Absolute value of Delta
+      ConvertedWord : Word;   // Return value of FC_IecOff
+      IntValue : Int;   // Output of FC_IecOff
+      ShortValue : SInt;   // Output of FC_IecOff
+      NarrowValue : Int;   // Output of FC_IecOff
+   END_VAR
+
+   VAR_TEMP 
+      CallOk : Bool;   // ENO of the checked call
+   END_VAR
+
+
+BEGIN
+	
+	    REGION Multi-instance call, formal parameter list
+	        #Sections(Enabel := #Enable,
+	                  Mode := #Mode,
+	                  Setpoint := 100.0,
+	                  Result => #Average,
+	                  Values := #Values);
+	    END_REGION
+	    
+	    REGION Single-instance call with an instance DB
+	        "IDB_SclSections"(Enable := #Enable, Mode := 2, Values := #Values);
+	    END_REGION
+	    
+	    REGION Parameter instance
+	        #TimerBlock(Start := #Enable, Reset := NOT #Enable);
+	    END_REGION
+	    
+	    REGION FC calls with Input, Output and InOut, ENO
+	        #Scaled := "FC_SclTypes"(InInt := #Mode,
+	                                 InReal := #Delta,
+	                                 OutDInt => #Rounded,
+	                                 OutText => #ResultText,
+	                                 Accumulator := #Total,
+	                                 ENO => #CallOk);
+	        #ConvertedWord := "FC_IecOff"(InInt := #Mode, InWord := 16#00FF, InDInt := 1000, OutInt => #IntValue, OutSInt => #ShortValue, OutNarrow => #NarrowValue);
+	    END_REGION
+	    
+	    REGION Non-formal parameter list
+	        #Magnitude := ABS(#Delta);
+	    END_REGION
+	    
+	    #CallsOk := #CallOk;
+	    ENO := #CallOk;
+	
+END_FUNCTION_BLOCK
+

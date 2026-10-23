@@ -1,0 +1,34 @@
+﻿{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_IecOff" : Word
+    VAR_INPUT
+        { S7_MLC := "MLC_4QN" }
+        InInt : Int;
+        { S7_MLC := "MLC_4th" }
+        InWord : Word;
+        { S7_MLC := "MLC_54N" }
+        InDInt : DInt;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_3gN" }
+        OutInt : Int;
+        { S7_MLC := "MLC_3nF" }
+        OutSInt : SInt;
+        { S7_MLC := "MLC_fU" }
+        OutNarrow : Int;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            // Implicit conversions between bit strings and integers, and narrowing conversions
+            #OutInt := #InWord;
+            #OutSInt := #InInt;
+            #OutNarrow := #InDInt;
+            #FC_IecOff := #InInt;
+        
+    END_NETWORK
+END_FUNCTION

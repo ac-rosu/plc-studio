@@ -1,0 +1,37 @@
+MultiLingualTexts:
+  - id: MLC_4Dk
+    en-US: Samples for FC_SclAdvanced
+  - id: MLC_465
+    en-US: Return value of FC_SclTypes
+  - id: MLC_45U
+    en-US: Accumulator for FC_SclTypes
+  - id: MLC_3GR
+    en-US: Output of FC_SclTypes
+  - id: MLC_3jn
+    en-US: Output of FC_SclTypes
+  - id: MLC_559
+    en-US: Output of FC_SclAdvanced
+  - id: MLC_3Lu
+    en-US: Output of FC_SclAdvanced
+  - id: MLC_4C7
+    en-US: Return value of FC_SclAdvanced
+  - id: MLC_49u
+    en-US: Output of FC_SclAtOverlay
+  - id: MLC_4tv
+    en-US: Return value of FC_SclAtOverlay
+  - id: MLC_3ip
+    en-US: Return value of FC_IecOn
+  - id: MLC_5Bh
+    en-US: Output of FC_IecOn
+  - id: MLC_eN
+    en-US: Output of FC_IecOn
+  - id: MLC_48d
+    en-US: Output of FC_IecOn
+  - id: MLC_3f2
+    en-US: Return value of FC_AnaTempRead
+  - id: MLC_4jJ
+    en-US: Output of FC_AnaOutputPath
+  - id: MLC_3XL
+    en-US: Return value of FC_AnaWriteInput
+  - id: MLC_4Y4
+    en-US: Return value of FC_AnaCaseReal

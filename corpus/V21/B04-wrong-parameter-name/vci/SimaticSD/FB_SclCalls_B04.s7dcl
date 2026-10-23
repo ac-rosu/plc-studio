@@ -1,0 +1,91 @@
+﻿{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION_BLOCK "FB_SclCalls_B04"
+    VAR_INPUT
+        { S7_MLC := "MLC_3JF" }
+        Enable : Bool;
+        { S7_MLC := "MLC_Uz" }
+        Mode : Int;
+        { S7_MLC := "MLC_ZN" }
+        Delta : Real;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_4ja" }
+        Average : Real;
+        { S7_MLC := "MLC_4xS" }
+        Scaled : Real;
+        { S7_MLC := "MLC_pJ" }
+        CallsOk : Bool;
+    END_VAR
+    VAR_IN_OUT
+        { S7_MLC := "MLC_4us" }
+        TimerBlock : _.FB_SclTimers;
+        { S7_MLC := "MLC_3Jf" }
+        Values : Array[0..9] of Real;
+    END_VAR
+    VAR
+        { S7_MLC := "MLC_4tT" }
+        Sections : _.FB_SclSections;
+        { S7_MLC := "MLC_nM" }
+        Total : LReal;
+        { S7_MLC := "MLC_3Wb" }
+        Rounded : DInt;
+        { S7_MLC := "MLC_35u" }
+        ResultText : String;
+        { S7_MLC := "MLC_3aF" }
+        Magnitude : Real;
+        { S7_MLC := "MLC_3LG" }
+        ConvertedWord : Word;
+        { S7_MLC := "MLC_4JX" }
+        IntValue : Int;
+        { S7_MLC := "MLC_P6" }
+        ShortValue : SInt;
+        { S7_MLC := "MLC_Rt" }
+        NarrowValue : Int;
+    END_VAR
+    VAR_TEMP
+        { S7_MLC := "MLC_3bU" }
+        CallOk : Bool;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            REGION Multi-instance call, formal parameter list
+                #Sections(Enabel := #Enable,
+                          Mode := #Mode,
+                          Setpoint := 100.0,
+                          Result => #Average,
+                          Values := #Values);
+            END_REGION
+            
+            REGION Single-instance call with an instance DB
+                "IDB_SclSections"(Enable := #Enable, Mode := 2, Values := #Values);
+            END_REGION
+            
+            REGION Parameter instance
+                #TimerBlock(Start := #Enable, Reset := NOT #Enable);
+            END_REGION
+            
+            REGION FC calls with Input, Output and InOut, ENO
+                #Scaled := "FC_SclTypes"(InInt := #Mode,
+                                         InReal := #Delta,
+                                         OutDInt => #Rounded,
+                                         OutText => #ResultText,
+                                         Accumulator := #Total,
+                                         ENO => #CallOk);
+                #ConvertedWord := "FC_IecOff"(InInt := #Mode, InWord := 16#00FF, InDInt := 1000, OutInt => #IntValue, OutSInt => #ShortValue, OutNarrow => #NarrowValue);
+            END_REGION
+            
+            REGION Non-formal parameter list
+                #Magnitude := ABS(#Delta);
+            END_REGION
+            
+            #CallsOk := #CallOk;
+            ENO := #CallOk;
+        
+    END_NETWORK
+END_FUNCTION_BLOCK

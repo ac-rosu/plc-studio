@@ -1,0 +1,35 @@
+﻿MultiLingualTexts:
+  - id: MLC_3tY
+    en-US: Value of any type
+  - id: MLC_4KX
+    en-US: Any data block
+  - id: MLC_4gC
+    en-US: Input text
+  - id: MLC_59r
+    en-US: Length of the combined text
+  - id: MLC_dL
+    en-US: Number of the data block
+  - id: MLC_3aK
+    en-US: Samples of any length
+  - id: MLC_58m
+    en-US: Loop index
+  - id: MLC_aP
+    en-US: Sum of the samples
+  - id: MLC_3xV
+    en-US: Code of the data type behind AnyValue
+  - id: MLC_3xc
+    en-US: Nested structure
+  - id: MLC_4he
+    en-US: Header of the measurement
+  - id: MLC_4xZ
+    en-US: Measurement number
+  - id: MLC_4UG
+    en-US: Short label
+  - id: MLC_33P
+    en-US: Measured value
+  - id: MLC_3xq
+    en-US: Combined text
+  - id: MLC_4RM
+    en-US: Position of a substring
+  - id: MLC_5Am
+    en-US: Reference to a temperature

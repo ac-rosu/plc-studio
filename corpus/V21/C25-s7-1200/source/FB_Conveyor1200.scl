@@ -1,0 +1,47 @@
+﻿FUNCTION_BLOCK "FB_Conveyor1200"
+TITLE = Conveyor on S7-1200
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//TON exists on S7-1200 and S7-1500 alike. S7-1200 has no 64-bit data types (no LTime, LInt, LWord), so Time and DInt are used. SpeedRaw comes from the onboard analog input at %IW64 (0..27648).
+   VAR_INPUT 
+      Start : Bool;   // Start the belt
+      Stop : Bool;   // Stop the belt
+      SpeedRaw : Int;   // Raw value of the onboard analog input, 0..27648
+   END_VAR
+
+   VAR_OUTPUT 
+      Motor : Bool;   // Belt motor on
+      Speed : Real;   // Belt speed in m/min
+      DelayMilliseconds : DInt;   // Elapsed start delay in ms (DInt, no LInt on S7-1200)
+   END_VAR
+
+   VAR 
+      StartDelay {InstructionName := 'TON_TIME'; LibVersion := '1.0'} : TON_TIME;   // Start delay; TON_TIME, not TON_LTIME
+      Running : Bool;   // Belt is commanded on
+   END_VAR
+
+   VAR CONSTANT 
+      RAW_FULL_SCALE : Int := 27648;   // Nominal range of the onboard analog input
+      MAXIMUM_SPEED : Real := 30.0;   // Belt speed at full scale in m/min
+   END_VAR
+
+
+BEGIN
+	
+	    REGION Command
+	        IF #Stop THEN
+	            #Running := FALSE;
+	        ELSIF #Start THEN
+	            #Running := TRUE;
+	        END_IF;
+	    END_REGION
+	    
+	    REGION Start delay and speed
+	        #StartDelay(IN := #Running, PT := T#2s);
+	        #Motor := #StartDelay.Q;
+	        #Speed := SCALE_X(MIN := 0.0, VALUE := NORM_X(MIN := 0, VALUE := #SpeedRaw, MAX := #RAW_FULL_SCALE), MAX := #MAXIMUM_SPEED);
+	        #DelayMilliseconds := TIME_TO_DINT(#StartDelay.ET);
+	    END_REGION
+	
+END_FUNCTION_BLOCK
+

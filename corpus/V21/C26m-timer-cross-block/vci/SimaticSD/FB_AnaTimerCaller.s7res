@@ -1,0 +1,9 @@
+﻿MultiLingualTexts:
+  - id: MLC_3xE
+    en-US: Enable
+  - id: MLC_4pE
+    en-US: Start of the inner timer
+  - id: MLC_4fN
+    en-US: Output of the inner timer
+  - id: MLC_4XP
+    en-US: FB that contains a timer

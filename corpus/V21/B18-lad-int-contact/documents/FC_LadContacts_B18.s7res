@@ -1,0 +1,94 @@
+MultiLingualTexts:
+  - id: MLC_I1
+    de-DE: Startbefehl
+    en-US: Start command
+  - id: MLC_I2
+    de-DE: Stoppbefehl
+    en-US: Stop command
+  - id: MLC_I3
+    de-DE: Produktsensor
+    en-US: Product sensor
+  - id: MLC_I4
+    de-DE: Freigabe
+    en-US: Enable
+  - id: MLC_I5
+    de-DE: Rücksetzbefehl
+    en-US: Reset command
+  - id: MLC_O1
+    de-DE: Motor ein
+    en-US: Motor on
+  - id: MLC_O2
+    de-DE: Impuls bei steigender Flanke des Sensors
+    en-US: Pulse on rising edge of the sensor
+  - id: MLC_O3
+    de-DE: Impuls bei fallender Flanke des Sensors
+    en-US: Pulse on falling edge of the sensor
+  - id: MLC_O4
+    de-DE: Alarm wenn nicht freigegeben
+    en-US: Alarm when not enabled
+  - id: MLC_O5
+    de-DE: Leuchte bei steigender Flanke der Freigabe
+    en-US: Lamp set on rising edge of the enable
+  - id: MLC_O6
+    de-DE: Ergebnis der verschachtelten Verzweigung
+    en-US: Result of the nested branch
+  - id: MLC_X1
+    de-DE: Gespeicherter Zustand
+    en-US: Latched state
+  - id: MLC_X2
+    de-DE: Flankenmerker steigend
+    en-US: Edge memory, rising
+  - id: MLC_X3
+    de-DE: Flankenmerker fallend
+    en-US: Edge memory, falling
+  - id: MLC_X4
+    de-DE: Flankenmerker der Spule
+    en-US: Edge memory of the coil
+  - id: MLC_N1T
+    de-DE: Schließer und Öffner
+    en-US: Normally open and normally closed contact
+  - id: MLC_N1C
+    de-DE: Der Motor läuft, solange Start gedrückt und Stopp nicht gedrückt ist.
+    en-US: The motor runs while start is pressed and stop is not pressed.
+  - id: MLC_N2T
+    de-DE: Kontakt positive Flanke
+    en-US: Positive edge contact
+  - id: MLC_N2C
+    de-DE: Ein Impuls bei steigender Flanke des Sensors.
+    en-US: One pulse on the rising edge of the sensor.
+  - id: MLC_N3T
+    de-DE: Kontakt negative Flanke
+    en-US: Negative edge contact
+  - id: MLC_N3C
+    de-DE: Ein Impuls bei fallender Flanke des Sensors.
+    en-US: One pulse on the falling edge of the sensor.
+  - id: MLC_N4T
+    de-DE: Negierte Spule
+    en-US: Negated coil
+  - id: MLC_N4C
+    de-DE: Der Alarm ist an, solange der Baustein nicht freigegeben ist.
+    en-US: The alarm is on while the block is not enabled.
+  - id: MLC_N5T
+    de-DE: Spule setzen
+    en-US: Set coil
+  - id: MLC_N5C
+    de-DE: Start setzt den gespeicherten Zustand.
+    en-US: Start sets the latched state.
+  - id: MLC_N6T
+    de-DE: Spule rücksetzen
+    en-US: Reset coil
+  - id: MLC_N6C
+    de-DE: Rücksetzen löscht den gespeicherten Zustand.
+    en-US: Reset clears the latched state.
+  - id: MLC_N7T
+    de-DE: Flankenspule
+    en-US: Edge coil
+  - id: MLC_N7C
+    de-DE: Die Leuchte wird bei steigender Flanke der Freigabe für einen Zyklus gesetzt.
+    en-US: The lamp is set for one cycle on the rising edge of the enable.
+  - id: MLC_N8T
+    de-DE: Parallele und verschachtelte Zweige
+    en-US: Parallel and nested branches
+  - id: MLC_N8C
+    de-DE: Start oder der Sensor mit Freigabe oder Rücksetzen, und nicht Stopp.
+    en-US: Start, or the sensor with enable or reset, and not stop.

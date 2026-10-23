@@ -1,0 +1,136 @@
+{
+  "caseId": "C22",
+  "title": "Software unit Unit_Filling with published and unpublished objects",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_Filler",
+      "type": "FB",
+      "number": 5,
+      "language": "SCL",
+      "unit": "Unit_Filling",
+      "namespace": "Filling",
+      "group": null,
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "FC_FillHelper",
+      "type": "FC",
+      "number": 7,
+      "language": "SCL",
+      "unit": "Unit_Filling",
+      "namespace": "Filling",
+      "group": null,
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "UDT_FillRecipe",
+      "type": "UDT",
+      "number": null,
+      "language": null,
+      "unit": "Unit_Filling",
+      "namespace": "Filling",
+      "group": null,
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "Tags_Filling",
+      "type": "TagTable",
+      "language": null,
+      "unit": "Unit_Filling",
+      "group": null,
+      "iecCheck": null,
+      "failsafe": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_Filler.s7dcl",
+      "documents/FB_Filler.s7res",
+      "documents/FC_FillHelper.s7dcl",
+      "documents/FC_FillHelper.s7res",
+      "documents/UDT_FillRecipe.s7dcl",
+      "documents/UDT_FillRecipe.s7res"
+    ],
+    "source": [
+      "source/FB_Filler.scl",
+      "source/FC_FillHelper.scl",
+      "source/UDT_FillRecipe.udt"
+    ],
+    "simaticml": [
+      "simaticml/FB_Filler.xml",
+      "simaticml/FC_FillHelper.xml",
+      "simaticml/UDT_FillRecipe.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_Filler.s7dcl",
+      "vci/SimaticSD/FB_Filler.s7res",
+      "vci/SimaticML/FB_Filler.xml",
+      "vci/SimaticSD/FC_FillHelper.s7dcl",
+      "vci/SimaticSD/FC_FillHelper.s7res",
+      "vci/SimaticML/FC_FillHelper.xml",
+      "vci/SimaticSD/UDT_FillRecipe.s7dcl",
+      "vci/SimaticSD/UDT_FillRecipe.s7res",
+      "vci/SimaticML/UDT_FillRecipe.xml",
+      "tagtables/Tags_Filling.xml"
+    ],
+    "tagtables": [
+      "tagtables/Tags_Filling.xml",
+      "tagtables/Tags_Filling.json"
+    ],
+    "refused": {
+      "vci_SimaticSD": {
+        "Tags_Filling": "Tags_IO supports the formats SimaticML. (vci_sync INVALID_ARGUMENT for Tags_IO; tag tables have no SimaticSD format)"
+      }
+    }
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Software units > Unit_Filling > Program blocks > Filling.FB_Filler (FB5)",
+        "block": "FB_Filler",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Software units > Unit_Filling > Program blocks > Filling.FC_FillHelper (FC7)",
+        "block": "FC_FillHelper",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Software units > Unit_Filling > PLC data types > Filling.UDT_FillRecipe (UDT)",
+        "block": "UDT_FillRecipe",
+        "line": null,
+        "network": null,
+        "description": "The data type was successfully updated."
+      }
+    ],
+    "sources": [
+      "FB_Filler: compile-clean-PLC_Main.json batches[s2-b09-C22-C23.json] compiles[1]",
+      "FC_FillHelper: compile-clean-PLC_Main.json batches[s2-b09-C22-C23.json] compiles[1]",
+      "UDT_FillRecipe: compile-clean-PLC_Main.json batches[s2-b09-C22-C23.json] compiles[1]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "FB_Filler and UDT_FillRecipe and Tags_Filling published, FC_FillHelper unpublished (plc_set_unit_access). Namespace set with om_set."
+}

@@ -1,0 +1,97 @@
+{
+  "caseId": "C15",
+  "title": "Diagnostic error and hardware interrupt OBs",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "OB_DiagError",
+      "type": "OB",
+      "number": 82,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": null,
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "OB_HwInterrupt",
+      "type": "OB",
+      "number": 40,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": null,
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/OB_DiagError.s7dcl",
+      "documents/OB_HwInterrupt.s7dcl"
+    ],
+    "source": [
+      "source/OB_DiagError.scl",
+      "source/OB_HwInterrupt.scl"
+    ],
+    "simaticml": [
+      "simaticml/OB_DiagError.xml",
+      "simaticml/OB_DiagError.readonly.xml",
+      "simaticml/OB_HwInterrupt.xml",
+      "simaticml/OB_HwInterrupt.readonly.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/OB_DiagError.s7dcl",
+      "vci/SimaticML/OB_DiagError.xml",
+      "vci/SimaticSD/OB_HwInterrupt.s7dcl",
+      "vci/SimaticML/OB_HwInterrupt.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Warning",
+    "errors": 0,
+    "warnings": 1,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > OB_DiagError (OB82)",
+        "block": "OB_DiagError",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > OB_HwInterrupt (OB40)",
+        "block": "OB_HwInterrupt",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      },
+      {
+        "severity": "Warning",
+        "path": "PLC_Main > General warnings > OB_HwInterrupt (OB40)",
+        "block": "OB_HwInterrupt",
+        "line": null,
+        "network": null,
+        "description": "You have not yet defined triggers for the hardware interrupt."
+      }
+    ],
+    "sources": [
+      "OB_DiagError: compile-clean-PLC_Main.json batches[s2-b07-C13-C15.json]",
+      "OB_HwInterrupt: compile-clean-PLC_Main.json batches[s2-b07-C13-C15.json]",
+      "OB_HwInterrupt (general warning): compile-clean-PLC_Main.json final"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "OB_DiagError priority set to 7 (om_set PriorityNumber); OB_HwInterrupt has no PriorityNumber attribute in Openness (manual step, optional). The OB40 warning is a general warning of every PLC_Main compile."
+}

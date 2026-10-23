@@ -1,0 +1,18 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_AnaDead" : Int
+    VAR_INPUT
+        { S7_MLC := "MLC_3Lt" }
+        Value : Int;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            #FC_AnaDead := #Value + 1;
+        
+    END_NETWORK
+END_FUNCTION

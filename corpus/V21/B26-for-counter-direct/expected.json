@@ -1,0 +1,65 @@
+{
+  "caseId": "B26",
+  "title": "FOR counter changed directly (TIA refuses rule C26h)",
+  "kind": "broken",
+  "basedOn": "C26h",
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FC_AnaForCounter_Direct",
+      "type": "FC",
+      "number": 20,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Broken",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FC_AnaForCounter_Direct.s7dcl",
+      "documents/FC_AnaForCounter_Direct.s7res"
+    ],
+    "source": [
+      "source/FC_AnaForCounter_Direct.scl"
+    ],
+    "vci": [
+      "vci/SimaticSD/FC_AnaForCounter_Direct.s7dcl",
+      "vci/SimaticSD/FC_AnaForCounter_Direct.s7res"
+    ],
+    "refused": {
+      "simaticml": {
+        "FC_AnaForCounter_Direct": "Error when calling method 'Export' of type 'Siemens.Engineering.SW.Blocks.FC'. Inconsistent blocks and PLC data types (UDT) cannot be exported."
+      },
+      "vci_SimaticML": {
+        "FC_AnaForCounter_Direct": "Error when calling method 'ExportObject' of type 'Siemens.Engineering.VersionControl.Workspace'. FC_AnaForCounter_Direct [FC20] object(s) is not consistent"
+      }
+    }
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > FC_AnaForCounter_Direct (FC20) > 3",
+        "block": "FC_AnaForCounter_Direct",
+        "line": 3,
+        "network": null,
+        "description": "You are attempting to change the counter value '#Index' of a FOR loop."
+      }
+    ],
+    "sources": [
+      "FC_AnaForCounter_Direct: compile-broken-PLC_Main.json final"
+    ]
+  },
+  "intendedError": "FOR counter changed directly inside the loop: \"#Index := 10;\" (C26h without the reference)",
+  "analyzerExpect": [],
+  "notes": "Extra broken case (not in the runbook table): the direct form of rule C26h, which TIA itself refuses."
+}

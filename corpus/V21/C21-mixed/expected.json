@@ -1,0 +1,82 @@
+{
+  "caseId": "C21",
+  "title": "LAD block with one SCL network",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_Mixed",
+      "type": "FB",
+      "number": 9,
+      "language": "LAD",
+      "unit": null,
+      "namespace": null,
+      "group": "Mixed",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "IDB_Mixed",
+      "type": "InstanceDB",
+      "number": 23,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": "Data",
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_Mixed.s7dcl",
+      "documents/FB_Mixed.s7res",
+      "documents/IDB_Mixed.s7dcl"
+    ],
+    "source": [
+      "source/IDB_Mixed.db"
+    ],
+    "simaticml": [
+      "simaticml/FB_Mixed.xml",
+      "simaticml/IDB_Mixed.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_Mixed.s7dcl",
+      "vci/SimaticSD/FB_Mixed.s7res",
+      "vci/SimaticML/FB_Mixed.xml",
+      "vci/SimaticSD/IDB_Mixed.s7dcl",
+      "vci/SimaticML/IDB_Mixed.xml"
+    ],
+    "refused": {
+      "source": {
+        "FB_Mixed": "Error when calling method 'GenerateSource' of type 'Siemens.Engineering.SW.ExternalSources.PlcExternalSourceSystemGroup'. Select a block that only includes SCL or STL and is not know-how protected. External source files can only be generated when all selected code blocks have been created in SCL or STL. The language of all blocks is shown in the overview of the project tree in the \"Details\" tab."
+      }
+    }
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Mixed > FB_Mixed (FB9)",
+        "block": "FB_Mixed",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FB_Mixed: compile-clean-PLC_Main.json batches[s2-b08-C16-C21.json] compiles[3]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": ""
+}

@@ -1,0 +1,30 @@
+﻿{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION_BLOCK "FB_AnaDoubleCall"
+    VAR_INPUT
+        { S7_MLC := "MLC_4bv" }
+        PulseA : Bool;
+        { S7_MLC := "MLC_sK" }
+        PulseB : Bool;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_4CG" }
+        Count : Int;
+    END_VAR
+    VAR
+        { S7_MLC := "MLC_3pC" }
+        PartCounter : CTU_INT;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            #PartCounter(CU := #PulseA, R := FALSE, PV := 100);
+            #PartCounter(CU := #PulseB, R := FALSE, PV := 100);
+            #Count := #PartCounter.CV;
+        
+    END_NETWORK
+END_FUNCTION_BLOCK

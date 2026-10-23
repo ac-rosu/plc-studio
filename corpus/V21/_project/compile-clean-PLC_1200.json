@@ -1,0 +1,106 @@
+{
+  "plc": "PLC_1200",
+  "step": "Step 2 clean",
+  "note": "Openness has no rebuild-all (ICompilable.Compile compiles only changes). 'final' is the last compile of Step 2; TIA reports 'No block was compiled. All blocks are up-to-date.' because every block was already compiled in the batch compiles listed under 'batches' (in order; each block's own messages are in the batch that first compiled it in its final form). Batches with errors are intermediate states that were fixed afterwards (see run-log.md).",
+  "final": {
+    "projectPath": "C:\\TiaProjects\\Corpus\\PlcStudioCorpus_V21\\PlcStudioCorpus_V21.ap21",
+    "target": "plc",
+    "compiled": "PLC software PLC_1200",
+    "software": {
+      "omPath": "Software['PLC_1200']",
+      "name": "PLC_1200",
+      "kind": "plc",
+      "softwareType": "PlcSoftware",
+      "device": "PLC_1200",
+      "deviceItem": "PLC_1200"
+    },
+    "state": "Success",
+    "errorCount": 0,
+    "warningCount": 0,
+    "durationMs": 409,
+    "isModified": true,
+    "messageCount": 4,
+    "messages": [
+      {
+        "depth": 0,
+        "path": "PLC_1200",
+        "state": "Information"
+      },
+      {
+        "depth": 1,
+        "path": "PLC_1200 > Program blocks",
+        "state": "Information"
+      },
+      {
+        "depth": 2,
+        "path": "PLC_1200 > Program blocks",
+        "state": "Information",
+        "description": "No block was compiled. All blocks are up-to-date."
+      },
+      {
+        "depth": 0,
+        "state": "Success",
+        "description": "Compiling finished (errors: 0; warnings: 0)"
+      }
+    ]
+  },
+  "batches": [
+    {
+      "file": "s2-b11-C25-PLC_1200.json",
+      "source": "compile plc PLC_1200 after C25 (Tags_1200, FB_Conveyor1200, IDB_Conveyor1200 generated consistent, default Main deleted, OB_Main generated as OB1)",
+      "compile": {
+        "projectPath": "C:\\TiaProjects\\Corpus\\PlcStudioCorpus_V21\\PlcStudioCorpus_V21.ap21",
+        "target": "plc",
+        "compiled": "PLC software PLC_1200",
+        "software": {
+          "omPath": "Software['PLC_1200']",
+          "name": "PLC_1200",
+          "kind": "plc",
+          "softwareType": "PlcSoftware",
+          "device": "PLC_1200",
+          "deviceItem": "PLC_1200"
+        },
+        "state": "Success",
+        "errorCount": 0,
+        "warningCount": 0,
+        "durationMs": 690,
+        "isModified": true,
+        "messageCount": 6,
+        "messages": [
+          {
+            "depth": 0,
+            "path": "PLC_1200",
+            "state": "Success"
+          },
+          {
+            "depth": 1,
+            "path": "PLC_1200 > Program blocks",
+            "state": "Success"
+          },
+          {
+            "depth": 2,
+            "path": "PLC_1200 > Program blocks > S7-1200",
+            "state": "Success"
+          },
+          {
+            "depth": 3,
+            "path": "PLC_1200 > Program blocks > S7-1200 > OB_Main (OB1)",
+            "state": "Success",
+            "description": "Block was successfully compiled."
+          },
+          {
+            "depth": 3,
+            "path": "PLC_1200 > Program blocks > S7-1200 > FB_Conveyor1200 (FB1)",
+            "state": "Success",
+            "description": "Block was successfully compiled."
+          },
+          {
+            "depth": 0,
+            "state": "Success",
+            "description": "Compiling finished (errors: 0; warnings: 0)"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V21" />
+  <SW.Blocks.FC ID="0">
+    <AttributeList>
+      <Interface>
+        <Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v5">
+          <Section Name="Input">
+            <Member Name="InWord" Datatype="Word">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Word to split into bytes</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="Output">
+            <Member Name="HighByte" Datatype="Byte">
+              <Comment>
+                <MultiLanguageText Lang="en-US">High byte of InWord</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="InOut" />
+          <Section Name="Temp">
+            <Member Name="RawWord" Datatype="Word">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Raw word</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="RawBytes" Datatype="Array[0..1] of Byte">
+              <AttributeList>
+                <StringAttribute Name="At" SystemDefined="true">RawWord</StringAttribute>
+              </AttributeList>
+              <Comment>
+                <MultiLanguageText Lang="en-US">Overlay of RawWord as bytes</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="Constant" />
+          <Section Name="Return">
+            <Member Name="Ret_Val" Datatype="Byte" />
+          </Section>
+        </Sections>
+      </Interface>
+      <MemoryLayout>Standard</MemoryLayout>
+      <Name>FC_SclAtOverlay</Name>
+      <Namespace />
+      <Number>3</Number>
+      <ProgrammingLanguage>SCL</ProgrammingLanguage>
+      <SetENOAutomatically>false</SetENOAutomatically>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="3" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>AT overlays are only allowed in blocks without optimized access</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <SW.Blocks.CompileUnit ID="4" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource>
+            <StructuredText xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/StructuredText/v4">
+              <NewLine UId="21" />
+              <Blank Num="4" UId="22" />
+              <Token Text="REGION" UId="23" />
+              <Blank UId="24" />
+              <Text UId="25">AT overlay</Text>
+              <NewLine UId="26" />
+              <Blank Num="8" UId="27" />
+              <Access Scope="LocalVariable" UId="28">
+                <Symbol UId="29">
+                  <Component Name="RawWord" UId="30" />
+                </Symbol>
+              </Access>
+              <Blank UId="31" />
+              <Token Text=":=" UId="32" />
+              <Blank UId="33" />
+              <Access Scope="LocalVariable" UId="34">
+                <Symbol UId="35">
+                  <Component Name="InWord" UId="36" />
+                </Symbol>
+              </Access>
+              <Token Text=";" UId="37" />
+              <NewLine UId="38" />
+              <Blank Num="8" UId="39" />
+              <Access Scope="LocalVariable" UId="40">
+                <Symbol UId="41">
+                  <Component Name="HighByte" UId="42" />
+                </Symbol>
+              </Access>
+              <Blank UId="43" />
+              <Token Text=":=" UId="44" />
+              <Blank UId="45" />
+              <Access Scope="LocalVariable" UId="46">
+                <Symbol UId="47">
+                  <Component Name="RawBytes" UId="48">
+                    <Token Text="[" UId="49" />
+                    <Access Scope="LiteralConstant" UId="50">
+                      <Constant UId="51">
+                        <ConstantValue UId="53">0</ConstantValue>
+                      </Constant>
+                    </Access>
+                    <Token Text="]" UId="54" />
+                  </Component>
+                </Symbol>
+              </Access>
+              <Token Text=";" UId="55" />
+              <NewLine UId="56" />
+              <Blank Num="8" UId="57" />
+              <Access Scope="LocalVariable" UId="58">
+                <Symbol UId="59">
+                  <Component Name="FC_SclAtOverlay" UId="60" />
+                </Symbol>
+              </Access>
+              <Blank UId="61" />
+              <Token Text=":=" UId="62" />
+              <Blank UId="63" />
+              <Access Scope="LocalVariable" UId="64">
+                <Symbol UId="65">
+                  <Component Name="RawBytes" UId="66">
+                    <Token Text="[" UId="67" />
+                    <Access Scope="LiteralConstant" UId="68">
+                      <Constant UId="69">
+                        <ConstantValue UId="71">1</ConstantValue>
+                      </Constant>
+                    </Access>
+                    <Token Text="]" UId="72" />
+                  </Component>
+                </Symbol>
+              </Access>
+              <Token Text=";" UId="73" />
+              <NewLine UId="74" />
+              <Blank Num="4" UId="75" />
+              <Token Text="END_REGION" UId="76" />
+              <NewLine UId="77" />
+            </StructuredText>
+          </NetworkSource>
+          <ProgrammingLanguage>SCL</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="5" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="6" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="7" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="8" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="9" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="A" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <MultilingualText ID="B" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="C" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="D" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>AT overlay in a standard block</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.FC>
+</Document>

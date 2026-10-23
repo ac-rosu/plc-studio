@@ -1,0 +1,90 @@
+{
+  "caseId": "C09",
+  "title": "VARIANT, REF_TO, DB_ANY, Array[*], strings, AT overlay",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FC_SclAdvanced",
+      "type": "FC",
+      "number": 2,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Scl",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "FC_SclAtOverlay",
+      "type": "FC",
+      "number": 3,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Scl",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FC_SclAdvanced.s7dcl",
+      "documents/FC_SclAdvanced.s7res",
+      "documents/FC_SclAtOverlay.s7dcl",
+      "documents/FC_SclAtOverlay.s7res"
+    ],
+    "source": [
+      "source/FC_SclAdvanced.scl",
+      "source/FC_SclAtOverlay.scl"
+    ],
+    "simaticml": [
+      "simaticml/FC_SclAdvanced.xml",
+      "simaticml/FC_SclAtOverlay.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FC_SclAdvanced.s7dcl",
+      "vci/SimaticSD/FC_SclAdvanced.s7res",
+      "vci/SimaticML/FC_SclAdvanced.xml",
+      "vci/SimaticSD/FC_SclAtOverlay.s7dcl",
+      "vci/SimaticSD/FC_SclAtOverlay.s7res",
+      "vci/SimaticML/FC_SclAtOverlay.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Scl > FC_SclAdvanced (FC2)",
+        "block": "FC_SclAdvanced",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Scl > FC_SclAtOverlay (FC3)",
+        "block": "FC_SclAtOverlay",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FC_SclAdvanced: compile-clean-PLC_Main.json batches[s2-b04-C06-C09-C10-identical-body.json]",
+      "FC_SclAtOverlay: compile-clean-PLC_Main.json batches[s2-b04-C06-C09-C10-identical-body.json]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": ""
+}

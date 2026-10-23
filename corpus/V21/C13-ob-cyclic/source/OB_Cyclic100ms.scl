@@ -1,0 +1,19 @@
+﻿ORGANIZATION_BLOCK "OB_Cyclic100ms"
+TITLE = Cyclic interrupt 100 ms
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Calls FB_SclTimers every 100 ms with its own instance
+
+BEGIN
+	
+	    REGION Timers every 100 ms
+	        "IDB_SclTimersCyclic"(Start := "LevelHigh", Reset := "StopButton", DelayTime := T#1s);
+	    END_REGION
+	    
+	    REGION Analyzer C26l
+	        // The same instance is also called from OB_Main
+	        "IDB_AnaShared"(Pulse := "LevelHigh");
+	    END_REGION
+	
+END_ORGANIZATION_BLOCK
+

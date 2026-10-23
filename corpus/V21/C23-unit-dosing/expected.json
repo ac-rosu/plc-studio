@@ -1,0 +1,115 @@
+{
+  "caseId": "C23",
+  "title": "Software unit Unit_Dosing using Unit_Filling through the relation",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FB_Doser",
+      "type": "FB",
+      "number": 6,
+      "language": "SCL",
+      "unit": "Unit_Dosing",
+      "namespace": "Dosing",
+      "group": null,
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "IDB_Doser",
+      "type": "InstanceDB",
+      "number": 6,
+      "language": "DB",
+      "unit": "Unit_Dosing",
+      "namespace": "Dosing",
+      "group": null,
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "OB_Dosing",
+      "type": "OB",
+      "number": 124,
+      "language": "SCL",
+      "unit": "Unit_Dosing",
+      "namespace": "Dosing",
+      "group": null,
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_Doser.s7dcl",
+      "documents/FB_Doser.s7res",
+      "documents/IDB_Doser.s7dcl",
+      "documents/OB_Dosing.s7dcl"
+    ],
+    "source": [
+      "source/FB_Doser.scl",
+      "source/IDB_Doser.db",
+      "source/OB_Dosing.scl"
+    ],
+    "simaticml": [
+      "simaticml/FB_Doser.xml",
+      "simaticml/IDB_Doser.xml",
+      "simaticml/OB_Dosing.xml",
+      "simaticml/OB_Dosing.readonly.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FB_Doser.s7dcl",
+      "vci/SimaticSD/FB_Doser.s7res",
+      "vci/SimaticML/FB_Doser.xml",
+      "vci/SimaticSD/IDB_Doser.s7dcl",
+      "vci/SimaticML/IDB_Doser.xml",
+      "vci/SimaticSD/OB_Dosing.s7dcl",
+      "vci/SimaticML/OB_Dosing.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Software units > Unit_Dosing > Program blocks > Dosing.FB_Doser (FB6)",
+        "block": "FB_Doser",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Software units > Unit_Dosing > Program blocks > Dosing.IDB_Doser (DB6)",
+        "block": "IDB_Doser",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Software units > Unit_Dosing > Program blocks > Dosing.OB_Dosing (OB124)",
+        "block": "OB_Dosing",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FB_Doser: compile-clean-PLC_Main.json batches[s2-b09-C22-C23.json] compiles[1]",
+      "IDB_Doser: compile-clean-PLC_Main.json final",
+      "OB_Dosing: compile-clean-PLC_Main.json final"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "FB_Doser published in Step 3 so that B22 fails only on the missing relation."
+}

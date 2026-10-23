@@ -1,0 +1,10 @@
+﻿DATA_BLOCK "IDB_FbdBoxes"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+NON_RETAIN
+"FB_FbdBoxes"
+
+BEGIN
+
+END_DATA_BLOCK
+

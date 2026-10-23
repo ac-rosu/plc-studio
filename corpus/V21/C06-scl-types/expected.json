@@ -1,0 +1,62 @@
+{
+  "caseId": "C06",
+  "title": "SCL elementary types, literals and conversions",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FC_SclTypes",
+      "type": "FC",
+      "number": 1,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Scl",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FC_SclTypes.s7dcl",
+      "documents/FC_SclTypes.s7res"
+    ],
+    "source": [
+      "source/FC_SclTypes.scl"
+    ],
+    "simaticml": [
+      "simaticml/FC_SclTypes.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FC_SclTypes.s7dcl",
+      "vci/SimaticSD/FC_SclTypes.s7res",
+      "vci/SimaticML/FC_SclTypes.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Scl > FC_SclTypes (FC1)",
+        "block": "FC_SclTypes",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FC_SclTypes: compile-clean-PLC_Main.json batches[s2-b04-C06-C09-C10-identical-body.json]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": ""
+}

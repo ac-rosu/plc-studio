@@ -1,0 +1,114 @@
+MultiLingualTexts:
+  - id: MLC_3yS
+    de-DE: Maschine eingeschaltet
+    en-US: Machine switched on
+  - id: MLC_NW
+    de-DE: Statusbits als Byte
+    en-US: Status bits as byte
+  - id: MLC_4Sh
+    de-DE: Statusbits als Wort
+    en-US: Status bits as word
+  - id: MLC_3ik
+    de-DE: Statusbits als Doppelwort
+    en-US: Status bits as double word
+  - id: MLC_4qy
+    de-DE: Statusbits als Langwort
+    en-US: Status bits as long word
+  - id: MLC_4EZ
+    de-DE: Kleiner Wert mit Vorzeichen
+    en-US: Small signed value
+  - id: MLC_ee
+    de-DE: Kleiner Wert ohne Vorzeichen
+    en-US: Small unsigned value
+  - id: MLC_34K
+    de-DE: Stückzähler mit Vorzeichen
+    en-US: Signed piece counter
+  - id: MLC_4BS
+    de-DE: Stückzähler ohne Vorzeichen
+    en-US: Unsigned piece counter
+  - id: MLC_4RU
+    de-DE: Gesamtzahl der Flaschen
+    en-US: Total number of bottles
+  - id: MLC_3ey
+    de-DE: Gesamtzahl der Deckel
+    en-US: Total number of caps
+  - id: MLC_3Yk
+    de-DE: Langer Zähler mit Vorzeichen
+    en-US: Long signed counter
+  - id: MLC_34M
+    de-DE: Langer Zähler ohne Vorzeichen
+    en-US: Long unsigned counter
+  - id: MLC_4Xv
+    de-DE: Produkttemperatur in Grad Celsius
+    en-US: Product temperature in degrees Celsius
+  - id: MLC_4HC
+    de-DE: Leitungsdruck in bar
+    en-US: Line pressure in bar
+  - id: MLC_3Af
+    de-DE: Maschinentaktzeit
+    en-US: Machine cycle time
+  - id: MLC_Su
+    de-DE: Genaue Taktzeit
+    en-US: Precise cycle time
+  - id: MLC_34Y
+    de-DE: Alter Zeitwert
+    en-US: Legacy time value
+  - id: MLC_3Xu
+    de-DE: Produktionsdatum
+    en-US: Production date
+  - id: MLC_PN
+    de-DE: Schichtbeginn
+    en-US: Start of the shift
+  - id: MLC_3xn
+    de-DE: Genauer Schichtbeginn
+    en-US: Precise start of the shift
+  - id: MLC_3RD
+    de-DE: Alter Zeitstempel
+    en-US: Legacy time stamp
+  - id: MLC_52P
+    de-DE: Genauer Zeitstempel
+    en-US: Precise time stamp
+  - id: MLC_YT
+    de-DE: Trennzeichen
+    en-US: Separator character
+  - id: MLC_42H
+    de-DE: Unicode-Symbol
+    en-US: Unicode symbol
+  - id: MLC_3uu
+    de-DE: Maschinenname
+    en-US: Machine name
+  - id: MLC_3AE
+    de-DE: Text für den Bediener
+    en-US: Text for the operator
+  - id: MLC_3Ad
+    de-DE: Zeitpunkt des letzten Starts
+    en-US: Time of the last start
+  - id: MLC_3Km
+    de-DE: Prozessgrenzen
+    en-US: Process limits
+  - id: MLC_4LN
+    de-DE: Untere Grenze
+    en-US: Lower limit
+  - id: MLC_cR
+    de-DE: Obere Grenze
+    en-US: Upper limit
+  - id: MLC_4pE
+    de-DE: Drehzahlstufen
+    en-US: Speed steps
+  - id: MLC_4pu
+    de-DE: Hauptantrieb
+    en-US: Main drive
+  - id: MLC_4t9
+    de-DE: Drehzahlsollwert in Prozent
+    en-US: Speed setpoint in percent
+  - id: MLC_3UA
+    de-DE: Interner Zustand, für HMI und OPC UA verborgen
+    en-US: Internal state, hidden from HMI and OPC UA
+  - id: MLC_3HE
+    de-DE: Sichtbar, aber von HMI und OPC UA nicht beschreibbar
+    en-US: Visible but not writable from HMI and OPC UA
+  - id: MLC_4TX
+    de-DE: Betriebsstunden, remanent
+    en-US: Operating hours, retentive
+  - id: MLC_4DE
+    en-US: Last recipe, retentive

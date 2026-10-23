@@ -1,0 +1,13 @@
+﻿MultiLingualTexts:
+  - id: MLC_4QN
+    en-US: Integer input
+  - id: MLC_4th
+    en-US: Bit string input
+  - id: MLC_54N
+    en-US: Double integer input
+  - id: MLC_3gN
+    en-US: Integer output
+  - id: MLC_3nF
+    en-US: Short integer output
+  - id: MLC_fU
+    en-US: Narrowed double integer

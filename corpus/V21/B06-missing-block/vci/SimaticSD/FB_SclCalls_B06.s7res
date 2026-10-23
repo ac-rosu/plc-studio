@@ -1,0 +1,37 @@
+﻿MultiLingualTexts:
+  - id: MLC_3QV
+    en-US: Enable the calls
+  - id: MLC_4Uz
+    en-US: Mode passed to the called blocks
+  - id: MLC_3PG
+    en-US: Signed difference
+  - id: MLC_4qg
+    en-US: Average from the multi-instance
+  - id: MLC_323
+    en-US: Return value of FC_SclTypes
+  - id: MLC_3f8
+    en-US: The checked FC call ended without error
+  - id: MLC_3hU
+    en-US: Parameter instance of FB_SclTimers
+  - id: MLC_iz
+    en-US: Values for the evaluation
+  - id: MLC_3UX
+    en-US: Multi-instance of FB_SclSections
+  - id: MLC_Sp
+    en-US: Running total for FC_SclTypes
+  - id: MLC_54j
+    en-US: Rounded result from FC_SclTypes
+  - id: MLC_32G
+    en-US: Result text from FC_SclTypes
+  - id: MLC_4Zd
+    en-US: Absolute value of Delta
+  - id: MLC_4XR
+    en-US: Return value of FC_IecOff
+  - id: MLC_Qe
+    en-US: Output of FC_IecOff
+  - id: MLC_4X6
+    en-US: Output of FC_IecOff
+  - id: MLC_38E
+    en-US: Output of FC_IecOff
+  - id: MLC_3pW
+    en-US: ENO of the checked call

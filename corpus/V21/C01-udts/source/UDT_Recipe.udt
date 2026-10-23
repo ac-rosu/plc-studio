@@ -1,0 +1,13 @@
+﻿TYPE "UDT_Recipe"
+TITLE = Filling recipe
+VERSION : 0.1
+   STRUCT
+      Id : Int := 1;   // Recipe number
+      RecipeName : String[20] := 'Default';   // Recipe name
+      Volumes : Array[1..10] of Real := [1.0, 2.0, 8(0.5)];   // Volume per filling step in litres
+      FillTime : Time := T#5S;   // Maximum filling time per step
+      Temperature : Real := 20.0;   // Product temperature in degrees Celsius
+   END_STRUCT;
+
+END_TYPE
+

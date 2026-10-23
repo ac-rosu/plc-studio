@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V21" />
+  <SW.Blocks.OB ID="0">
+    <AttributeList>
+      <AutoNumber>false</AutoNumber>
+      <Interface>
+        <Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v5">
+          <Section Name="Input">
+            <Member Name="LostRetentive" Datatype="Bool" Informative="true">
+              <Comment>
+                <MultiLanguageText Lang="en-US">True if retentive data are lost</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="LostRTC" Datatype="Bool" Informative="true">
+              <Comment>
+                <MultiLanguageText Lang="en-US">True if date and time are lost</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="Temp" />
+          <Section Name="Constant" />
+        </Sections>
+      </Interface>
+      <MemoryLayout>Optimized</MemoryLayout>
+      <Name>OB_Startup</Name>
+      <Namespace />
+      <Number>100</Number>
+      <ProgrammingLanguage>SCL</ProgrammingLanguage>
+      <SecondaryType>Startup</SecondaryType>
+      <SetENOAutomatically>false</SetENOAutomatically>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text>Initialisiert Maschinendaten beim Anlauf</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="3" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>Initialises machine data at startup</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <SW.Blocks.CompileUnit ID="4" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource>
+            <StructuredText xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/StructuredText/v4">
+              <NewLine UId="21" />
+              <Blank Num="4" UId="22" />
+              <Token Text="REGION" UId="23" />
+              <Blank UId="24" />
+              <Text UId="25">Initialise machine data</Text>
+              <NewLine UId="26" />
+              <Blank Num="8" UId="27" />
+              <Access Scope="GlobalVariable" UId="28">
+                <Symbol UId="29">
+                  <Component Name="DB_Machine" UId="30">
+                    <BooleanAttribute Name="HasQuotes" UId="31">true</BooleanAttribute>
+                  </Component>
+                  <Token Text="." UId="32" />
+                  <Component Name="MachineOn" UId="33" />
+                </Symbol>
+              </Access>
+              <Blank UId="34" />
+              <Token Text=":=" UId="35" />
+              <Blank UId="36" />
+              <Access Scope="LiteralConstant" UId="37">
+                <Constant UId="38">
+                  <ConstantValue UId="40">FALSE</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="41" />
+              <NewLine UId="42" />
+              <Blank Num="8" UId="43" />
+              <Access Scope="GlobalVariable" UId="44">
+                <Symbol UId="45">
+                  <Component Name="DB_Machine" UId="46">
+                    <BooleanAttribute Name="HasQuotes" UId="47">true</BooleanAttribute>
+                  </Component>
+                  <Token Text="." UId="48" />
+                  <Component Name="PieceCount" UId="49" />
+                </Symbol>
+              </Access>
+              <Blank UId="50" />
+              <Token Text=":=" UId="51" />
+              <Blank UId="52" />
+              <Access Scope="LiteralConstant" UId="53">
+                <Constant UId="54">
+                  <ConstantValue UId="56">0</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="57" />
+              <NewLine UId="58" />
+              <Blank Num="8" UId="59" />
+              <Access Scope="GlobalVariable" UId="60">
+                <Symbol UId="61">
+                  <Component Name="DB_Machine" UId="62">
+                    <BooleanAttribute Name="HasQuotes" UId="63">true</BooleanAttribute>
+                  </Component>
+                  <Token Text="." UId="64" />
+                  <Component Name="SpeedSetpoint" UId="65" />
+                </Symbol>
+              </Access>
+              <Blank UId="66" />
+              <Token Text=":=" UId="67" />
+              <Blank UId="68" />
+              <Access Scope="LiteralConstant" UId="69">
+                <Constant UId="70">
+                  <ConstantValue UId="72">50.0</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="73" />
+              <NewLine UId="74" />
+              <Blank Num="8" UId="75" />
+              <Access Scope="GlobalVariable" UId="76">
+                <Symbol UId="77">
+                  <Component Name="DB_Machine" UId="78">
+                    <BooleanAttribute Name="HasQuotes" UId="79">true</BooleanAttribute>
+                  </Component>
+                  <Token Text="." UId="80" />
+                  <Component Name="MachineName" UId="81" />
+                </Symbol>
+              </Access>
+              <Blank UId="82" />
+              <Token Text=":=" UId="83" />
+              <Blank UId="84" />
+              <Access Scope="LiteralConstant" UId="85">
+                <Constant UId="86">
+                  <ConstantValue UId="88">'Filler'</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="89" />
+              <NewLine UId="90" />
+              <Blank Num="4" UId="91" />
+              <Token Text="END_REGION" UId="92" />
+              <NewLine UId="93" />
+            </StructuredText>
+          </NetworkSource>
+          <ProgrammingLanguage>SCL</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="5" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="6" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="7" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="8" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="9" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="A" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <MultilingualText ID="B" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="C" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text>Anlauf</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="D" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>Startup</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.OB>
+</Document>

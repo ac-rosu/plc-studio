@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V21" />
+  <SW.Blocks.FB ID="0">
+    <AttributeList>
+      <Interface>
+        <Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v5">
+          <Section Name="Input">
+            <Member Name="Enable" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Enable</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="Start" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Timer input</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="Output">
+            <Member Name="Done" Datatype="Bool">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Timer output</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="InOut" />
+          <Section Name="Static">
+            <Member Name="Delay" Datatype="TON_TIME" Version="1.0">
+              <AttributeList>
+                <BooleanAttribute Name="SetPoint" SystemDefined="true">true</BooleanAttribute>
+              </AttributeList>
+              <Comment>
+                <MultiLanguageText Lang="en-US">On-delay timer</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="Temp" />
+          <Section Name="Constant" />
+        </Sections>
+      </Interface>
+      <MemoryLayout>Optimized</MemoryLayout>
+      <MemoryReserve>100</MemoryReserve>
+      <Name>FB_AnaTimerInIf</Name>
+      <Namespace />
+      <Number>11</Number>
+      <ProgrammingLanguage>SCL</ProgrammingLanguage>
+      <SetENOAutomatically>false</SetENOAutomatically>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="3" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>Rule C26a: the timer is only called while Enable is TRUE, so it freezes otherwise</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <SW.Blocks.CompileUnit ID="4" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource>
+            <StructuredText xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/StructuredText/v4">
+              <NewLine UId="21" />
+              <Blank Num="4" UId="22" />
+              <Token Text="IF" UId="23" />
+              <Blank UId="24" />
+              <Access Scope="LocalVariable" UId="25">
+                <Symbol UId="26">
+                  <Component Name="Enable" UId="27" />
+                </Symbol>
+              </Access>
+              <Blank UId="28" />
+              <Token Text="THEN" UId="29" />
+              <NewLine UId="30" />
+              <Blank Num="8" UId="31" />
+              <Access Scope="LocalVariable" UId="32">
+                <Symbol UId="33">
+                  <Component Name="Delay" UId="34" />
+                </Symbol>
+              </Access>
+              <Access Scope="Call" UId="35">
+                <Instruction UId="36">
+                  <Token Text="(" UId="37" />
+                  <Parameter Name="IN" UId="38">
+                    <Blank UId="39" />
+                    <Token Text=":=" UId="40" />
+                    <Blank UId="41" />
+                    <Access Scope="LocalVariable" UId="42">
+                      <Symbol UId="43">
+                        <Component Name="Start" UId="44" />
+                      </Symbol>
+                    </Access>
+                  </Parameter>
+                  <Token Text="," UId="45" />
+                  <Blank UId="46" />
+                  <Parameter Name="PT" UId="47">
+                    <Blank UId="48" />
+                    <Token Text=":=" UId="49" />
+                    <Blank UId="50" />
+                    <Access Scope="TypedConstant" UId="51">
+                      <Constant UId="52">
+                        <ConstantValue UId="53">T#1s</ConstantValue>
+                      </Constant>
+                    </Access>
+                  </Parameter>
+                  <Token Text=")" UId="54" />
+                </Instruction>
+              </Access>
+              <Token Text=";" UId="55" />
+              <NewLine UId="56" />
+              <Blank Num="4" UId="57" />
+              <Token Text="END_IF" UId="58" />
+              <Token Text=";" UId="59" />
+              <NewLine UId="60" />
+              <Blank Num="4" UId="61" />
+              <Access Scope="LocalVariable" UId="62">
+                <Symbol UId="63">
+                  <Component Name="Done" UId="64" />
+                </Symbol>
+              </Access>
+              <Blank UId="65" />
+              <Token Text=":=" UId="66" />
+              <Blank UId="67" />
+              <Access Scope="LocalVariable" UId="68">
+                <Symbol UId="69">
+                  <Component Name="Delay" UId="70" />
+                  <Token Text="." UId="71" />
+                  <Component Name="Q" UId="72" />
+                </Symbol>
+              </Access>
+              <Token Text=";" UId="73" />
+              <NewLine UId="74" />
+            </StructuredText>
+          </NetworkSource>
+          <ProgrammingLanguage>SCL</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="5" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="6" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="7" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="8" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="9" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="A" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <MultilingualText ID="B" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="C" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="D" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>Analyzer: timer called inside IF</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.FB>
+</Document>

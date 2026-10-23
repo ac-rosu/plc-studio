@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V21" />
+  <SW.Blocks.InstanceDB ID="0">
+    <AttributeList>
+      <InstanceOfName>FB_SclCalls</InstanceOfName>
+      <InstanceOfType>FB</InstanceOfType>
+      <Interface>
+        <Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v5">
+          <Section Name="Input">
+            <Member Name="Enable" Datatype="Bool" />
+            <Member Name="Mode" Datatype="Int" />
+            <Member Name="Delta" Datatype="Real" />
+          </Section>
+          <Section Name="Output">
+            <Member Name="Average" Datatype="Real" />
+            <Member Name="Scaled" Datatype="Real" />
+            <Member Name="CallsOk" Datatype="Bool" />
+          </Section>
+          <Section Name="InOut">
+            <Member Name="TimerBlock" Datatype="&quot;FB_SclTimers&quot;" />
+            <Member Name="Values" Datatype="Array[0..9] of Real" />
+          </Section>
+          <Section Name="Static">
+            <Member Name="Sections" Datatype="&quot;FB_SclSections&quot;">
+              <AttributeList>
+                <BooleanAttribute Name="SetPoint" SystemDefined="true">true</BooleanAttribute>
+              </AttributeList>
+            </Member>
+            <Member Name="Total" Datatype="LReal" />
+            <Member Name="Rounded" Datatype="DInt" />
+            <Member Name="ResultText" Datatype="String" />
+            <Member Name="Magnitude" Datatype="Real" />
+            <Member Name="ConvertedWord" Datatype="Word" />
+            <Member Name="IntValue" Datatype="Int" />
+            <Member Name="ShortValue" Datatype="SInt" />
+            <Member Name="NarrowValue" Datatype="Int" />
+          </Section>
+        </Sections>
+      </Interface>
+      <Name>IDB_SclCalls</Name>
+      <Namespace />
+      <Number>18</Number>
+      <ProgrammingLanguage>DB</ProgrammingLanguage>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="3" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <MultilingualText ID="4" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="5" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="6" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.InstanceDB>
+</Document>

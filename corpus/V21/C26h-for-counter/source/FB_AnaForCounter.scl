@@ -1,0 +1,35 @@
+﻿FUNCTION_BLOCK "FB_AnaForCounter"
+TITLE = Analyzer: FOR counter modified
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Rule C26h: the FOR counter Index is changed inside the loop through the reference IndexRef (TIA refuses a direct or InOut change)
+   VAR_INPUT 
+      Limit : Int;   // Stop when the total exceeds this
+   END_VAR
+
+   VAR_OUTPUT 
+      Total : Int;   // Sum of the indices
+   END_VAR
+
+   VAR 
+      Index : Int;   // Loop counter
+   END_VAR
+
+   VAR_TEMP 
+      IndexRef : REF_TO Int;   // Reference to the loop counter
+   END_VAR
+
+
+BEGIN
+	
+	    #Total := 0;
+	    #IndexRef := REF(#Index);
+	    FOR #Index := 0 TO 10 DO
+	        #Total := #Total + #Index;
+	        IF #Total > #Limit THEN
+	            #IndexRef^ := 10;
+	        END_IF;
+	    END_FOR;
+	
+END_FUNCTION_BLOCK
+

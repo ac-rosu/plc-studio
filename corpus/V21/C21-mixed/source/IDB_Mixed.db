@@ -1,0 +1,10 @@
+﻿DATA_BLOCK "IDB_Mixed"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+NON_RETAIN
+"FB_Mixed"
+
+BEGIN
+
+END_DATA_BLOCK
+

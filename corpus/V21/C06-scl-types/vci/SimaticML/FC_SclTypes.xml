@@ -1,0 +1,865 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V21" />
+  <SW.Blocks.FC ID="0">
+    <AttributeList>
+      <Interface>
+        <Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v5">
+          <Section Name="Input">
+            <Member Name="InInt" Datatype="Int">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Integer input</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="InReal" Datatype="Real">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Real input</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="Output">
+            <Member Name="OutDInt" Datatype="DInt">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Rounded result</MultiLanguageText>
+              </Comment>
+            </Member>
+            <Member Name="OutText" Datatype="String">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Result as text</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="InOut">
+            <Member Name="Accumulator" Datatype="LReal">
+              <Comment>
+                <MultiLanguageText Lang="en-US">Running total</MultiLanguageText>
+              </Comment>
+            </Member>
+          </Section>
+          <Section Name="Temp">
+            <Member Name="TempBool" Datatype="Bool" />
+            <Member Name="TempByte" Datatype="Byte" />
+            <Member Name="TempWord" Datatype="Word" />
+            <Member Name="TempDWord" Datatype="DWord" />
+            <Member Name="TempLWord" Datatype="LWord" />
+            <Member Name="TempSInt" Datatype="SInt" />
+            <Member Name="TempUSInt" Datatype="USInt" />
+            <Member Name="TempInt" Datatype="Int" />
+            <Member Name="TempUInt" Datatype="UInt" />
+            <Member Name="TempDInt" Datatype="DInt" />
+            <Member Name="TempUDInt" Datatype="UDInt" />
+            <Member Name="TempLInt" Datatype="LInt" />
+            <Member Name="TempULInt" Datatype="ULInt" />
+            <Member Name="TempReal" Datatype="Real" />
+            <Member Name="TempLReal" Datatype="LReal" />
+            <Member Name="TempTime" Datatype="Time" />
+            <Member Name="TempLTime" Datatype="LTime" />
+            <Member Name="TempS5Time" Datatype="S5Time" />
+            <Member Name="TempDate" Datatype="Date" />
+            <Member Name="TempTimeOfDay" Datatype="Time_Of_Day" />
+            <Member Name="TempLTimeOfDay" Datatype="LTime_Of_Day" />
+            <Member Name="TempDateAndTime" Datatype="Date_And_Time" />
+            <Member Name="TempLdt" Datatype="LDT" />
+            <Member Name="TempChar" Datatype="Char" />
+            <Member Name="TempWChar" Datatype="WChar" />
+          </Section>
+          <Section Name="Constant" />
+          <Section Name="Return">
+            <Member Name="Ret_Val" Datatype="Real" />
+          </Section>
+        </Sections>
+      </Interface>
+      <MemoryLayout>Optimized</MemoryLayout>
+      <Name>FC_SclTypes</Name>
+      <Namespace />
+      <Number>1</Number>
+      <ProgrammingLanguage>SCL</ProgrammingLanguage>
+      <SetENOAutomatically>false</SetENOAutomatically>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="3" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>Return value, typed literals, explicit and implicit conversions</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <SW.Blocks.CompileUnit ID="4" CompositionName="CompileUnits">
+        <AttributeList>
+          <NetworkSource>
+            <StructuredText xmlns="http://www.siemens.com/automation/Openness/SW/NetworkSource/StructuredText/v4">
+              <NewLine UId="21" />
+              <Blank Num="4" UId="22" />
+              <Token Text="REGION" UId="23" />
+              <Blank UId="24" />
+              <Text UId="25">Typed literals</Text>
+              <NewLine UId="26" />
+              <Blank Num="8" UId="27" />
+              <Access Scope="LocalVariable" UId="28">
+                <Symbol UId="29">
+                  <Component Name="TempBool" UId="30" />
+                </Symbol>
+              </Access>
+              <Blank UId="31" />
+              <Token Text=":=" UId="32" />
+              <Blank UId="33" />
+              <Access Scope="LiteralConstant" UId="34">
+                <Constant UId="35">
+                  <ConstantValue UId="37">TRUE</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="38" />
+              <NewLine UId="39" />
+              <Blank Num="8" UId="40" />
+              <Access Scope="LocalVariable" UId="41">
+                <Symbol UId="42">
+                  <Component Name="TempByte" UId="43" />
+                </Symbol>
+              </Access>
+              <Blank UId="44" />
+              <Token Text=":=" UId="45" />
+              <Blank UId="46" />
+              <Access Scope="LiteralConstant" UId="47">
+                <Constant UId="48">
+                  <ConstantValue UId="50">16#0F</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="51" />
+              <NewLine UId="52" />
+              <Blank Num="8" UId="53" />
+              <Access Scope="LocalVariable" UId="54">
+                <Symbol UId="55">
+                  <Component Name="TempWord" UId="56" />
+                </Symbol>
+              </Access>
+              <Blank UId="57" />
+              <Token Text=":=" UId="58" />
+              <Blank UId="59" />
+              <Access Scope="LiteralConstant" UId="60">
+                <Constant UId="61">
+                  <ConstantValue UId="63">2#1010_0101_1100_0011</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="64" />
+              <NewLine UId="65" />
+              <Blank Num="8" UId="66" />
+              <Access Scope="LocalVariable" UId="67">
+                <Symbol UId="68">
+                  <Component Name="TempDWord" UId="69" />
+                </Symbol>
+              </Access>
+              <Blank UId="70" />
+              <Token Text=":=" UId="71" />
+              <Blank UId="72" />
+              <Access Scope="TypedConstant" UId="73">
+                <Constant UId="74">
+                  <ConstantValue UId="75">DWORD#16#DEAD_BEEF</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="76" />
+              <NewLine UId="77" />
+              <Blank Num="8" UId="78" />
+              <Access Scope="LocalVariable" UId="79">
+                <Symbol UId="80">
+                  <Component Name="TempLWord" UId="81" />
+                </Symbol>
+              </Access>
+              <Blank UId="82" />
+              <Token Text=":=" UId="83" />
+              <Blank UId="84" />
+              <Access Scope="TypedConstant" UId="85">
+                <Constant UId="86">
+                  <ConstantValue UId="87">LWORD#16#0123_4567_89AB_CDEF</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="88" />
+              <NewLine UId="89" />
+              <Blank Num="8" UId="90" />
+              <Access Scope="LocalVariable" UId="91">
+                <Symbol UId="92">
+                  <Component Name="TempSInt" UId="93" />
+                </Symbol>
+              </Access>
+              <Blank UId="94" />
+              <Token Text=":=" UId="95" />
+              <Blank UId="96" />
+              <Access Scope="TypedConstant" UId="97">
+                <Constant UId="98">
+                  <ConstantValue UId="99">SINT#-12</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="100" />
+              <NewLine UId="101" />
+              <Blank Num="8" UId="102" />
+              <Access Scope="LocalVariable" UId="103">
+                <Symbol UId="104">
+                  <Component Name="TempUSInt" UId="105" />
+                </Symbol>
+              </Access>
+              <Blank UId="106" />
+              <Token Text=":=" UId="107" />
+              <Blank UId="108" />
+              <Access Scope="TypedConstant" UId="109">
+                <Constant UId="110">
+                  <ConstantValue UId="111">USINT#200</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="112" />
+              <NewLine UId="113" />
+              <Blank Num="8" UId="114" />
+              <Access Scope="LocalVariable" UId="115">
+                <Symbol UId="116">
+                  <Component Name="TempInt" UId="117" />
+                </Symbol>
+              </Access>
+              <Blank UId="118" />
+              <Token Text=":=" UId="119" />
+              <Blank UId="120" />
+              <Access Scope="TypedConstant" UId="121">
+                <Constant UId="122">
+                  <ConstantValue UId="123">INT#1000</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="124" />
+              <NewLine UId="125" />
+              <Blank Num="8" UId="126" />
+              <Access Scope="LocalVariable" UId="127">
+                <Symbol UId="128">
+                  <Component Name="TempUInt" UId="129" />
+                </Symbol>
+              </Access>
+              <Blank UId="130" />
+              <Token Text=":=" UId="131" />
+              <Blank UId="132" />
+              <Access Scope="TypedConstant" UId="133">
+                <Constant UId="134">
+                  <ConstantValue UId="135">UINT#60000</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="136" />
+              <NewLine UId="137" />
+              <Blank Num="8" UId="138" />
+              <Access Scope="LocalVariable" UId="139">
+                <Symbol UId="140">
+                  <Component Name="TempDInt" UId="141" />
+                </Symbol>
+              </Access>
+              <Blank UId="142" />
+              <Token Text=":=" UId="143" />
+              <Blank UId="144" />
+              <Access Scope="TypedConstant" UId="145">
+                <Constant UId="146">
+                  <ConstantValue UId="147">DINT#-100000</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="148" />
+              <NewLine UId="149" />
+              <Blank Num="8" UId="150" />
+              <Access Scope="LocalVariable" UId="151">
+                <Symbol UId="152">
+                  <Component Name="TempUDInt" UId="153" />
+                </Symbol>
+              </Access>
+              <Blank UId="154" />
+              <Token Text=":=" UId="155" />
+              <Blank UId="156" />
+              <Access Scope="TypedConstant" UId="157">
+                <Constant UId="158">
+                  <ConstantValue UId="159">UDINT#4000000000</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="160" />
+              <NewLine UId="161" />
+              <Blank Num="8" UId="162" />
+              <Access Scope="LocalVariable" UId="163">
+                <Symbol UId="164">
+                  <Component Name="TempLInt" UId="165" />
+                </Symbol>
+              </Access>
+              <Blank UId="166" />
+              <Token Text=":=" UId="167" />
+              <Blank UId="168" />
+              <Access Scope="TypedConstant" UId="169">
+                <Constant UId="170">
+                  <ConstantValue UId="171">LINT#-9000000000</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="172" />
+              <NewLine UId="173" />
+              <Blank Num="8" UId="174" />
+              <Access Scope="LocalVariable" UId="175">
+                <Symbol UId="176">
+                  <Component Name="TempULInt" UId="177" />
+                </Symbol>
+              </Access>
+              <Blank UId="178" />
+              <Token Text=":=" UId="179" />
+              <Blank UId="180" />
+              <Access Scope="TypedConstant" UId="181">
+                <Constant UId="182">
+                  <ConstantValue UId="183">ULINT#18000000000</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="184" />
+              <NewLine UId="185" />
+              <Blank Num="8" UId="186" />
+              <Access Scope="LocalVariable" UId="187">
+                <Symbol UId="188">
+                  <Component Name="TempReal" UId="189" />
+                </Symbol>
+              </Access>
+              <Blank UId="190" />
+              <Token Text=":=" UId="191" />
+              <Blank UId="192" />
+              <Access Scope="TypedConstant" UId="193">
+                <Constant UId="194">
+                  <ConstantValue UId="195">REAL#1.5</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="196" />
+              <NewLine UId="197" />
+              <Blank Num="8" UId="198" />
+              <Access Scope="LocalVariable" UId="199">
+                <Symbol UId="200">
+                  <Component Name="TempLReal" UId="201" />
+                </Symbol>
+              </Access>
+              <Blank UId="202" />
+              <Token Text=":=" UId="203" />
+              <Blank UId="204" />
+              <Access Scope="TypedConstant" UId="205">
+                <Constant UId="206">
+                  <ConstantValue UId="207">LREAL#3.141592653589793</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="208" />
+              <NewLine UId="209" />
+              <Blank Num="8" UId="210" />
+              <Access Scope="LocalVariable" UId="211">
+                <Symbol UId="212">
+                  <Component Name="TempTime" UId="213" />
+                </Symbol>
+              </Access>
+              <Blank UId="214" />
+              <Token Text=":=" UId="215" />
+              <Blank UId="216" />
+              <Access Scope="TypedConstant" UId="217">
+                <Constant UId="218">
+                  <ConstantValue UId="219">T#1m30s</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="220" />
+              <NewLine UId="221" />
+              <Blank Num="8" UId="222" />
+              <Access Scope="LocalVariable" UId="223">
+                <Symbol UId="224">
+                  <Component Name="TempLTime" UId="225" />
+                </Symbol>
+              </Access>
+              <Blank UId="226" />
+              <Token Text=":=" UId="227" />
+              <Blank UId="228" />
+              <Access Scope="TypedConstant" UId="229">
+                <Constant UId="230">
+                  <ConstantValue UId="231">LT#1s500ms250us</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="232" />
+              <NewLine UId="233" />
+              <Blank Num="8" UId="234" />
+              <Access Scope="LocalVariable" UId="235">
+                <Symbol UId="236">
+                  <Component Name="TempS5Time" UId="237" />
+                </Symbol>
+              </Access>
+              <Blank UId="238" />
+              <Token Text=":=" UId="239" />
+              <Blank UId="240" />
+              <Access Scope="TypedConstant" UId="241">
+                <Constant UId="242">
+                  <ConstantValue UId="243">S5T#2s</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="244" />
+              <NewLine UId="245" />
+              <Blank Num="8" UId="246" />
+              <Access Scope="LocalVariable" UId="247">
+                <Symbol UId="248">
+                  <Component Name="TempDate" UId="249" />
+                </Symbol>
+              </Access>
+              <Blank UId="250" />
+              <Token Text=":=" UId="251" />
+              <Blank UId="252" />
+              <Access Scope="TypedConstant" UId="253">
+                <Constant UId="254">
+                  <ConstantValue UId="255">D#2026-10-23</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="256" />
+              <NewLine UId="257" />
+              <Blank Num="8" UId="258" />
+              <Access Scope="LocalVariable" UId="259">
+                <Symbol UId="260">
+                  <Component Name="TempTimeOfDay" UId="261" />
+                </Symbol>
+              </Access>
+              <Blank UId="262" />
+              <Token Text=":=" UId="263" />
+              <Blank UId="264" />
+              <Access Scope="TypedConstant" UId="265">
+                <Constant UId="266">
+                  <ConstantValue UId="267">TOD#12:30:15.500</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="268" />
+              <NewLine UId="269" />
+              <Blank Num="8" UId="270" />
+              <Access Scope="LocalVariable" UId="271">
+                <Symbol UId="272">
+                  <Component Name="TempLTimeOfDay" UId="273" />
+                </Symbol>
+              </Access>
+              <Blank UId="274" />
+              <Token Text=":=" UId="275" />
+              <Blank UId="276" />
+              <Access Scope="TypedConstant" UId="277">
+                <Constant UId="278">
+                  <ConstantValue UId="279">LTOD#12:30:15.500000001</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="280" />
+              <NewLine UId="281" />
+              <Blank Num="8" UId="282" />
+              <Access Scope="LocalVariable" UId="283">
+                <Symbol UId="284">
+                  <Component Name="TempDateAndTime" UId="285" />
+                </Symbol>
+              </Access>
+              <Blank UId="286" />
+              <Token Text=":=" UId="287" />
+              <Blank UId="288" />
+              <Access Scope="TypedConstant" UId="289">
+                <Constant UId="290">
+                  <ConstantValue UId="291">DT#2026-10-23-12:30:15</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="292" />
+              <NewLine UId="293" />
+              <Blank Num="8" UId="294" />
+              <Access Scope="LocalVariable" UId="295">
+                <Symbol UId="296">
+                  <Component Name="TempLdt" UId="297" />
+                </Symbol>
+              </Access>
+              <Blank UId="298" />
+              <Token Text=":=" UId="299" />
+              <Blank UId="300" />
+              <Access Scope="TypedConstant" UId="301">
+                <Constant UId="302">
+                  <ConstantValue UId="303">LDT#2026-10-23-12:30:15.5</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="304" />
+              <NewLine UId="305" />
+              <Blank Num="8" UId="306" />
+              <Access Scope="LocalVariable" UId="307">
+                <Symbol UId="308">
+                  <Component Name="TempChar" UId="309" />
+                </Symbol>
+              </Access>
+              <Blank UId="310" />
+              <Token Text=":=" UId="311" />
+              <Blank UId="312" />
+              <Access Scope="LiteralConstant" UId="313">
+                <Constant UId="314">
+                  <ConstantValue UId="316">'x'</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="317" />
+              <NewLine UId="318" />
+              <Blank Num="8" UId="319" />
+              <Access Scope="LocalVariable" UId="320">
+                <Symbol UId="321">
+                  <Component Name="TempWChar" UId="322" />
+                </Symbol>
+              </Access>
+              <Blank UId="323" />
+              <Token Text=":=" UId="324" />
+              <Blank UId="325" />
+              <Access Scope="TypedConstant" UId="326">
+                <Constant UId="327">
+                  <ConstantValue UId="328">WCHAR#'y'</ConstantValue>
+                </Constant>
+              </Access>
+              <Token Text=";" UId="329" />
+              <NewLine UId="330" />
+              <Blank Num="4" UId="331" />
+              <Token Text="END_REGION" UId="332" />
+              <NewLine UId="333" />
+              <Blank Num="4" UId="334" />
+              <NewLine UId="335" />
+              <Blank Num="4" UId="336" />
+              <Token Text="REGION" UId="337" />
+              <Blank UId="338" />
+              <Text UId="339">Explicit conversions</Text>
+              <NewLine UId="340" />
+              <Blank Num="8" UId="341" />
+              <Access Scope="LocalVariable" UId="342">
+                <Symbol UId="343">
+                  <Component Name="TempReal" UId="344" />
+                </Symbol>
+              </Access>
+              <Blank UId="345" />
+              <Token Text=":=" UId="346" />
+              <Blank UId="347" />
+              <Access Scope="Call" UId="348">
+                <Instruction Name="INT_TO_REAL" UId="349">
+                  <Token Text="(" UId="350" />
+                  <NamelessParameter UId="351">
+                    <Access Scope="LocalVariable" UId="352">
+                      <Symbol UId="353">
+                        <Component Name="InInt" UId="354" />
+                      </Symbol>
+                    </Access>
+                  </NamelessParameter>
+                  <Token Text=")" UId="356" />
+                </Instruction>
+              </Access>
+              <Blank UId="357" />
+              <Token Text="*" UId="358" />
+              <Blank UId="359" />
+              <Access Scope="LocalVariable" UId="360">
+                <Symbol UId="361">
+                  <Component Name="InReal" UId="362" />
+                </Symbol>
+              </Access>
+              <Token Text=";" UId="363" />
+              <NewLine UId="364" />
+              <Blank Num="8" UId="365" />
+              <Access Scope="LocalVariable" UId="366">
+                <Symbol UId="367">
+                  <Component Name="OutDInt" UId="368" />
+                </Symbol>
+              </Access>
+              <Blank UId="369" />
+              <Token Text=":=" UId="370" />
+              <Blank UId="371" />
+              <Access Scope="Call" UId="372">
+                <Instruction Name="REAL_TO_DINT" UId="373">
+                  <Token Text="(" UId="374" />
+                  <NamelessParameter UId="375">
+                    <Access Scope="LocalVariable" UId="376">
+                      <Symbol UId="377">
+                        <Component Name="TempReal" UId="378" />
+                      </Symbol>
+                    </Access>
+                  </NamelessParameter>
+                  <Token Text=")" UId="380" />
+                </Instruction>
+              </Access>
+              <Token Text=";" UId="381" />
+              <NewLine UId="382" />
+              <Blank Num="8" UId="383" />
+              <Access Scope="LocalVariable" UId="384">
+                <Symbol UId="385">
+                  <Component Name="TempInt" UId="386" />
+                </Symbol>
+              </Access>
+              <Blank UId="387" />
+              <Token Text=":=" UId="388" />
+              <Blank UId="389" />
+              <Access Scope="Call" UId="390">
+                <Instruction Name="REAL_TO_INT" UId="391">
+                  <Token Text="(" UId="392" />
+                  <NamelessParameter UId="393">
+                    <Access Scope="LocalVariable" UId="394">
+                      <Symbol UId="395">
+                        <Component Name="TempReal" UId="396" />
+                      </Symbol>
+                    </Access>
+                  </NamelessParameter>
+                  <Token Text=")" UId="398" />
+                </Instruction>
+              </Access>
+              <Token Text=";" UId="399" />
+              <NewLine UId="400" />
+              <Blank Num="8" UId="401" />
+              <Access Scope="LocalVariable" UId="402">
+                <Symbol UId="403">
+                  <Component Name="TempDInt" UId="404" />
+                </Symbol>
+              </Access>
+              <Blank UId="405" />
+              <Token Text=":=" UId="406" />
+              <Blank UId="407" />
+              <Access Scope="Call" UId="408">
+                <Instruction Name="TRUNC" UId="409">
+                  <Token Text="(" UId="410" />
+                  <NamelessParameter UId="411">
+                    <Access Scope="LocalVariable" UId="412">
+                      <Symbol UId="413">
+                        <Component Name="TempReal" UId="414" />
+                      </Symbol>
+                    </Access>
+                  </NamelessParameter>
+                  <Token Text=")" UId="416" />
+                </Instruction>
+              </Access>
+              <Token Text=";" UId="417" />
+              <NewLine UId="418" />
+              <Blank Num="8" UId="419" />
+              <Access Scope="LocalVariable" UId="420">
+                <Symbol UId="421">
+                  <Component Name="OutText" UId="422" />
+                </Symbol>
+              </Access>
+              <Blank UId="423" />
+              <Token Text=":=" UId="424" />
+              <Blank UId="425" />
+              <Access Scope="Call" UId="426">
+                <Instruction Name="DINT_TO_STRING" UId="427">
+                  <Token Text="(" UId="428" />
+                  <NamelessParameter UId="429">
+                    <Access Scope="LocalVariable" UId="430">
+                      <Symbol UId="431">
+                        <Component Name="OutDInt" UId="432" />
+                      </Symbol>
+                    </Access>
+                  </NamelessParameter>
+                  <Token Text=")" UId="434" />
+                </Instruction>
+              </Access>
+              <Token Text=";" UId="435" />
+              <NewLine UId="436" />
+              <Blank Num="8" UId="437" />
+              <Access Scope="LocalVariable" UId="438">
+                <Symbol UId="439">
+                  <Component Name="TempTime" UId="440" />
+                </Symbol>
+              </Access>
+              <Blank UId="441" />
+              <Token Text=":=" UId="442" />
+              <Blank UId="443" />
+              <Access Scope="Call" UId="444">
+                <Instruction Name="DINT_TO_TIME" UId="445">
+                  <Token Text="(" UId="446" />
+                  <NamelessParameter UId="447">
+                    <Access Scope="LocalVariable" UId="448">
+                      <Symbol UId="449">
+                        <Component Name="OutDInt" UId="450" />
+                      </Symbol>
+                    </Access>
+                  </NamelessParameter>
+                  <Token Text=")" UId="452" />
+                </Instruction>
+              </Access>
+              <Token Text=";" UId="453" />
+              <NewLine UId="454" />
+              <Blank Num="4" UId="455" />
+              <Token Text="END_REGION" UId="456" />
+              <NewLine UId="457" />
+              <Blank Num="4" UId="458" />
+              <NewLine UId="459" />
+              <Blank Num="4" UId="460" />
+              <Token Text="REGION" UId="461" />
+              <Blank UId="462" />
+              <Text UId="463">Implicit conversions</Text>
+              <NewLine UId="464" />
+              <Blank Num="8" UId="465" />
+              <LineComment UId="466">
+                <Text UId="467"> Widening conversions that TIA performs without a conversion function</Text>
+              </LineComment>
+              <NewLine UId="468" />
+              <Blank Num="8" UId="469" />
+              <Access Scope="LocalVariable" UId="470">
+                <Symbol UId="471">
+                  <Component Name="TempDInt" UId="472" />
+                </Symbol>
+              </Access>
+              <Blank UId="473" />
+              <Token Text=":=" UId="474" />
+              <Blank UId="475" />
+              <Access Scope="LocalVariable" UId="476">
+                <Symbol UId="477">
+                  <Component Name="InInt" UId="478" />
+                </Symbol>
+              </Access>
+              <Token Text=";" UId="479" />
+              <NewLine UId="480" />
+              <Blank Num="8" UId="481" />
+              <Access Scope="LocalVariable" UId="482">
+                <Symbol UId="483">
+                  <Component Name="TempLInt" UId="484" />
+                </Symbol>
+              </Access>
+              <Blank UId="485" />
+              <Token Text=":=" UId="486" />
+              <Blank UId="487" />
+              <Access Scope="LocalVariable" UId="488">
+                <Symbol UId="489">
+                  <Component Name="TempDInt" UId="490" />
+                </Symbol>
+              </Access>
+              <Token Text=";" UId="491" />
+              <NewLine UId="492" />
+              <Blank Num="8" UId="493" />
+              <Access Scope="LocalVariable" UId="494">
+                <Symbol UId="495">
+                  <Component Name="TempLReal" UId="496" />
+                </Symbol>
+              </Access>
+              <Blank UId="497" />
+              <Token Text=":=" UId="498" />
+              <Blank UId="499" />
+              <Access Scope="LocalVariable" UId="500">
+                <Symbol UId="501">
+                  <Component Name="InReal" UId="502" />
+                </Symbol>
+              </Access>
+              <Token Text=";" UId="503" />
+              <NewLine UId="504" />
+              <Blank Num="8" UId="505" />
+              <Access Scope="LocalVariable" UId="506">
+                <Symbol UId="507">
+                  <Component Name="TempWord" UId="508" />
+                </Symbol>
+              </Access>
+              <Blank UId="509" />
+              <Token Text=":=" UId="510" />
+              <Blank UId="511" />
+              <Access Scope="LocalVariable" UId="512">
+                <Symbol UId="513">
+                  <Component Name="TempByte" UId="514" />
+                </Symbol>
+              </Access>
+              <Token Text=";" UId="515" />
+              <NewLine UId="516" />
+              <Blank Num="8" UId="517" />
+              <Access Scope="LocalVariable" UId="518">
+                <Symbol UId="519">
+                  <Component Name="TempUDInt" UId="520" />
+                </Symbol>
+              </Access>
+              <Blank UId="521" />
+              <Token Text=":=" UId="522" />
+              <Blank UId="523" />
+              <Access Scope="LocalVariable" UId="524">
+                <Symbol UId="525">
+                  <Component Name="TempUSInt" UId="526" />
+                </Symbol>
+              </Access>
+              <Token Text=";" UId="527" />
+              <NewLine UId="528" />
+              <Blank Num="4" UId="529" />
+              <Token Text="END_REGION" UId="530" />
+              <NewLine UId="531" />
+              <Blank Num="4" UId="532" />
+              <NewLine UId="533" />
+              <Blank Num="4" UId="534" />
+              <Access Scope="LocalVariable" UId="535">
+                <Symbol UId="536">
+                  <Component Name="Accumulator" UId="537" />
+                </Symbol>
+              </Access>
+              <Blank UId="538" />
+              <Token Text=":=" UId="539" />
+              <Blank UId="540" />
+              <Access Scope="LocalVariable" UId="541">
+                <Symbol UId="542">
+                  <Component Name="Accumulator" UId="543" />
+                </Symbol>
+              </Access>
+              <Blank UId="544" />
+              <Token Text="+" UId="545" />
+              <Blank UId="546" />
+              <Access Scope="LocalVariable" UId="547">
+                <Symbol UId="548">
+                  <Component Name="TempLReal" UId="549" />
+                </Symbol>
+              </Access>
+              <Token Text=";" UId="550" />
+              <NewLine UId="551" />
+              <Blank Num="4" UId="552" />
+              <Access Scope="LocalVariable" UId="553">
+                <Symbol UId="554">
+                  <Component Name="FC_SclTypes" UId="555" />
+                </Symbol>
+              </Access>
+              <Blank UId="556" />
+              <Token Text=":=" UId="557" />
+              <Blank UId="558" />
+              <Access Scope="LocalVariable" UId="559">
+                <Symbol UId="560">
+                  <Component Name="TempReal" UId="561" />
+                </Symbol>
+              </Access>
+              <Token Text=";" UId="562" />
+              <NewLine UId="563" />
+            </StructuredText>
+          </NetworkSource>
+          <ProgrammingLanguage>SCL</ProgrammingLanguage>
+        </AttributeList>
+        <ObjectList>
+          <MultilingualText ID="5" CompositionName="Comment">
+            <ObjectList>
+              <MultilingualTextItem ID="6" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="7" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+          <MultilingualText ID="8" CompositionName="Title">
+            <ObjectList>
+              <MultilingualTextItem ID="9" CompositionName="Items">
+                <AttributeList>
+                  <Culture>de-DE</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+              <MultilingualTextItem ID="A" CompositionName="Items">
+                <AttributeList>
+                  <Culture>en-US</Culture>
+                  <Text />
+                </AttributeList>
+              </MultilingualTextItem>
+            </ObjectList>
+          </MultilingualText>
+        </ObjectList>
+      </SW.Blocks.CompileUnit>
+      <MultilingualText ID="B" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="C" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="D" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text>Elementary data types and conversions</Text>
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.FC>
+</Document>

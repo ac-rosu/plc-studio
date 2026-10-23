@@ -1,0 +1,123 @@
+﻿{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION_BLOCK "FB_SclSections_B03"
+    VAR_INPUT
+        { S7_MLC := "MLC_3h5" }
+        Enable : Bool;
+        { S7_MLC := "MLC_36C" }
+        Mode : Int;
+        { S7_MLC := "MLC_kf" }
+        Setpoint : Real;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_xJ" }
+        Busy : Bool;
+        { S7_MLC := "MLC_3Dp" }
+        Result : Real;
+        { S7_MLC := "MLC_4pm" }
+        StepCount : Int;
+    END_VAR
+    VAR_IN_OUT
+        { S7_MLC := "MLC_Ua" }
+        Values : Array[0..9] of Real;
+    END_VAR
+    VAR
+        { S7_MLC := "MLC_37K" }
+        State : Int;
+        { S7_MLC := "MLC_4Lr" }
+        Sum : Real;
+        { S7_MLC := "MLC_53t" }
+        Iterations : Int;
+    END_VAR
+    VAR_TEMP
+        { S7_MLC := "MLC_53K" }
+        Index : Int;
+        { S7_MLC := "MLC_4mq" }
+        Guard : Int;
+        { S7_MLC := "MLC_4xX" }
+        Average : Real;
+    END_VAR
+    VAR CONSTANT
+        { S7_MLC := "MLC_4Ya" }
+        MAXIMUM_INDEX : Int := 9;
+        { S7_MLC := "MLC_548" }
+        MAXIMUM_ITERATIONS : Int := 100;
+        { S7_MLC := "MLC_4FH" }
+        STATE_IDLE : Int := 0;
+        { S7_MLC := "MLC_33G" }
+        STATE_RUN : Int := 10;
+        { S7_MLC := "MLC_4Ft" }
+        LIMIT_VALUE : Real := 1000.0;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            REGION Input processing
+                // Reset the outputs when the block is disabled
+                IF NOT #Enable THEN
+                    #Busy := FALSE;
+                    #State := #STATE_IDLE;
+                ELSIF #Mode = 1 THEN
+                    #Busy := TRUE;
+                ELSE
+                    #Busy := #Mode > 1;
+                END_IF;
+            END_REGION
+            
+            REGION State machine
+                CASE #Mode OF
+                    0:
+                        #State := #STATE_IDLE;
+                    1:
+                        #State := #STATE_RUN;
+                    2..5:
+                        #State := #STATE_RUN + #Mode;
+                    ELSE
+                        #State := #STATE_IDLE;
+                END_CASE;
+            END_REGION
+            
+            REGION Loops
+                (* Sum all valid values: skip negative values and stop at the limit *)
+                #Sum := 0.0;
+                #Iterations := 0;
+                FOR #Index := 0 TO #MAXIMUM_INDEX DO
+                    IF #Values[#Index] < 0.0 THEN
+                        CONTINUE;
+                    END_IF;
+                    IF #Values[#Index] > #LIMIT_VALUE THEN
+                        EXIT;
+                    END_IF;
+                    #Sum := #Sum + #Values[#Index];
+                    #Iterations := #Iterations + 1;
+                END_FOR;
+                
+                // Reduce the sum to the setpoint, bounded by a guard
+                #Guard := 0;
+                WHILE (#Sum > #Setpoint) AND (#Guard < #MAXIMUM_ITERATIONS) DO
+                    #Sum := #Sum - 1.0;
+                    #Guard := #Guard + 1;
+                END_WHILE;
+                
+                #Guard := 0;
+                REPEAT
+                    #Guard := #Guard + 1;
+                UNTIL (#Guard >= #MAXIMUM_ITERATIONS) OR (#Sum >= 0.0)
+                END_REPEAT;
+            END_REGION
+            
+            REGION Outputs
+                IF #Iterations > 0 THEN
+                    #Average := #Sum / INT_TO_REAL(#Iterations);
+                ELSE
+                    #Average := 0.0;
+                #Result := #Average;
+                #StepCount := #Iterations;
+            END_REGION
+        
+    END_NETWORK
+END_FUNCTION_BLOCK

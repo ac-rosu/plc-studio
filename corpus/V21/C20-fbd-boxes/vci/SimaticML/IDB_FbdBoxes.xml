@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Document>
+  <Engineering version="V21" />
+  <SW.Blocks.InstanceDB ID="0">
+    <AttributeList>
+      <InstanceOfName>FB_FbdBoxes</InstanceOfName>
+      <InstanceOfType>FB</InstanceOfType>
+      <Interface>
+        <Sections xmlns="http://www.siemens.com/automation/Openness/SW/Interface/v5">
+          <Section Name="Input">
+            <Member Name="Start" Datatype="Bool" />
+            <Member Name="InValue" Datatype="Int" />
+            <Member Name="Limit" Datatype="Int" />
+          </Section>
+          <Section Name="Output">
+            <Member Name="Delayed" Datatype="Bool" />
+            <Member Name="Copy" Datatype="Int" />
+            <Member Name="Sum" Datatype="Int" />
+            <Member Name="IsEqual" Datatype="Bool" />
+            <Member Name="SectionsOk" Datatype="Bool" />
+            <Member Name="Skipped" Datatype="Bool" />
+            <Member Name="AfterJump" Datatype="Bool" />
+          </Section>
+          <Section Name="InOut" />
+          <Section Name="Static">
+            <Member Name="Delay" Datatype="TON_TIME" Version="1.0">
+              <AttributeList>
+                <BooleanAttribute Name="SetPoint" SystemDefined="true">true</BooleanAttribute>
+              </AttributeList>
+            </Member>
+            <Member Name="DelayElapsed" Datatype="Time" />
+            <Member Name="Timers" Datatype="&quot;FB_SclTimers&quot;">
+              <AttributeList>
+                <BooleanAttribute Name="SetPoint" SystemDefined="true">true</BooleanAttribute>
+              </AttributeList>
+            </Member>
+            <Member Name="TimerRunOn" Datatype="Bool" />
+            <Member Name="TimerPulse" Datatype="Bool" />
+            <Member Name="TimerCount" Datatype="Int" />
+            <Member Name="TimerDelayed" Datatype="Bool" />
+            <Member Name="TimerReached" Datatype="Bool" />
+          </Section>
+        </Sections>
+      </Interface>
+      <Name>IDB_FbdBoxes</Name>
+      <Namespace />
+      <Number>22</Number>
+      <ProgrammingLanguage>DB</ProgrammingLanguage>
+    </AttributeList>
+    <ObjectList>
+      <MultilingualText ID="1" CompositionName="Comment">
+        <ObjectList>
+          <MultilingualTextItem ID="2" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="3" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+      <MultilingualText ID="4" CompositionName="Title">
+        <ObjectList>
+          <MultilingualTextItem ID="5" CompositionName="Items">
+            <AttributeList>
+              <Culture>de-DE</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+          <MultilingualTextItem ID="6" CompositionName="Items">
+            <AttributeList>
+              <Culture>en-US</Culture>
+              <Text />
+            </AttributeList>
+          </MultilingualTextItem>
+        </ObjectList>
+      </MultilingualText>
+    </ObjectList>
+  </SW.Blocks.InstanceDB>
+</Document>

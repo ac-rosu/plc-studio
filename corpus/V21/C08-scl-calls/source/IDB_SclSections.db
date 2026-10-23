@@ -1,0 +1,17 @@
+﻿DATA_BLOCK "IDB_SclSections"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+NON_RETAIN
+"FB_SclSections"
+
+BEGIN
+   Enable := TRUE;
+   Mode := 2;
+   Setpoint := 50.0;
+   Busy := TRUE;
+   State := 10;
+   Sum := 12.5;
+   Iterations := 3;
+
+END_DATA_BLOCK
+

@@ -1,0 +1,18 @@
+TYPE
+    UDT_Recipe : STRUCT
+        { S7_MLC := "MLC_3bK" }
+        "Id" : Int := 1;
+        { S7_MLC := "MLC_4mq" }
+        RecipeName : String[20] := 'Default';
+        { S7_MLC := "MLC_3wa" }
+        Volumes : Array[1..10] of Real := [
+            1.0,
+            2.0,
+            8(0.5)
+        ];
+        { S7_MLC := "MLC_58c" }
+        FillTime : Time := T#5S;
+        { S7_MLC := "MLC_3j7" }
+        Temperature : Real := 20.0;
+    END_STRUCT;
+END_TYPE

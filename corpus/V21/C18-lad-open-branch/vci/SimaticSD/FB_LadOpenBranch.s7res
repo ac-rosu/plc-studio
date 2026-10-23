@@ -1,0 +1,23 @@
+﻿MultiLingualTexts:
+  - id: MLC_I1
+    en-US: Start command
+  - id: MLC_I2
+    en-US: Stop command
+  - id: MLC_O1
+    en-US: First parallel coil
+  - id: MLC_O2
+    en-US: Second parallel coil
+  - id: MLC_O3
+    en-US: Third parallel coil, only without stop
+  - id: MLC_O4
+    en-US: Coil of the network with the open branch
+  - id: MLC_O5
+    en-US: Set by the open branch when stop is pressed during start
+  - id: MLC_S1
+    en-US: Number of cycles with start pressed
+  - id: MLC_N1T
+    en-US: Several coils in parallel
+  - id: MLC_N2T
+    en-US: Open branch from the main rung, not closed again
+  - id: MLC_N3T
+    en-US: Network ending in a box

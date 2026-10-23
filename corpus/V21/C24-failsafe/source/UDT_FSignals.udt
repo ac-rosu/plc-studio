@@ -1,0 +1,12 @@
+﻿TYPE "UDT_FSignals"
+TITLE = Safety signals
+VERSION : 0.1
+//F-compliant safety signals
+   STRUCT
+      GuardClosed : Bool;   // Guard door closed
+      EmergencyStopOk : Bool;   // Emergency stop not pressed
+      Acknowledge : Bool;   // Operator acknowledgement
+   END_STRUCT;
+
+END_TYPE
+

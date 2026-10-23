@@ -1,0 +1,68 @@
+{
+  "caseId": "C26k",
+  "title": "Block no OB calls",
+  "kind": "analyzer",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FC_AnaDead",
+      "type": "FC",
+      "number": 15,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Analyzer",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FC_AnaDead.s7dcl",
+      "documents/FC_AnaDead.s7res"
+    ],
+    "source": [
+      "source/FC_AnaDead.scl"
+    ],
+    "simaticml": [
+      "simaticml/FC_AnaDead.xml"
+    ],
+    "vci": [
+      "vci/SimaticSD/FC_AnaDead.s7dcl",
+      "vci/SimaticSD/FC_AnaDead.s7res",
+      "vci/SimaticML/FC_AnaDead.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Analyzer > FC_AnaDead (FC15)",
+        "block": "FC_AnaDead",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FC_AnaDead: compile-clean-PLC_Main.json batches[s2-b12-C26-C12.json] compiles[0]"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [
+    {
+      "rule": "dead-block",
+      "block": "FC_AnaDead",
+      "line": null
+    }
+  ],
+  "notes": ""
+}

@@ -1,0 +1,23 @@
+﻿FUNCTION "FC_AnaOutputPath" : Void
+TITLE = Analyzer: output not written on every path
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+//Rule C26d: Result is not written when Select is FALSE
+   VAR_INPUT 
+      Select : Bool;   // Select the value
+      Value : Int;   // Value
+   END_VAR
+
+   VAR_OUTPUT 
+      Result : Int;   // Result
+   END_VAR
+
+
+BEGIN
+	
+	    IF #Select THEN
+	        #Result := #Value;
+	    END_IF;
+	
+END_FUNCTION
+

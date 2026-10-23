@@ -1,0 +1,14 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+ORGANIZATION_BLOCK "OB_DiagError"
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            // Flag the diagnostic event
+            "DB_Machine".StatusWord := "DB_Machine".StatusWord OR 16#0001;
+        
+    END_NETWORK
+END_ORGANIZATION_BLOCK

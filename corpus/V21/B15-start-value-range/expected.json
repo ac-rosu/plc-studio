@@ -1,0 +1,65 @@
+{
+  "caseId": "B15",
+  "title": "Int start value out of range",
+  "kind": "broken",
+  "basedOn": "C02",
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "DB_Machine_B15",
+      "type": "GlobalDB",
+      "number": 24,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": "Broken",
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/DB_Machine_B15.s7dcl",
+      "documents/DB_Machine_B15.s7res"
+    ],
+    "source": [
+      "source/DB_Machine_B15.db"
+    ],
+    "vci": [
+      "vci/SimaticSD/DB_Machine_B15.s7dcl",
+      "vci/SimaticSD/DB_Machine_B15.s7res"
+    ],
+    "refused": {
+      "simaticml": {
+        "DB_Machine_B15": "Error when calling method 'Export' of type 'Siemens.Engineering.SW.Blocks.GlobalDB'. Inconsistent blocks and PLC data types (UDT) cannot be exported."
+      },
+      "vci_SimaticML": {
+        "DB_Machine_B15": "Error when calling method 'ExportObject' of type 'Siemens.Engineering.VersionControl.Workspace'. DB_Machine_B15 [DB24] object(s) is not consistent"
+      }
+    }
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Broken > DB_Machine_B15 (DB24) > Interface",
+        "block": "DB_Machine_B15",
+        "line": null,
+        "network": null,
+        "description": "The value is outside the valid range of -32768 to 32767."
+      }
+    ],
+    "sources": [
+      "DB_Machine_B15: compile-broken-PLC_Main.json final"
+    ]
+  },
+  "intendedError": "Int start value out of range: \"PieceCount := 40000;\"",
+  "analyzerExpect": [],
+  "notes": ""
+}
