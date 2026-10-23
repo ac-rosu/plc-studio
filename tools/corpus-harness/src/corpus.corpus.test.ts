@@ -13,7 +13,7 @@ import {
   loadCases,
 } from './corpus.ts';
 import { POLICY_EXPECTATIONS } from './gates.ts';
-import { corePrinter, syntaxChecker } from './core-adapters.ts';
+import { corePrinter, projectChecker } from './core-adapters.ts';
 import { renderReport } from './report.ts';
 import { gatesPassed, runGates } from './run.ts';
 import { tiaLocation } from './tia-location.ts';
@@ -91,15 +91,21 @@ describe('TIA line mapping on corpus files', () => {
 });
 
 describe('gates', () => {
-  it('pass with the placeholder parser and checker', async () => {
-    const run = await runGates(corpusRoot, corePrinter, syntaxChecker);
+  const baseline = JSON.parse(
+    readFileSync(new URL('../baseline.json', import.meta.url), 'utf8'),
+  ) as Record<string, Record<string, number>>;
+
+  it('pass with the core parsers and the project checker', async () => {
+    const run = await runGates(corpusRoot, corePrinter, projectChecker(corpusRoot));
     const report = renderReport(run);
+    // round trip 100% and zero false errors
     expect(gatesPassed(run), report).toBe(true);
     const v21 = run.versions.find((v) => v.version === 'V21')!;
     expect(v21.roundTrip.checked).toBeGreaterThan(400);
-    expect(v21.plcs.every((p) => p.coverage.expected >= 0)).toBe(true);
-    expect(
-      v21.plcs.find((p) => p.plc === 'PLC_Main' && p.variant === 'documents')!.coverage.expected,
-    ).toBeGreaterThan(0);
+    // error coverage never drops below the recorded baseline
+    for (const p of v21.plcs) {
+      const floor = baseline['V21']?.[`${p.plc}/${p.variant}`] ?? 0;
+      expect(p.coverage.matched, `${p.plc}/${p.variant}\n${report}`).toBeGreaterThanOrEqual(floor);
+    }
   });
 });

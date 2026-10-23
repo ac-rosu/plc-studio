@@ -22,7 +22,8 @@
     "test:corpus": "vitest run --project corpus",
     "test:web": "vitest run --project web",
     "corpus:report": "node tools/corpus-harness/src/cli.ts",
-    "package": "npm run package -w plcstudio"
+    "package": "npm run package -w plcstudio",
+    "corpus:inspect": "node tools/corpus-harness/src/inspect.ts"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

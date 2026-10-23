@@ -1,0 +1,11 @@
+{
+  "$comment": "Error coverage per corpus PLC and export variant: TIA errors the extension also reports at the right line. Never allowed to drop (spec, release gates). Update when coverage rises.",
+  "V21": {
+    "PLC_Main/documents": 21,
+    "PLC_Main/vci": 21,
+    "PLC_Main/source": 20,
+    "PLC_1200/documents": 2,
+    "PLC_1200/vci": 2,
+    "PLC_1200/source": 2
+  }
+}

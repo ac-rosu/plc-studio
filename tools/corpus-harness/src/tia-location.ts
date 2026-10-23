@@ -35,6 +35,8 @@ export function tiaLocation(text: string, fileLine: number, extension: string): 
       ? { kind: 'interface' }
       : { kind: 'line', line: fileLine - networkLine };
   }
+  // a data block has no code: TIA reports its start values under the interface
+  if (extension === '.db') return { kind: 'interface' };
   const beginLine = lines.findIndex((line) => BEGIN.test(line)) + 1;
   if (beginLine === 0 || fileLine <= beginLine) return { kind: 'interface' };
   return { kind: 'line', line: fileLine - beginLine };

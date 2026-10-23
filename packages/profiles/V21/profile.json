@@ -3,7 +3,1648 @@
   "id": "V21",
   "tiaVersion": "V21",
   "extends": null,
-  "instructions": [],
-  "systemTypes": [],
+  "elementaryTypes": [
+    {
+      "name": "Bool",
+      "class": "bool",
+      "bits": 1,
+      "literalPrefixes": ["BOOL"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "Byte",
+      "class": "bit",
+      "bits": 8,
+      "literalPrefixes": ["BYTE", "B"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "Word",
+      "class": "bit",
+      "bits": 16,
+      "literalPrefixes": ["WORD", "W"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "DWord",
+      "class": "bit",
+      "bits": 32,
+      "literalPrefixes": ["DWORD", "DW"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "LWord",
+      "class": "bit",
+      "bits": 64,
+      "literalPrefixes": ["LWORD", "LW"],
+      "cpuFamilies": ["S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "SInt",
+      "class": "int",
+      "bits": 8,
+      "signed": true,
+      "min": "-128",
+      "max": "127",
+      "literalPrefixes": ["SINT"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "USInt",
+      "class": "int",
+      "bits": 8,
+      "signed": false,
+      "min": "0",
+      "max": "255",
+      "literalPrefixes": ["USINT"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "Int",
+      "class": "int",
+      "bits": 16,
+      "signed": true,
+      "min": "-32768",
+      "max": "32767",
+      "literalPrefixes": ["INT"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02", "B15"] }
+    },
+    {
+      "name": "UInt",
+      "class": "int",
+      "bits": 16,
+      "signed": false,
+      "min": "0",
+      "max": "65535",
+      "literalPrefixes": ["UINT"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "DInt",
+      "class": "int",
+      "bits": 32,
+      "signed": true,
+      "min": "-2147483648",
+      "max": "2147483647",
+      "literalPrefixes": ["DINT", "L"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "UDInt",
+      "class": "int",
+      "bits": 32,
+      "signed": false,
+      "min": "0",
+      "max": "4294967295",
+      "literalPrefixes": ["UDINT"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "LInt",
+      "class": "int",
+      "bits": 64,
+      "signed": true,
+      "min": "-9223372036854775808",
+      "max": "9223372036854775807",
+      "literalPrefixes": ["LINT"],
+      "cpuFamilies": ["S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "ULInt",
+      "class": "int",
+      "bits": 64,
+      "signed": false,
+      "min": "0",
+      "max": "18446744073709551615",
+      "literalPrefixes": ["ULINT"],
+      "cpuFamilies": ["S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "Real",
+      "class": "real",
+      "bits": 32,
+      "literalPrefixes": ["REAL"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "LReal",
+      "class": "real",
+      "bits": 64,
+      "literalPrefixes": ["LREAL"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "Time",
+      "class": "time",
+      "bits": 32,
+      "literalPrefixes": ["T", "TIME"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02", "B14"] }
+    },
+    {
+      "name": "LTime",
+      "class": "time",
+      "bits": 64,
+      "literalPrefixes": ["LT", "LTIME"],
+      "cpuFamilies": ["S7-1500"],
+      "verification": { "verified": true, "cases": ["C02", "B24"] }
+    },
+    {
+      "name": "S5Time",
+      "class": "time",
+      "bits": 16,
+      "literalPrefixes": ["S5T", "S5TIME"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "Date",
+      "class": "date",
+      "bits": 16,
+      "literalPrefixes": ["D", "DATE"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "Time_Of_Day",
+      "aliases": ["TOD"],
+      "class": "tod",
+      "bits": 32,
+      "literalPrefixes": ["TOD", "TIME_OF_DAY"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "LTime_Of_Day",
+      "aliases": ["LTOD"],
+      "class": "tod",
+      "bits": 64,
+      "literalPrefixes": ["LTOD", "LTIME_OF_DAY"],
+      "cpuFamilies": ["S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "Date_And_Time",
+      "aliases": ["DT"],
+      "class": "dt",
+      "bits": 64,
+      "literalPrefixes": ["DT", "DATE_AND_TIME"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "LDT",
+      "aliases": ["LDate_And_Time"],
+      "class": "dt",
+      "bits": 64,
+      "literalPrefixes": ["LDT"],
+      "cpuFamilies": ["S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "DTL",
+      "class": "dt",
+      "bits": 96,
+      "literalPrefixes": ["DTL"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "Char",
+      "class": "char",
+      "bits": 8,
+      "literalPrefixes": ["CHAR"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "WChar",
+      "class": "char",
+      "bits": 16,
+      "literalPrefixes": ["WCHAR"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "String",
+      "class": "string",
+      "bits": 2048,
+      "literalPrefixes": ["STRING"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "WString",
+      "class": "string",
+      "bits": 4096,
+      "literalPrefixes": ["WSTRING"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02"] }
+    },
+    {
+      "name": "Variant",
+      "class": "pointer",
+      "bits": 0,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C09"] }
+    },
+    {
+      "name": "DB_ANY",
+      "class": "pointer",
+      "bits": 16,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C09"] }
+    },
+    {
+      "name": "Any",
+      "class": "pointer",
+      "bits": 80,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": false }
+    },
+    {
+      "name": "Pointer",
+      "class": "pointer",
+      "bits": 48,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": false }
+    },
+    {
+      "name": "Void",
+      "class": "void",
+      "bits": 0,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C16"] }
+    }
+  ],
+  "systemTypes": [
+    {
+      "name": "TON_TIME",
+      "kind": "fb",
+      "instruction": "TON",
+      "parameters": ["in IN: Bool", "in PT: Time", "out Q: Bool", "out ET: Time"],
+      "description": "Instance of an on-delay timer.",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C07", "B14"] }
+    },
+    {
+      "name": "TOF_TIME",
+      "kind": "fb",
+      "instruction": "TOF",
+      "parameters": ["in IN: Bool", "in PT: Time", "out Q: Bool", "out ET: Time"],
+      "description": "Instance of an off-delay timer.",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C07"] }
+    },
+    {
+      "name": "TP_TIME",
+      "kind": "fb",
+      "instruction": "TP",
+      "parameters": ["in IN: Bool", "in PT: Time", "out Q: Bool", "out ET: Time"],
+      "description": "Instance of a pulse timer.",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C07"] }
+    },
+    {
+      "name": "TONR_TIME",
+      "kind": "fb",
+      "instruction": "TONR",
+      "parameters": ["in IN: Bool", "in R: Bool", "in PT: Time", "out Q: Bool", "out ET: Time"],
+      "description": "Instance of an accumulating on-delay timer.",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": false }
+    },
+    {
+      "name": "IEC_TIMER",
+      "kind": "fb",
+      "instruction": "TON",
+      "parameters": ["in IN: Bool", "in PT: Time", "out Q: Bool", "out ET: Time"],
+      "description": "Generic IEC timer instance.",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": false }
+    },
+    {
+      "name": "TON_LTIME",
+      "kind": "fb",
+      "instruction": "TON",
+      "parameters": ["in IN: Bool", "in PT: LTime", "out Q: Bool", "out ET: LTime"],
+      "description": "On-delay timer instance with LTime resolution.",
+      "cpuFamilies": ["S7-1500"],
+      "verification": { "verified": false }
+    },
+    {
+      "name": "TOF_LTIME",
+      "kind": "fb",
+      "instruction": "TOF",
+      "parameters": ["in IN: Bool", "in PT: LTime", "out Q: Bool", "out ET: LTime"],
+      "description": "Off-delay timer instance with LTime resolution.",
+      "cpuFamilies": ["S7-1500"],
+      "verification": { "verified": false }
+    },
+    {
+      "name": "TP_LTIME",
+      "kind": "fb",
+      "instruction": "TP",
+      "parameters": ["in IN: Bool", "in PT: LTime", "out Q: Bool", "out ET: LTime"],
+      "description": "Pulse timer instance with LTime resolution.",
+      "cpuFamilies": ["S7-1500"],
+      "verification": { "verified": false }
+    },
+    {
+      "name": "TONR_LTIME",
+      "kind": "fb",
+      "instruction": "TONR",
+      "parameters": ["in IN: Bool", "in R: Bool", "in PT: LTime", "out Q: Bool", "out ET: LTime"],
+      "description": "Accumulating timer instance with LTime resolution.",
+      "cpuFamilies": ["S7-1500"],
+      "verification": { "verified": false }
+    },
+    {
+      "name": "IEC_LTIMER",
+      "kind": "fb",
+      "instruction": "TON",
+      "parameters": ["in IN: Bool", "in PT: LTime", "out Q: Bool", "out ET: LTime"],
+      "description": "Generic IEC timer instance with LTime resolution.",
+      "cpuFamilies": ["S7-1500"],
+      "verification": { "verified": false }
+    },
+    {
+      "name": "CTU_INT",
+      "kind": "fb",
+      "instruction": "CTU",
+      "parameters": ["in CU: Bool", "in R: Bool", "in PV: Int", "out Q: Bool", "out CV: Int"],
+      "description": "Instance of an up counter counting in Int.",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C07"] }
+    },
+    {
+      "name": "CTU_DINT",
+      "kind": "fb",
+      "instruction": "CTU",
+      "parameters": ["in CU: Bool", "in R: Bool", "in PV: DInt", "out Q: Bool", "out CV: DInt"],
+      "description": "Instance of an up counter counting in DInt.",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": false }
+    },
+    {
+      "name": "CTU_UDINT",
+      "kind": "fb",
+      "instruction": "CTU",
+      "parameters": ["in CU: Bool", "in R: Bool", "in PV: UDInt", "out Q: Bool", "out CV: UDInt"],
+      "description": "Instance of an up counter counting in UDInt.",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": false }
+    },
+    {
+      "name": "CTD_INT",
+      "kind": "fb",
+      "instruction": "CTD",
+      "parameters": ["in CD: Bool", "in LD: Bool", "in PV: Int", "out Q: Bool", "out CV: Int"],
+      "description": "Instance of a down counter counting in Int.",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": false }
+    },
+    {
+      "name": "CTD_DINT",
+      "kind": "fb",
+      "instruction": "CTD",
+      "parameters": ["in CD: Bool", "in LD: Bool", "in PV: DInt", "out Q: Bool", "out CV: DInt"],
+      "description": "Instance of a down counter counting in DInt.",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": false }
+    },
+    {
+      "name": "CTUD_INT",
+      "kind": "fb",
+      "instruction": "CTUD",
+      "parameters": [
+        "in CU: Bool",
+        "in CD: Bool",
+        "in R: Bool",
+        "in LD: Bool",
+        "in PV: Int",
+        "out QU: Bool",
+        "out QD: Bool",
+        "out CV: Int"
+      ],
+      "description": "Instance of an up/down counter counting in Int.",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": false }
+    },
+    {
+      "name": "CTUD_DINT",
+      "kind": "fb",
+      "instruction": "CTUD",
+      "parameters": [
+        "in CU: Bool",
+        "in CD: Bool",
+        "in R: Bool",
+        "in LD: Bool",
+        "in PV: DInt",
+        "out QU: Bool",
+        "out QD: Bool",
+        "out CV: DInt"
+      ],
+      "description": "Instance of an up/down counter counting in DInt.",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": false }
+    },
+    {
+      "name": "IEC_COUNTER",
+      "kind": "fb",
+      "instruction": "CTUD",
+      "parameters": [
+        "in CU: Bool",
+        "in CD: Bool",
+        "in R: Bool",
+        "in LD: Bool",
+        "in PV: Int",
+        "out QU: Bool",
+        "out QD: Bool",
+        "out CV: Int"
+      ],
+      "description": "Generic IEC counter instance (Int).",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": false }
+    },
+    {
+      "name": "IEC_DCOUNTER",
+      "kind": "fb",
+      "instruction": "CTUD",
+      "parameters": [
+        "in CU: Bool",
+        "in CD: Bool",
+        "in R: Bool",
+        "in LD: Bool",
+        "in PV: DInt",
+        "out QU: Bool",
+        "out QD: Bool",
+        "out CV: DInt"
+      ],
+      "description": "Generic IEC counter instance (DInt).",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": false }
+    },
+    {
+      "name": "R_TRIG",
+      "kind": "fb",
+      "instruction": "R_TRIG",
+      "parameters": ["in CLK: Bool", "out Q: Bool"],
+      "description": "Detects a rising edge; keeps its memory in the instance.",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C07"] }
+    },
+    {
+      "name": "F_TRIG",
+      "kind": "fb",
+      "instruction": "F_TRIG",
+      "parameters": ["in CLK: Bool", "out Q: Bool"],
+      "description": "Detects a falling edge; keeps its memory in the instance.",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C07"] }
+    },
+    {
+      "name": "DTL",
+      "kind": "struct",
+      "members": [
+        "YEAR: UInt",
+        "MONTH: USInt",
+        "DAY: USInt",
+        "WEEKDAY: USInt",
+        "HOUR: USInt",
+        "MINUTE: USInt",
+        "SECOND: USInt",
+        "NANOSECOND: UDInt"
+      ],
+      "description": "Date and time of day as a structure.",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": true, "cases": ["C02", "C07"] }
+    },
+    {
+      "name": "ErrorStruct",
+      "kind": "struct",
+      "members": [
+        "ERROR_ID: Word",
+        "FLAGS: Byte",
+        "REACTION: Byte",
+        "CODE_ADDRESS: CREF",
+        "MODE: Byte",
+        "OPERAND_NUMBER: UInt",
+        "POINTER_NUMBER_LOCATION: UInt",
+        "SLOT_NUMBER_SCOPE: UInt",
+        "DATA_ADDRESS: NREF"
+      ],
+      "description": "Local error information written by GET_ERROR.",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "verification": { "verified": false }
+    }
+  ],
+  "instructions": [
+    {
+      "name": "ABS",
+      "kind": "function",
+      "parameters": ["in IN: ANY_NUM"],
+      "returnType": "=IN",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Absolute value of a number.",
+      "verification": { "verified": true, "cases": ["C08"] }
+    },
+    {
+      "name": "MIN",
+      "kind": "function",
+      "parameters": ["in IN1: ANY_NUM", "in IN2: ANY_NUM"],
+      "returnType": "=IN1",
+      "variadic": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Smallest of the inputs.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "MAX",
+      "kind": "function",
+      "parameters": ["in IN1: ANY_NUM", "in IN2: ANY_NUM"],
+      "returnType": "=IN1",
+      "variadic": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Largest of the inputs.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "LIMIT",
+      "kind": "function",
+      "parameters": ["in MN: ANY_NUM", "in IN: ANY_NUM", "in MX: ANY_NUM"],
+      "returnType": "=IN",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Clamps a value between a lower and an upper limit.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "SQR",
+      "kind": "function",
+      "parameters": ["in IN: ANY_REAL"],
+      "returnType": "=IN",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Square of a floating-point number.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "SQRT",
+      "kind": "function",
+      "parameters": ["in IN: ANY_REAL"],
+      "returnType": "=IN",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Square root of a floating-point number.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "LN",
+      "kind": "function",
+      "parameters": ["in IN: ANY_REAL"],
+      "returnType": "=IN",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Natural logarithm.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "EXP",
+      "kind": "function",
+      "parameters": ["in IN: ANY_REAL"],
+      "returnType": "=IN",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "e raised to the input.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "SIN",
+      "kind": "function",
+      "parameters": ["in IN: ANY_REAL"],
+      "returnType": "=IN",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Sine of an angle in radians.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "COS",
+      "kind": "function",
+      "parameters": ["in IN: ANY_REAL"],
+      "returnType": "=IN",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Cosine of an angle in radians.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "TAN",
+      "kind": "function",
+      "parameters": ["in IN: ANY_REAL"],
+      "returnType": "=IN",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Tangent of an angle in radians.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "ASIN",
+      "kind": "function",
+      "parameters": ["in IN: ANY_REAL"],
+      "returnType": "=IN",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Arc sine, result in radians.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "ACOS",
+      "kind": "function",
+      "parameters": ["in IN: ANY_REAL"],
+      "returnType": "=IN",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Arc cosine, result in radians.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "ATAN",
+      "kind": "function",
+      "parameters": ["in IN: ANY_REAL"],
+      "returnType": "=IN",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Arc tangent, result in radians.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "FRAC",
+      "kind": "function",
+      "parameters": ["in IN: ANY_REAL"],
+      "returnType": "=IN",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Fractional part of a floating-point number.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "EXPT",
+      "kind": "function",
+      "parameters": ["in IN1: ANY_REAL", "in IN2: ANY_NUM"],
+      "returnType": "=IN1",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Raises the first input to the power of the second.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "ROUND",
+      "kind": "function",
+      "parameters": ["in IN: ANY_REAL"],
+      "returnType": "ANY_INT",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Rounds to the nearest whole number; halves go to the even neighbour.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "TRUNC",
+      "kind": "function",
+      "parameters": ["in IN: ANY_REAL"],
+      "returnType": "ANY_INT",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Drops the fractional part (rounds toward zero).",
+      "verification": { "verified": true, "cases": ["C06"] }
+    },
+    {
+      "name": "CEIL",
+      "kind": "function",
+      "parameters": ["in IN: ANY_REAL"],
+      "returnType": "ANY_INT",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Rounds up to the next whole number.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "FLOOR",
+      "kind": "function",
+      "parameters": ["in IN: ANY_REAL"],
+      "returnType": "ANY_INT",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Rounds down to the next whole number.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "NORM_X",
+      "kind": "function",
+      "parameters": ["in MIN: ANY_NUM", "in VALUE: ANY_NUM", "in MAX: ANY_NUM"],
+      "returnType": "ANY_REAL",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Maps a value from its range onto 0.0 to 1.0.",
+      "verification": { "verified": true, "cases": ["C25"] }
+    },
+    {
+      "name": "SCALE_X",
+      "kind": "function",
+      "parameters": ["in MIN: ANY_NUM", "in VALUE: ANY_REAL", "in MAX: ANY_NUM"],
+      "returnType": "ANY_NUM",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Maps a value from 0.0 to 1.0 onto a target range.",
+      "verification": { "verified": true, "cases": ["C25"] }
+    },
+    {
+      "name": "SEL",
+      "kind": "function",
+      "parameters": ["in G: Bool", "in IN0: ANY", "in IN1: ANY"],
+      "returnType": "=IN0",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Returns IN1 when G is true, otherwise IN0.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "MUX",
+      "kind": "function",
+      "parameters": ["in K: ANY_INT", "in IN0: ANY", "in IN1: ANY"],
+      "returnType": "=IN0",
+      "variadic": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Returns the input selected by K.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "SHL",
+      "kind": "function",
+      "parameters": ["in IN: ANY_BIT", "in N: ANY_INT"],
+      "returnType": "=IN",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Shifts bits to the left by N places.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "SHR",
+      "kind": "function",
+      "parameters": ["in IN: ANY_BIT", "in N: ANY_INT"],
+      "returnType": "=IN",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Shifts bits to the right by N places.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "ROL",
+      "kind": "function",
+      "parameters": ["in IN: ANY_BIT", "in N: ANY_INT"],
+      "returnType": "=IN",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Rotates bits to the left by N places.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "ROR",
+      "kind": "function",
+      "parameters": ["in IN: ANY_BIT", "in N: ANY_INT"],
+      "returnType": "=IN",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Rotates bits to the right by N places.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "SWAP",
+      "kind": "function",
+      "parameters": ["in IN: ANY_BIT"],
+      "returnType": "=IN",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Reverses the byte order.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "MOVE_BLK",
+      "kind": "function",
+      "parameters": ["in IN: ANY", "in COUNT: UDInt", "out OUT: ANY"],
+      "returnType": "Void",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Copies part of an array into another array of the same element type.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "UMOVE_BLK",
+      "kind": "function",
+      "parameters": ["in IN: ANY", "in COUNT: UDInt", "out OUT: ANY"],
+      "returnType": "Void",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Like MOVE_BLK, but cannot be interrupted.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "FILL_BLK",
+      "kind": "function",
+      "parameters": ["in IN: ANY", "in COUNT: UDInt", "out OUT: ANY"],
+      "returnType": "Void",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Fills part of an array with one value.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "MOVE_BLK_VARIANT",
+      "kind": "function",
+      "parameters": [
+        "in SRC: Variant",
+        "in COUNT: UDInt",
+        "in SRC_INDEX: DInt",
+        "in DEST_INDEX: DInt",
+        "out DEST: Variant"
+      ],
+      "returnType": "Int",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Copies array elements whose type is known only at run time.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "Serialize",
+      "kind": "function",
+      "parameters": ["in SRC_VARIABLE: Variant", "out DEST_ARRAY: Variant", "inout POS: DInt"],
+      "returnType": "Int",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Writes a structured value into a byte array.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "Deserialize",
+      "kind": "function",
+      "parameters": ["in SRC_ARRAY: Variant", "out DEST_VARIABLE: Variant", "inout POS: DInt"],
+      "returnType": "Int",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Reads a structured value from a byte array.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "LEN",
+      "kind": "function",
+      "parameters": ["in IN: ANY_STRING"],
+      "returnType": "Int",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Current length of a string.",
+      "verification": { "verified": true, "cases": ["C09"] }
+    },
+    {
+      "name": "CONCAT",
+      "kind": "function",
+      "parameters": ["in IN1: ANY_STRING", "in IN2: ANY_STRING"],
+      "returnType": "=IN1",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Joins two strings.",
+      "verification": { "verified": true, "cases": ["C09"] }
+    },
+    {
+      "name": "LEFT",
+      "kind": "function",
+      "parameters": ["in IN: ANY_STRING", "in L: Int"],
+      "returnType": "=IN",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "First L characters of a string.",
+      "verification": { "verified": true, "cases": ["C09"] }
+    },
+    {
+      "name": "RIGHT",
+      "kind": "function",
+      "parameters": ["in IN: ANY_STRING", "in L: Int"],
+      "returnType": "=IN",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Last L characters of a string.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "MID",
+      "kind": "function",
+      "parameters": ["in IN: ANY_STRING", "in L: Int", "in P: Int"],
+      "returnType": "=IN",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "L characters of a string, starting at position P (1-based).",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "DELETE",
+      "kind": "function",
+      "parameters": ["in IN: ANY_STRING", "in L: Int", "in P: Int"],
+      "returnType": "=IN",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Removes L characters from a string, starting at position P.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "INSERT",
+      "kind": "function",
+      "parameters": ["in IN1: ANY_STRING", "in IN2: ANY_STRING", "in P: Int"],
+      "returnType": "=IN1",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Inserts the second string into the first after position P.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "REPLACE",
+      "kind": "function",
+      "parameters": ["in IN1: ANY_STRING", "in IN2: ANY_STRING", "in L: Int", "in P: Int"],
+      "returnType": "=IN1",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Replaces L characters of the first string, from position P, with the second string.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "FIND",
+      "kind": "function",
+      "parameters": ["in IN1: ANY_STRING", "in IN2: ANY_STRING"],
+      "returnType": "Int",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Position of the second string in the first; 0 when absent.",
+      "verification": { "verified": true, "cases": ["C09"] }
+    },
+    {
+      "name": "TypeOf",
+      "kind": "function",
+      "parameters": ["in OPERAND: Variant"],
+      "returnType": "ANY",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Data type of the value a Variant points at; used as a CASE selector.",
+      "verification": { "verified": true, "cases": ["C09"] }
+    },
+    {
+      "name": "TypeOfElements",
+      "kind": "function",
+      "parameters": ["in OPERAND: Variant"],
+      "returnType": "ANY",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Element type of the array a Variant points at.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "REF",
+      "kind": "function",
+      "parameters": ["in IN: ANY"],
+      "returnType": "REF",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Reference to a variable, for a REF_TO tag.",
+      "verification": { "verified": true, "cases": ["C09"] }
+    },
+    {
+      "name": "LOWER_BOUND",
+      "kind": "function",
+      "parameters": ["in ARR: ANY", "in DIM: UDInt"],
+      "returnType": "DInt",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Lower index limit of an Array[*] in one dimension.",
+      "verification": { "verified": true, "cases": ["C09"] }
+    },
+    {
+      "name": "UPPER_BOUND",
+      "kind": "function",
+      "parameters": ["in ARR: ANY", "in DIM: UDInt"],
+      "returnType": "DInt",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Upper index limit of an Array[*] in one dimension.",
+      "verification": { "verified": true, "cases": ["C09"] }
+    },
+    {
+      "name": "CountOfElements",
+      "kind": "function",
+      "parameters": ["in IN: Variant"],
+      "returnType": "UDInt",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Number of elements of the array a Variant points at.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "IS_NULL",
+      "kind": "function",
+      "parameters": ["in OPERAND: Variant"],
+      "returnType": "Bool",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "True when a Variant points at nothing.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "NOT_NULL",
+      "kind": "function",
+      "parameters": ["in OPERAND: Variant"],
+      "returnType": "Bool",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "True when a Variant points at something.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "GET_ERR_ID",
+      "kind": "function",
+      "parameters": [],
+      "returnType": "Word",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Id of the last local program error; 0 when none.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "GET_ERROR",
+      "kind": "function",
+      "parameters": ["out ERROR: ErrorStruct"],
+      "returnType": "Void",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Full information about the last local program error.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "RD_SYS_T",
+      "kind": "function",
+      "parameters": ["out OUT: DTL"],
+      "returnType": "Int",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Reads the module time (UTC).",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "RD_LOC_T",
+      "kind": "function",
+      "parameters": ["out OUT: DTL"],
+      "returnType": "Int",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Reads the local time, daylight saving included.",
+      "verification": { "verified": true, "cases": ["C07"] }
+    },
+    {
+      "name": "WR_SYS_T",
+      "kind": "function",
+      "parameters": ["in IN: DTL"],
+      "returnType": "Int",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Sets the module time.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "T_ADD",
+      "kind": "function",
+      "parameters": ["in IN1: ANY", "in IN2: ANY"],
+      "returnType": "=IN1",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Adds a duration to a time or date.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "T_SUB",
+      "kind": "function",
+      "parameters": ["in IN1: ANY", "in IN2: ANY"],
+      "returnType": "=IN1",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Subtracts a duration from a time or date.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "T_DIFF",
+      "kind": "function",
+      "parameters": ["in IN1: ANY", "in IN2: ANY"],
+      "returnType": "Time",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Difference between two points in time.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "T_COMBINE",
+      "kind": "function",
+      "parameters": ["in IN1: Date", "in IN2: Time_Of_Day"],
+      "returnType": "ANY",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Builds a date-and-time value from a date and a time of day.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "T_CONV",
+      "kind": "function",
+      "parameters": ["in IN: ANY"],
+      "returnType": "ANY",
+      "nonFormal": true,
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Converts between time and date types.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "IN_RANGE",
+      "kind": "function",
+      "parameters": ["in MIN: ANY_NUM", "in VAL: ANY_NUM", "in MAX: ANY_NUM"],
+      "returnType": "Bool",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "True when the value lies between the limits.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "OUT_RANGE",
+      "kind": "function",
+      "parameters": ["in MIN: ANY_NUM", "in VAL: ANY_NUM", "in MAX: ANY_NUM"],
+      "returnType": "Bool",
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "True when the value lies outside the limits.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "TON",
+      "kind": "fb",
+      "parameters": ["in IN: Bool", "in PT: Time", "out Q: Bool", "out ET: Time"],
+      "instanceTypes": ["TON_TIME", "IEC_TIMER"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": true,
+      "description": "Switches the output on once the input has been on for the preset time.",
+      "verification": { "verified": true, "cases": ["C07", "C17"] }
+    },
+    {
+      "name": "TOF",
+      "kind": "fb",
+      "parameters": ["in IN: Bool", "in PT: Time", "out Q: Bool", "out ET: Time"],
+      "instanceTypes": ["TOF_TIME", "IEC_TIMER"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": true,
+      "description": "Keeps the output on for the preset time after the input goes off.",
+      "verification": { "verified": true, "cases": ["C07"] }
+    },
+    {
+      "name": "TP",
+      "kind": "fb",
+      "parameters": ["in IN: Bool", "in PT: Time", "out Q: Bool", "out ET: Time"],
+      "instanceTypes": ["TP_TIME", "IEC_TIMER"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": true,
+      "description": "Produces a pulse of the preset length on a rising input.",
+      "verification": { "verified": true, "cases": ["C07"] }
+    },
+    {
+      "name": "TONR",
+      "kind": "fb",
+      "parameters": ["in IN: Bool", "in R: Bool", "in PT: Time", "out Q: Bool", "out ET: Time"],
+      "instanceTypes": ["TONR_TIME"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "Accumulates on-time until the preset is reached; R clears it.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "CTU",
+      "kind": "fb",
+      "parameters": [
+        "in CU: Bool",
+        "in R: Bool",
+        "in PV: ANY_INT",
+        "out Q: Bool",
+        "out CV: ANY_INT"
+      ],
+      "instanceTypes": ["CTU_INT", "CTU_DINT", "CTU_UDINT", "IEC_COUNTER"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": true,
+      "description": "Counts rising edges up to the preset.",
+      "verification": { "verified": true, "cases": ["C07"] }
+    },
+    {
+      "name": "CTD",
+      "kind": "fb",
+      "parameters": [
+        "in CD: Bool",
+        "in LD: Bool",
+        "in PV: ANY_INT",
+        "out Q: Bool",
+        "out CV: ANY_INT"
+      ],
+      "instanceTypes": ["CTD_INT", "CTD_DINT", "IEC_COUNTER"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": true,
+      "description": "Counts rising edges down from the preset.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "CTUD",
+      "kind": "fb",
+      "parameters": [
+        "in CU: Bool",
+        "in CD: Bool",
+        "in R: Bool",
+        "in LD: Bool",
+        "in PV: ANY_INT",
+        "out QU: Bool",
+        "out QD: Bool",
+        "out CV: ANY_INT"
+      ],
+      "instanceTypes": ["CTUD_INT", "CTUD_DINT", "IEC_COUNTER"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": true,
+      "description": "Counts up and down on rising edges.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "R_TRIG",
+      "kind": "fb",
+      "parameters": ["in CLK: Bool", "out Q: Bool"],
+      "instanceTypes": ["R_TRIG"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "True for one call when the input rises.",
+      "verification": { "verified": true, "cases": ["C07"] }
+    },
+    {
+      "name": "F_TRIG",
+      "kind": "fb",
+      "parameters": ["in CLK: Bool", "out Q: Bool"],
+      "instanceTypes": ["F_TRIG"],
+      "cpuFamilies": ["S7-1200", "S7-1500"],
+      "failsafeAllowed": false,
+      "description": "True for one call when the input falls.",
+      "verification": { "verified": true, "cases": ["C07"] }
+    }
+  ],
+  "ladderElements": [
+    {
+      "name": "Contact",
+      "languages": ["LAD"],
+      "shape": "contact",
+      "symbol": "| |",
+      "parameters": ["in operand: Bool"],
+      "failsafeAllowed": true,
+      "description": "Passes power when the operand is true.",
+      "verification": { "verified": true, "cases": ["C16", "B18"] }
+    },
+    {
+      "name": "I_Contact",
+      "languages": ["LAD"],
+      "shape": "contact",
+      "symbol": "|/|",
+      "parameters": ["in operand: Bool"],
+      "failsafeAllowed": true,
+      "description": "Passes power when the operand is false.",
+      "verification": { "verified": true, "cases": ["C16"] }
+    },
+    {
+      "name": "P_Contact",
+      "languages": ["LAD"],
+      "shape": "contact",
+      "symbol": "|P|",
+      "parameters": ["in operand: Bool", "inout bit: Bool"],
+      "failsafeAllowed": true,
+      "description": "Passes power for one cycle when the operand rises; bit keeps the previous state.",
+      "verification": { "verified": true, "cases": ["C16"] }
+    },
+    {
+      "name": "N_Contact",
+      "languages": ["LAD"],
+      "shape": "contact",
+      "symbol": "|N|",
+      "parameters": ["in operand: Bool", "inout bit: Bool"],
+      "failsafeAllowed": true,
+      "description": "Passes power for one cycle when the operand falls; bit keeps the previous state.",
+      "verification": { "verified": true, "cases": ["C16"] }
+    },
+    {
+      "name": "Coil",
+      "languages": ["LAD", "FBD"],
+      "shape": "coil",
+      "symbol": "( )",
+      "parameters": ["out operand: Bool"],
+      "failsafeAllowed": true,
+      "description": "Writes the incoming power to the operand.",
+      "verification": { "verified": true, "cases": ["C16", "C19"] }
+    },
+    {
+      "name": "I_Coil",
+      "languages": ["LAD"],
+      "shape": "coil",
+      "symbol": "(/)",
+      "parameters": ["out operand: Bool"],
+      "failsafeAllowed": true,
+      "description": "Writes the negated incoming power to the operand.",
+      "verification": { "verified": true, "cases": ["C16"] }
+    },
+    {
+      "name": "S_Coil",
+      "languages": ["LAD", "FBD"],
+      "shape": "coil",
+      "symbol": "(S)",
+      "parameters": ["out operand: Bool"],
+      "failsafeAllowed": true,
+      "description": "Sets the operand to true while power flows.",
+      "verification": { "verified": true, "cases": ["C16", "C18"] }
+    },
+    {
+      "name": "R_Coil",
+      "languages": ["LAD", "FBD"],
+      "shape": "coil",
+      "symbol": "(R)",
+      "parameters": ["out operand: Bool"],
+      "failsafeAllowed": true,
+      "description": "Resets the operand to false while power flows.",
+      "verification": { "verified": true, "cases": ["C16"] }
+    },
+    {
+      "name": "P_Coil",
+      "languages": ["LAD"],
+      "shape": "coil",
+      "symbol": "(P)",
+      "parameters": ["out operand: Bool", "inout bit: Bool"],
+      "failsafeAllowed": true,
+      "description": "Sets the operand for one cycle when the incoming power rises.",
+      "verification": { "verified": true, "cases": ["C16"] }
+    },
+    {
+      "name": "N_Coil",
+      "languages": ["LAD"],
+      "shape": "coil",
+      "symbol": "(N)",
+      "parameters": ["out operand: Bool", "inout bit: Bool"],
+      "failsafeAllowed": true,
+      "description": "Sets the operand for one cycle when the incoming power falls.",
+      "verification": {
+        "verified": false,
+        "note": "spelling taken from P_Coil; no corpus sample yet"
+      }
+    },
+    {
+      "name": "EQ_Contact",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": "==",
+      "parameters": ["in in1: ANY", "in in2: ANY"],
+      "template": "SrcType",
+      "failsafeAllowed": true,
+      "description": "Passes power when both inputs are equal.",
+      "verification": { "verified": true, "cases": ["C17", "C20"] }
+    },
+    {
+      "name": "NE_Contact",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": "<>",
+      "parameters": ["in in1: ANY", "in in2: ANY"],
+      "template": "SrcType",
+      "failsafeAllowed": true,
+      "description": "Passes power when the inputs differ.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "GT_Contact",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": ">",
+      "parameters": ["in in1: ANY", "in in2: ANY"],
+      "template": "SrcType",
+      "failsafeAllowed": true,
+      "description": "Passes power when in1 is greater than in2.",
+      "verification": { "verified": true, "cases": ["C17"] }
+    },
+    {
+      "name": "GE_Contact",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": ">=",
+      "parameters": ["in in1: ANY", "in in2: ANY"],
+      "template": "SrcType",
+      "failsafeAllowed": true,
+      "description": "Passes power when in1 is greater than or equal to in2.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "LT_Contact",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": "<",
+      "parameters": ["in in1: ANY", "in in2: ANY"],
+      "template": "SrcType",
+      "failsafeAllowed": true,
+      "description": "Passes power when in1 is less than in2.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "LE_Contact",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": "<=",
+      "parameters": ["in in1: ANY", "in in2: ANY"],
+      "template": "SrcType",
+      "failsafeAllowed": true,
+      "description": "Passes power when in1 is less than or equal to in2.",
+      "verification": { "verified": true, "cases": ["C17"] }
+    },
+    {
+      "name": "Move",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": "MOVE",
+      "parameters": ["in in: ANY", "out out1: ANY"],
+      "failsafeAllowed": true,
+      "description": "Copies the input to the outputs.",
+      "verification": { "verified": true, "cases": ["C17", "C20"] }
+    },
+    {
+      "name": "Add",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": "ADD",
+      "parameters": ["in in1: ANY_NUM", "in in2: ANY_NUM", "out out: ANY_NUM"],
+      "template": "SrcType",
+      "failsafeAllowed": true,
+      "description": "Adds the inputs.",
+      "verification": { "verified": true, "cases": ["C17", "C20", "B19", "B20"] }
+    },
+    {
+      "name": "Sub",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": "SUB",
+      "parameters": ["in in1: ANY_NUM", "in in2: ANY_NUM", "out out: ANY_NUM"],
+      "template": "SrcType",
+      "failsafeAllowed": true,
+      "description": "Subtracts in2 from in1.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "Mul",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": "MUL",
+      "parameters": ["in in1: ANY_NUM", "in in2: ANY_NUM", "out out: ANY_NUM"],
+      "template": "SrcType",
+      "failsafeAllowed": true,
+      "description": "Multiplies the inputs.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "Div",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": "DIV",
+      "parameters": ["in in1: ANY_NUM", "in in2: ANY_NUM", "out out: ANY_NUM"],
+      "template": "SrcType",
+      "failsafeAllowed": true,
+      "description": "Divides in1 by in2.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "JumpCoil",
+      "languages": ["LAD", "FBD"],
+      "shape": "jump",
+      "symbol": "JMP",
+      "parameters": ["in label: Label"],
+      "failsafeAllowed": true,
+      "description": "Jumps to the label when power flows.",
+      "verification": { "verified": true, "cases": ["C17", "C20"] }
+    },
+    {
+      "name": "A",
+      "languages": ["FBD"],
+      "shape": "box",
+      "symbol": "&",
+      "parameters": ["in in1: Bool?", "in in2: Bool"],
+      "failsafeAllowed": true,
+      "description": "AND of the inputs.",
+      "verification": { "verified": true, "cases": ["C19"] }
+    },
+    {
+      "name": "O",
+      "languages": ["FBD"],
+      "shape": "box",
+      "symbol": ">=1",
+      "parameters": ["in in1: Bool?", "in in2: Bool"],
+      "failsafeAllowed": true,
+      "description": "OR of the inputs.",
+      "verification": { "verified": true, "cases": ["C19"] }
+    },
+    {
+      "name": "X",
+      "languages": ["FBD"],
+      "shape": "box",
+      "symbol": "X",
+      "parameters": ["in in1: Bool?", "in in2: Bool"],
+      "failsafeAllowed": true,
+      "description": "Exclusive OR of the inputs.",
+      "verification": { "verified": true, "cases": ["C19"] }
+    },
+    {
+      "name": "S_SR",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": "SR",
+      "parameters": ["inout operand: Bool", "in r1: Bool"],
+      "failsafeAllowed": true,
+      "description": "Set/reset flip-flop; reset wins.",
+      "verification": { "verified": true, "cases": ["C19"] }
+    },
+    {
+      "name": "S_RS",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": "RS",
+      "parameters": ["inout operand: Bool", "in s1: Bool"],
+      "failsafeAllowed": true,
+      "description": "Reset/set flip-flop; set wins.",
+      "verification": { "verified": true, "cases": ["C19"] }
+    },
+    {
+      "name": "P_Trig",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": "P_TRIG",
+      "parameters": ["inout bit: Bool"],
+      "failsafeAllowed": true,
+      "description": "True for one cycle when the incoming signal rises.",
+      "verification": { "verified": true, "cases": ["C19"] }
+    },
+    {
+      "name": "N_Trig",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": "N_TRIG",
+      "parameters": ["inout bit: Bool"],
+      "failsafeAllowed": true,
+      "description": "True for one cycle when the incoming signal falls.",
+      "verification": { "verified": false }
+    }
+  ],
   "systemConstants": []
 }

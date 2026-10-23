@@ -29,7 +29,8 @@ export function parseSource(path: string, source: SourceText): ParsedFile | unde
     case 's7res':
       return parseResources(source);
     case 'tagTable':
-      return parseTagTable(source);
+      // other SimaticML (OB exports, blocks) is read where needed, not reported
+      return source.text.includes('SW.Tags.PlcTagTable') ? parseTagTable(source) : undefined;
     default:
       return undefined;
   }

@@ -9,5 +9,8 @@
   "scripts": {
     "build": "node scripts/build.ts",
     "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@plcstudio/profiles": "*"
   }
 }
