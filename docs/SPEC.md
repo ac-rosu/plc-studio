@@ -36,13 +36,13 @@ A free, open-source VS Code extension that gives SIMATIC S7-1200/1500 programs w
 
 ## Scope
 
-v1 covers SCL, LAD and FBD blocks for S7-1200 and S7-1500, including fail-safe blocks, for TIA Portal V20 and V21, read from SIMATIC SD documents, external sources and SimaticML tag tables.
+v1 covers SCL, LAD and FBD blocks for S7-1200 and S7-1500, including fail-safe blocks, for TIA Portal V21, read from SIMATIC SD documents, external sources and SimaticML tag tables.
 
 | Area | In scope | Later | Out |
 | --- | --- | --- | --- |
 | Languages | SCL, LAD, FBD | GRAPH | STL, CEM |
 | CPU families | S7-1200, S7-1500, incl. F-CPUs and F-blocks | | S7-300/400 |
-| TIA versions | V20, V21 (one version profile each) | each new version as a new profile | V19 and older |
+| TIA versions | V21 (one version profile) | V20 (after comparing its exports with V21's, to decide whether it needs its own profile); each new version as a new profile | V19 and older |
 | Platforms | VS Code desktop on Windows, macOS, Linux | browser VS Code (vscode.dev, github.dev) | |
 
 ### File formats
@@ -326,7 +326,7 @@ Everything that differs between TIA versions or CPU families is data in a versio
 
 **Rules for profile data**
 
-- Stored as versioned JSON with a JSON Schema, one folder per profile (`profiles/V20`, `profiles/V21`), shared parts deduplicated through inheritance (`V21` extends `V20` and lists only differences).
+- Stored as versioned JSON with a JSON Schema, one folder per profile (`profiles/V21` in v1), shared parts deduplicated through inheritance (a profile extends another and lists only differences).
 - Every catalog entry is verified against TIA through the corpus (a compile case that uses it) before it is marked verified; unverified entries are allowed but downgrade related diagnostics to warnings.
 - Content is our own: signatures and facts are re-entered and checked, descriptions written fresh; no Siemens help text, tables or images are copied.
 - `PLC Studio: Show profile coverage` reports which instructions are verified, unverified or missing.
@@ -339,7 +339,7 @@ A web-safe TypeScript core does all parsing, checking, analysis and writing; a l
  Webviews (LAD/FBD, table editors,   <--messages-->   VS Code extension (commands, views,
  call graph view)                                     custom editors, coexistence check)
                                                                  |  LSP
- Version profiles (V20, V21 data:                     Language server (Node or browser worker)
+ Version profiles (V21 data:                          Language server (Node or browser worker)
  instructions, types, F-catalog)                                 |  calls
             | version data                                       |
             v                                                    v
@@ -379,7 +379,7 @@ Webviews never touch files or the core directly, so every edit, from text, a tab
 packages/
   core/            parsers (SD, external sources, SimaticML tag tables), lossless trees,
                    project model, units, type checker, call graph, analyzer, formatter, writer
-  profiles/        version profile data (V20, V21) + JSON Schemas
+  profiles/        version profile data (V21; later versions added as profiles) + JSON Schemas
   language-server/ LSP over core; Node and browser entry points
   extension/       VS Code client: commands, views, custom editors host, coexistence check
   webviews/        LAD/FBD viewer and editor, interface, DB, tag table and translation tables,
@@ -431,7 +431,7 @@ Per [VS Code's publishing rules](https://code.visualstudio.com/api/working-with-
 ### Intellectual property and naming
 
 - No Siemens text, tables, images or icons copied into code, data, docs or tests; facts are re-expressed in our own words; skills are a knowledge source only.
-- No Siemens trademarks in the extension name, display name, icon or publisher; the description uses them only to state compatibility ("for SIMATIC S7-1200/1500, TIA Portal V20/V21").
+- No Siemens trademarks in the extension name, display name, icon or publisher; the description uses them only to state compatibility ("for SIMATIC S7-1200/1500, TIA Portal V21").
 - README carries a trademark notice (SIMATIC, STEP 7, TIA Portal and Siemens are trademarks of Siemens AG; this project is not affiliated with or endorsed by Siemens) and states that the extension is not a safety-certified tool.
 - No customer code anywhere in the public repository.
 
@@ -445,9 +445,9 @@ The work runs in milestones, tia-mcp style: Claude Code works only on the curren
 
 | # | Milestone | Delivers | Accepted when |
 | --- | --- | --- | --- |
-| M0 | Setup and format spike | monorepo, CI on Windows/Linux/macOS, schema skeletons, corpus harness, `docs/format-notes.md` with samples of every construct from every exporter for V20 and V21 | CI green; open facts answered: OB priority/cyclic time in `.s7dcl`, F-block detection in files, `.s7res` layout, line numbering; at least 50 corpus cases with TIA results |
+| M0 | Setup and format spike | monorepo, CI on Windows/Linux/macOS, schema skeletons, corpus harness, `docs/format-notes.md` with samples of every construct from every exporter for V21 | CI green; open facts answered: OB priority/cyclic time in `.s7dcl`, F-block detection in files, `.s7res` layout, line numbering; at least 50 corpus cases with TIA results |
 | M1 | Lossless parsers and writer | parsers for `.s7dcl`, `.s7res`, `.scl`, `.udt`, `.db`, SimaticML tag tables; syntax errors with recovery | round-trip gate 100% on the corpus; unknown constructs kept and marked |
-| M2 | Project model | manifest + schema, units and namespaces, symbol tables, tag tables, `.s7res` linking, profile V20/V21 base data | definitions and references resolve across files and units in the test suite; unit access rules enforced |
+| M2 | Project model | manifest + schema, units and namespaces, symbol tables, tag tables, `.s7res` linking, profile V21 base data | definitions and references resolve across files and units in the test suite; unit access rules enforced |
 | M3 | Type checker | TIA-equivalent errors with IEC check on and off | zero-false-errors gate passes; error-coverage baseline recorded |
 | M4 | Editor features | everything in "Editor features (v1)", multilingual hover, coexistence check | integration tests for each feature; diagnostics within 200 ms |
 | M5 | Analyzer | single-block rules, `plcstudio.rules.json`, declarative custom rules, naming presets, formatter on changed lines | every rule has passing and failing corpus cases; formatter never touches unchanged lines |
@@ -459,7 +459,7 @@ The work runs in milestones, tia-mcp style: Claude Code works only on the curren
 | M11 | Tag table editor (v1.x) | full editor per "Tag table editor" | address and rename tests; CSV round trip |
 | M12 | Program graph (v1.x) | whole-program graph webview with filters | renders the 5,000-block test PLC interactively |
 
-**Later, not yet planned in detail**: GRAPH; the ISA-88/PackML rule pack; TypeScript rule plugins; the browser release; a CLI with SARIF output.
+**Later, not yet planned in detail**: TIA V20 (compare a small V20 export with the V21 findings first; it may need no profile of its own); GRAPH; the ISA-88/PackML rule pack; TypeScript rule plugins; the browser release; a CLI with SARIF output.
 
 ## Claude Code prompts
 

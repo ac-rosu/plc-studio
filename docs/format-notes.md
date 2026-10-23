@@ -15,4 +15,4 @@ The full answers, with exact evidence, are in [corpus/V21/_project/format-findin
 - **Software units** (finding 6): the `.s7dcl` is wrapped in `NAMESPACE <ns> … END_NAMESPACE`, indented 4 more spaces. `S7_UnitAccess` is always written. References are qualified from the root (`_.Filling.FB_Filler`) and unqualified inside the same namespace. An unresolved reference is one quoted identifier in `.s7dcl` (`"_.Dosing.FB_Doser"`) but stays unquoted in `.scl`. Unit name and relations appear in no file; only the namespace does.
 - **Inconsistent blocks** (finding 9): `documents`, `source` and VCI SimaticSD exports work and carry no state marker. SimaticML export is refused.
 - **LAD/FBD grammar as exported**: summarized in the run log, Step 2 (C16–C21). Includes the rewrites TIA applies between import and export (`MOVE(` → `Move(`, `Jump(` → `JumpCoil(`, Move's template line → an indented empty line).
-- **V20**: no corpus yet. Every fact above is V21-only.
+- **V20**: not in v1 (DECISIONS 2026-10-24); no corpus. Every fact above is V21-only.

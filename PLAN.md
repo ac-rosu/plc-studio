@@ -6,17 +6,16 @@ Status: `[ ]` open · `[~]` partly done · `[x]` done · **(owner)** needs the o
 
 ## Owner actions
 
-- [ ] **(owner)** Install Node.js LTS (with npm) on the development machine. Not found on 2026-10-23. Blocks M0.2 onwards.
-- [ ] **(owner)** Create the public GitHub repository, and decide the working publisher id plus the `repository`/`bugs`/`homepage` URLs. Blocks M0.4 and M0.5.
-- [ ] **(owner)** Build the V20 corpus from the runbook prepared in M0.10.
-- [ ] **(owner)** Review the spec and glossary edits proposed for ADR 0013 (policy errors), see M0.13.
+- [x] Node.js LTS on the development machine: v24.22.1 with npm 11.19.1, installed 2026-10-24 in `%LOCALAPPDATA%\Programs\nodejs` (user PATH).
+- [x] **(owner)** Repository https://github.com/ac-rosu/plc-studio, publisher `acro`.
+- [ ] **(owner)** Approve the first push to GitHub (needed for CI, M0.5).
 - [ ] **(owner, optional)** Open corpus manual steps from `corpus/V21/_project/manual-steps.md`: OB40 priority (C15); B12/B16 case-only duplicates in TIA's editor.
 
 ---
 
 ## M0 – Setup and format spike (current)
 
-**Delivers (spec):** monorepo, CI on Windows/Linux/macOS, schema skeletons, corpus harness, `docs/format-notes.md` with samples of every construct from every exporter for V20 and V21.
+**Delivers (spec):** monorepo, CI on Windows/Linux/macOS, schema skeletons, corpus harness, `docs/format-notes.md` with samples of every construct from every exporter for V21.
 
 **Acceptance (spec):** CI green; open facts answered: OB priority/cyclic time in `.s7dcl`, F-block detection in files, `.s7res` layout, line numbering; at least 50 corpus cases with TIA results.
 
@@ -30,7 +29,7 @@ Status: `[ ]` open · `[~]` partly done · `[x]` done · **(owner)** needs the o
   Verify: a test checks `package.json` against the spec's Marketplace list; `vsce ls` shows no corpus, test or map files.
 - [ ] **M0.5 CI**: GitHub Actions on Windows, Linux and macOS running `npm ci`, `build`, `lint`, `typecheck`, `test`, `test:corpus` and `test:web`.
   Verify: CI is green on all three.
-- [ ] **M0.6 Schema skeletons**: `schemas/plc.schema.json` (from the spec's manifest example), `schemas/rules.schema.json` (from the rules example), and a profile schema in `packages/profiles` (instruction catalog, system types, type rules, syntax features, SD format details, F-catalog, CPU-family differences, `verified` flag, `extends`), plus empty `profiles/V20` and `profiles/V21` (V21 extends V20).
+- [ ] **M0.6 Schema skeletons**: `schemas/plc.schema.json` (from the spec's manifest example), `schemas/rules.schema.json` (from the rules example), and a profile schema in `packages/profiles` (instruction catalog, system types, type rules, syntax features, SD format details, F-catalog, CPU-family differences, `verified` flag, `extends`), plus an empty `profiles/V21`.
   Verify: tests validate the spec's examples and the empty profiles, and reject deliberately broken files.
 - [ ] **M0.7 `expected.json` schema**: describes the format the corpus build writes (objects, exports and refusals, compile messages, `intendedError`, `analyzerExpect`).
   Verify: all 65 V21 `expected.json` files validate.
@@ -38,16 +37,11 @@ Status: `[ ]` open · `[~]` partly done · `[x]` done · **(owner)** needs the o
   Verify: the harness finds 65 V21 cases (28 clean, 14 analyzer, 23 broken), every file listed in `expected.json` exists, and `npm run test:corpus` passes and prints the report.
 - [~] **M0.9 Construct samples for V21 in `docs/format-notes.md`**: an index from each construct (SCL statements, declaration forms, DB kinds, OB kinds, every LAD/FBD element in the spec's viewer list, units, F-blocks, tag tables, multilingual texts) to a corpus file and line for each exporter. Constructs with no sample go on a list of new cases for the owner.
   Verify: every construct in the spec's LAD/FBD viewer list and the profile's "syntax features" has a V21 sample or is on the owner's list.
-- [ ] **M0.10 V20 corpus runbook**: the V21 cases adapted to V20, plus the list of exports and compiles for the owner. Then compare the V20 results with every V21 finding in `docs/format-notes.md`.
-  Verify: `corpus/V20/` cases have `expected.json`; the harness finds them; the four open facts have a V20 answer.
-- [x] **M0.11 Open facts for V21**: OB attributes, F-block detection, `.s7res` layout and line numbering are answered in `corpus/V21/_project/format-findings.md` 1–4 and summarized in `docs/format-notes.md`. V20 is pending M0.10.
-- [x] **M0.12 At least 50 corpus cases with TIA results**: V21 has 65.
-- [ ] **M0.13 Spec and glossary follow-up for ADR 0013**: proposed edits for the owner: Principle 2, the diagnostics' zero-false-errors line, the Quality gate, the recursion row ("S7 does not allow it"), the naming paragraph ("TIA rejects them"), and the glossary entries for "Error" and "False error" (plus a new "Policy error" entry).
-  Verify: the owner accepts or rejects each edit.
+- [x] **M0.10 Open facts for V21**: OB attributes, F-block detection, `.s7res` layout and line numbering are answered in `corpus/V21/_project/format-findings.md` 1–4 and summarized in `docs/format-notes.md`.
+- [x] **M0.11 At least 50 corpus cases with TIA results**: V21 has 65.
+- [x] **M0.12 Spec and glossary follow-up**: edits for ADR 0013 (policy errors) and for moving V20 to a later version, made at the owner's request (2026-10-24).
 
-Open questions:
-
-- Where Node-only test tooling (the corpus harness) lives. The spec's layout has no place for it, and it cannot sit in `core` (web-safe). Proposal: `tools/corpus-harness/` as a private workspace package.
+The corpus harness lives in `tools/corpus-harness/` (owner-approved, DECISIONS 2026-10-24).
 
 ## M1 – Lossless parsers and writer
 
@@ -82,7 +76,7 @@ Open questions:
 
 ## M2 – Project model
 
-**Delivers (spec):** manifest + schema, units and namespaces, symbol tables, tag tables, `.s7res` linking, profile V20/V21 base data.
+**Delivers (spec):** manifest + schema, units and namespaces, symbol tables, tag tables, `.s7res` linking, profile V21 base data.
 
 **Acceptance (spec):** definitions and references resolve across files and units in the test suite; unit access rules enforced.
 
@@ -100,7 +94,7 @@ Open questions:
   Verify: project-written mutations of C05 and C01 in `.s7dcl` and `.scl` report the error; no error on any clean case.
 - [ ] **M2.7 `.s7res` linking and display language**: comment ids resolved; missing translations as info.
   Verify: C02 (`MLC_4DE` without de-DE) gives one info; per-language text tests.
-- [ ] **M2.8 Profile base data V20/V21**: system data types and constants, the catalog entries the corpus uses, `verified` flags, an F-catalog skeleton, inheritance.
+- [ ] **M2.8 Profile base data V21**: system data types and constants, the catalog entries the corpus uses, `verified` flags, an F-catalog skeleton.
   Verify: profiles load and validate; every instruction used in the corpus is in the catalog; coverage report.
 - [ ] **M2.9 Incremental updates per file**.
   Verify: changing one file recomputes only the symbols that depend on it.
@@ -269,4 +263,4 @@ New corpus cases to request: one for each rule that M5.2 does not yet map to a c
 
 ## Later (not planned in detail)
 
-GRAPH; the ISA-88/PackML rule pack; TypeScript rule plugins (trusted workspaces only); the browser release; a CLI with SARIF output.
+TIA V20 (compare a small V20 export with the V21 findings first; it may need no profile of its own); GRAPH; the ISA-88/PackML rule pack; TypeScript rule plugins (trusted workspaces only); the browser release; a CLI with SARIF output.

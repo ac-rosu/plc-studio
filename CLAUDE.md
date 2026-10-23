@@ -20,7 +20,7 @@ Read at the start of every session:
 4. Faithful round trips: lossless syntax trees; unchanged files print byte-identical; edits change only the affected lines; `.s7res` comment ids are never renumbered. Unknown constructs are kept and marked "not analyzed", never errors.
 5. `packages/core` and `packages/language-server` must not import Node or VS Code APIs (web-safe).
 6. Everything that differs per TIA version or CPU family is version-profile data, not code.
-7. Facts about SCL, LAD, FBD, data types, instructions and TIA formats come from the `tia-portal-s7-programming`, `tia-openness-v21` and `tia-openness-v20` skills or from corpus evidence. Never guess; record new findings in `docs/format-notes.md`.
+7. Facts about SCL, LAD, FBD, data types, instructions and TIA formats come from the `tia-portal-s7-programming` and `tia-openness-v21` skills or from corpus evidence. Never guess; record new findings in `docs/format-notes.md`.
 8. Intellectual property: never copy Siemens text, tables, images or icons, and never copy skill text, into code, data, docs or tests. Write every message, description and doc in your own words. No Siemens trademarks in names, icons or the publisher.
 9. `corpus-private/` is gitignored and never committed, uploaded or quoted. The public corpus contains only blocks written for this project.
 10. No telemetry and no network calls.
@@ -52,7 +52,7 @@ Before every commit: `build`, `lint`, `typecheck`, `test` and `test:corpus` pass
 packages/
   core/             parsers (SD, external sources, SimaticML tag tables), lossless trees,
                     project model, units, type checker, call graph, analyzer, formatter, writer
-  profiles/         version profile data (V20, V21) + JSON Schemas
+  profiles/         version profile data (V21; later versions added as profiles) + JSON Schemas
   language-server/  LSP over core; Node and browser entry points
   extension/        VS Code client: commands, views, custom editors host, coexistence check
   webviews/         LAD/FBD viewer and editor, interface, DB, tag table and translation tables,
