@@ -24,3 +24,8 @@ export * from './check/rules.ts';
 export * from './check/binder.ts';
 export * from './check/analysis.ts';
 export * from './services/navigation.ts';
+export * from './edit/common.ts';
+export * from './edit/declarations.ts';
+export * from './edit/resources.ts';
+export * from './edit/start-values.ts';
+export * from './edit/tag-table.ts';

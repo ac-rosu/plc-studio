@@ -230,7 +230,27 @@ export class BlockBinder {
     if (block.returnType) this.typeReferences(block.returnType);
     if (block.dbType) this.typeReferences(block.dbType);
     if (this.symbol.failsafe) this.failsafeInterface(block);
+    else this.failsafeUnknown(block);
     this.cpuFamilyOfDeclarations(block);
+  }
+
+  /**
+   * External sources carry no fail-safe marker (format-notes, finding 2): in a fail-safe PLC a DB
+   * source could be an F-DB. It is treated as standard and flagged (spec, "Fail-safe blocks").
+   */
+  private failsafeUnknown(block: Block): void {
+    if (
+      block.kind !== 'DB' ||
+      this.symbol.file.parsed?.kind !== 'blocks' ||
+      this.symbol.file.parsed.format !== 'source'
+    )
+      return;
+    if (!this.index.project.manifest?.cpu.failsafe) return;
+    this.report(
+      block.name.range,
+      'failsafe-unknown',
+      `An external source does not say whether ${block.name.text} is a fail-safe DB; it is treated as standard. List it under "failsafeBlocks" in plc.json if it is one.`,
+    );
   }
 
   private declareMembers(members: readonly Member[], ownerId: string): void {

@@ -63,6 +63,7 @@ export const RULES: readonly RuleInfo[] = [
   r('missing-relation', 'checker', 'error', 'Access to another unit without a relation', ['B22']),
   r('failsafe-type', 'checker', 'error', 'Data type not permitted in a fail-safe block', ['B23']),
   r('failsafe-instruction', 'checker', 'warning', 'Instruction not permitted in a fail-safe block'),
+  r('failsafe-unknown', 'checker', 'info', 'Fail-safe state cannot be read from this file'),
   r('duplicate-case-label', 'checker', 'warning', 'CASE label used twice', ['B10']),
   r('duplicate-name', 'checker', 'error', 'Name declared twice', ['B16']),
   r('exported-twice', 'project', 'warning', 'Block exported in two formats'),
