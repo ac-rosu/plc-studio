@@ -13,7 +13,7 @@ import {
   loadCases,
 } from './corpus.ts';
 import { POLICY_EXPECTATIONS } from './gates.ts';
-import { silentChecker, textPrinter } from './placeholders.ts';
+import { corePrinter, syntaxChecker } from './core-adapters.ts';
 import { renderReport } from './report.ts';
 import { gatesPassed, runGates } from './run.ts';
 import { tiaLocation } from './tia-location.ts';
@@ -92,7 +92,7 @@ describe('TIA line mapping on corpus files', () => {
 
 describe('gates', () => {
   it('pass with the placeholder parser and checker', async () => {
-    const run = await runGates(corpusRoot, textPrinter, silentChecker);
+    const run = await runGates(corpusRoot, corePrinter, syntaxChecker);
     const report = renderReport(run);
     expect(gatesPassed(run), report).toBe(true);
     const v21 = run.versions.find((v) => v.version === 'V21')!;

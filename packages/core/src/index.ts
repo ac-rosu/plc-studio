@@ -5,3 +5,12 @@ export {
   isPolicyErrorRule,
   type PolicyErrorRule,
 } from './diagnostics/policy-errors.ts';
+export * from './text/source-text.ts';
+export * from './syntax/ast.ts';
+export { lex, T, isTrivia, type Token } from './syntax/lexer.ts';
+export { Parser, parseBlockFile, parseBlockText, calleeName } from './syntax/parser.ts';
+export * from './formats/s7res.ts';
+export * from './formats/tag-table.ts';
+export * from './formats/xml.ts';
+export * from './formats/document.ts';
+export * from './writer/text-edit.ts';
