@@ -166,6 +166,31 @@
         "title": "Clear trace",
         "category": "PLC Studio",
         "icon": "$(clear-all)"
+      },
+      {
+        "command": "plcstudio.openInterfaceEditor",
+        "title": "Open Interface Editor",
+        "category": "PLC Studio"
+      },
+      {
+        "command": "plcstudio.openDataBlockEditor",
+        "title": "Open Data Block Editor",
+        "category": "PLC Studio"
+      },
+      {
+        "command": "plcstudio.openTranslationTable",
+        "title": "Open Translation Table",
+        "category": "PLC Studio"
+      },
+      {
+        "command": "plcstudio.openTagTableEditor",
+        "title": "Open Tag Table Editor",
+        "category": "PLC Studio"
+      },
+      {
+        "command": "plcstudio.showProgramGraph",
+        "title": "Show Program Graph",
+        "category": "PLC Studio"
       }
     ],
     "menus": {
@@ -179,6 +204,26 @@
           "command": "plcstudio.openLadderView",
           "when": "resourceExtname == .s7dcl",
           "group": "navigation"
+        },
+        {
+          "command": "plcstudio.openInterfaceEditor",
+          "when": "resourceExtname =~ /^\\.(s7dcl|scl|udt)$/",
+          "group": "plcstudio@1"
+        },
+        {
+          "command": "plcstudio.openDataBlockEditor",
+          "when": "resourceExtname =~ /^\\.(s7dcl|db)$/",
+          "group": "plcstudio@2"
+        },
+        {
+          "command": "plcstudio.openTranslationTable",
+          "when": "resourceExtname == .s7dcl",
+          "group": "plcstudio@3"
+        },
+        {
+          "command": "plcstudio.openTagTableEditor",
+          "when": "resourceExtname == .xml",
+          "group": "plcstudio@4"
         }
       ],
       "editor/title": [
@@ -229,6 +274,23 @@
           "command": "plcstudio.traceValue",
           "when": "editorLangId =~ /^plcstudio-(scl|s7dcl)$/"
         }
+      ],
+      "editor/title/context": [
+        {
+          "command": "plcstudio.openInterfaceEditor",
+          "when": "resourceExtname =~ /^\\.(s7dcl|scl|udt)$/",
+          "group": "plcstudio@1"
+        },
+        {
+          "command": "plcstudio.openDataBlockEditor",
+          "when": "resourceExtname =~ /^\\.(s7dcl|db)$/",
+          "group": "plcstudio@2"
+        },
+        {
+          "command": "plcstudio.openTranslationTable",
+          "when": "resourceExtname == .s7dcl",
+          "group": "plcstudio@3"
+        }
       ]
     },
     "configuration": {
@@ -264,6 +326,65 @@
         "selector": [
           {
             "filenamePattern": "*.s7dcl"
+          }
+        ],
+        "priority": "option"
+      },
+      {
+        "viewType": "plcstudio.interfaceEditor",
+        "displayName": "Block Interface (PLC Studio)",
+        "selector": [
+          {
+            "filenamePattern": "*.s7dcl"
+          },
+          {
+            "filenamePattern": "*.scl"
+          },
+          {
+            "filenamePattern": "*.udt"
+          }
+        ],
+        "priority": "option"
+      },
+      {
+        "viewType": "plcstudio.dataBlockEditor",
+        "displayName": "Data Block (PLC Studio)",
+        "selector": [
+          {
+            "filenamePattern": "*.s7dcl"
+          },
+          {
+            "filenamePattern": "*.db"
+          }
+        ],
+        "priority": "option"
+      },
+      {
+        "viewType": "plcstudio.translationTable",
+        "displayName": "Translations (PLC Studio)",
+        "selector": [
+          {
+            "filenamePattern": "*.s7dcl"
+          }
+        ],
+        "priority": "option"
+      },
+      {
+        "viewType": "plcstudio.tagTableEditor",
+        "displayName": "Tag Table (PLC Studio)",
+        "selector": [
+          {
+            "filenamePattern": "**/PLC tags/**/*.xml"
+          }
+        ],
+        "priority": "default"
+      },
+      {
+        "viewType": "plcstudio.tagTableEditorAny",
+        "displayName": "Tag Table (PLC Studio)",
+        "selector": [
+          {
+            "filenamePattern": "*.xml"
           }
         ],
         "priority": "option"

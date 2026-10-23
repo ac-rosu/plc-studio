@@ -5,8 +5,12 @@ import type { LanguageClient } from 'vscode-languageclient/node';
 import { registerCallGraph } from './callgraph.ts';
 import { registerCoexistence } from './coexistence.ts';
 import { registerCommands } from './commands.ts';
+import { registerFailsafe } from './failsafe.ts';
+import { registerGraph } from './graph.ts';
 import { registerLadderEditor } from './ladder-editor.ts';
 import { registerManifest } from './manifest.ts';
+import { registerTables } from './tables.ts';
+import { registerTagTable } from './tagtable.ts';
 
 export interface FeatureContext {
   readonly extension: vscode.ExtensionContext;
@@ -22,6 +26,10 @@ const features: Feature[] = [
   registerCoexistence,
   registerLadderEditor,
   registerCallGraph,
+  registerTables,
+  registerTagTable,
+  registerGraph,
+  registerFailsafe,
 ];
 
 export function registerFeatures(context: FeatureContext): void {

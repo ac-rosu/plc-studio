@@ -37,3 +37,8 @@ export { applySuppressions, scanSuppressions, type Suppression } from './analyze
 export * from './callgraph/graph.ts';
 export * from './callgraph/trace.ts';
 export { formatDocument, formatRanges, type LineRange } from './formatter/format.ts';
+export * from './edit/common.ts';
+export * from './edit/declarations.ts';
+export * from './edit/resources.ts';
+export * from './edit/start-values.ts';
+export * from './edit/tag-table.ts';
