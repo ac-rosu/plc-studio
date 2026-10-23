@@ -44,6 +44,7 @@ const NETWORK_IMPORTS = ['http', 'https', 'http2', 'net', 'tls', 'dgram', 'dns']
 export default defineConfig(
   {
     ignores: [
+      '.claude/**',
       '**/node_modules/**',
       '**/dist/**',
       '**/out/**',

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "SD Resources (PLC Studio)",
+  "scopeName": "source.plcstudio-s7res",
+  "patterns": [
+    {
+      "name": "keyword.other.plcstudio",
+      "match": "^MultiLingualTexts:"
+    },
+    {
+      "match": "^(\\s*-\\s*)(id)(:)\\s*(\\S+)",
+      "captures": {
+        "2": {
+          "name": "entity.name.tag.plcstudio"
+        },
+        "4": {
+          "name": "constant.other.id.plcstudio"
+        }
+      }
+    },
+    {
+      "match": "^(\\s+)([a-z]{2,3}-[A-Za-z]{2,4})(:)\\s?(.*)$",
+      "captures": {
+        "2": {
+          "name": "entity.name.tag.culture.plcstudio"
+        },
+        "4": {
+          "name": "string.unquoted.plcstudio"
+        }
+      }
+    }
+  ]
+}

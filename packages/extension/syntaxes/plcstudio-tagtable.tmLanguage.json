@@ -1,0 +1,10 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Tag Table (PLC Studio)",
+  "scopeName": "text.xml.plcstudio-tagtable",
+  "patterns": [
+    {
+      "include": "text.xml"
+    }
+  ]
+}

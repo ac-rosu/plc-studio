@@ -79,6 +79,8 @@ export class Project {
   readonly root: string;
   manifest: Manifest | undefined;
   manifestPath: string | undefined;
+  /** plc.json as written, for quick fixes that edit it. */
+  manifestText: string | undefined;
   manifestDiagnostics: SyntaxDiagnostic[] = [];
   readonly files = new Map<string, ProjectFile>();
   private version = 0;
@@ -109,6 +111,7 @@ export class Project {
     const result = parseManifest(text);
     this.manifest = result.manifest;
     this.manifestPath = normalizePath(path);
+    this.manifestText = text;
     this.manifestDiagnostics = result.diagnostics;
     // units may have changed: re-assign every file
     for (const [p, f] of this.files) this.files.set(p, { ...f, unit: this.unitFor(p) });
@@ -118,6 +121,7 @@ export class Project {
   clearManifest(): void {
     this.manifest = undefined;
     this.manifestPath = undefined;
+    this.manifestText = undefined;
     this.manifestDiagnostics = [];
     this.invalidate();
   }

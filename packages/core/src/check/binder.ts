@@ -1068,12 +1068,14 @@ export class BlockBinder {
       optional: false,
     }));
     const types = new Map(members.map((m) => [m.name.toLowerCase(), m.type]));
+    const memberIds = new Map(members.map((m) => [m.name.toLowerCase(), m.id]));
     this.checkArguments(e, ctx, params, {
       what: target.name,
       verified: !target.incomplete,
       requireInOut: target.kind === 'FB',
       requireAll: target.kind === 'FC',
       types,
+      memberIds,
     });
   }
 
@@ -1177,6 +1179,8 @@ export class BlockBinder {
       nonFormal?: boolean;
       variadic?: boolean;
       types?: Map<string, DataType>;
+      /** Symbol ids of the parameters (user blocks), so formal names count as references. */
+      memberIds?: Map<string, string>;
     },
   ): Map<string, DataType> {
     const argTypes = new Map<string, DataType>();
@@ -1201,6 +1205,14 @@ export class BlockBinder {
         }
         if (p) {
           given.add(p.name.toLowerCase());
+          const paramId = opts.memberIds?.get(p.name.toLowerCase());
+          if (paramId)
+            this.reference(
+              a.name.range,
+              paramId,
+              'member',
+              p.direction === 'out' ? 'read' : 'write',
+            );
           const wantsOut = p.direction === 'out';
           if (wantsOut !== (a.direction === 'out')) {
             this.report(

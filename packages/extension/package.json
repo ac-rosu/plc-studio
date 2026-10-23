@@ -51,7 +51,8 @@
           ".scl",
           ".udt",
           ".db"
-        ]
+        ],
+        "configuration": "./language-configuration.json"
       },
       {
         "id": "plcstudio-s7dcl",
@@ -60,7 +61,8 @@
         ],
         "extensions": [
           ".s7dcl"
-        ]
+        ],
+        "configuration": "./language-configuration.json"
       },
       {
         "id": "plcstudio-s7res",
@@ -69,7 +71,8 @@
         ],
         "extensions": [
           ".s7res"
-        ]
+        ],
+        "configuration": "./language-configuration.json"
       },
       {
         "id": "plcstudio-tagtable",
@@ -78,7 +81,8 @@
         ],
         "filenamePatterns": [
           "**/PLC tags/**/*.xml"
-        ]
+        ],
+        "configuration": "./language-configuration.json"
       }
     ],
     "jsonValidation": [
@@ -90,7 +94,81 @@
         "fileMatch": "plcstudio.rules.json",
         "url": "./schemas/rules.schema.json"
       }
-    ]
+    ],
+    "grammars": [
+      {
+        "language": "plcstudio-scl",
+        "scopeName": "source.plcstudio-scl",
+        "path": "./syntaxes/plcstudio-scl.tmLanguage.json"
+      },
+      {
+        "language": "plcstudio-s7dcl",
+        "scopeName": "source.plcstudio-s7dcl",
+        "path": "./syntaxes/plcstudio-s7dcl.tmLanguage.json"
+      },
+      {
+        "language": "plcstudio-s7res",
+        "scopeName": "source.plcstudio-s7res",
+        "path": "./syntaxes/plcstudio-s7res.tmLanguage.json"
+      },
+      {
+        "language": "plcstudio-tagtable",
+        "scopeName": "text.xml.plcstudio-tagtable",
+        "path": "./syntaxes/plcstudio-tagtable.tmLanguage.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "plcstudio.createManifest",
+        "title": "Create manifest",
+        "category": "PLC Studio"
+      },
+      {
+        "command": "plcstudio.showProfileCoverage",
+        "title": "Show profile coverage",
+        "category": "PLC Studio"
+      },
+      {
+        "command": "plcstudio.restartServer",
+        "title": "Restart language server",
+        "category": "PLC Studio"
+      },
+      {
+        "command": "plcstudio.useForPlcFiles",
+        "title": "Use PLC Studio for PLC files",
+        "category": "PLC Studio"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "plcstudio.createManifest",
+          "when": "explorerResourceIsFolder",
+          "group": "plcstudio"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "PLC Studio",
+      "properties": {
+        "plcstudio.displayLanguage": {
+          "type": "string",
+          "default": "",
+          "pattern": "^([a-z]{2,3}-[A-Z]{2})?$",
+          "markdownDescription": "Language of the comments and titles shown inline, for example `de-DE`. Empty: the `displayLanguage` of `plc.json`."
+        }
+      }
+    },
+    "configurationDefaults": {
+      "[plcstudio-scl]": {
+        "editor.formatOnSaveMode": "modifications",
+        "editor.semanticHighlighting.enabled": true
+      },
+      "[plcstudio-s7dcl]": {
+        "editor.formatOnSaveMode": "modifications",
+        "editor.semanticHighlighting.enabled": true
+      }
+    }
   },
   "scripts": {
     "build": "node scripts/build.mts",
@@ -105,5 +183,10 @@
     "@types/vscode": "~1.100.0",
     "@plcstudio/core": "*",
     "@plcstudio/webviews": "*"
-  }
+  },
+  "activationEvents": [
+    "workspaceContains:**/plc.json",
+    "workspaceContains:**/*.s7dcl",
+    "workspaceContains:**/*.scl"
+  ]
 }

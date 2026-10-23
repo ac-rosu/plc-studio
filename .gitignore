@@ -8,3 +8,6 @@ out/
 # Copied into the extension package by its build
 packages/extension/schemas/
 packages/extension/LICENSE
+
+# Claude Code worktrees of parallel sessions
+.claude/
