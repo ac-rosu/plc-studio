@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/ac-rosu/plc-studio/main/schemas/plc.schema.json",
+  "title": "PLC Studio manifest (plc.json)",
+  "description": "Describes one PLC folder: what the checker needs and cannot read from the exported files.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "cpu", "tiaVersion"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "name": {
+      "description": "Name of the PLC, as in the TIA project.",
+      "type": "string",
+      "minLength": 1
+    },
+    "cpu": {
+      "description": "The CPU the program runs on.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family"],
+      "properties": {
+        "family": {
+          "description": "CPU family. Decides which instructions, data types and address ranges exist.",
+          "enum": ["S7-1200", "S7-1500"]
+        },
+        "failsafe": {
+          "description": "True for an F-CPU that runs a safety program.",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "tiaVersion": {
+      "description": "TIA Portal version the files were exported from. Selects the version profile.",
+      "enum": ["V21"]
+    },
+    "compiler": {
+      "description": "Compiler settings the exported files do not carry.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "iecCheck": {
+          "description": "IEC check: when true, implicit conversions that can lose data are errors.",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "displayLanguage": {
+      "description": "Language of the comments and titles shown inline, for example en-US. Each user can override it.",
+      "type": "string",
+      "pattern": "^[a-z]{2,3}-[A-Z]{2}$"
+    },
+    "units": {
+      "description": "Software units of this PLC.",
+      "type": "array",
+      "items": { "$ref": "#/definitions/unit" }
+    }
+  },
+  "definitions": {
+    "unit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "folder", "namespace"],
+      "properties": {
+        "name": { "description": "Name of the software unit.", "type": "string", "minLength": 1 },
+        "folder": {
+          "description": "Folder of the unit, relative to the PLC folder.",
+          "type": "string",
+          "minLength": 1
+        },
+        "namespace": {
+          "description": "Namespace of the unit's objects, as in Filling.FB_Filler.",
+          "type": "string",
+          "minLength": 1
+        },
+        "relations": {
+          "description": "Units this unit may use (one-way).",
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        },
+        "published": {
+          "description": "Objects of this unit that other units may use.",
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

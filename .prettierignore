@@ -1,0 +1,14 @@
+# Exported TIA files are test data and must stay byte-identical.
+corpus/
+corpus-private/
+
+# Prose is formatted by hand.
+*.md
+
+# Generated
+node_modules/
+dist/
+out/
+.vscode-test/
+packages/extension/schemas/
+package-lock.json

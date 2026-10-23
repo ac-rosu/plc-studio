@@ -1,0 +1,13 @@
+{
+  "name": "@plcstudio/profiles",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema/profile.schema.json": "./schema/profile.schema.json"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  }
+}

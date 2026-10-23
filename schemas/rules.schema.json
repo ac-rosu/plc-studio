@@ -1,0 +1,125 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/ac-rosu/plc-studio/main/schemas/rules.schema.json",
+  "title": "PLC Studio analyzer configuration (plcstudio.rules.json)",
+  "description": "Analyzer settings for a workspace or a PLC folder; the PLC folder's file wins.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "extends": {
+      "description": "Rule sets this configuration builds on.",
+      "type": "array",
+      "items": { "enum": ["recommended"] },
+      "uniqueItems": true
+    },
+    "naming": {
+      "description": "Naming rules. Off unless a preset is chosen.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "preset": {
+          "description": "default: type prefixes and PascalCase; siemens-prefix: role prefixes on locals; match-workspace: follow the scheme the PLC already uses.",
+          "enum": ["default", "siemens-prefix", "match-workspace"]
+        }
+      }
+    },
+    "rules": {
+      "description": "Severity, and options where a rule has them, per rule id.",
+      "type": "object",
+      "propertyNames": { "$ref": "#/definitions/ruleId" },
+      "additionalProperties": {
+        "oneOf": [
+          { "$ref": "#/definitions/severity" },
+          {
+            "type": "array",
+            "items": [{ "$ref": "#/definitions/severity" }, { "type": "object" }],
+            "minItems": 2,
+            "maxItems": 2
+          }
+        ]
+      }
+    },
+    "custom": {
+      "description": "Rules defined in this file.",
+      "type": "array",
+      "items": { "$ref": "#/definitions/customRule" }
+    }
+  },
+  "definitions": {
+    "ruleId": { "type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$" },
+    "severity": {
+      "description": "Analyzer rules report warnings or info; errors are reserved for code TIA rejects.",
+      "enum": ["off", "info", "warning"]
+    },
+    "objectKind": { "enum": ["OB", "FB", "FC", "DB", "UDT", "Tag", "Constant", "Member"] },
+    "customRule": {
+      "type": "object",
+      "required": ["id", "kind", "severity"],
+      "properties": {
+        "id": { "$ref": "#/definitions/ruleId" },
+        "kind": {
+          "enum": [
+            "namePattern",
+            "forbiddenInstruction",
+            "requiredInstruction",
+            "complexityLimit",
+            "forbiddenGlobalAccess",
+            "requiredComment",
+            "bannedIdentifier"
+          ]
+        },
+        "severity": { "$ref": "#/definitions/severity" },
+        "message": { "description": "Message shown with the diagnostic.", "type": "string" }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "kind": { "const": "namePattern" },
+            "target": { "$ref": "#/definitions/objectKind" },
+            "pattern": {
+              "description": "Regular expression the name must match.",
+              "type": "string"
+            }
+          },
+          "required": ["target", "pattern"]
+        },
+        {
+          "properties": {
+            "kind": { "enum": ["forbiddenInstruction", "requiredInstruction"] },
+            "instruction": { "type": "string" }
+          },
+          "required": ["instruction"]
+        },
+        {
+          "properties": {
+            "kind": { "const": "complexityLimit" },
+            "maxCyclomatic": { "type": "integer", "minimum": 1 },
+            "maxNesting": { "type": "integer", "minimum": 1 }
+          },
+          "anyOf": [{ "required": ["maxCyclomatic"] }, { "required": ["maxNesting"] }]
+        },
+        {
+          "properties": {
+            "kind": { "const": "forbiddenGlobalAccess" },
+            "in": { "type": "array", "items": { "enum": ["FB", "FC"] }, "uniqueItems": true }
+          }
+        },
+        {
+          "properties": {
+            "kind": { "const": "requiredComment" },
+            "target": { "$ref": "#/definitions/objectKind" }
+          },
+          "required": ["target"]
+        },
+        {
+          "properties": {
+            "kind": { "const": "bannedIdentifier" },
+            "identifiers": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+          },
+          "required": ["identifiers"]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Corpus case result (expected.json)",
+  "description": "TIA's result for one corpus case, as the corpus build records it: the objects, the exports (and refusals), the compile messages and the intended fault.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "caseId",
+    "title",
+    "kind",
+    "basedOn",
+    "tiaVersion",
+    "plc",
+    "cpu",
+    "objects",
+    "exports",
+    "compile",
+    "intendedError",
+    "analyzerExpect",
+    "notes"
+  ],
+  "properties": {
+    "caseId": { "type": "string", "pattern": "^[BC][0-9]{2}[a-z]?$" },
+    "title": { "type": "string", "minLength": 1 },
+    "kind": { "enum": ["clean", "analyzer", "broken"] },
+    "basedOn": { "type": ["string", "null"] },
+    "tiaVersion": { "type": "string", "pattern": "^V[0-9]+$" },
+    "plc": { "type": "string", "minLength": 1 },
+    "cpu": { "type": "string", "pattern": "^OrderNumber:" },
+    "objects": { "type": "array", "minItems": 1, "items": { "$ref": "#/definitions/object" } },
+    "exports": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["refused"],
+      "properties": {
+        "documents": { "$ref": "#/definitions/fileList" },
+        "source": { "$ref": "#/definitions/fileList" },
+        "simaticml": { "$ref": "#/definitions/fileList" },
+        "vci": { "$ref": "#/definitions/fileList" },
+        "tagtables": { "$ref": "#/definitions/fileList" },
+        "refused": {
+          "description": "Per exporter, the objects TIA refused to export, with its message.",
+          "type": "object",
+          "propertyNames": {
+            "enum": ["documents", "source", "simaticml", "vci_SimaticSD", "vci_SimaticML"]
+          },
+          "additionalProperties": { "type": "object", "additionalProperties": { "type": "string" } }
+        }
+      }
+    },
+    "compile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state", "errors", "warnings", "messages", "sources"],
+      "properties": {
+        "state": { "enum": ["Success", "Warning", "Error", "importRefused"] },
+        "errors": { "type": "integer", "minimum": 0 },
+        "warnings": { "type": "integer", "minimum": 0 },
+        "messages": { "type": "array", "items": { "$ref": "#/definitions/message" } },
+        "sources": { "type": "array", "items": { "type": "string" } },
+        "importRefusal": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tool", "format", "message"],
+          "properties": {
+            "tool": { "type": "string" },
+            "format": { "type": "string" },
+            "message": { "type": "string" }
+          }
+        },
+        "messagesOfGeneratedVariant": { "type": "string" }
+      }
+    },
+    "intendedError": { "type": ["string", "null"] },
+    "analyzerExpect": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["rule", "block", "line"],
+        "properties": {
+          "rule": { "type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$" },
+          "block": { "type": "string" },
+          "line": { "type": ["integer", "null"], "minimum": 1 },
+          "member": { "type": "string" }
+        }
+      }
+    },
+    "notes": { "type": "string" }
+  },
+  "definitions": {
+    "fileList": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(documents|source|simaticml|vci/SimaticSD|vci/SimaticML|tagtables)/[^/]+$"
+      },
+      "uniqueItems": true
+    },
+    "object": {
+      "description": "A block, type or tag table of the case. Tag tables have no number, namespace or consistency state.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "type", "language", "unit", "group", "iecCheck", "failsafe"],
+      "if": { "properties": { "type": { "not": { "const": "TagTable" } } } },
+      "then": { "required": ["number", "namespace", "consistent"] },
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "type": {
+          "enum": ["OB", "FB", "FC", "GlobalDB", "ArrayDB", "InstanceDB", "UDT", "TagTable"]
+        },
+        "number": { "type": ["integer", "null"] },
+        "language": { "enum": ["SCL", "LAD", "FBD", "DB", "F_LAD", "F_FBD", "F_DB", null] },
+        "unit": { "type": ["string", "null"] },
+        "namespace": { "type": ["string", "null"] },
+        "group": { "type": ["string", "null"] },
+        "iecCheck": { "type": ["boolean", "null"] },
+        "failsafe": { "type": "boolean" },
+        "consistent": { "type": "boolean" }
+      }
+    },
+    "message": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["severity", "path", "block", "line", "network", "description"],
+      "properties": {
+        "severity": { "enum": ["Error", "Warning", "Success"] },
+        "path": { "type": "string" },
+        "block": { "type": "string" },
+        "line": { "type": ["integer", "null"], "minimum": 1 },
+        "network": { "type": ["integer", "null"], "minimum": 1 },
+        "description": { "type": "string" }
+      }
+    }
+  }
+}

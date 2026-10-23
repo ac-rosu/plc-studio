@@ -1,0 +1,9 @@
+{
+  "$schema": "../schema/profile.schema.json",
+  "id": "V21",
+  "tiaVersion": "V21",
+  "extends": null,
+  "instructions": [],
+  "systemTypes": [],
+  "systemConstants": []
+}

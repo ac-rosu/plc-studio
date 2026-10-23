@@ -1,0 +1,11 @@
+# Allowlist: everything is excluded except the files the extension needs at run time.
+# scripts/package.mts checks the result.
+**
+!package.json
+!README.md
+!CHANGELOG.md
+!LICENSE
+!images/icon.png
+!schemas/*.schema.json
+!dist/extension.js
+!dist/server.js

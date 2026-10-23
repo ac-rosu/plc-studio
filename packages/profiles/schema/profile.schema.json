@@ -1,0 +1,142 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://raw.githubusercontent.com/ac-rosu/plc-studio/main/packages/profiles/schema/profile.schema.json",
+  "title": "PLC Studio version profile",
+  "description": "Everything that differs between TIA Portal versions or CPU families, as data. Skeleton: the sections are filled from M2 on.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "tiaVersion", "extends", "instructions", "systemTypes", "systemConstants"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": {
+      "description": "Profile id, the same as the profile's folder name.",
+      "type": "string",
+      "pattern": "^V[0-9]+(\\.[0-9]+)?$"
+    },
+    "tiaVersion": {
+      "description": "The TIA Portal version this profile describes.",
+      "type": "string",
+      "pattern": "^V[0-9]+(\\.[0-9]+)?$"
+    },
+    "extends": {
+      "description": "Id of the profile this one builds on; it then lists only differences. Null for a base profile.",
+      "type": ["string", "null"]
+    },
+    "instructions": {
+      "description": "System instructions available in this version.",
+      "type": "array",
+      "items": { "$ref": "#/definitions/instruction" }
+    },
+    "systemTypes": {
+      "description": "System data types such as timer and counter instance types.",
+      "type": "array",
+      "items": { "$ref": "#/definitions/systemType" }
+    },
+    "systemConstants": {
+      "description": "System constants.",
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "typeRules": {
+      "description": "Implicit conversions with the IEC check on and off, literal forms, limits per data type.",
+      "type": "object"
+    },
+    "syntaxFeatures": {
+      "description": "Language constructs, pragmas and attributes accepted in SCL, external sources and SIMATIC SD documents.",
+      "type": "object"
+    },
+    "sdFormat": {
+      "description": "SIMATIC SD keywords, attribute spellings and resource-file layout.",
+      "type": "object"
+    },
+    "failsafe": {
+      "description": "Fail-safe catalog: permitted F-instructions, data types and access rules.",
+      "type": "object"
+    },
+    "cpuFamilies": {
+      "description": "Differences between S7-1200 and S7-1500, including memory and addressing limits.",
+      "type": "object"
+    }
+  },
+  "definitions": {
+    "cpuFamily": { "enum": ["S7-1200", "S7-1500"] },
+    "verification": {
+      "description": "Whether a corpus case compiled in TIA proves this entry. Unverified entries downgrade related diagnostics to warnings.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["verified"],
+      "properties": {
+        "verified": { "type": "boolean" },
+        "cases": {
+          "description": "Corpus case ids that use the entry.",
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "parameter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "direction", "type", "required"],
+      "properties": {
+        "name": { "type": "string" },
+        "direction": { "enum": ["Input", "Output", "InOut"] },
+        "type": {
+          "description": "Data type, or a list of types the parameter accepts.",
+          "type": "string"
+        },
+        "required": { "type": "boolean" }
+      }
+    },
+    "instruction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "parameters",
+        "cpuFamilies",
+        "failsafeAllowed",
+        "description",
+        "verification"
+      ],
+      "properties": {
+        "name": { "type": "string" },
+        "parameters": { "type": "array", "items": { "$ref": "#/definitions/parameter" } },
+        "returnType": { "type": "string" },
+        "cpuFamilies": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/cpuFamily" },
+          "minItems": 1
+        },
+        "minFirmware": {
+          "description": "Lowest firmware per CPU family, where it matters.",
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "failsafeAllowed": { "type": "boolean" },
+        "description": { "description": "Our own one-line description.", "type": "string" },
+        "helpUrl": {
+          "description": "Siemens' online-help page for the instruction (https).",
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "verification": { "$ref": "#/definitions/verification" }
+      }
+    },
+    "systemType": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "cpuFamilies", "verification"],
+      "properties": {
+        "name": { "type": "string" },
+        "cpuFamilies": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/cpuFamily" },
+          "minItems": 1
+        },
+        "members": { "type": "array", "items": { "type": "object" } },
+        "verification": { "$ref": "#/definitions/verification" }
+      }
+    }
+  }
+}

@@ -4,3 +4,7 @@ dist/
 out/
 *.vsix
 .vscode-test/
+
+# Copied into the extension package by its build
+packages/extension/schemas/
+packages/extension/LICENSE

@@ -1,0 +1,107 @@
+{
+  "name": "plcstudio",
+  "displayName": "PLC Studio",
+  "description": "SCL, LAD and FBD editing, checking and analysis for SIMATIC S7-1200/1500 programs exported from TIA Portal V21. Works on files only: no connection to TIA, no telemetry.",
+  "version": "0.1.0",
+  "publisher": "acro",
+  "license": "MIT",
+  "icon": "images/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ac-rosu/plc-studio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ac-rosu/plc-studio/issues"
+  },
+  "homepage": "https://github.com/ac-rosu/plc-studio#readme",
+  "engines": {
+    "vscode": "^1.100.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Linters",
+    "Formatters"
+  ],
+  "keywords": [
+    "scl",
+    "lad",
+    "fbd",
+    "plc",
+    "s7-1200",
+    "s7-1500",
+    "structured control language",
+    "ladder logic",
+    "function block diagram",
+    "iec 61131-3",
+    "industrial automation",
+    "plc programming",
+    "s7dcl",
+    "fail-safe",
+    "static analysis"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "plcstudio-scl",
+        "aliases": [
+          "SCL (PLC Studio)"
+        ],
+        "extensions": [
+          ".scl",
+          ".udt",
+          ".db"
+        ]
+      },
+      {
+        "id": "plcstudio-s7dcl",
+        "aliases": [
+          "SD Document (PLC Studio)"
+        ],
+        "extensions": [
+          ".s7dcl"
+        ]
+      },
+      {
+        "id": "plcstudio-s7res",
+        "aliases": [
+          "SD Resources (PLC Studio)"
+        ],
+        "extensions": [
+          ".s7res"
+        ]
+      },
+      {
+        "id": "plcstudio-tagtable",
+        "aliases": [
+          "Tag Table (PLC Studio)"
+        ],
+        "filenamePatterns": [
+          "**/PLC tags/**/*.xml"
+        ]
+      }
+    ],
+    "jsonValidation": [
+      {
+        "fileMatch": "plc.json",
+        "url": "./schemas/plc.schema.json"
+      },
+      {
+        "fileMatch": "plcstudio.rules.json",
+        "url": "./schemas/rules.schema.json"
+      }
+    ]
+  },
+  "scripts": {
+    "build": "node scripts/build.mts",
+    "typecheck": "tsc -p tsconfig.json",
+    "package": "node scripts/package.mts"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^11.0.0"
+  },
+  "devDependencies": {
+    "@plcstudio/language-server": "*",
+    "@types/vscode": "~1.100.0"
+  }
+}
