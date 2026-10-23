@@ -58,6 +58,15 @@ const HEADERS = [
   '',
 ];
 
+/**
+ * HMI/OPC UA flags exist only where a member lives in a DB: FB parameters and statics (instance
+ * DB), UDT members and DB members. FC and OB parameters, Temp and Constant have none in TIA.
+ */
+function hmiFlagsApply(blockKind: string, section: string): boolean {
+  if (blockKind === 'UDT' || blockKind === 'DB') return true;
+  return blockKind === 'FB' && ['Input', 'Output', 'InOut', 'Static'].includes(section);
+}
+
 export function renderInterface(root: HTMLElement, model: InterfaceModel, post: Post): void {
   clear(root);
   if (model.error) {
@@ -105,7 +114,8 @@ export function renderInterface(root: HTMLElement, model: InterfaceModel, post: 
         ),
       ),
     );
-    for (const row of section.rows) body.append(memberRow(row, section.kind, edit, post));
+    const flags = hmiFlagsApply(model.blockKind, section.kind);
+    for (const row of section.rows) body.append(memberRow(row, section.kind, flags, edit, post));
   }
   table.append(body);
   root.append(table);
@@ -114,6 +124,7 @@ export function renderInterface(root: HTMLElement, model: InterfaceModel, post: 
 function memberRow(
   row: Row,
   section: string,
+  hmiFlags: boolean,
   edit: (op: string, extra: Record<string, unknown>) => void,
   post: Post,
 ): HTMLTableRowElement {
@@ -147,10 +158,14 @@ function memberRow(
     section === 'Static' && row.level === 0 && row.retain !== null
       ? checkCell(row.retain, label('Retain'), flag('retain'))
       : h('td', {}),
-    checkCell(row.accessible, label('Accessible from HMI/OPC UA'), flag('accessible')),
-    checkCell(row.visible, label('Visible in HMI engineering'), flag('visible')),
-    checkCell(row.writable, label('Writable from HMI/OPC UA'), flag('writable')),
-    checkCell(row.setpoint, label('Setpoint'), flag('setpoint')),
+    ...(hmiFlags
+      ? [
+          checkCell(row.accessible, label('Accessible from HMI/OPC UA'), flag('accessible')),
+          checkCell(row.visible, label('Visible in HMI engineering'), flag('visible')),
+          checkCell(row.writable, label('Writable from HMI/OPC UA'), flag('writable')),
+          checkCell(row.setpoint, label('Setpoint'), flag('setpoint')),
+        ]
+      : [h('td', {}), h('td', {}), h('td', {}), h('td', {})]),
     textCell(row.comment, label('Comment'), (v) => edit('comment', { path: row.path, value: v })),
     problemsCell(row.problems),
     h(

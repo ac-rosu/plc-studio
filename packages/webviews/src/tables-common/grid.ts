@@ -31,6 +31,9 @@ export function textCell(
     ...(options.list ? { list: options.list } : {}),
     ...(options.placeholder ? { placeholder: options.placeholder } : {}),
   });
+  // A width-100% input adds nothing to the column's minimum width, so the column would cut long
+  // names off; a minimum in characters lets the column grow with its longest value.
+  input.style.minWidth = `${Math.min(30, Math.max(6, Math.ceil(value.length * 1.15) + 2))}ch`;
   let committed = value;
   const commit = () => {
     if (input.value !== committed) {

@@ -86,6 +86,22 @@ describe('interface editor', () => {
     expect(root.querySelector('tr.level-1')).not.toBeNull();
     expect(root.querySelector('[aria-label="Retain of State"]')).not.toBeNull();
     expect(root.querySelector('[aria-label="Retain of Enable"]')).toBeNull();
+    expect(root.querySelector('[aria-label="Setpoint of Enable"]')).not.toBeNull();
+  });
+
+  it('shows HMI flags only where TIA has them: not on Temp, Constant, or FC parameters', () => {
+    const { root, post } = setup();
+    const sections = [
+      { kind: 'Input', label: 'Input', rows: [row('In')], canAdd: true },
+      { kind: 'Temp', label: 'Temp', rows: [row('Scratch')], canAdd: true },
+      { kind: 'Constant', label: 'Constant', rows: [row('LIMIT')], canAdd: true },
+    ];
+    renderInterface(root, { ...iface, failsafe: false, sections }, post);
+    expect(root.querySelector('[aria-label="Accessible from HMI/OPC UA of In"]')).not.toBeNull();
+    expect(root.querySelector('[aria-label="Accessible from HMI/OPC UA of Scratch"]')).toBeNull();
+    expect(root.querySelector('[aria-label="Setpoint of LIMIT"]')).toBeNull();
+    renderInterface(root, { ...iface, blockKind: 'FC', failsafe: false, sections }, post);
+    expect(root.querySelector('[aria-label="Accessible from HMI/OPC UA of In"]')).toBeNull();
   });
 
   it('sends rename, type, comment, flag, move and delete intents', () => {
