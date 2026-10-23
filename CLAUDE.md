@@ -108,8 +108,12 @@ All cases of one TIA version come from one TIA project with two PLCs (PLC_Main: 
 - Start each milestone by listing its tasks and how each will be verified (in `PLAN.md`).
 - Write tests with the code; run build, lint and all tests before every commit; commit per finished task.
 - Keep `PLAN.md`, `DECISIONS.md` and `docs/format-notes.md` current, so a new session can resume from them.
-- Corpus cases that need TIA results: prepare the case files and a list of what the owner must export or compile on the TIA machine. The owner runs it with their own tools and hands back the results. Do not call TIA Portal or the TIA MCP tools from a PLC Studio session, even when they are connected.
+- Corpus cases that need TIA results: prepare the case files and a list of what the owner must export or compile on the TIA machine. The owner runs it with their own tools and hands back the results. Since 2026-10-24 the owner also allows Claude to use the TIA MCP server and the TIA skills directly to double-check facts and build corpus cases, only in the corpus project under `C:\TiaProjects\Corpus`, never with online functions or a real PLC. The product itself still never talks to TIA (rule 2).
 - A TIA result that contradicts the spec (code the spec calls an error that TIA accepts, or the reverse): stop and ask the owner. Do not resolve it yourself.
+
+## Autonomous mode (owner, 2026-10-24)
+
+The owner asked Claude to finish all milestones without stopping for acceptance in between, taking the recommended option when a decision is open and recording it in `DECISIONS.md`. Rule 1's stop-and-report applies at the end of the run instead of after each milestone. Publishing to the Marketplace and choosing the final name stay with the owner.
 
 ## Current milestone
 

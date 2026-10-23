@@ -56,3 +56,8 @@ The spec asks that core and language-server pass their tests in a browser worker
 - Tag tables get the language id only under a `PLC tags` folder (`**/PLC tags/**/*.xml`), so the extension does not claim every XML file. `.db` is claimed for external sources, as the spec says, although other tools use the extension for databases.
 - Analyzer severities in `plcstudio.rules.json` are off, info and warning; error is not offered (open question for M5 in PLAN.md).
 - LICENSE names "Andrei Rosu" as copyright holder (from the spec's author line), to be confirmed by the owner.
+
+## 2026-10-24 – Autonomous run
+
+- Decision (owner): Claude finishes all milestones in one run, takes the recommended option on open questions and records each choice here. Claude may use the TIA MCP server and the TIA skills to double-check facts in the corpus project; extra skills only from trusted sources.
+- Pushed `main` to https://github.com/ac-rosu/plc-studio so CI runs (M0.5).
