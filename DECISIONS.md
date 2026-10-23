@@ -61,3 +61,27 @@ The spec asks that core and language-server pass their tests in a browser worker
 
 - Decision (owner): Claude finishes all milestones in one run, takes the recommended option on open questions and records each choice here. Claude may use the TIA MCP server and the TIA skills to double-check facts in the corpus project; extra skills only from trusted sources.
 - Pushed `main` to https://github.com/ac-rosu/plc-studio so CI runs (M0.5).
+
+## 2026-10-24 – Analyzer (M5): rules, configuration, suppression
+
+- Rule ids: where the corpus build already named a rule (`analyzerExpect` in C26a–n), that id is used. All analyzer and cross-block rules are listed in `packages/core/src/check/rules.ts` with their default severity and proving cases.
+- `plcstudio.rules.json` severities are off, info and warning. Rules whose default is error (checker errors, the recursion and case-only policy errors) cannot be lowered or switched off by configuration.
+- Workspace level: the nearest `plcstudio.rules.json` outside every PLC folder applies to the PLC folders below it; a PLC folder's own file wins setting by setting; its `custom` list replaces the workspace's instead of adding to it.
+- Inline suppression: `// plcstudio-disable-next-line <rule>[, <rule>] -- <reason>`, `// plcstudio-disable-line … -- …` (same line) and `// plcstudio-disable … -- …` (to the end of the block); `(* … *)` works too. Without a reason the directive is not applied and an info says so. Errors can never be suppressed.
+- Unused Static: TIA's default "accessible from HMI/OPC UA" leaves no trace in the files, so a Static is exempt only when the file marks it explicitly (setpoint, explicit external access). Otherwise it is reported as a warning whose message names the HMI case.
+- Timers, counters and edge detectors: in LAD/FBD a timer box behind contacts still runs every cycle (the power flow is its IN), so only real conditions (IF/CASE/loops) count for `timer-not-called-every-cycle`. An FB box behind contacts does not run when EN is false, so it counts as conditional for the cross-block rule.
+- Fail-safe blocks are exempt from the global-access rules (F-programs work on F-DBs by design). F-blocks without callers count as roots for `dead-block`: they run from an F-runtime group whose F-OB is usually not exportable.
+- `temp-read-before-write` treats AT overlays as one variable (external sources), and skips non-optimized blocks read from `.s7dcl`, where TIA's export drops the AT (format-notes 2026-10-24).
+- Instructions whose return value is a status (RD_LOC_T, RDREC, Serialize …) are listed in the analyzer code for now; candidate for a profile flag.
+- Complexity defaults: cyclomatic 15, nesting 4 (the spec's example); configurable as `"complexity": ["info", { "maxCyclomatic": …, "maxNesting": … }]`.
+- Custom rules: `requiredInstruction` applies to every block of the kinds in its `in` list (default OB, FB, FC; `in` added to the schema); `requiredComment` checks block comments only in external sources, because SIMATIC SD documents carry no block title or comment.
+- Formatter: reproduces TIA's layout (base + 4 spaces per level; CASE labels one level in, their statements two; `.s7dcl` base = NETWORK indentation + 4, external sources one TAB), so formatting TIA's files changes nothing (test over all 281 corpus block files). It never touches continuation lines of a statement, comments, attribute blocks, REGION titles, LAD/FBD networks, or networks with syntax errors. Alignment of declarations is off by default. Style options go into a new `format` object of `plcstudio.rules.json`.
+
+## 2026-10-24 – Call graph (M6)
+
+- Roots are all OBs. Program-cycle and startup OBs get priority 1 when neither the manifest nor SimaticML gives one. A call is "every cycle" when no IF/CASE/EN condition lies on the way; a loop is marked separately.
+- Shared instances: an instance DB called from OBs of different (or unknown) priority is `instance-shared-by-two-obs` at every call; called from several blocks of the same priority, `instance-called-twice` at the later calls.
+- `unprotected-cross-priority-data`: global data (tags, global DB members) written in one OB and read in an OB of higher priority; a block that calls DIS_AIRT/EN_AIRT or UMOVE_BLK/UFILL_BLK counts as protected. `multiple-writers`: more than one block writes the same tag or global DB member (DB start values do not count).
+- Recursion is found with strongly connected components over block-to-block calls and reported at each call in the cycle (policy error, ADR 0013).
+- Unresolved instance calls are an info (`unresolved-call`); missing blocks stay the checker's `unknown-global` warning. Nothing in the call graph is ever an error except recursion.
+- `callGraph(project, analysis?)` is cached per project revision; inside an analysis pass the analysis in progress must be passed in (the project's analysis is not cached yet).

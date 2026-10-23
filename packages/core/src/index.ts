@@ -32,3 +32,4 @@ export { measureComplexity, type BlockFacts, type Finding } from './analyzer/sin
 export { applySuppressions, scanSuppressions, type Suppression } from './analyzer/suppression.ts';
 export * from './callgraph/graph.ts';
 export * from './callgraph/trace.ts';
+export { formatDocument, formatRanges, type LineRange } from './formatter/format.ts';
