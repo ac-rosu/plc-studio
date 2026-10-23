@@ -24,3 +24,4 @@ export * from './check/rules.ts';
 export * from './check/binder.ts';
 export * from './check/analysis.ts';
 export * from './services/navigation.ts';
+export * from './ladder/index.ts';
