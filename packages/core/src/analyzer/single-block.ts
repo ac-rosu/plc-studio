@@ -68,6 +68,9 @@ const STATUS_INSTRUCTIONS = new Set([
   'VARIANTPUT',
 ]);
 
+/** FB outputs that report errors (PLCopen-style Error / Status / ErrorID, RET_VAL). */
+const STATUS_OUTPUT = /^(status|error|errorid|error_id|ret_val|retval)$/i;
+
 const SIMATIC_TIMER_INSTRUCTIONS = new Set([
   'S_PULSE',
   'S_PEXT',
@@ -424,6 +427,7 @@ export class SingleBlockRules {
   // --- Status values ---------------------------------------------------------------------------
 
   private statusNotEvaluated(statements: readonly Statement[]): void {
+    this.statusOutputsNotEvaluated();
     const statusCalls = this.ba.calls.filter(
       (c) =>
         c.kind === 'instruction' &&
@@ -461,6 +465,38 @@ export class SingleBlockRules {
           'status-not-evaluated',
           s.range,
           `The status ${call.calleeName} returns is stored in #${this.sectionOf.get(target.symbolId)?.name ?? ''} but never checked; evaluate it to notice when the instruction fails.`,
+        );
+      }
+    }
+  }
+
+  /** Status and error outputs of called FBs that are neither connected nor read afterwards. */
+  private statusOutputsNotEvaluated(): void {
+    const all = this.ctx.analysis.referencesBySymbol;
+    for (const call of this.ba.calls) {
+      if (call.kind !== 'fb' || !call.calleeId) continue;
+      const callee = this.ctx.blockSymbol(call.calleeId);
+      if (!callee || callee.incomplete) continue;
+      const connected = new Set(
+        call.args
+          .filter((a) => a.direction === 'out' && a.parameter)
+          .map((a) => a.parameter!.toLowerCase()),
+      );
+      for (const m of this.ctx.project.index.interfaceMembers(callee)) {
+        if (
+          m.section !== 'Output' ||
+          !STATUS_OUTPUT.test(m.name) ||
+          connected.has(m.name.toLowerCase())
+        )
+          continue;
+        const readOutside = (all.get(m.id) ?? []).some(
+          (r) => r.blockId !== callee.id && (r.access === 'read' || r.access === 'readwrite'),
+        );
+        if (readOutside) continue;
+        this.add(
+          'status-not-evaluated',
+          call.range,
+          `The output ${m.name} of ${callee.name} is never checked; connect it or read it from the instance to notice failures.`,
         );
       }
     }

@@ -326,6 +326,35 @@ describe('single-block rules (failing and passing case each)', () => {
     ).toBe(0);
   });
 
+  it('Error/Status outputs of a called FB not evaluated', () => {
+    const fb = block(
+      'FB',
+      'FB_Axis',
+      { input: ['Execute : Bool'], output: ['Done : Bool', 'Error : Bool'] },
+      ['#Done := #Execute;', '#Error := FALSE;'],
+    );
+    const caller = (body: string[]) =>
+      block('FB', 'FB_Use', { stat: ['Axis : FB_Axis'], output: ['Ok : Bool'] }, body);
+    expect(
+      count(
+        project({
+          'FB_Axis.s7dcl': fb,
+          'FB_Use.s7dcl': caller(['#Axis(Execute := TRUE, Done => #Ok);']),
+        }),
+        'status-not-evaluated',
+      ),
+    ).toBe(1);
+    expect(
+      count(
+        project({
+          'FB_Axis.s7dcl': fb,
+          'FB_Use.s7dcl': caller(['#Axis(Execute := TRUE);', '#Ok := NOT #Axis.Error;']),
+        }),
+        'status-not-evaluated',
+      ),
+    ).toBe(0);
+  });
+
   it('status of a system instruction not evaluated', () => {
     const d = { stat: ['Now : DTL'], temp: ['Ret : Int'], output: ['Ok : Bool'] };
     expect(
