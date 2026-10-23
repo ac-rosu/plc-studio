@@ -1,7 +1,42 @@
 // plcstudio.rules.json: analyzer settings for a workspace or a PLC folder; the PLC folder's file
 // wins (spec, "Configuration and custom rules"). VS Code validates the file against
 // schemas/rules.schema.json; this reader is lenient and ignores what it does not understand.
+import { RULES } from '../check/rules.ts';
 import type { SyntaxDiagnostic } from '../syntax/ast.ts';
+
+const RULE_IDS = new Set(RULES.map((r) => r.id));
+
+/** Names the spec uses for rules that have another id here. */
+const RULE_ALIASES: Readonly<Record<string, string>> = {
+  'timer-called-conditionally': 'timer-not-called-every-cycle',
+};
+
+/** The known rule id closest to a misspelt one, if any is close. */
+function closestRuleId(id: string): string | undefined {
+  let best: string | undefined;
+  let bestDistance = Math.max(3, Math.floor(id.length / 4)) + 1;
+  for (const known of RULE_IDS) {
+    const d = editDistance(id, known, bestDistance);
+    if (d < bestDistance) [best, bestDistance] = [known, d];
+  }
+  return best;
+}
+
+function editDistance(a: string, b: string, limit: number): number {
+  if (Math.abs(a.length - b.length) >= limit) return limit;
+  let previous = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    const current = [i];
+    for (let j = 1; j <= b.length; j++)
+      current[j] = Math.min(
+        previous[j]! + 1,
+        current[j - 1]! + 1,
+        previous[j - 1]! + (a[i - 1] === b[j - 1] ? 0 : 1),
+      );
+    previous = current;
+  }
+  return previous[b.length]!;
+}
 
 export type RuleSeverity = 'off' | 'info' | 'warning';
 export type NamingPreset = 'default' | 'siemens-prefix' | 'match-workspace';
@@ -151,7 +186,22 @@ export function parseRulesConfig(text: string): RulesConfigResult {
     config.extends = o['extends'].filter((x): x is string => typeof x === 'string');
   if (o['rules'] && typeof o['rules'] === 'object') {
     const rules = new Map<string, { severity: RuleSeverity; options: Record<string, unknown> }>();
-    for (const [id, value] of Object.entries(o['rules'] as Record<string, unknown>)) {
+    const customIds = new Set(
+      Array.isArray(o['custom'])
+        ? (o['custom'] as unknown[]).map((c) => (c as Record<string, unknown> | null)?.['id'])
+        : [],
+    );
+    for (const [written, value] of Object.entries(o['rules'] as Record<string, unknown>)) {
+      const id = RULE_ALIASES[written] ?? written;
+      if (!RULE_IDS.has(id) && !customIds.has(id)) {
+        const near = closestRuleId(id);
+        diagnostics.push(
+          problem(
+            `plcstudio.rules.json: unknown rule "${written}"${near ? `; did you mean "${near}"?` : '.'}`,
+          ),
+        );
+        continue;
+      }
       const [sev, options] = Array.isArray(value) ? [value[0], value[1]] : [value, undefined];
       if (typeof sev !== 'string' || !SEVERITIES.has(sev)) {
         diagnostics.push(

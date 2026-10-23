@@ -46,7 +46,7 @@ npm run corpus:report           Markdown gate report (round trip, false errors, 
 npm run package                 production build, allowlist check, dist/plcstudio-<version>.vsix
 ```
 
-Later milestones add `test:integration` (@vscode/test-electron, M4) and `test:webviews` (Playwright, M7/M8).
+`npm run test:integration` runs the extension in a real VS Code (@vscode/test-electron, downloaded once into `packages/extension/.vscode-test`): every feature, and every webview must report that it rendered. Webview tests (`*.web.test.ts`) run in the `web` project, with an axe-core accessibility audit.
 
 Before every commit: `build`, `lint`, `typecheck`, `test`, `test:corpus` and `test:web` pass.
 
@@ -117,4 +117,4 @@ The owner asked Claude to finish all milestones without stopping for acceptance 
 
 ## Current milestone
 
-Current milestone: M0 – Setup and format spike. All tasks done locally on 2026-10-24; CI (M0.5) waits for the owner's approval of the first push, then the owner's acceptance of M0.
+Autonomous run finished on 2026-10-24: M0–M12 are done except the items marked `[~]` or **(owner)** in `PLAN.md`. Waiting for the owner's review of the whole run, the final name and icon, and the publishing decision (M9.4, M9.5).

@@ -1,4 +1,6 @@
+import { parseRulesConfig } from '@plcstudio/core';
 import Ajv from 'ajv';
+import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import plcSchema from './plc.schema.json' with { type: 'json' };
 import rulesSchema from './rules.schema.json' with { type: 'json' };
@@ -112,5 +114,26 @@ describe('rules.schema.json', () => {
     ['an unknown custom rule kind', { custom: [{ id: 'x', kind: 'script', severity: 'info' }] }],
   ])('rejects %s', (_label, rules) => {
     expect(validateRules(rules)).toBe(false);
+  });
+});
+
+// The JSON examples in the extension's README must stay valid: users copy them.
+describe('README examples', () => {
+  const readme = readFileSync(new URL('../packages/extension/README.md', import.meta.url), 'utf8');
+  const blocks = [...readme.matchAll(/```json\r?\n([\s\S]*?)```/g)].map(
+    (m) => JSON.parse(m[1]!) as Record<string, unknown>,
+  );
+
+  it('has a manifest and a rules file example', () => {
+    expect(blocks.map((b) => ('cpu' in b ? 'manifest' : 'rules'))).toEqual(['manifest', 'rules']);
+  });
+
+  it('the manifest validates', () => {
+    expect(validatePlc(blocks[0]), errors(validatePlc)).toBe(true);
+  });
+
+  it('the rules file validates and the analyzer reads it without problems', () => {
+    expect(validateRules(blocks[1]), errors(validateRules)).toBe(true);
+    expect(parseRulesConfig(JSON.stringify(blocks[1])).diagnostics).toEqual([]);
   });
 });

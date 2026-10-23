@@ -5,6 +5,7 @@ import {
   calledFrom,
   callTree,
   executionContext,
+  parseRulesConfig,
   Project,
   traceValue,
   Workspace,
@@ -694,6 +695,19 @@ describe('configuration, custom rules, naming and suppression', () => {
       JSON.stringify({ rules: { 'case-without-else': 'warning' } }),
     );
     expect(count(p, 'case-without-else')).toBe(1);
+  });
+
+  it('rule ids: the name from the spec is an alias, unknown ids get a suggestion', () => {
+    const parsed = parseRulesConfig(
+      JSON.stringify({
+        rules: { 'timer-called-conditionally': 'off', 'case-without-els': 'info', bogus: 'off' },
+      }),
+    );
+    expect(parsed.config.rules?.get('timer-not-called-every-cycle')?.severity).toBe('off');
+    expect(parsed.diagnostics.map((d) => d.message)).toEqual([
+      'plcstudio.rules.json: unknown rule "case-without-els"; did you mean "case-without-else"?',
+      'plcstudio.rules.json: unknown rule "bogus".',
+    ]);
   });
 
   it('custom rules: forbidden and required instructions, names, banned identifiers, comments, complexity, global access', () => {
