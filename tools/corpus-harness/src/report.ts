@@ -23,17 +23,29 @@ export function renderReport(run: GateRun): string {
       `Round trip: ${v.roundTrip.checked - v.roundTrip.failures.length}/${v.roundTrip.checked} files byte-identical.`,
       ...v.roundTrip.failures.map((f) => `- ${f.caseFolder}/${f.file.path}: ${f.problem}`),
       '',
-      '| PLC | Variant | Files | False errors | Error coverage | Policy errors found |',
-      '| --- | --- | --- | --- | --- | --- |',
+      '| PLC | Variant | Files | False errors | Error coverage | Policy errors found | Analyzer expectations found |',
+      '| --- | --- | --- | --- | --- | --- | --- |',
       ...v.plcs.map((p) => {
         const policyFound = p.policy.filter((r) => r.found).length;
+        const analyzerFound = p.analyzer.filter((r) => r.found).length;
         return (
           `| ${p.plc} | ${p.variant} | ${p.files} | ${p.falseErrors.length} | ` +
           `${p.coverage.matched}/${p.coverage.expected} (${pct(p.coverage.matched, p.coverage.expected)}) | ` +
-          `${policyFound}/${p.policy.length} |`
+          `${policyFound}/${p.policy.length} | ${analyzerFound}/${p.analyzer.length} |`
         );
       }),
     );
+    const missedAnalyzer = v.plcs.flatMap((p) =>
+      p.analyzer.filter((r) => !r.found).map((r) => ({ ...r, variant: p.variant })),
+    );
+    if (missedAnalyzer.length > 0) {
+      out.push('', '### Analyzer expectations not found', '');
+      for (const r of missedAnalyzer) {
+        out.push(
+          `- ${r.variant} · ${r.caseFolder} · ${r.rule} in ${r.block}${r.line !== null ? ` line ${r.line}` : ''}${r.member ? ` (${r.member})` : ''}`,
+        );
+      }
+    }
     const falseErrors = v.plcs.flatMap((p) =>
       p.falseErrors.map((f) => ({ ...f, variant: p.variant })),
     );

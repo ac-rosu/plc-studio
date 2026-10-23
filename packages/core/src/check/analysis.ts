@@ -22,6 +22,19 @@ export type AnalysisPass = (project: Project, analysis: ProjectAnalysis) => Loca
 
 const passes: AnalysisPass[] = [];
 
+export type DiagnosticFilter = (
+  project: Project,
+  analysis: ProjectAnalysis,
+  diagnostics: LocatedDiagnostic[],
+) => LocatedDiagnostic[];
+
+const filters: DiagnosticFilter[] = [];
+
+/** Registers a filter over the semantic diagnostics (configured severities, suppressions). */
+export function registerFilter(filter: DiagnosticFilter): void {
+  filters.push(filter);
+}
+
 /** Registers a pass that runs after binding (analyzer rules, cross-block rules). */
 export function registerPass(pass: AnalysisPass): void {
   passes.push(pass);
@@ -82,7 +95,10 @@ export function analyzeProject(project: Project): ProjectAnalysis {
     diagnostics,
   };
   if (semantic) for (const pass of passes) located.push(...pass(project, analysis));
-  for (const d of located) {
+  if (project.rulesPath) for (const d of project.rulesDiagnostics) add(project.rulesPath, d);
+  let filtered = located;
+  if (semantic) for (const filter of filters) filtered = filter(project, analysis, filtered);
+  for (const d of filtered) {
     const { file, ...rest } = d;
     add(file, rest);
   }

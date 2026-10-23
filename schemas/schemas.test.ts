@@ -75,6 +75,28 @@ describe('plc.schema.json', () => {
 });
 
 describe('rules.schema.json', () => {
+  it('accepts formatter options and required-instruction scopes', () => {
+    const rules = {
+      format: {
+        keywordCase: 'lower',
+        indentSize: 2,
+        spaceAroundOperators: true,
+        alignAssignments: true,
+      },
+      custom: [
+        {
+          id: 'needs-limit',
+          kind: 'requiredInstruction',
+          instruction: 'LIMIT',
+          in: ['FC'],
+          severity: 'info',
+        },
+      ],
+    };
+    expect(validateRules(rules), JSON.stringify(validateRules.errors)).toBe(true);
+    expect(validateRules({ format: { keywordCase: 'camel' } })).toBe(false);
+  });
+
   it("accepts the spec's rules file", () => {
     expect(validateRules(SPEC_RULES), errors(validateRules)).toBe(true);
   });

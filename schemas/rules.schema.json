@@ -44,6 +44,31 @@
       "description": "Rules defined in this file.",
       "type": "array",
       "items": { "$ref": "#/definitions/customRule" }
+    },
+    "format": {
+      "description": "Formatter style. Defaults reproduce TIA's own layout.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "keywordCase": {
+          "description": "Casing of SCL keywords: upper (TIA's), lower, or as written.",
+          "enum": ["upper", "lower", "preserve"]
+        },
+        "indentSize": {
+          "description": "Spaces per nesting level in SCL code.",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "spaceAroundOperators": {
+          "description": "One space around ':=', '=>', comparisons and binary operators, one after commas.",
+          "type": "boolean"
+        },
+        "alignAssignments": {
+          "description": "Align ':' and ':=' of consecutive declarations.",
+          "type": "boolean"
+        }
+      }
     }
   },
   "definitions": {
@@ -87,7 +112,13 @@
         {
           "properties": {
             "kind": { "enum": ["forbiddenInstruction", "requiredInstruction"] },
-            "instruction": { "type": "string" }
+            "instruction": { "type": "string" },
+            "in": {
+              "description": "requiredInstruction: block kinds that must call it (default: OB, FB, FC).",
+              "type": "array",
+              "items": { "enum": ["OB", "FB", "FC"] },
+              "uniqueItems": true
+            }
           },
           "required": ["instruction"]
         },

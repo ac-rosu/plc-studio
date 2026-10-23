@@ -28,3 +28,12 @@ export * from './services/info.ts';
 export * from './services/completion.ts';
 export * from './services/editor.ts';
 export * from './ladder/index.ts';
+// Analyzer (M5) and call graph (M6). Importing register.ts adds their passes to analyzeProject.
+import './analyzer/register.ts';
+export { analyzerFindings } from './analyzer/register.ts';
+export * from './analyzer/config.ts';
+export { measureComplexity, type BlockFacts, type Finding } from './analyzer/single-block.ts';
+export { applySuppressions, scanSuppressions, type Suppression } from './analyzer/suppression.ts';
+export * from './callgraph/graph.ts';
+export * from './callgraph/trace.ts';
+export { formatDocument, formatRanges, type LineRange } from './formatter/format.ts';

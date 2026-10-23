@@ -4,6 +4,7 @@ import { fileKindOf } from '../formats/document.ts';
 import { SourceText } from '../text/source-text.ts';
 import { basename, dirname, isInside, joinPath, normalizePath } from './paths.ts';
 import { Project } from './project.ts';
+import { parseRulesConfig, type RulesConfigInput } from '../analyzer/config.ts';
 
 /** File access the extension (or a test) provides; core never touches the disk itself. */
 export interface FileSystem {
@@ -23,10 +24,13 @@ export class Workspace {
   readonly projects = new Map<string, Project>();
   /** Files outside every PLC folder: syntax only. */
   readonly loose = new Project('');
+  /** Workspace-level plcstudio.rules.json files (outside every PLC folder), by folder. */
+  private readonly workspaceRules = new Map<string, Partial<RulesConfigInput>>();
 
   /** Finds plc.json files and loads every PLC file below the given folders. */
   async scan(fs: FileSystem, folders: readonly string[]): Promise<void> {
     const manifests: string[] = [];
+    const rules: string[] = [];
     const files: string[] = [];
     const walk = async (folder: string, depth: number) => {
       if (depth > 12) return;
@@ -42,6 +46,8 @@ export class Workspace {
           if (!SKIP_FOLDERS.has(name) && !name.startsWith('.')) await walk(path, depth + 1);
         } else if (name.toLowerCase() === 'plc.json') {
           manifests.push(path);
+        } else if (name.toLowerCase() === 'plcstudio.rules.json') {
+          rules.push(path);
         } else if (isPlcFile(path)) {
           files.push(path);
         }
@@ -51,6 +57,13 @@ export class Workspace {
     for (const m of manifests) {
       const text = new TextDecoder('utf-8').decode(await fs.readFile(m));
       this.setManifest(m, text);
+    }
+    for (const r of rules) {
+      try {
+        this.setRules(r, new TextDecoder('utf-8').decode(await fs.readFile(r)));
+      } catch {
+        // unreadable rules files are skipped
+      }
     }
     for (const f of files) {
       try {
@@ -94,6 +107,7 @@ export class Workspace {
       }
     }
     project.setManifest(path, text);
+    this.applyWorkspaceRules(project);
     return project;
   }
 
@@ -115,7 +129,34 @@ export class Workspace {
     this.setFileSource(path, new SourceText(text, old?.source.bom ?? false));
   }
 
+  /** A plcstudio.rules.json: of a PLC folder when it sits in one, otherwise of the workspace. */
+  setRules(path: string, text: string | undefined): void {
+    const folder = dirname(normalizePath(path));
+    const project = this.projects.get(folder.toLowerCase());
+    if (project) {
+      project.setRules(path, text);
+      return;
+    }
+    if (text === undefined) this.workspaceRules.delete(folder.toLowerCase());
+    else this.workspaceRules.set(folder.toLowerCase(), parseRulesConfig(text).config);
+    for (const p of this.allProjects()) this.applyWorkspaceRules(p);
+  }
+
+  /** The nearest workspace-level rules file above a project applies to it. */
+  private applyWorkspaceRules(project: Project): void {
+    let best: string | undefined;
+    for (const folder of this.workspaceRules.keys()) {
+      const applies = project.root === '' || isInside(project.root, folder);
+      if (applies && (!best || folder.length > best.length)) best = folder;
+    }
+    project.setWorkspaceRules(best ? this.workspaceRules.get(best) : undefined);
+  }
+
   setFileSource(path: string, source: SourceText): void {
+    if (basename(path).toLowerCase() === 'plcstudio.rules.json') {
+      this.setRules(path, source.text);
+      return;
+    }
     if (basename(path).toLowerCase() === 'plc.json') {
       this.setManifest(path, source.text);
       return;
@@ -124,6 +165,10 @@ export class Workspace {
   }
 
   removeFile(path: string): void {
+    if (basename(path).toLowerCase() === 'plcstudio.rules.json') {
+      this.setRules(path, undefined);
+      return;
+    }
     if (basename(path).toLowerCase() === 'plc.json') {
       this.removeManifest(path);
       return;
