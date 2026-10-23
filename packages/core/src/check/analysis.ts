@@ -1,6 +1,5 @@
 // Project-wide analysis: syntax, binding and checker diagnostics, references and call sites of
 // every block, cached per project revision.
-import type { ResourceFile } from '../formats/s7res.ts';
 import type { SyntaxDiagnostic } from '../syntax/ast.ts';
 import type { BlockSymbol, LocatedDiagnostic, Project } from '../model/project.ts';
 import { BlockBinder, type BlockAnalysis, type CallSite, type Reference } from './binder.ts';
@@ -106,17 +105,22 @@ export function analyzeProject(project: Project): ProjectAnalysis {
   return analysis;
 }
 
-/** Texts that exist in some languages of the project but not in all (spec: info). */
+/**
+ * Texts missing in a language (spec: info). The languages are the manifest's `languages`; without
+ * them, those of the same .s7res file, so a single translated block does not flag every
+ * untranslated text of the PLC.
+ */
 function missingTranslations(project: Project): LocatedDiagnostic[] {
-  const resources: { path: string; res: ResourceFile }[] = [];
-  for (const f of project.files.values())
-    if (f.parsed?.kind === 'resources') resources.push({ path: f.path, res: f.parsed });
-  const cultures = new Set<string>();
-  for (const { res } of resources)
-    for (const e of res.entries) for (const v of e.values) cultures.add(v.culture);
-  if (cultures.size < 2) return [];
+  const declared = project.manifest?.languages ?? [];
   const out: LocatedDiagnostic[] = [];
-  for (const { path, res } of resources) {
+  for (const f of project.files.values()) {
+    if (f.parsed?.kind !== 'resources') continue;
+    const path = f.path;
+    const res = f.parsed;
+    const cultures = new Set<string>(declared);
+    if (declared.length === 0)
+      for (const e of res.entries) for (const v of e.values) cultures.add(v.culture);
+    if (cultures.size < 2) continue;
     for (const e of res.entries) {
       const have = new Set(e.values.map((v) => v.culture));
       const missing = [...cultures].filter((c) => !have.has(c)).sort();

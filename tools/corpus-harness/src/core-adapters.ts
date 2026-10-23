@@ -71,7 +71,7 @@ export function corpusManifest(plc: CorpusPlc, corpusRoot: string): string {
 }
 
 /** Where a corpus file lives in the virtual PLC folder: unit objects go into their unit folder. */
-function virtualPath(plc: CorpusPlc, file: CorpusFile): string {
+export function plcFilePath(plc: CorpusPlc, file: CorpusFile): string {
   for (const c of plc.cases) {
     if (!(plc.owners.get(file) ?? []).includes(c.folder)) continue;
     const object = c.expected.objects.find(
@@ -92,7 +92,7 @@ export function projectChecker(corpusRoot: string): Checker {
       project.setManifest(`/plc/${plc.name}/plc.json`, corpusManifest(plc, corpusRoot));
       const byPath = new Map<string, CorpusFile>();
       for (const file of plc.files) {
-        const p = virtualPath(plc, file);
+        const p = plcFilePath(plc, file);
         byPath.set(p.toLowerCase(), file);
         project.setFile(p, SourceText.fromBytes(new Uint8Array(readFileSync(file.absolutePath))));
       }

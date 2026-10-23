@@ -34,6 +34,8 @@ Editing, checking and analysis for SCL, LAD and FBD programs of S7-1200 and S7-1
 }
 ```
 
+Comments and titles missing in a language are listed as info. Add `"languages": ["en-US", "de-DE"]` to `plc.json` to check every text against the project languages; without it, a text counts as missing a language only when another text of the same file has it.
+
 The exported files do not say which type an OB is or how often it runs. Add them to `plc.json` when you need them (`"obs": { "OB_Cyclic100ms": { "type": "CyclicInterrupt", "cycleTimeMs": 100, "priority": 13 } }`), or keep the OB's SimaticML export next to its `.s7dcl`. The call tree, the called-from summaries and the cross-priority rules use them.
 
 ## Analyzer settings

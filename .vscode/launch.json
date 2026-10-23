@@ -1,0 +1,18 @@
+{
+  // Run PLC Studio from source in a second VS Code window. "npm run demo" first writes the demo
+  // workspace (corpus PLCs) to .scratch/demo.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run PLC Studio on the demo workspace",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}/packages/extension",
+        "${workspaceFolder}/.scratch/demo"
+      ],
+      "outFiles": ["${workspaceFolder}/packages/extension/dist/**/*.js"],
+      "preLaunchTask": "plcstudio: build and demo"
+    }
+  ]
+}

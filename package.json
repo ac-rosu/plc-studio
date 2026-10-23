@@ -24,6 +24,7 @@
     "corpus:report": "node tools/corpus-harness/src/cli.ts",
     "package": "npm run package -w plcstudio",
     "corpus:inspect": "node tools/corpus-harness/src/inspect.ts",
+    "demo": "node tools/corpus-harness/src/demo.ts",
     "test:integration": "npm run test:integration -w plcstudio"
   },
   "devDependencies": {

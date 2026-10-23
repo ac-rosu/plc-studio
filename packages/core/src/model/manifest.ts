@@ -39,6 +39,8 @@ export interface Manifest {
   tiaVersion: string;
   compiler: { iecCheck: boolean };
   displayLanguage: string | undefined;
+  /** Project languages; texts missing in one of them are reported. Empty: decided per file. */
+  languages: string[];
   units: UnitDefinition[];
   /** OB attributes the exported files do not carry (DECISIONS 2026-10-24). */
   obs: Record<string, ObInfo>;
@@ -147,6 +149,7 @@ export function parseManifest(text: string): ManifestResult {
     tiaVersion: 'V21',
     compiler: { iecCheck: compiler['iecCheck'] === true },
     displayLanguage: str(o['displayLanguage']),
+    languages: strings(o['languages']),
     units,
     obs,
     failsafeBlocks: strings(o['failsafeBlocks']),

@@ -51,6 +51,12 @@
       "type": "string",
       "pattern": "^[a-z]{2,3}-[A-Z]{2}$"
     },
+    "languages": {
+      "description": "Project languages. A comment or title missing in one of them is reported as info. Without this list, a text counts as missing a language only when another text of the same file has it.",
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-z]{2,3}-[A-Z]{2}$" },
+      "uniqueItems": true
+    },
     "units": {
       "description": "Software units of this PLC.",
       "type": "array",
