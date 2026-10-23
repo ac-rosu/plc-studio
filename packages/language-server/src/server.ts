@@ -3,11 +3,15 @@
 // browser worker (ADR 0006). Everything else comes from core.
 import {
   analyzeProject,
+  calledFrom,
   callHierarchyAt,
+  callTree,
   codeLenses,
   completionsAt,
   definitionOf,
   foldingRanges,
+  formatDocument,
+  formatRanges,
   hoverAt,
   incomingCalls,
   inlayHints,
@@ -24,8 +28,10 @@ import {
   semanticTokens,
   signatureHelpAt,
   SourceText,
+  traceValue,
   workspaceSymbols,
   Workspace,
+  type CallTreeNode,
   type CompletionKind,
   type OutlineItem,
   type OutlineKind,
@@ -59,9 +65,18 @@ import {
 import { TextDocument } from 'vscode-languageserver-textdocument';
 import { URI, Utils } from 'vscode-uri';
 
-/** Requests the server sends to the client for file access. */
-export const READ_DIRECTORY = 'plcstudio/readDirectory';
-export const READ_FILE = 'plcstudio/readFile';
+import {
+  CALL_TREE,
+  READ_DIRECTORY,
+  READ_FILE,
+  TRACE_VALUE,
+  type CallTreeItem,
+  type CallTreePlc,
+  type TraceItem,
+  type TraceResult,
+} from './protocol.ts';
+
+export * from './protocol.ts';
 
 export function serverCapabilities(): ServerCapabilities {
   return {
@@ -86,6 +101,8 @@ export function serverCapabilities(): ServerCapabilities {
     codeActionProvider: { codeActionKinds: [CodeActionKind.QuickFix] },
     codeLensProvider: { resolveProvider: false },
     callHierarchyProvider: true,
+    documentFormattingProvider: true,
+    documentRangeFormattingProvider: { rangesSupport: true },
   };
 }
 
@@ -144,6 +161,21 @@ export class PlcStudioServer {
   constructor(connection: Connection, options: ServerOptions) {
     this.connection = connection;
     this.debounceMs = options.debounceMs ?? 120;
+    // where an FB or FC runs, from the call graph (M6.7)
+    const runsIn = (project: Project, id: string) => {
+      const kind = project.index.block(id)?.kind;
+      return project.hasManifest && (kind === 'FB' || kind === 'FC')
+        ? calledFrom(project, id)
+        : undefined;
+    };
+    this.hoverExtra = (project, id) => {
+      const summary = runsIn(project, id);
+      return summary ? `Called from: ${summary}` : undefined;
+    };
+    this.codeLensExtra = (project, id) => {
+      const summary = runsIn(project, id);
+      return summary ? `called from ${summary}` : undefined;
+    };
   }
 
   // --- Paths ---------------------------------------------------------------------------------
@@ -161,6 +193,9 @@ export class PlcStudioServer {
   private sourceOf(project: Project, path: string): SourceText | undefined {
     if (project.manifestPath && path.toLowerCase() === project.manifestPath.toLowerCase()) {
       return new SourceText(project.manifestText ?? '');
+    }
+    if (project.rulesPath && path.toLowerCase() === project.rulesPath.toLowerCase()) {
+      return new SourceText(project.rulesText ?? '');
     }
     return project.files.get(path)?.source;
   }
@@ -196,6 +231,9 @@ export class PlcStudioServer {
       const touched = new Set<Project>();
       for (const change of e.changes) {
         const path = this.pathOf(change.uri);
+        // a workspace-level rules file applies to every PLC folder below it
+        if (path.toLowerCase().endsWith('/plcstudio.rules.json'))
+          for (const p of this.workspace.allProjects()) touched.add(p);
         if (change.type === FileChangeType.Deleted) {
           touched.add(this.workspace.projectFor(path));
           this.workspace.removeFile(path);
@@ -284,6 +322,7 @@ export class PlcStudioServer {
     const paths = new Set<string>([
       ...project.files.keys(),
       ...(project.manifestPath ? [project.manifestPath] : []),
+      ...(project.rulesPath ? [project.rulesPath] : []),
     ]);
     for (const path of paths) {
       const source = this.sourceOf(project, path);
@@ -359,10 +398,115 @@ export class PlcStudioServer {
     return { documentChanges };
   }
 
+  // --- Call graph views ----------------------------------------------------------------------
+
+  /** The call tree of every PLC folder with a manifest (M6.6). */
+  callTrees(instructions = false): CallTreePlc[] {
+    const describe = (n: CallTreeNode): string => {
+      if (n.kind === 'ob') return '';
+      const parts: string[] = [];
+      if (n.instance) parts.push(n.instance);
+      parts.push(
+        n.conditional ? (n.condition ? `if ${n.condition}` : 'conditional') : 'every call',
+      );
+      if (n.inLoop) parts.push('in a loop');
+      if (n.viaEn) parts.push('via EN');
+      if (n.recursive) parts.push('recursive');
+      return parts.join(' · ');
+    };
+    const convert = (project: Project, n: CallTreeNode): CallTreeItem | undefined => {
+      const source = this.sourceOf(project, n.file);
+      if (!source) return undefined;
+      return {
+        name: n.name,
+        kind: n.kind,
+        detail: describe(n),
+        uri: this.uriOf(n.file),
+        range: this.range(source, n.start, n.end),
+        recursive: n.recursive,
+        children: n.children.flatMap((child) => convert(project, child) ?? []),
+      };
+    };
+    return this.workspace
+      .allProjects()
+      .filter((p) => p.hasManifest)
+      .map((project) => ({
+        name: project.manifest?.name || project.root.slice(project.root.lastIndexOf('/') + 1),
+        uri: this.uriOf(project.root),
+        roots: callTree(project, { instructions }).flatMap((n) => convert(project, n) ?? []),
+      }));
+  }
+
+  /** Every read and write of the symbol at a position, across blocks (M6.5). */
+  trace(uri: string, position: { line: number; character: number }): TraceResult | null {
+    const at = this.locate(uri, position);
+    if (!at) return null;
+    const ref = referenceAt(at.project, at.path, at.offset);
+    if (!ref || ref.symbolKind === 'instruction') return null;
+    const name = at.source.text.slice(ref.range.start, ref.range.end);
+    const items = traceValue(at.project, ref.symbolId)
+      .filter((e) => e.access !== 'declaration' && e.access !== 'type')
+      .flatMap((e): TraceItem[] => {
+        const source = this.sourceOf(at.project, e.file);
+        if (!source) return [];
+        const range = this.range(source, e.range.start, e.range.end);
+        const lineStart = source.offsetAt({ line: range.start.line, character: 0 });
+        const lineEnd = source.offsetAt({ line: range.start.line + 1, character: 0 });
+        return [
+          {
+            uri: this.uriOf(e.file),
+            range,
+            access: e.access,
+            blockName: e.blockName,
+            via: [...e.via],
+            line: source.text.slice(lineStart, lineEnd).trim(),
+          },
+        ];
+      });
+    return { name, items };
+  }
+
   // --- Features ------------------------------------------------------------------------------
 
   private registerFeatures(): void {
     const c = this.connection;
+
+    c.onRequest(CALL_TREE, (params: { instructions?: boolean } | null) =>
+      this.callTrees(params?.instructions ?? false),
+    );
+    c.onRequest(
+      TRACE_VALUE,
+      (params: { uri: string; position: { line: number; character: number } }) =>
+        this.trace(params.uri, params.position),
+    );
+
+    const formatEdits = (uri: string, lines?: { start: number; end: number }[]) => {
+      const path = this.pathOf(uri);
+      const project = this.workspace.projectFor(path);
+      const file = project.files.get(path);
+      if (!file || file.parsed?.kind !== 'blocks') return [];
+      const text = file.source.text;
+      const options = project.rules.format;
+      const edits = lines
+        ? formatRanges(path, text, lines, options)
+        : formatDocument(path, text, options);
+      return edits.map((e) => ({
+        range: this.range(file.source, e.start, e.end),
+        newText: e.newText,
+      }));
+    };
+    // a range that ends at column 0 of a line does not include that line
+    const lineRange = (r: LspRange) => ({
+      start: r.start.line,
+      end: r.end.character === 0 && r.end.line > r.start.line ? r.end.line - 1 : r.end.line,
+    });
+    c.onDocumentFormatting((params) => formatEdits(params.textDocument.uri));
+    c.onDocumentRangeFormatting((params) =>
+      formatEdits(params.textDocument.uri, [lineRange(params.range)]),
+    );
+    c.onDocumentRangesFormatting((params) =>
+      formatEdits(params.textDocument.uri, params.ranges.map(lineRange)),
+    );
 
     c.onRequest('plcstudio/instructionUsage', () => {
       const counts = new Map<string, { name: string; known: boolean; count: number }>();

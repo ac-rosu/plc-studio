@@ -90,6 +90,8 @@ export class Project {
   manifestDiagnostics: SyntaxDiagnostic[] = [];
   /** plcstudio.rules.json in the PLC folder (wins over the workspace's). */
   rulesPath: string | undefined;
+  /** plcstudio.rules.json as written, for placing its diagnostics. */
+  rulesText: string | undefined;
   rulesDiagnostics: SyntaxDiagnostic[] = [];
   private folderRules: Partial<RulesConfigInput> | undefined;
   private workspaceRules: Partial<RulesConfigInput> | undefined;
@@ -173,11 +175,13 @@ export class Project {
   setRules(path: string, text: string | undefined): void {
     if (text === undefined) {
       this.rulesPath = undefined;
+      this.rulesText = undefined;
       this.folderRules = undefined;
       this.rulesDiagnostics = [];
     } else {
       const result = parseRulesConfig(text);
       this.rulesPath = normalizePath(path);
+      this.rulesText = text;
       this.folderRules = result.config;
       this.rulesDiagnostics = result.diagnostics;
     }

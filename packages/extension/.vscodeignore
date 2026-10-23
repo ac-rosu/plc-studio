@@ -6,6 +6,7 @@
 !CHANGELOG.md
 !LICENSE
 !images/icon.png
+!images/activity.svg
 !schemas/*.schema.json
 !syntaxes/*.json
 !language-configuration.json

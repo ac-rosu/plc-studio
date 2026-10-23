@@ -19,6 +19,7 @@ const ALLOWED = [
   /^CHANGELOG\.md$/,
   /^LICENSE$/,
   /^images\/icon\.png$/,
+  /^images\/activity\.svg$/,
   /^schemas\/[a-z]+\.schema\.json$/,
   /^dist\/(extension|server)\.js$/,
   /^dist\/webviews\/[a-z-]+\.(js|css)$/,

@@ -143,6 +143,29 @@
         "title": "Open LAD/FBD View",
         "category": "PLC Studio",
         "icon": "$(circuit-board)"
+      },
+      {
+        "command": "plcstudio.traceValue",
+        "title": "Trace value",
+        "category": "PLC Studio"
+      },
+      {
+        "command": "plcstudio.refreshCallTree",
+        "title": "Refresh call tree",
+        "category": "PLC Studio",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "plcstudio.toggleCallTreeInstructions",
+        "title": "Show or hide instructions in the call tree",
+        "category": "PLC Studio",
+        "icon": "$(symbol-operator)"
+      },
+      {
+        "command": "plcstudio.clearTrace",
+        "title": "Clear trace",
+        "category": "PLC Studio",
+        "icon": "$(clear-all)"
       }
     ],
     "menus": {
@@ -163,6 +186,48 @@
           "command": "plcstudio.openLadderView",
           "when": "resourceExtname == .s7dcl && activeCustomEditorId != plcstudio.ladderEditor",
           "group": "navigation"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "plcstudio.refreshCallTree",
+          "when": "view == plcstudio.callTree",
+          "group": "navigation@1"
+        },
+        {
+          "command": "plcstudio.toggleCallTreeInstructions",
+          "when": "view == plcstudio.callTree",
+          "group": "navigation@2"
+        },
+        {
+          "command": "plcstudio.clearTrace",
+          "when": "view == plcstudio.trace",
+          "group": "navigation@1"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "plcstudio.traceValue",
+          "when": "editorLangId =~ /^plcstudio-(scl|s7dcl)$/",
+          "group": "navigation@90"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "plcstudio.refreshCallTree",
+          "when": "false"
+        },
+        {
+          "command": "plcstudio.toggleCallTreeInstructions",
+          "when": "false"
+        },
+        {
+          "command": "plcstudio.clearTrace",
+          "when": "false"
+        },
+        {
+          "command": "plcstudio.traceValue",
+          "when": "editorLangId =~ /^plcstudio-(scl|s7dcl)$/"
         }
       ]
     },
@@ -202,6 +267,39 @@
           }
         ],
         "priority": "option"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "plcstudio",
+          "title": "PLC Studio",
+          "icon": "images/activity.svg"
+        }
+      ]
+    },
+    "views": {
+      "plcstudio": [
+        {
+          "id": "plcstudio.callTree",
+          "name": "Call tree",
+          "contextualTitle": "PLC Studio"
+        },
+        {
+          "id": "plcstudio.trace",
+          "name": "Trace value",
+          "contextualTitle": "PLC Studio"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "plcstudio.callTree",
+        "contents": "No PLC folder with a plc.json in this workspace.\n[Create manifest](command:plcstudio.createManifest)"
+      },
+      {
+        "view": "plcstudio.trace",
+        "contents": "Place the cursor on a variable, tag or data block member and run Trace value to see every read and write across blocks.\n[Trace value](command:plcstudio.traceValue)"
       }
     ]
   },

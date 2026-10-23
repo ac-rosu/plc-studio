@@ -2,6 +2,7 @@
 // developed side by side; add one line per feature.
 import type * as vscode from 'vscode';
 import type { LanguageClient } from 'vscode-languageclient/node';
+import { registerCallGraph } from './callgraph.ts';
 import { registerCoexistence } from './coexistence.ts';
 import { registerCommands } from './commands.ts';
 import { registerLadderEditor } from './ladder-editor.ts';
@@ -20,6 +21,7 @@ const features: Feature[] = [
   registerManifest,
   registerCoexistence,
   registerLadderEditor,
+  registerCallGraph,
 ];
 
 export function registerFeatures(context: FeatureContext): void {

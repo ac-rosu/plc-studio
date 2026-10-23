@@ -35,6 +35,32 @@ const BROKEN = [
   '',
 ].join('\r\n');
 
+const OB = [
+  '{',
+  '    S7_EditorMode := "SCL"',
+  '}',
+  'ORGANIZATION_BLOCK "OB_Test"',
+  '    VAR_TEMP',
+  '        Volume : Real;',
+  '        Rounded : DInt;',
+  '        Text : String;',
+  '        Total : LReal;',
+  '    END_VAR',
+  '    { S7_Language := "SCL" }',
+  '    NETWORK',
+  '        ',
+  '            #Volume := "FC_SclTypes"(InInt := 3, InReal := 1.5, OutDInt => #Rounded, OutText => #Text, Accumulator := #Total);',
+  '        ',
+  '    END_NETWORK',
+  'END_ORGANIZATION_BLOCK',
+  '',
+].join('\r\n');
+
+const UNFORMATTED = BROKEN.replace(
+  '#Speed := #Missing;',
+  ['if #Speed>1 then', '#Speed:=0;', 'end_if;'].join('\r\n'),
+);
+
 const FILES: Record<string, string> = {
   'plc.json': JSON.stringify({
     name: 'Test',
@@ -50,6 +76,7 @@ const FILES: Record<string, string> = {
   'FB_SclCalls.s7dcl': corpusFile('C08-scl-calls/documents/FB_SclCalls.s7dcl'),
   'IDB_SclSections.s7dcl': corpusFile('C08-scl-calls/documents/IDB_SclSections.s7dcl'),
   'FB_Broken.s7dcl': BROKEN,
+  'OB_Test.s7dcl': OB,
 };
 const ROOT = 'file:///plc';
 const uri = (name: string) => `${ROOT}/${name}`;
@@ -128,7 +155,11 @@ afterAll(async () => {
 describe('language server over LSP', () => {
   it('publishes errors for broken code and none for corpus files TIA compiles', () => {
     const broken = diagnostics.get(uri('FB_Broken.s7dcl'))!;
-    expect(broken.map((d) => [d.code, d.severity])).toEqual([['undeclared-local', 1]]);
+    expect(broken.filter((d) => d.severity === 1).map((d) => d.code)).toEqual(['undeclared-local']);
+    // no OB calls it: a warning from the call graph, never an error
+    expect(broken.filter((d) => d.severity !== 1).map((d) => [d.code, d.severity])).toEqual([
+      ['dead-block', 2],
+    ]);
     for (const name of ['FB_SclSections.s7dcl', 'FC_SclTypes.s7dcl', 'FB_SclCalls.s7dcl']) {
       expect(
         (diagnostics.get(uri(name)) ?? []).filter((d) => d.severity === 1),
@@ -219,6 +250,53 @@ describe('language server over LSP', () => {
       context: { diagnostics: broken },
     })) as { title: string }[];
     expect(actions.map((a) => a.title)).toContain('Declare #Missing : Real in VAR_TEMP');
+  });
+
+  it('formats the whole document and only the given lines', async () => {
+    await connection.sendNotification('textDocument/didOpen', {
+      textDocument: {
+        uri: uri('FB_Fmt.s7dcl'),
+        languageId: 'plcstudio-s7dcl',
+        version: 1,
+        text: UNFORMATTED,
+      },
+    });
+    type Edit = { range: { start: { line: number } }; newText: string };
+    const all = (await connection.sendRequest('textDocument/formatting', {
+      textDocument: { uri: uri('FB_Fmt.s7dcl') },
+      options: { tabSize: 4, insertSpaces: true },
+    })) as Edit[];
+    expect(all.map((e) => e.range.start.line).sort()).toEqual([10, 11, 12]);
+    expect(all.map((e) => e.newText.trim())).toContain('IF #Speed > 1 THEN');
+    const some = (await connection.sendRequest('textDocument/rangesFormatting', {
+      textDocument: { uri: uri('FB_Fmt.s7dcl') },
+      ranges: [{ start: { line: 11, character: 0 }, end: { line: 12, character: 0 } }],
+      options: { tabSize: 4, insertSpaces: true },
+    })) as Edit[];
+    expect(some.map((e) => e.range.start.line)).toEqual([11]);
+  });
+
+  it('answers the call tree and Trace value requests, and shows called-from in CodeLens', async () => {
+    const plcs = (await connection.sendRequest('plcstudio/callTree', {})) as {
+      name: string;
+      roots: { name: string; kind: string; children: { name: string; detail: string }[] }[];
+    }[];
+    expect(plcs.map((p) => p.name)).toEqual(['Test']);
+    const ob = plcs[0]!.roots.find((r) => r.name === 'OB_Test')!;
+    expect(ob.kind).toBe('ob');
+    expect(ob.children.map((c) => [c.name, c.detail])).toEqual([['FC_SclTypes', 'every call']]);
+
+    const trace = (await connection.sendRequest('plcstudio/traceValue', {
+      uri: uri('OB_Test.s7dcl'),
+      position: positionOf('OB_Test.s7dcl', '#Rounded', 2),
+    })) as { name: string; items: { access: string; blockName: string }[] };
+    expect(trace.name).toBe('Rounded');
+    expect(trace.items.map((i) => [i.access, i.blockName])).toContainEqual(['write', 'OB_Test']);
+
+    const lenses = (await connection.sendRequest('textDocument/codeLens', {
+      textDocument: { uri: uri('FC_SclTypes.s7dcl') },
+    })) as { command: { title: string } }[];
+    expect(lenses[0]!.command.title).toContain('called from OB_Test every cycle');
   });
 
   it('updates diagnostics within 200 ms of a change', async () => {
