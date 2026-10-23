@@ -371,7 +371,8 @@ function sizeBox(
     [];
   const outs: { name: string; operand: TextSpan | undefined }[] = [];
   const params = profileElement?.parameters ?? systemInstruction?.parameters ?? [];
-  const known = !!profileElement || !!systemInstruction;
+  // block calls are known boxes; only an unknown bare instruction name is not
+  const known = !!profileElement || !!systemInstruction || el.callee.kind !== 'name';
   const given = new Set<Argument>();
   const usedAsOperand = new Set<Argument>(bitArg ? [bitArg] : []);
   // the input the rung feeds: the first Bool input that is not written (TON: IN, A: in1), else EN
