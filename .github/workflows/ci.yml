@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Install Chromium for the browser tests
+        run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run test:corpus
+      - run: npm run test:web
+      - name: Corpus gate report
+        run: npm run -s corpus:report >> "$GITHUB_STEP_SUMMARY"
+        shell: bash
+      - name: Package (allowlist check included)
+        run: npm run package
