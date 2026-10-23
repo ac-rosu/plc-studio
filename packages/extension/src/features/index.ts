@@ -2,6 +2,7 @@
 // developed side by side; add one line per feature.
 import type * as vscode from 'vscode';
 import type { LanguageClient } from 'vscode-languageclient/node';
+import { registerLadderEditor } from './ladder-editor.ts';
 
 export interface FeatureContext {
   readonly extension: vscode.ExtensionContext;
@@ -11,7 +12,7 @@ export interface FeatureContext {
 
 export type Feature = (context: FeatureContext) => void;
 
-const features: Feature[] = [];
+const features: Feature[] = [registerLadderEditor];
 
 export function registerFeatures(context: FeatureContext): void {
   for (const feature of features) feature(context);

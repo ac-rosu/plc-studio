@@ -90,7 +90,53 @@
         "fileMatch": "plcstudio.rules.json",
         "url": "./schemas/rules.schema.json"
       }
-    ]
+    ],
+    "customEditors": [
+      {
+        "viewType": "plcstudio.ladderEditor",
+        "displayName": "LAD/FBD View (PLC Studio)",
+        "selector": [
+          {
+            "filenamePattern": "*.s7dcl"
+          }
+        ],
+        "priority": "option"
+      }
+    ],
+    "commands": [
+      {
+        "command": "plcstudio.openLadderView",
+        "title": "Open LAD/FBD View",
+        "category": "PLC Studio",
+        "icon": "$(circuit-board)"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "plcstudio.openLadderView",
+          "when": "resourceExtname == .s7dcl && activeCustomEditorId != plcstudio.ladderEditor",
+          "group": "navigation"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "plcstudio.openLadderView",
+          "when": "resourceExtname == .s7dcl",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "PLC Studio",
+      "properties": {
+        "plcstudio.ladder.editing": {
+          "type": "boolean",
+          "default": true,
+          "description": "Allow editing in the LAD/FBD view (palette, drag and drop, operands, networks). Every edit changes only the lines of the affected network."
+        }
+      }
+    }
   },
   "scripts": {
     "build": "node scripts/build.mts",

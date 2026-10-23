@@ -1,0 +1,236 @@
+/* LAD/FBD view: own design in VS Code theme colors (light, dark, high contrast). */
+.ladder-body {
+  display: flex;
+  align-items: flex-start;
+}
+
+.networks {
+  flex: 1;
+  min-width: 0;
+  padding: 0 12px 24px;
+}
+
+section.network {
+  margin: 10px 0;
+  padding: 6px 8px;
+  border: 1px solid var(--vscode-editorGroup-border, transparent);
+  border-left: 3px solid transparent;
+}
+
+section.network.selected {
+  border-left-color: var(--vscode-focusBorder);
+}
+
+.network-header {
+  display: flex;
+  gap: 4px;
+  align-items: baseline;
+  font-weight: 600;
+}
+
+.network-number {
+  color: var(--vscode-descriptionForeground);
+}
+
+.network-actions {
+  margin-left: auto;
+  display: inline-flex;
+  gap: 2px;
+}
+
+button.small {
+  padding: 0 6px;
+  font-size: 0.9em;
+}
+
+.network-comment {
+  font-style: italic;
+  margin: 2px 0 4px;
+}
+
+.network-label {
+  font-family: var(--vscode-editor-font-family);
+  color: var(--vscode-symbolIcon-keywordForeground, var(--vscode-foreground));
+}
+
+.drawing {
+  overflow-x: auto;
+}
+
+svg.network-drawing {
+  font-family: var(--vscode-editor-font-family, monospace);
+  font-size: 11px;
+  overflow: visible;
+}
+
+svg .wire,
+svg .symbol {
+  stroke: var(--vscode-editor-foreground);
+  stroke-width: 1.5;
+  fill: none;
+}
+
+svg .rail {
+  stroke: var(--vscode-editor-foreground);
+  stroke-width: 3;
+}
+
+svg .body {
+  fill: var(--vscode-editorWidget-background, var(--vscode-editor-background));
+  stroke: var(--vscode-editor-foreground);
+  stroke-width: 1.2;
+}
+
+svg .negation {
+  fill: var(--vscode-editor-background);
+  stroke: var(--vscode-editor-foreground);
+}
+
+svg text {
+  fill: var(--vscode-editor-foreground);
+}
+
+svg text.mark,
+svg text.title {
+  font-weight: 600;
+}
+
+svg text.pin,
+svg text.type {
+  fill: var(--vscode-descriptionForeground);
+  font-size: 10px;
+}
+
+svg text.value {
+  fill: var(--vscode-symbolIcon-variableForeground, var(--vscode-textLink-foreground));
+  cursor: text;
+}
+
+svg text.value.missing {
+  fill: var(--vscode-errorForeground);
+}
+
+svg .hit {
+  fill: transparent;
+  stroke: none;
+}
+
+svg .el {
+  outline: none;
+  cursor: pointer;
+}
+
+svg .el.selected .hit,
+svg .el:focus .hit {
+  stroke: var(--vscode-focusBorder);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 2;
+}
+
+svg .el.diag-error .hit {
+  fill: color-mix(in srgb, var(--vscode-errorForeground) 12%, transparent);
+  stroke: var(--vscode-errorForeground);
+}
+
+svg .el.diag-warning .hit {
+  fill: color-mix(in srgb, var(--vscode-editorWarning-foreground) 12%, transparent);
+  stroke: var(--vscode-editorWarning-foreground);
+}
+
+svg .el.unknown .body {
+  stroke-dasharray: 4 2;
+}
+
+body.vscode-high-contrast svg .el:focus .hit,
+body.vscode-high-contrast svg .el.selected .hit {
+  stroke: var(--vscode-contrastActiveBorder, var(--vscode-focusBorder));
+  stroke-width: 2;
+}
+
+.text-network pre.code {
+  font-family: var(--vscode-editor-font-family);
+  background: var(--vscode-textCodeBlock-background);
+  padding: 6px 8px;
+  margin: 4px 0;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+.text-network.fallback {
+  border-left: 3px solid var(--vscode-editorWarning-foreground);
+  padding-left: 6px;
+}
+
+.network-diagnostics {
+  margin: 4px 0 0;
+  padding-left: 18px;
+}
+
+.palette {
+  width: 210px;
+  position: sticky;
+  top: 40px;
+  max-height: calc(100vh - 50px);
+  overflow-y: auto;
+  border-left: 1px solid var(--vscode-panel-border, transparent);
+  padding: 6px;
+}
+
+.palette-item {
+  padding: 3px 6px;
+  cursor: grab;
+}
+
+.palette-item:hover,
+.palette-item:focus {
+  background: var(--vscode-list-hoverBackground);
+}
+
+.palette-symbol {
+  display: inline-block;
+  min-width: 36px;
+  font-family: var(--vscode-editor-font-family);
+  color: var(--vscode-descriptionForeground);
+}
+
+.tooltip {
+  position: fixed;
+  z-index: 10;
+  max-width: 480px;
+  white-space: pre-wrap;
+  background: var(--vscode-editorHoverWidget-background);
+  color: var(--vscode-editorHoverWidget-foreground);
+  border: 1px solid var(--vscode-editorHoverWidget-border);
+  padding: 4px 8px;
+}
+
+.operand-editor {
+  position: fixed;
+  z-index: 11;
+}
+
+.operand-editor input {
+  min-width: 180px;
+  font-family: var(--vscode-editor-font-family);
+}
+
+.completions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: var(--vscode-editorSuggestWidget-background);
+  border: 1px solid var(--vscode-editorSuggestWidget-border);
+}
+
+.completions li {
+  padding: 1px 6px;
+  cursor: pointer;
+}
+
+.completions li.active {
+  background: var(--vscode-editorSuggestWidget-selectedBackground);
+}
+
+.message {
+  padding: 12px;
+}

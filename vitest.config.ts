@@ -34,7 +34,11 @@ export default defineConfig({
         },
         test: {
           name: 'web',
-          include: ['packages/core/src/**/*.test.ts', 'packages/language-server/src/**/*.test.ts'],
+          include: [
+            'packages/core/src/**/*.test.ts',
+            'packages/language-server/src/**/*.test.ts',
+            'packages/webviews/src/**/*.web.test.ts',
+          ],
           browser: {
             enabled: true,
             provider: playwright(),

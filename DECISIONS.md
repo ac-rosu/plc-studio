@@ -61,3 +61,14 @@ The spec asks that core and language-server pass their tests in a browser worker
 
 - Decision (owner): Claude finishes all milestones in one run, takes the recommended option on open questions and records each choice here. Claude may use the TIA MCP server and the TIA skills to double-check facts in the corpus project; extra skills only from trusted sources.
 - Pushed `main` to https://github.com/ac-rosu/plc-studio so CI runs (M0.5).
+
+## 2026-10-24 – LAD/FBD view and editor (M8, M10)
+
+- Rungs are read as a graph: `wire#name` inside a rung names the point reached, `RUNG wire#x` starts there, `END_RUNG wire#x` joins it; every end point is joined to a virtual right end. Series and parallel reduction gives the drawing structure; a parallel whose branches end at the virtual end is an open branch (no closing line). Networks that do not reduce, or that have syntax errors or not-analyzed text, are shown as their .s7dcl text, marked as such.
+- The extension host builds the layout with core (absolute coordinates) and sends it to the view; the view bundle carries no parser and only draws, so it stays small and fast.
+- Editing is on by default (setting `plcstudio.ladder.editing`), although the spec plans the editor for v1.x: every edit changes only the lines of the affected network, and undo is VS Code's.
+- New elements get the placeholder operand `#NewOperand` (the checker reports it until it is replaced); the view opens the operand editor right away. A new network contains one empty rung, which TIA cannot import until it has elements; the view marks it as empty.
+- A new parallel branch starts with a copy of the first element of the chosen range (TIA cannot import an empty rung); when nothing follows the range, the branch stays open. Deleting the last element of a branch deletes the branch; the last element of the only rung cannot be deleted (delete the network instead).
+- Duplicated and pasted networks get new comment ids in TIA's form with copies of their texts, appended to the .s7res; a network that gets its first title gets a multi-line attribute block with the attributes in alphabetical order, as TIA writes it. Locals a pasted network uses that the target block does not declare are reported to the user.
+- Edits arrive with the document version of the view; when the text changed meanwhile, the edit is refused and the view refreshed.
+- Inputs a box needs but does not have are shown as `???` (corpus B19) and can be connected from the view; inputs are inserted before the first output, as TIA writes parameters.

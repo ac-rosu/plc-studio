@@ -335,7 +335,10 @@ function sizeBox(
 ): Sized {
   const upper = el.instruction.toUpperCase();
   const gate = o.language === 'FBD' && profileElement && GATE_SYMBOLS[upper] !== undefined;
-  const isCall = !profileElement;
+  // system FB boxes written as #Instance.TON(...) take TON's parameters; they are not block calls
+  const systemInstruction =
+    el.callee.kind === 'member' ? o.profile.instruction(el.callee.member.text) : undefined;
+  const isCall = !profileElement && !systemInstruction;
   // the instance of a call: #Inst(...) or #Inst.TON(...)
   let instance: TextSpan | undefined;
   let title = profileElement?.symbol ?? el.instruction;
@@ -367,9 +370,6 @@ function sizeBox(
   const ins: { name: string; operand: TextSpan | undefined; negated: boolean; missing: boolean }[] =
     [];
   const outs: { name: string; operand: TextSpan | undefined }[] = [];
-  // system FB boxes written as #Instance.TON(...) take TON's parameters
-  const systemInstruction =
-    el.callee.kind === 'member' ? o.profile.instruction(el.callee.member.text) : undefined;
   const params = profileElement?.parameters ?? systemInstruction?.parameters ?? [];
   const known = !!profileElement || !!systemInstruction;
   const given = new Set<Argument>();
