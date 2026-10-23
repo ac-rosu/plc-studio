@@ -23,7 +23,7 @@ const ALLOWED = [
   /^schemas\/[a-z]+\.schema\.json$/,
   /^dist\/(extension|server)\.js$/,
   /^dist\/webviews\/[a-z-]+\.(js|css)$/,
-  /^syntaxes\/[a-z0-9.-]+\.json$/,
+  /^syntaxes\/[a-z0-9-]+\.tmLanguage\.json$/,
   /^language-configuration\.json$/,
 ];
 const files = run([vsce, 'ls', '--no-dependencies'])
