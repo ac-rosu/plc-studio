@@ -12,13 +12,7 @@ export default defineConfig({
             'tools/*/src/**/*.test.ts',
             'schemas/**/*.test.ts',
           ],
-          // webview tests need a real DOM: they run in the web project only
-          exclude: [
-            '**/node_modules/**',
-            '**/*.corpus.test.ts',
-            '**/*.web.test.ts',
-            'packages/webviews/**',
-          ],
+          exclude: ['**/node_modules/**', '**/*.corpus.test.ts', '**/*.web.test.ts'],
         },
       },
       {
@@ -43,7 +37,7 @@ export default defineConfig({
           include: [
             'packages/core/src/**/*.test.ts',
             'packages/language-server/src/**/*.test.ts',
-            'packages/webviews/src/**/*.test.ts',
+            'packages/webviews/src/**/*.web.test.ts',
           ],
           browser: {
             enabled: true,
