@@ -23,13 +23,15 @@
     "test:web": "vitest run --project web",
     "corpus:report": "node tools/corpus-harness/src/cli.ts",
     "package": "npm run package -w plcstudio",
-    "corpus:inspect": "node tools/corpus-harness/src/inspect.ts"
+    "corpus:inspect": "node tools/corpus-harness/src/inspect.ts",
+    "test:integration": "npm run test:integration -w plcstudio"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
     "@types/node": "24.19.2",
     "@vitest/browser": "5.0.5",
     "@vitest/browser-playwright": "5.0.5",
+    "@vscode/test-electron": "3.1.0",
     "@vscode/vsce": "4.0.0",
     "ajv": "8.20.0",
     "esbuild": "0.28.2",

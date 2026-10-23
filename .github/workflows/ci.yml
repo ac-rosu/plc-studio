@@ -31,6 +31,12 @@ jobs:
       - run: npm test
       - run: npm run test:corpus
       - run: npm run test:web
+      - name: Integration tests in VS Code (Linux, virtual display)
+        if: runner.os == 'Linux'
+        run: xvfb-run -a npm run test:integration
+      - name: Integration tests in VS Code
+        if: runner.os != 'Linux'
+        run: npm run test:integration
       - name: Corpus gate report
         run: npm run -s corpus:report >> "$GITHUB_STEP_SUMMARY"
         shell: bash

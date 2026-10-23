@@ -173,7 +173,8 @@
   "scripts": {
     "build": "node scripts/build.mts",
     "typecheck": "tsc -p tsconfig.json",
-    "package": "node scripts/package.mts"
+    "package": "node scripts/package.mts",
+    "test:integration": "node scripts/integration.mts"
   },
   "dependencies": {
     "vscode-languageclient": "^11.0.0"
