@@ -14,6 +14,7 @@ import {
 } from './corpus.ts';
 import { POLICY_EXPECTATIONS } from './gates.ts';
 import { corePrinter, corpusProject, projectChecker } from './core-adapters.ts';
+import { demoPlcs } from './demo-plcs.ts';
 import { renderReport } from './report.ts';
 import { gatesPassed, runGates } from './run.ts';
 import { tiaLocation } from './tia-location.ts';
@@ -220,6 +221,39 @@ describe('external sources with several blocks (C42)', () => {
       'source/DBs_V4.db',
       'source/FB_V4_Tally.scl',
       'source/Types_V4.udt',
+    ]);
+  });
+});
+
+// The demo workspace (npm run demo) is laid out like the owner's projects and shows exactly the
+// four showcase errors, one per broken case it includes.
+describe('demo workspace', () => {
+  const plcs = demoPlcs(corpusRoot);
+
+  it('uses external sources, and SIMATIC SD documents only for LAD/FBD blocks', () => {
+    const main = plcs.find((p) => p.name === 'PLC_Main')!;
+    expect(main.files.some((f) => f.variant === 'source')).toBe(true);
+    const documents = main.files.filter(
+      (f) => f.variant === 'documents' && f.extension === '.s7dcl',
+    );
+    for (const f of documents) {
+      const text = readFileSync(f.absolutePath, 'utf8');
+      expect(/S7_Language := "(LAD|FBD)"/.test(text), f.objectName).toBe(true);
+    }
+  });
+
+  it('shows exactly the four showcase errors', async () => {
+    const errors: string[] = [];
+    for (const plc of plcs) {
+      const diagnostics = await projectChecker(corpusRoot).check(plc);
+      for (const d of diagnostics.filter((x) => x.severity === 'error'))
+        errors.push(`${d.file.objectName} ${d.ruleId}`);
+    }
+    expect(errors.sort()).toEqual([
+      'FB_LadBoxes_B19 missing-box-input',
+      'FB_SclCalls_B04 unknown-parameter',
+      'FB_SclSections_B01 undeclared-local',
+      'FC_SclTypes_B13 recursion',
     ]);
   });
 });

@@ -1,23 +1,17 @@
-// Writes a workspace to try the extension on: the corpus PLCs as SIMATIC SD documents, with
-// plc.json, software-unit folders, tag tables under "PLC tags" and the OB SimaticML exports.
-// Clean and analyzer cases only, plus a few broken cases so the checker has something to show.
+// Writes a workspace to try the extension on: the corpus PLCs as demo-plcs.ts chooses them
+// (external sources, SIMATIC SD for LAD/FBD), with plc.json, software-unit folders, tag tables
+// under "PLC tags" and the OB SimaticML exports.
 // Usage: npm run demo [-- <folder>]   (default: .scratch/demo)
 import { copyFileSync, mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { assemblePlcs, loadCases, type CorpusFile, type CorpusPlc } from './corpus.ts';
+import type { CorpusFile, CorpusPlc } from './corpus.ts';
 import { corpusManifest, plcFilePath } from './core-adapters.ts';
+import { demoPlcs } from './demo-plcs.ts';
 
 const repository = fileURLToPath(new URL('../../..', import.meta.url));
 const corpusRoot = path.join(repository, 'corpus');
 const target = path.resolve(process.argv[2] ?? path.join(repository, '.scratch', 'demo'));
-
-/** Broken cases worth seeing: an undeclared variable, a wrong parameter, recursion, an open box input. */
-const SHOWCASE_ERRORS = ['B01', 'B04', 'B13', 'B19'];
-
-const cases = loadCases(corpusRoot, 'V21').filter(
-  (c) => c.expected.kind !== 'broken' || SHOWCASE_ERRORS.includes(c.expected.caseId),
-);
 
 rmSync(target, { recursive: true, force: true });
 let count = 0;
@@ -32,7 +26,7 @@ const write = (plc: CorpusPlc, virtual: string, file: CorpusFile) => {
   count++;
 };
 
-for (const plc of assemblePlcs(cases, 'documents')) {
+for (const plc of demoPlcs(corpusRoot)) {
   mkdirSync(path.join(target, plc.name), { recursive: true });
   const manifest = JSON.parse(corpusManifest(plc, corpusRoot)) as Record<string, unknown>;
   manifest['displayLanguage'] = 'en-US';

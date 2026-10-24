@@ -305,8 +305,9 @@ Open questions of M5, answered with the recommended option:
 - [x] **M13.4 SCL networks in LAD/FBD blocks**: a preview with "Edit in SCL editor", which opens the text at that network.
   Verify: browser test; integration test.
   Done: at most 12 lines, colored with core's lexer and the keyword lists the TextMate grammars use (moved to `core/syntax/keywords.ts`; the regenerated grammars are byte-identical); a double click or the button opens the text beside the view at the network. Browser tests check the colors, the reveal message, the line limit and the accessibility audit; SCL blocks themselves open in the text editor (M13.3).
-- [ ] **M13.5 Demo like the owner's workflow**: external sources for SCL blocks, DBs and UDTs, SIMATIC SD for LAD/FBD blocks.
+- [x] **M13.5 Demo like the owner's workflow**: external sources for SCL blocks, DBs and UDTs, SIMATIC SD for LAD/FBD blocks.
   Verify: the demo over LSP shows only the showcase errors.
+  Done: the demo is the corpus's sources variant (PLC_Main: 46 `.scl`, 25 `.db`, 6 `.udt`, 18 `.s7dcl` for LAD/FBD and F-blocks); a corpus test checks the layout and exactly the four showcase errors. On the way, 21 verification cases got the external source TIA writes (session 7), which found a false syntax error on structured start values in sources (fixed in the parser) and a formatter spacing bug after a comma before `[` (fixed); the harness's plc.json lists the F-DBs, as a sources project must. Sources variant: zero false errors, coverage 71/80 (the misses are B06 by design and two IEC-check cases, whose setting sources do not carry).
 
 ## M14 – SimaticML blocks, read only (owner, 2026-10-24)
 
