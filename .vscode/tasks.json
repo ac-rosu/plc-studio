@@ -5,6 +5,9 @@
       "label": "plcstudio: build and demo",
       "type": "shell",
       "command": "npm run build && npm run demo",
+      "windows": {
+        "options": { "shell": { "executable": "cmd.exe", "args": ["/d", "/c"] } }
+      },
       "problemMatcher": [],
       "presentation": { "reveal": "silent" }
     }
