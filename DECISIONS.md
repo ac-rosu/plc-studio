@@ -169,3 +169,8 @@ The spec asks that core and language-server pass their tests in a browser worker
 - Tag tables: a missing ExternalVisible/ExternalWritable follows ExternalAccessible (C04 in both SimaticML styles). The reader assumed true before, so a hidden tag from a VCI export read as visible and writable. The tag table editor now writes the two flags only where the file states them, as each exporter does.
 - The empty LAD/FBD box stays an owner item: neither import format can create one.
 - Skills: Anthropic's official plugin marketplace was searched. Of its plugins, only general ones would apply here (TypeScript LSP, PR review, security review); the built-in `security-review` skill covers the security review, so nothing was installed into the owner's setup.
+
+## 2026-10-24 – Release workflow, prepared for the owner (M9.4, M9.5)
+
+- `.github/workflows/release.yml` runs on version tags: all tests, the `.vsix` on a GitHub release, and Marketplace publishing with Microsoft Entra ID through GitHub's OpenID Connect (no stored token), only when the repository variable `MARKETPLACE_PUBLISH` is `true` and after approval in the `marketplace` environment. The pre-release flag follows the spec (odd minor). The owner's setup steps and the two open decisions (name, icon) are in `docs/RELEASE.md`.
+- Committed log files of an earlier parallel session (`.claude-fork-*.log`) were removed from the repository and are ignored.

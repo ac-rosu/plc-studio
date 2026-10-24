@@ -15,3 +15,6 @@ packages/extension/LICENSE
 # Vitest browser failure screenshots
 .vitest/
 .scratch/
+
+# Logs that parallel sessions write
+.claude-fork-*

@@ -1,9 +1,0 @@
-
- RUN  v5.0.5 C:/Users/User/Desktop/plc-studio/.claude/worktrees/agent-a150f0ad3e8a6f3ce
-
-
- Test Files  13 passed (13)
-      Tests  108 passed (108)
-   Start at  01:28:33
-   Duration  615ms (import 35%, tests 33%, transform 28%, worker 4%)
-

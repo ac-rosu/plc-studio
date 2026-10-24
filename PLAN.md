@@ -257,8 +257,8 @@ Open questions of M5, answered with the recommended option:
 - [x] **M9.1 Performance gates**: 5,000-block PLC indexed in under 10 s; diagnostics within 200 ms; 100 networks drawn in under 1 s (on CI, with a margin).
 - [x] **M9.2 Accessibility pass.** Done: every view passes an axe-core WCAG 2.1 A/AA audit in Chromium (color contrast comes from the VS Code theme and is not audited); keyboard navigation and screen-reader labels are tested; colors come from theme variables (high contrast included).
 - [x] **M9.3 README**: trademark notice, "not a safety-certified tool", no telemetry and no network calls; https images only.
-- [ ] **M9.4 Final name and icon (owner)**; the Marketplace checklist from the spec. Status: the checklist items Claude can do are done (manifest fields, MIT license, icon placeholder of our own design, README with https-only links, no telemetry, allowlisted package of 22 files, 330 KB); the name and the final icon are the owner's.
-- [ ] **M9.5 Publishing (owner)**: Microsoft Entra ID publishing; pre-release on an odd minor, then v1.0.0.
+- [ ] **M9.4 Final name and icon (owner)**; the Marketplace checklist from the spec. Status: everything Claude can do is done (manifest fields, MIT license, own-design icon placeholder, README with https-only links, no telemetry, allowlisted package of 22 files); `docs/RELEASE.md` lists the two decisions left (name, icon) and where a new name goes.
+- [ ] **M9.5 Publishing (owner)**: Microsoft Entra ID publishing; pre-release on an odd minor, then v1.0.0. Status: prepared; `.github/workflows/release.yml` builds, tests and attaches the `.vsix` to a GitHub release on a version tag, and publishes with Entra ID (OpenID Connect, approval through the `marketplace` environment) once the owner sets it up as `docs/RELEASE.md` describes.
 
 ## M10 – LAD/FBD editor (v1.x)
 

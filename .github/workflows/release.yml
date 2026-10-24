@@ -1,0 +1,107 @@
+name: Release
+
+# Runs when a version tag (v0.1.0, v0.2.0 ...) is pushed. Builds and tests like CI, packages the
+# extension and attaches the .vsix to a GitHub release. Publishing to the Marketplace runs only
+# when the repository variable MARKETPLACE_PUBLISH is 'true' (see docs/RELEASE.md), with Microsoft
+# Entra ID through GitHub's OpenID Connect: no personal access token is stored.
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      prerelease: ${{ steps.version.outputs.prerelease }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - name: Tag and package.json agree; odd minor = pre-release
+        id: version
+        shell: bash
+        run: |
+          version=$(node -p "require('./packages/extension/package.json').version")
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match package.json version $version" >&2
+            exit 1
+          fi
+          minor=$(echo "$version" | cut -d. -f2)
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "prerelease=$(( minor % 2 == 1 ))" >> "$GITHUB_OUTPUT"
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run build
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run test:corpus
+      - run: npm run test:web
+      - run: xvfb-run -a npm run test:integration
+      - run: npm run package
+      - uses: actions/upload-artifact@v7
+        with:
+          name: vsix
+          path: dist/plcstudio-${{ steps.version.outputs.version }}.vsix
+
+  github-release:
+    needs: package
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: vsix
+      - name: GitHub release with the .vsix
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.package.outputs.version }}
+          PRERELEASE: ${{ needs.package.outputs.prerelease }}
+        shell: bash
+        run: |
+          flag=""
+          if [ "$PRERELEASE" = "1" ]; then flag="--prerelease"; fi
+          gh release create "$GITHUB_REF_NAME" "plcstudio-$VERSION.vsix" \
+            --repo "$GITHUB_REPOSITORY" --title "$GITHUB_REF_NAME" --generate-notes $flag
+
+  marketplace:
+    needs: package
+    if: vars.MARKETPLACE_PUBLISH == 'true'
+    runs-on: ubuntu-latest
+    environment: marketplace
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v8
+        with:
+          name: vsix
+          path: dist
+      - name: Sign in with Microsoft Entra ID (OpenID Connect, no stored secret)
+        uses: azure/login@v3
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          allow-no-subscriptions: true
+      - name: Publish to the Visual Studio Marketplace
+        env:
+          VERSION: ${{ needs.package.outputs.version }}
+          PRERELEASE: ${{ needs.package.outputs.prerelease }}
+        shell: bash
+        run: |
+          flag=""
+          if [ "$PRERELEASE" = "1" ]; then flag="--pre-release"; fi
+          npx vsce publish --azure-credential --packagePath "dist/plcstudio-$VERSION.vsix" $flag
