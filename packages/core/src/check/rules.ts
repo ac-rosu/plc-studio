@@ -94,7 +94,9 @@ export const RULES: readonly RuleInfo[] = [
     ['B45'],
   ),
   r('failsafe-unused', 'checker', 'warning', 'F-block that is not part of the safety program'),
-  r('failsafe-instruction', 'checker', 'warning', 'Instruction not permitted in a fail-safe block'),
+  r('failsafe-instruction', 'checker', 'error', 'Instruction not available in a fail-safe block', [
+    'B46',
+  ]),
   r('failsafe-unknown', 'checker', 'info', 'Fail-safe state cannot be read from this file'),
   r('duplicate-case-label', 'checker', 'warning', 'CASE label used twice', ['B10']),
   r('duplicate-name', 'checker', 'error', 'Name declared twice', ['B16']),

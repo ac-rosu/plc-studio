@@ -157,10 +157,12 @@ export function setEntryFlag(
     else if (!v) edits.push(...setAttributeElement(table, element, f, 'false'));
   };
   set(flag, value);
-  // not accessible means neither visible nor writable, as TIA shows it
+  // not accessible means neither visible nor writable. VCI then leaves both out, an Openness
+  // export writes them false (C04): rewrite them only where the file states them.
   if (flag === 'ExternalAccessible' && !value) {
-    if (entry.visible) set('ExternalVisible', false);
-    if (entry.writable) set('ExternalWritable', false);
+    const attributes = child(element, 'AttributeList');
+    if (entry.visible && child(attributes, 'ExternalVisible')) set('ExternalVisible', false);
+    if (entry.writable && child(attributes, 'ExternalWritable')) set('ExternalWritable', false);
   }
   return { edits: mergeInsertions(edits) };
 }

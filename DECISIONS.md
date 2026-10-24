@@ -162,3 +162,10 @@ The spec asks that core and language-server pass their tests in a browser worker
 ## 2026-10-24 – Array DB start values are editable (supersedes "shown but not edited")
 
 - Corpus C40 shows the format: `THIS[i] := value;` per element in both formats. The data block editor now edits element start values of array DBs with elementary element types; new values go in index order, as TIA writes them. Arrays of PLC data types stay read-only until a sample shows their start values.
+
+## 2026-10-24 – Verification session 5: F-instructions, tag table flags
+
+- MAX, MIN and LIMIT in fail-safe blocks are now errors (`failsafe-instruction`, corpus B46): TIA does not know these instructions in F_LAD, proven with controls (Max found in standard LAD, Move found in F_LAD). B46 has no TIA export, since every import was refused; its files are the SIMATIC SD text that was tried, and a corpus test checks the errors on them.
+- Tag tables: a missing ExternalVisible/ExternalWritable follows ExternalAccessible (C04 in both SimaticML styles). The reader assumed true before, so a hidden tag from a VCI export read as visible and writable. The tag table editor now writes the two flags only where the file states them, as each exporter does.
+- The empty LAD/FBD box stays an owner item: neither import format can create one.
+- Skills: Anthropic's official plugin marketplace was searched. Of its plugins, only general ones would apply here (TypeScript LSP, PR review, security review); the built-in `security-review` skill covers the security review, so nothing was installed into the owner's setup.

@@ -1725,6 +1725,7 @@
       "parameters": ["in in1: ANY_NUM", "in in2: ANY_NUM", "out out: ANY_NUM"],
       "template": "SrcType",
       "failsafeAllowed": false,
+      "failsafeVerification": { "verified": true, "cases": ["B46"] },
       "description": "The larger of the inputs.",
       "verification": { "verified": false }
     },
@@ -1736,6 +1737,7 @@
       "parameters": ["in in1: ANY_NUM", "in in2: ANY_NUM", "out out: ANY_NUM"],
       "template": "SrcType",
       "failsafeAllowed": false,
+      "failsafeVerification": { "verified": true, "cases": ["B46"] },
       "description": "The smaller of the inputs.",
       "verification": { "verified": false }
     },
@@ -1747,6 +1749,7 @@
       "parameters": ["in min: ANY_NUM", "in in: ANY_NUM", "in max: ANY_NUM", "out out: ANY_NUM"],
       "template": "SrcType",
       "failsafeAllowed": false,
+      "failsafeVerification": { "verified": true, "cases": ["B46"] },
       "description": "The input kept between min and max.",
       "verification": { "verified": false }
     }

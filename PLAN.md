@@ -4,7 +4,7 @@ Milestones from [docs/SPEC.md](docs/SPEC.md), each broken into tasks with how ea
 
 Status: `[ ]` open · `[~]` partly done · `[x]` done · **(owner)** needs the owner
 
-State on 2026-10-24 (end of the autonomous run): M0–M12 done; only the owner's items are open (M9.4 name and icon, M9.5 publishing). Gates: round trip 467/467 files; zero false errors in every PLC and variant; error coverage PLC_Main 73/80 (SIMATIC SD; the 7 misses are B06, where a missing block is a warning by design), 71/80 (sources), PLC_1200 2/2; the recursion policy error found; 19/19 analyzer expectations found. Corpus: 99 V21 cases (verification sessions added 34). Tests: 223 unit, 611 corpus, 189 browser, 13 VS Code integration.
+State on 2026-10-24 (end of the autonomous run): M0–M12 done; only the owner's items are open (M9.4 name and icon, M9.5 publishing). Gates: round trip 472/472 files; zero false errors in every PLC and variant; error coverage PLC_Main 73/80 (SIMATIC SD; the 7 misses are B06, where a missing block is a warning by design), 71/80 (sources), PLC_1200 2/2; the recursion policy error found; 19/19 analyzer expectations found. Corpus: 100 V21 cases (verification sessions added 35). Tests: 224 unit, 622 corpus, 190 browser, 13 VS Code integration.
 
 ## Owner actions
 
@@ -13,10 +13,10 @@ State on 2026-10-24 (end of the autonomous run): M0–M12 done; only the owner's
 - [x] **(owner)** First push to GitHub: done in the autonomous run (2026-10-24).
 - [~] **(owner)** New V21 corpus cases, needed before M1 can claim every construct (format-notes, 2026-10-24). Most were built by Claude with the TIA MCP server in the two verification batches:
   1. Done: `FOR … BY`, `RETURN` and `GOTO` with a jump label (C28).
-  2. Done: the negative edge coil `N_Coil` (batch 1). Open (owner): an empty box in LAD and in FBD; neither SIMATIC SD nor SimaticML has a documented way to create one, so it needs TIA's editor.
-  3. Done: a tag table exported through Openness (`Export`, `WithDefaults`), the SimaticML style with default attributes (C41); C04 has the VCI style.
+  2. Done: the negative edge coil `N_Coil` (batch 1). Open (owner): an empty box in LAD and in FBD. Session 5 showed that neither import format can create one (SimaticML: no instruction `???`; SD: syntax error), so only TIA's editor can make the sample.
+  3. Done: C04's tag tables exported through Openness (`Export`, `WithDefaults`) next to the VCI files (C04 `simaticml/`), plus a new table in that style (C41). Both styles read the same; the comparison found that a missing ExternalVisible/ExternalWritable follows ExternalAccessible.
   4. Done: an AT overlay in `.s7dcl` is refused at import (batch 1, format-notes "SIMATIC SD export drops AT overlays").
-  5. Done: an identifier with a space compiles in TIA (C32; spec conflict recorded for the owner). Partly: an F-instruction that is not allowed in an F-block: TIA refused MAX with an unclear message and crashed on Limit (batch 2), so those stay warnings.
+  5. Done: an identifier with a space compiles in TIA (C32; spec conflict recorded for the owner). Done: MAX, MIN and LIMIT are not available in F-blocks (B46, session 5).
 - [ ] **(owner, optional)** Open corpus manual steps from `corpus/V21/_project/manual-steps.md`: OB40 priority (C15); B12/B16 case-only duplicates in TIA's editor.
 
 ## Rough size

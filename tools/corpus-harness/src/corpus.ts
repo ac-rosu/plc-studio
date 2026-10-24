@@ -34,6 +34,9 @@ const PARSED: Partial<Record<FileVariant, readonly string[]>> = {
 };
 
 export function isParsedFile(file: CorpusFile): boolean {
+  // SimaticML is read for tag tables only (an Openness export, C04), not for blocks
+  if (file.variant === 'simaticml' && file.extension === '.xml')
+    return readFileSync(file.absolutePath, 'utf8').includes('<SW.Tags.PlcTagTable');
   return PARSED[file.variant]?.includes(file.extension) ?? false;
 }
 

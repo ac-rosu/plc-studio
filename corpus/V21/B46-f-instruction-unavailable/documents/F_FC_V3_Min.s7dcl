@@ -1,0 +1,27 @@
+{
+    S7_Optimized := "TRUE";
+    S7_PreferredLanguage := "LAD";
+    S7_Safety := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "F_FC_V3_Min" : Void
+    VAR_INPUT
+        X1 : Int;
+        X2 : Int;
+    END_VAR
+    VAR_OUTPUT
+        Y : Int;
+    END_VAR
+
+    { S7_Language := "LAD" }
+    NETWORK
+        RUNG wire#powerrail
+            { S7_Templates := "SrcType := Int" }
+            MIN(
+                in1 := #X1,
+                in2 := #X2,
+                out => #Y
+            )
+        END_RUNG
+    END_NETWORK
+END_FUNCTION

@@ -86,6 +86,7 @@ export function parseTagTable(source: SourceText): TagTableFile {
     const address = attributeText(e, 'LogicalAddress');
     const value = attributeText(e, 'Value');
     const retainText = attributeText(e, 'Retain')?.text;
+    const accessible = bool(e, 'ExternalAccessible', true);
     entries.push({
       kind,
       name: name?.text ?? '',
@@ -96,9 +97,10 @@ export function parseTagTable(source: SourceText): TagTableFile {
       addressRange: address?.textRange,
       value: value?.text,
       valueRange: value?.textRange,
-      accessible: bool(e, 'ExternalAccessible', true),
-      visible: bool(e, 'ExternalVisible', true),
-      writable: bool(e, 'ExternalWritable', true),
+      accessible,
+      // VCI leaves both out when the tag is not accessible; Openness writes them false (C04)
+      visible: bool(e, 'ExternalVisible', accessible),
+      writable: bool(e, 'ExternalWritable', accessible),
       retain: retainText === undefined ? undefined : retainText.toLowerCase() === 'true',
       comments: multilingual(e, 'Comment'),
       range: e.range,

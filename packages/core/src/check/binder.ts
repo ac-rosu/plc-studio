@@ -1445,11 +1445,21 @@ export class BlockBinder {
       return;
     }
     if (this.symbol.failsafe && element.failsafeAllowed === false) {
-      this.report(
-        item.range,
-        'failsafe-instruction',
-        `${element.name} is not permitted in a fail-safe block (not yet verified against TIA).`,
-      );
+      // proven: TIA has no such instruction in F_LAD/F_FBD (corpus B46); otherwise only a warning
+      if (element.failsafeVerification?.verified)
+        this.report(
+          item.range,
+          'failsafe-instruction',
+          `${element.name} is not available in fail-safe blocks.`,
+          'error',
+        );
+      else
+        this.report(
+          item.range,
+          'failsafe-instruction',
+          `${element.name} is not permitted in a fail-safe block (not yet verified against TIA).`,
+          'warning',
+        );
     }
     this.boxType(item, element);
     if (element.shape === 'jump') {

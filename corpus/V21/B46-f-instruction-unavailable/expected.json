@@ -1,0 +1,72 @@
+{
+  "caseId": "B46",
+  "title": "MAX, MIN and LIMIT in a fail-safe LAD block",
+  "kind": "broken",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "F_FC_V3_Max",
+      "type": "FC",
+      "number": null,
+      "language": "F_LAD",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify3",
+      "iecCheck": false,
+      "failsafe": true,
+      "consistent": false
+    },
+    {
+      "name": "F_FC_V3_Min",
+      "type": "FC",
+      "number": null,
+      "language": "F_LAD",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify3",
+      "iecCheck": false,
+      "failsafe": true,
+      "consistent": false
+    },
+    {
+      "name": "F_FC_V3_Limit",
+      "type": "FC",
+      "number": null,
+      "language": "F_LAD",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify3",
+      "iecCheck": false,
+      "failsafe": true,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/F_FC_V3_Max.s7dcl",
+      "documents/F_FC_V3_Min.s7dcl",
+      "documents/F_FC_V3_Limit.s7dcl"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "importRefused",
+    "errors": 0,
+    "warnings": 0,
+    "importRefusal": {
+      "tool": "plc_import_block",
+      "format": "SimaticML, F_LAD FC with one Max, Min or Limit part",
+      "message": "An instruction with the name 'Max' cannot be found at the object with UID '24'. / An instruction with the name 'Min' cannot be found ... / An instruction with the name 'Limit' cannot be found ..."
+    },
+    "messages": [],
+    "sources": [
+      "verification session 5, 2026-10-24 (corpus project not saved)"
+    ]
+  },
+  "intendedError": "MAX, MIN and LIMIT boxes in F_LAD",
+  "analyzerExpect": [],
+  "notes": "Added 2026-10-24 by PLC Studio (verification session 5). TIA refused every import, so there is no TIA export: documents/ holds the SIMATIC SD text of the blocks PLC Studio tried. In F_LAD, SimaticML imports of Max, Min and Limit parts were refused because no instruction of that name exists there; as controls, a standard LAD block with a Max part got past the name check (refused only for its ENO and template settings), and an F_LAD block with a Move part was found too (refused for DisabledENO). Earlier attempts in SIMATIC SD: MAX refused (\"Operand '#X2' is not valid for this instruction.\"), Limit crashed TIA (session 3)."
+}

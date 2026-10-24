@@ -189,6 +189,34 @@ describe('box data types (corpus B40, B41, C36, C37)', () => {
   });
 });
 
+describe('instructions TIA does not have in fail-safe blocks (corpus B46)', () => {
+  it('MAX in an F-block is an error, in a standard block it is fine', () => {
+    const decl = [
+      '    VAR_INPUT',
+      '        X : Int;',
+      '    END_VAR',
+      '    VAR_OUTPUT',
+      '        Y : Int;',
+      '    END_VAR',
+    ];
+    const max = [
+      '{ S7_Templates := "SrcType := Int" }',
+      'MAX(',
+      '    in1 := #X,',
+      '    in2 := #X,',
+      '    out => #Y',
+      ')',
+    ];
+    const p = project({
+      'F_FC_M.s7dcl': ladFc('F_FC_M', true, decl, max),
+      'FC_M.s7dcl': ladFc('FC_M', false, decl, max),
+    });
+    expect(found(p, 'failsafe-instruction')).toEqual([
+      'F_FC_M.s7dcl:19 error failsafe-instruction: MAX is not available in fail-safe blocks.',
+    ]);
+  });
+});
+
 describe('the boundary between the safety program and the standard program (B42–B44, C38)', () => {
   it('no calls across it, in either direction', () => {
     const p = project({

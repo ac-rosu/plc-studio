@@ -29,12 +29,12 @@ describe('corpus', () => {
     expect(versions).toContain('V21');
   });
 
-  it('V21 has 99 cases: 43 clean, 14 analyzer, 42 broken', () => {
-    // 65 from the corpus build, 20 from verification batch 1, 13 from batch 2, C41 (2026-10-24)
+  it('V21 has 100 cases: 43 clean, 14 analyzer, 43 broken', () => {
+    // 65 from the corpus build, 20 from verification batch 1, 13 from batch 2, C41, B46 (2026-10-24)
     const v21 = all.filter((c) => c.version === 'V21');
     const count = (kind: string) => v21.filter((c) => c.expected.kind === kind).length;
     expect([v21.length, count('clean'), count('analyzer'), count('broken')]).toEqual([
-      99, 43, 14, 42,
+      100, 43, 14, 43,
     ]);
   });
 
@@ -153,5 +153,41 @@ describe('tag tables in both SimaticML styles', () => {
     expect(t.entries[0]!.comments.get('en-US')?.text).toBe(
       'Start input, exported through Openness',
     );
+  });
+
+  it.each(['Tags_IO', 'Tags_Memory'])(
+    '%s reads the same from VCI and from an Openness export (C04)',
+    (name) => {
+      const view = (relative: string) =>
+        table(relative).entries.map((e) => ({
+          kind: e.kind,
+          name: e.name,
+          dataType: e.dataType,
+          address: e.address,
+          value: e.value,
+          flags: [e.accessible, e.visible, e.writable, e.retain ?? false],
+          comments: [...e.comments]
+            .map(([culture, c]) => [culture, c.text])
+            .filter(([, text]) => text !== ''),
+        }));
+      expect(view(`C04-tag-tables/simaticml/${name}.xml`)).toEqual(
+        view(`C04-tag-tables/tagtables/${name}.xml`),
+      );
+    },
+  );
+});
+
+// TIA has no MAX, MIN or LIMIT in fail-safe LAD (B46): the import is refused, so the case has no
+// compile messages for the coverage gate; the checker must still report each box.
+describe('instructions unavailable in fail-safe blocks', () => {
+  it('reports MAX, MIN and LIMIT in the B46 blocks as errors', async () => {
+    const plc = assemblePlcs(all, 'documents').find((p) => p.name === 'PLC_Main')!;
+    const diagnostics = await projectChecker(corpusRoot).check(plc);
+    expect(
+      diagnostics
+        .filter((d) => d.ruleId === 'failsafe-instruction')
+        .map((d) => `${d.file.objectName}:${d.line} ${d.severity}`)
+        .sort(),
+    ).toEqual(['F_FC_V3_Limit:20 error', 'F_FC_V3_Max:20 error', 'F_FC_V3_Min:20 error']);
   });
 });

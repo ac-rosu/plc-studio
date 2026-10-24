@@ -759,11 +759,23 @@ describe('tag table edits', () => {
       ),
       [30],
     );
+    // VCI style (corpus C04): only ExternalAccessible is written; visible and writable follow it
     const hidden = apply(TAGS, setEntryFlag(t, status, 'ExternalAccessible', false));
     expect(hidden).toContain(
-      '<DataTypeName>Word</DataTypeName>\r\n          <ExternalAccessible>false</ExternalAccessible>\r\n          <ExternalVisible>false</ExternalVisible>\r\n          <ExternalWritable>false</ExternalWritable>\r\n          <LogicalAddress>',
+      '<DataTypeName>Word</DataTypeName>\r\n          <ExternalAccessible>false</ExternalAccessible>\r\n          <LogicalAddress>',
     );
+    const read = parseTagTableText(hidden).entries[1]!;
+    expect([read.accessible, read.visible, read.writable]).toEqual([false, false, false]);
     expect(setEntryFlag(t, status, 'ExternalVisible', true).edits).toEqual([]);
+    // Openness style (C04 simaticml): the flags the file states are written false as well
+    const openness = TAGS.replace(
+      '          <DataTypeName>Word</DataTypeName>\r\n',
+      '          <DataTypeName>Word</DataTypeName>\r\n          <ExternalAccessible>true</ExternalAccessible>\r\n          <ExternalVisible>true</ExternalVisible>\r\n          <ExternalWritable>true</ExternalWritable>\r\n',
+    );
+    const o = parseTagTableText(openness);
+    expect(apply(openness, setEntryFlag(o, o.entries[1]!, 'ExternalAccessible', false))).toContain(
+      '<ExternalAccessible>false</ExternalAccessible>\r\n          <ExternalVisible>false</ExternalVisible>\r\n          <ExternalWritable>false</ExternalWritable>',
+    );
   });
 
   it('edits, adds and removes comments', () => {

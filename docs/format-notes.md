@@ -156,6 +156,11 @@ Twenty small blocks were imported into the corpus project (group `Verify` of PLC
 - Which block is the main safety block of a runtime group is in no exported file; `_project/runtime-groups.json` records it for the corpus.
 - Array DB start values: `THIS[1] := 5;` per element, in index order, after the header in `.s7dcl` (with an empty line before `END_DATA_BLOCK`) and after `BEGIN` in the `.db` source (C40). After `BEGIN`, TIA indents an array DB's start values by 4 spaces but a global DB's by 3 (C02).
 
+## 2026-10-24 – Tag table flags in the two SimaticML styles; F-instructions (C04, B46)
+
+- A tag that is not accessible from HMI/OPC UA: VCI writes only `<ExternalAccessible>false</ExternalAccessible>` and leaves `ExternalVisible` and `ExternalWritable` out; an Openness export (`WithDefaults`) writes all three as false (C04 `tagtables/` and `simaticml/`, ServiceWord). So a missing `ExternalVisible`/`ExternalWritable` takes the value of `ExternalAccessible`, not true. Everything else reads the same in both styles.
+- MAX, MIN and LIMIT do not exist in F_LAD: TIA's SimaticML import does not find instructions of these names in a fail-safe block, while it finds Max in a standard block and Move in a fail-safe one (B46). An empty box cannot be imported in either format.
+
 ## 2026-10-24 – How LAD/FBD rungs fit together (interpretation, C16 and C18)
 
 - `wire#wN` on its own line inside a rung names the point after the element before it; `RUNG wire#wN` starts a branch there; `END_RUNG wire#wN` ends a branch by joining that point. A rung ending with a plain `END_RUNG` after a coil is an open branch. Evidence: `C16-lad-contacts/documents/FC_LadContacts.s7dcl` network 8 (two nested branches that join again at w1) and `C18-lad-open-branch/documents/FB_LadOpenBranch.s7dcl` networks 1 and 2 (three and two coils on open branches).

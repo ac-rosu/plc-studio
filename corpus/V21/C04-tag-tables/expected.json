@@ -37,6 +37,10 @@
       "tagtables/Tags_Memory.xml",
       "tagtables/Tags_Memory.json"
     ],
+    "simaticml": [
+      "simaticml/Tags_IO.xml",
+      "simaticml/Tags_Memory.xml"
+    ],
     "refused": {
       "vci_SimaticSD": {
         "Tags_IO": "Tags_IO supports the formats SimaticML. (vci_sync INVALID_ARGUMENT for Tags_IO; tag tables have no SimaticSD format)",
@@ -53,5 +57,5 @@
   },
   "intendedError": null,
   "analyzerExpect": [],
-  "notes": "Tag tables produce no compile messages. ServiceWord is not accessible from HMI/OPC UA (ExternalAccessible false). The de-DE comments are only in the SimaticML file (plc_get_tag_table returns the editing language). No compile message names this case's objects; the PLC compiles that include them ended with 0 errors."
+  "notes": "Tag tables produce no compile messages. ServiceWord is not accessible from HMI/OPC UA (ExternalAccessible false). The de-DE comments are only in the SimaticML file (plc_get_tag_table returns the editing language). No compile message names this case's objects; the PLC compiles that include them ended with 0 errors. Added 2026-10-24 by PLC Studio (verification session 5): simaticml/ holds the same two tables exported through Openness (PlcTagTable.Export, ExportOptions WithDefaults), which writes the attributes at their default value that VCI leaves out."
 }

@@ -184,3 +184,13 @@ Every surprise, refusal and crash, in order.
 - `plc_upsert_tags` created the tag table Tags_Openness in PLC_Main (five tags, one user constant; OpnHidden with externalVisible and externalWritable false).
 - `om_invoke` PlcTagTable.Export with ExportOptions WithDefaults wrote `C:/TiaProjects/CorpusExport/plcstudio-batch3/Tags_Openness.xml`, copied byte for byte into C41 (with TIA's BOM); `plc_get_tag_table` gave the JSON next to it.
 - The project was **not saved**.
+
+## Session 5 – 2026-10-24 (F-instructions, empty box, C04 through Openness)
+
+- Same headless instance as session 4 after a `tia_connect` replace (pid 452), `project_open` PlcStudioCorpus_V21.
+- `plc_import_block` (SimaticML) into group Verify3, every import refused (nothing created):
+  - F_LAD FC with a Max, a Min or a Limit part: "An instruction with the name 'Max' (resp. 'Min', 'Limit') cannot be found". B46.
+  - Controls: a standard LAD FC with a Max part passed the name check (refused for "The node 'TemplateValue' with the name 'SrcType' ... is invalid", then "... 'Card' ...", then "ENO cannot be deactivated for the 'Max' instruction"); an F_LAD FC with a Move part passed it too (refused for "The property 'DisableENO' is not supported for this instruction by the CPU used"). So the name check is real: MAX, MIN and LIMIT do not exist in F_LAD.
+  - Empty box: a SimaticML part named `???` is refused ("An instruction with the name '???' cannot be found"); in SIMATIC SD `???(...)` is a syntax error ("mismatched input '???' expecting ..."). An empty box cannot be imported; only TIA's editor creates one.
+- `om_invoke` PlcTagTable.Export (WithDefaults) of Tags_IO and Tags_Memory into `C:/TiaProjects/CorpusExport/plcstudio-batch3/`, copied byte for byte into C04 `simaticml/`.
+- `tia_connect` replace closed the instance without saving; the project file is unchanged.
