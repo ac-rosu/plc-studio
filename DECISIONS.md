@@ -168,7 +168,7 @@ The spec asks that core and language-server pass their tests in a browser worker
 - MAX, MIN and LIMIT in fail-safe blocks are now errors (`failsafe-instruction`, corpus B46): TIA does not know these instructions in F_LAD, proven with controls (Max found in standard LAD, Move found in F_LAD). B46 has no TIA export, since every import was refused; its files are the SIMATIC SD text that was tried, and a corpus test checks the errors on them.
 - Tag tables: a missing ExternalVisible/ExternalWritable follows ExternalAccessible (C04 in both SimaticML styles). The reader assumed true before, so a hidden tag from a VCI export read as visible and writable. The tag table editor now writes the two flags only where the file states them, as each exporter does.
 - The empty LAD/FBD box stays an owner item: neither import format can create one.
-- Skills: Anthropic's official plugin marketplace was searched. Of its plugins, only general ones would apply here (TypeScript LSP, PR review, security review); the built-in `security-review` skill covers the security review, so nothing was installed into the owner's setup.
+- Skills: Anthropic's official plugin marketplace was searched. `typescript-lsp` (code intelligence for this TypeScript codebase) was installed with local scope, for this project only, together with the `typescript-language-server` npm package it needs; it is active from the next session. The security review used the built-in `security-review` skill (no vulnerability above its bar; the CSV formula guard was added anyway).
 
 ## 2026-10-24 – Release workflow, prepared for the owner (M9.4, M9.5)
 

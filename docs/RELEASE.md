@@ -13,7 +13,7 @@ Everything for the first Marketplace release is ready except two decisions that 
 ## Your decisions
 
 1. **Final name.** The name is chosen once: a removed Marketplace name can never be used again. It must be unique on the Marketplace and must not contain Siemens trademarks (SIMATIC, STEP 7, TIA Portal, S7 product names). The description may name them only to state compatibility.
-   - Keeping "PLC Studio": check that no Marketplace extension uses the display name, then nothing changes.
+   - Keeping "PLC Studio": a Marketplace search on 2026-10-24 found no extension with that display name (the closest were "plca" and "NMR ST Studio"); the Marketplace checks it again when you publish. Nothing else changes.
    - Another name: change `displayName` (and `name` if the extension id should change) in `packages/extension/package.json`, the `PLC Studio` command category and view titles in the same file, the README title, and the activity bar title. Settings (`plcstudio.*`) and language ids can stay as they are.
 2. **Icon.** `packages/extension/images/icon.png` is a placeholder of our own design. Replace it with the final icon (PNG, at least 128×128 px, no Siemens icons) or keep it.
 3. **LICENSE holder.** `LICENSE` names "Andrei Rosu"; confirm or change it.
