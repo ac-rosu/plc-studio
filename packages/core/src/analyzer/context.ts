@@ -1,7 +1,7 @@
 // What the analyzer rules share: fast lookup of the binder's references by position, member
 // declarations by id with their types, a light expression typing, and AST walking helpers.
-import type { ProjectAnalysis } from '../check/analysis.ts';
-import type { Reference } from '../check/binder.ts';
+import { ownerOf, type ProjectAnalysis } from '../check/analysis.ts';
+import type { BlockAnalysis, Reference } from '../check/binder.ts';
 import type { BlockSymbol, Project } from '../model/project.ts';
 import { classOf, membersOf, type DataType, type MemberInfo } from '../model/types.ts';
 import type { Expression, Statement } from '../syntax/ast.ts';
@@ -9,8 +9,10 @@ import type { Expression, Statement } from '../syntax/ast.ts';
 export class AnalyzerContext {
   readonly project: Project;
   readonly analysis: ProjectAnalysis;
-  private refsByFile: Map<string, Map<number, Reference>> | undefined;
-  private members: Map<string, MemberInfo> | undefined;
+  private blocksByFile: Map<string, BlockAnalysis[]> | undefined;
+  private readonly refsByFile = new Map<string, Map<number, Reference>>();
+  private readonly members = new Map<string, MemberInfo>();
+  private readonly visitedOwners = new Set<string>();
 
   constructor(project: Project, analysis: ProjectAnalysis) {
     this.project = project;
@@ -19,16 +21,30 @@ export class AnalyzerContext {
 
   /** The reference whose range starts at the offset (references are recorded on names). */
   referenceStartingAt(file: string, offset: number): Reference | undefined {
-    if (!this.refsByFile) {
-      this.refsByFile = new Map();
-      for (const r of this.analysis.references) {
-        let m = this.refsByFile.get(r.file);
-        if (!m) this.refsByFile.set(r.file, (m = new Map()));
-        // keep the first; declarations and uses never start at the same offset twice
-        if (!m.has(r.range.start)) m.set(r.range.start, r);
+    let byOffset = this.refsByFile.get(file);
+    if (!byOffset) {
+      // built per file when first asked: the references of the file's blocks, then the
+      // declarations of tags (a tag table has no blocks)
+      if (!this.blocksByFile) {
+        this.blocksByFile = new Map();
+        for (const ba of this.analysis.blocks.values()) {
+          const path = ba.symbol.file.path;
+          const list = this.blocksByFile.get(path);
+          if (list) list.push(ba);
+          else this.blocksByFile.set(path, [ba]);
+        }
       }
+      byOffset = new Map();
+      // keep the first; declarations and uses never start at the same offset twice
+      for (const ba of this.blocksByFile.get(file) ?? [])
+        for (const r of ba.references)
+          if (r.file === file && !byOffset.has(r.range.start)) byOffset.set(r.range.start, r);
+      if (!this.blocksByFile.has(file))
+        for (const r of this.analysis.references)
+          if (r.file === file && !byOffset.has(r.range.start)) byOffset.set(r.range.start, r);
+      this.refsByFile.set(file, byOffset);
     }
-    return this.refsByFile.get(file)?.get(offset);
+    return byOffset.get(offset);
   }
 
   /** The reference an expression denotes as a whole (its last name). */
@@ -65,31 +81,31 @@ export class AnalyzerContext {
     }
   }
 
-  /** Every member declaration of the project by id, with its resolved type. */
+  /**
+   * A member declaration by id, with its resolved type. The members of a block are collected
+   * when one of them is first asked for (a member id starts with its block's id).
+   */
   member(id: string): MemberInfo | undefined {
-    if (!this.members) {
-      this.members = new Map();
-      const index = this.project.index;
-      const visit = (list: readonly MemberInfo[], depth: number) => {
-        for (const m of list) {
-          if (this.members!.has(m.id)) continue;
-          this.members!.set(m.id, m);
-          if (depth < 6 && m.type.kind === 'struct') visit(m.type.members, depth + 1);
-          if (depth < 6 && m.type.kind === 'array' && m.type.element.kind === 'struct')
-            visit(m.type.element.members, depth + 1);
-        }
-      };
-      for (const b of index.blocks) {
-        if (b.kind === 'UDT') {
-          const t = index.udtType(b);
-          visit(membersOf(t) ?? [], 0);
-        } else if (b.kind === 'DB') {
-          visit(index.dbMembers(b), 0);
-        } else {
-          visit(index.interfaceMembers(b), 0);
-        }
+    const found = this.members.get(id);
+    if (found) return found;
+    const owner = ownerOf(id);
+    if (this.visitedOwners.has(owner)) return undefined;
+    this.visitedOwners.add(owner);
+    const index = this.project.index;
+    const b = index.block(owner);
+    if (!b) return undefined;
+    const visit = (list: readonly MemberInfo[], depth: number) => {
+      for (const m of list) {
+        if (this.members.has(m.id)) continue;
+        this.members.set(m.id, m);
+        if (depth < 6 && m.type.kind === 'struct') visit(m.type.members, depth + 1);
+        if (depth < 6 && m.type.kind === 'array' && m.type.element.kind === 'struct')
+          visit(m.type.element.members, depth + 1);
       }
-    }
+    };
+    if (b.kind === 'UDT') visit(membersOf(index.udtType(b)) ?? [], 0);
+    else if (b.kind === 'DB') visit(index.dbMembers(b), 0);
+    else visit(index.interfaceMembers(b), 0);
     return this.members.get(id);
   }
 

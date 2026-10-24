@@ -99,6 +99,10 @@ export class Project {
   readonly files = new Map<string, ProjectFile>();
   private version = 0;
   private indexCache: ProjectIndex | undefined;
+  /** Bumped when the manifest or the analyzer settings change: everything is checked again. */
+  private settingsVersion = 0;
+  /** Symbols of each file, kept while the file and the manifest stay the same (M2.9). */
+  private readonly extracted = new Map<string, FileSymbols>();
 
   constructor(root: string) {
     this.root = normalizePath(root);
@@ -121,6 +125,11 @@ export class Project {
     return this.version;
   }
 
+  /** Changes with the manifest and the analyzer settings, not with the files. */
+  get settingsRevision(): number {
+    return this.settingsVersion;
+  }
+
   setManifest(path: string, text: string): void {
     const result = parseManifest(text);
     this.manifest = result.manifest;
@@ -129,6 +138,7 @@ export class Project {
     this.manifestDiagnostics = result.diagnostics;
     // units may have changed: re-assign every file
     for (const [p, f] of this.files) this.files.set(p, { ...f, unit: this.unitFor(p) });
+    this.settingsVersion++;
     this.invalidate();
   }
 
@@ -137,6 +147,7 @@ export class Project {
     this.manifestPath = undefined;
     this.manifestText = undefined;
     this.manifestDiagnostics = [];
+    this.settingsVersion++;
     this.invalidate();
   }
 
@@ -185,12 +196,14 @@ export class Project {
       this.folderRules = result.config;
       this.rulesDiagnostics = result.diagnostics;
     }
+    this.settingsVersion++;
     this.invalidate();
   }
 
   /** A workspace-level plcstudio.rules.json that applies to this PLC folder. */
   setWorkspaceRules(input: Partial<RulesConfigInput> | undefined): void {
     this.workspaceRules = input;
+    this.settingsVersion++;
     this.invalidate();
   }
 
@@ -216,96 +229,148 @@ export class Project {
   }
 
   get index(): ProjectIndex {
-    this.indexCache ??= new ProjectIndex(this);
+    this.indexCache ??= new ProjectIndex(this, this.symbolsOfFiles());
     return this.indexCache;
+  }
+
+  /**
+   * The symbols of every file: taken from the last index when neither the file nor the manifest
+   * changed, extracted again otherwise (M2.9). `extracted` counts the files read this time.
+   */
+  private symbolsOfFiles(): { files: FileSymbols[]; extracted: number } {
+    const out: FileSymbols[] = [];
+    let extracted = 0;
+    for (const [path, file] of this.files) {
+      let entry = this.extracted.get(path);
+      if (entry?.file !== file || entry.settings !== this.settingsVersion) {
+        entry = extractSymbols(this, file);
+        this.extracted.set(path, entry);
+        extracted++;
+      }
+      out.push(entry);
+    }
+    for (const path of [...this.extracted.keys()])
+      if (!this.files.has(path)) this.extracted.delete(path);
+    return { files: out, extracted };
   }
 }
 
-/** Symbols of a project, rebuilt whenever a file changes. */
-export class ProjectIndex {
-  readonly project: Project;
-  readonly blocks: BlockSymbol[] = [];
-  readonly tags: TagSymbol[] = [];
-  readonly diagnostics: LocatedDiagnostic[] = [];
-  private readonly blocksByKey = new Map<string, BlockSymbol[]>();
-  private readonly blocksById = new Map<string, BlockSymbol>();
-  private readonly tagsByName = new Map<string, TagSymbol[]>();
-  private readonly memberCache = new Map<string, MemberInfo[]>();
-  private readonly obInfoCache = new Map<string, ObInfo | undefined>();
+/** What one file declares. */
+export interface FileSymbols {
+  readonly file: ProjectFile;
+  /** Settings revision the symbols were made with (the manifest sets defaults and units). */
+  readonly settings: number;
+  readonly blocks: readonly BlockSymbol[];
+  readonly tags: readonly TagSymbol[];
+}
 
-  constructor(project: Project) {
-    this.project = project;
-    for (const file of project.files.values()) {
-      const parsed = file.parsed;
-      if (!parsed) continue;
-      if (parsed.kind === 'blocks') {
-        for (const block of parsed.blocks) this.addBlock(file, parsed, block);
-      } else if (parsed.kind === 'tagTable') {
-        for (const entry of parsed.entries) {
-          const tag: TagSymbol = {
-            id: `${entry.kind === 'tag' ? 'tag' : 'constant'}:${entry.name.toLowerCase()}`,
-            kind: entry.kind,
-            name: entry.name,
-            entry,
-            file,
-            table: parsed,
-            unit: file.unit,
-          };
-          this.tags.push(tag);
-          const k = entry.name.toLowerCase();
-          this.tagsByName.set(k, [...(this.tagsByName.get(k) ?? []), tag]);
-        }
-      }
+function extractSymbols(project: Project, file: ProjectFile): FileSymbols {
+  const blocks: BlockSymbol[] = [];
+  const tags: TagSymbol[] = [];
+  const parsed = file.parsed;
+  if (parsed?.kind === 'blocks') {
+    for (const block of parsed.blocks) blocks.push(blockSymbol(project, file, parsed, block));
+  } else if (parsed?.kind === 'tagTable') {
+    for (const entry of parsed.entries) {
+      tags.push({
+        id: `${entry.kind === 'tag' ? 'tag' : 'constant'}:${entry.name.toLowerCase()}`,
+        kind: entry.kind,
+        name: entry.name,
+        entry,
+        file,
+        table: parsed,
+        unit: file.unit,
+      });
     }
-    this.checkUniqueness();
   }
+  return { file, settings: project.settingsRevision, blocks, tags };
+}
 
-  private addBlock(file: ProjectFile, parsed: BlockFile, block: Block): void {
-    const namespace = block.namespace ?? file.unit?.namespace;
-    const id = blockId(namespace, block.name.text);
-    const unitAccess = attr(block, 'S7_UnitAccess') ?? attr(block, 'Published');
-    const published = unitAccess === undefined ? undefined : /^(published|true)$/i.test(unitAccess);
-    const safety = attr(block, 'S7_Safety');
-    const failsafe =
-      (safety !== undefined && /^true$/i.test(safety)) ||
-      (this.project.manifest?.failsafeBlocks ?? []).some(
-        (n) => n.toLowerCase() === block.name.text.toLowerCase(),
-      );
-    const iec = attr(block, 'S7_IECCheck');
-    const optimized = attr(block, 'S7_Optimized') ?? attr(block, 'S7_Optimized_Access');
-    const dbKind =
+function blockSymbol(
+  project: Project,
+  file: ProjectFile,
+  parsed: BlockFile,
+  block: Block,
+): BlockSymbol {
+  const namespace = block.namespace ?? file.unit?.namespace;
+  const unitAccess = attr(block, 'S7_UnitAccess') ?? attr(block, 'Published');
+  const safety = attr(block, 'S7_Safety');
+  const iec = attr(block, 'S7_IECCheck');
+  const optimized = attr(block, 'S7_Optimized') ?? attr(block, 'S7_Optimized_Access');
+  return {
+    id: blockId(namespace, block.name.text),
+    kind: block.kind,
+    name: block.name.text,
+    namespace,
+    unit: file.unit,
+    file,
+    block,
+    dbKind:
       block.kind !== 'DB'
         ? undefined
         : block.dbType === undefined
           ? 'global'
           : block.dbType.kind === 'array'
             ? 'array'
-            : 'instance';
-    const incomplete = parsed.notAnalyzed.some(
+            : 'instance',
+    published: unitAccess === undefined ? undefined : /^(published|true)$/i.test(unitAccess),
+    failsafe:
+      (safety !== undefined && /^true$/i.test(safety)) ||
+      (project.manifest?.failsafeBlocks ?? []).some(
+        (n) => n.toLowerCase() === block.name.text.toLowerCase(),
+      ),
+    iecCheck:
+      iec !== undefined ? /^true$/i.test(iec) : (project.manifest?.compiler.iecCheck ?? false),
+    optimized: optimized === undefined ? undefined : /^true$/i.test(optimized),
+    incomplete: parsed.notAnalyzed.some(
       (r) => r.start >= block.range.start && r.end <= block.range.end,
-    );
-    const symbol: BlockSymbol = {
-      id,
-      kind: block.kind,
-      name: block.name.text,
-      namespace,
-      unit: file.unit,
-      file,
-      block,
-      dbKind,
-      published,
-      failsafe,
-      iecCheck:
-        iec !== undefined
-          ? /^true$/i.test(iec)
-          : (this.project.manifest?.compiler.iecCheck ?? false),
-      optimized: optimized === undefined ? undefined : /^true$/i.test(optimized),
-      incomplete,
-    };
+    ),
+  };
+}
+
+/**
+ * Symbols of a project, assembled again whenever a file changes from the per-file symbols, which
+ * are extracted again only for changed files (M2.9).
+ */
+export class ProjectIndex {
+  readonly project: Project;
+  readonly blocks: BlockSymbol[] = [];
+  readonly tags: TagSymbol[] = [];
+  readonly diagnostics: LocatedDiagnostic[] = [];
+  /** Per-file symbols the index was assembled from. */
+  readonly fileSymbols: readonly FileSymbols[];
+  /** Files whose symbols were extracted for this index (the others were reused). */
+  readonly extractedFiles: number;
+  private readonly blocksByKey = new Map<string, BlockSymbol[]>();
+  private readonly blocksById = new Map<string, BlockSymbol>();
+  private readonly tagsByName = new Map<string, TagSymbol[]>();
+  private readonly memberCache = new Map<string, MemberInfo[]>();
+  private readonly obInfoCache = new Map<string, ObInfo | undefined>();
+
+  constructor(project: Project, symbols: { files: FileSymbols[]; extracted: number }) {
+    this.project = project;
+    this.fileSymbols = symbols.files;
+    this.extractedFiles = symbols.extracted;
+    for (const f of symbols.files) {
+      for (const symbol of f.blocks) this.addBlock(symbol);
+      for (const tag of f.tags) {
+        this.tags.push(tag);
+        const k = tag.name.toLowerCase();
+        const list = this.tagsByName.get(k);
+        if (list) list.push(tag);
+        else this.tagsByName.set(k, [tag]);
+      }
+    }
+    this.checkUniqueness();
+  }
+
+  private addBlock(symbol: BlockSymbol): void {
     this.blocks.push(symbol);
-    const k = key(namespace, block.name.text);
-    this.blocksByKey.set(k, [...(this.blocksByKey.get(k) ?? []), symbol]);
-    if (!this.blocksById.has(id)) this.blocksById.set(id, symbol);
+    const k = key(symbol.namespace, symbol.name);
+    const list = this.blocksByKey.get(k);
+    if (list) list.push(symbol);
+    else this.blocksByKey.set(k, [symbol]);
+    if (!this.blocksById.has(symbol.id)) this.blocksById.set(symbol.id, symbol);
   }
 
   /** Two blocks or two tags with the same name cannot both exist in TIA. */
