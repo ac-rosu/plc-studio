@@ -7,6 +7,7 @@ import { accessibilityViolations } from './shared/a11y.ts';
 import { renderInterface, type InterfaceModel, type Row } from './interface/view.ts';
 import { renderTagTable, type TagTableModel } from './tagtable/view.ts';
 import { renderTranslations, type TranslationModel } from './translations/view.ts';
+import { renderBlocks } from './tables-common/blocks.ts';
 
 type Message = { type: string; [key: string]: unknown };
 
@@ -216,6 +217,74 @@ describe('interface editor', () => {
       name: 'Count',
       typeText: 'DInt',
     });
+  });
+});
+
+// Files with several blocks (external sources, C42): one collapsible section per block.
+describe('several blocks in one file', () => {
+  const first: InterfaceModel = {
+    ...iface,
+    blockIndex: 0,
+    blockName: 'UDT_A',
+    blockKind: 'UDT',
+    failsafe: false,
+    sections: [{ kind: 'Struct', label: 'Members', rows: [row('Count')], canAdd: true }],
+  };
+  const second: InterfaceModel = {
+    ...first,
+    blockIndex: 1,
+    blockName: 'FB_B',
+    blockKind: 'FB',
+    sections: [{ kind: 'Static', label: 'Static', rows: [row('Count')], canAdd: true }],
+  };
+  const title = (m: InterfaceModel) => `${m.blockKind} ${m.blockName}`;
+
+  it('shows each block in its own open section; edits name their block', async () => {
+    const { root, sent, post } = setup();
+    renderBlocks(root, { blocks: [first, second] }, renderInterface, post, title);
+    const sections = [...root.querySelectorAll<HTMLDetailsElement>('details.block-section')];
+    expect(sections.map((d) => [d.querySelector('summary')!.textContent, d.open])).toEqual([
+      ['UDT UDT_A', true],
+      ['FB FB_B', true],
+    ]);
+    expect(root.querySelectorAll('datalist')).toHaveLength(1);
+    expect(await accessibilityViolations(root)).toEqual([]);
+    commit(
+      sections[1]!.querySelector<HTMLInputElement>('input[aria-label="Name of Count"]')!,
+      'Calls',
+    );
+    expect(sent.at(-1)).toEqual({
+      type: 'edit',
+      op: 'rename',
+      path: ['Count'],
+      value: 'Calls',
+      block: 1,
+    });
+    root.remove();
+  });
+
+  it('keeps open state and focus in the same block when it renders again', () => {
+    const { root, post } = setup();
+    renderBlocks(root, { blocks: [first, second] }, renderInterface, post, title);
+    root.querySelector<HTMLDetailsElement>('details[data-block="0"]')!.open = false;
+    const input = root.querySelector<HTMLInputElement>(
+      'details[data-block="1"] input[aria-label="Comment of Count"]',
+    )!;
+    input.focus();
+    renderBlocks(root, { blocks: [first, second] }, renderInterface, post, title);
+    expect(root.querySelector<HTMLDetailsElement>('details[data-block="0"]')!.open).toBe(false);
+    expect(document.activeElement?.closest('[data-block]')?.getAttribute('data-block')).toBe('1');
+    expect(document.activeElement?.getAttribute('aria-label')).toBe('Comment of Count');
+    root.remove();
+  });
+
+  it('shows a file with one block as before, without a section', () => {
+    const { root, sent, post } = setup();
+    renderBlocks(root, { blocks: [second] }, renderInterface, post, title);
+    expect(root.querySelector('details.block-section')).toBeNull();
+    commit(root.querySelector<HTMLInputElement>('input[aria-label="Name of Count"]')!, 'Calls');
+    expect(sent.at(-1)).not.toHaveProperty('block');
+    root.remove();
   });
 });
 

@@ -296,8 +296,9 @@ Open questions of M5, answered with the recommended option:
 - [x] **M13.1 Several blocks in one external source**: corpus case from TIA (GenerateSource with several types, several DBs, and a block with its dependencies); the harness maps a source file to every block in it.
   Verify: round trip byte-identical, zero false errors in every PLC variant, every block of the files indexed.
   Done: corpus case C42 (session 7); round trip 489/489, zero false errors in every variant; corpus tests check the outline and the index of each file and that the sources replace the documents of their blocks.
-- [ ] **M13.2 Table editors show every block of a file**, one after another with a heading each; edits name their block.
+- [x] **M13.2 Table editors show every block of a file**, one after another with a heading each; edits name their block.
   Verify: model tests on the new case, golden diffs for edits in a later block, browser tests with the accessibility audit.
+  Done: one collapsible section per block (a file with one block looks as before); golden diffs for a start value in the second DB, an array element member, a rename in the second type that reaches the DB file, and a member added to the third block; browser tests (sections, edits with their block, focus and open state kept, one data type list, accessibility); the integration test opens a `.db` and a `.udt` with two blocks each. Found on the way: the data block editor did not show the members of array elements (`Path[1].X`), so their start values were hidden; it does now.
 - [ ] **M13.3 Opening by content**: one default editor for `.s7dcl`, `.db` and `.udt` that opens LAD/FBD blocks in the LAD/FBD view, data blocks in the data block editor, PLC data types in the type table, and SCL blocks and mixed files in the text editor; a setting turns it off.
   Verify: classification tests on the corpus; an integration test opens each kind and checks which editor is active.
 - [ ] **M13.4 SCL networks in LAD/FBD blocks**: a preview with "Edit in SCL editor", which opens the text at that network.

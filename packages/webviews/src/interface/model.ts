@@ -23,6 +23,8 @@ export interface Row {
 
 export interface InterfaceModel {
   view: 'interface';
+  /** Position of the block in its file; files can hold several (external sources). */
+  blockIndex?: number;
   blockName: string;
   blockKind: string;
   format: 's7dcl' | 'source';

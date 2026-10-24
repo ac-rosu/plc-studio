@@ -12,11 +12,11 @@ import type { FeatureContext } from './index.ts';
 import { addFileEdits, workspaceModel, type PlcWorkspaceModel } from './tables-workspace.ts';
 import {
   blockContext,
-  dataBlockModel,
+  dataBlockModels,
   declarationEdit,
-  interfaceModel,
+  interfaceModels,
   translationEdit,
-  translationModel,
+  translationModels,
   type Message,
   type ModelInput,
 } from './tables-model.ts';
@@ -79,7 +79,9 @@ async function handle(
   extension: vscode.ExtensionContext,
   compute: typeof declarationEdit,
 ): Promise<void> {
-  const c = blockContext(modelInput(view.document, extension));
+  // the block the edit belongs to; the LAD/FBD view's panel and one-block files send none
+  const block = typeof message['block'] === 'number' ? message['block'] : 0;
+  const c = blockContext(modelInput(view.document, extension), block);
   if (typeof c === 'string') return void vscode.window.showErrorMessage(`PLC Studio: ${c}`);
   const result = compute(c, message);
   if (!result) return;
@@ -105,7 +107,7 @@ export function registerTables({ extension }: FeatureContext): void {
       viewType: INTERFACE_EDITOR,
       view: 'interface',
       title: (d) => `Interface ${baseName(d)}`,
-      model: (d) => interfaceModel(modelInput(d, extension)),
+      model: (d) => interfaceModels(modelInput(d, extension)),
       otherFiles,
       onMessage: (m, v) => handle(m, v, extension, declarationEdit),
     }),
@@ -113,7 +115,7 @@ export function registerTables({ extension }: FeatureContext): void {
       viewType: DATA_BLOCK_EDITOR,
       view: 'datablock',
       title: (d) => `Data block ${baseName(d)}`,
-      model: (d) => dataBlockModel(modelInput(d, extension)),
+      model: (d) => dataBlockModels(modelInput(d, extension)),
       otherFiles,
       onMessage: (m, v) => handle(m, v, extension, declarationEdit),
     }),
@@ -121,7 +123,7 @@ export function registerTables({ extension }: FeatureContext): void {
       viewType: TRANSLATION_TABLE,
       view: 'translations',
       title: (d) => `Translations ${baseName(d)}`,
-      model: (d) => translationModel(modelInput(d, extension)),
+      model: (d) => translationModels(modelInput(d, extension)),
       otherFiles,
       onMessage: (m, v) => handle(m, v, extension, translationEdit),
     }),

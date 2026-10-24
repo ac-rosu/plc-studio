@@ -187,3 +187,10 @@ The spec asks that core and language-server pass their tests in a browser worker
 - Edits in the panel go through the interface editor's handler (`interfaceEdit` in tables.ts), so they behave the same there and here: one undo step, rename across files, problems shown in the view's status line.
 - The panel stays in the page when the drawing is redrawn, so it stays open and the field being typed in keeps its focus; keys pressed inside it are left to it, not to the drawing's shortcuts. Its table scrolls inside the panel (at most 45% of the view's height), so the networks stay in view.
 - The table views' message class `empty` became `view-message`: it would otherwise have styled the LAD view's empty networks once both share a page.
+
+## 2026-10-24 – Several blocks in one file in the table editors (M13.2)
+
+- An external source can hold several blocks (C42). The interface, data block and translation views show every block of the file in its own collapsible section, in file order; a file with one block looks as before. The interface view lists every block (types, FBs, FCs, OBs and DBs), the data block view only the DBs of the file; the translation table shows one message for an external source instead of one per block.
+- Each model carries its block's position in the file, and the view adds it to every edit (`block`), so an edit in the third block of a file changes that block. Positions, not names, because names are what a rename changes.
+- Focus and the open state of each section are kept when the view renders again; member names repeat across blocks, so focus is restored within the same section. The list of data types for completion is in the page once.
+- The data block view now also shows the members of array elements of a structured type (`Path[1].X`), with their start values; before, those start values were hidden.

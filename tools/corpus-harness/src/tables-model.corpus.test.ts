@@ -13,10 +13,13 @@ import { describe, expect, it } from 'vitest';
 import {
   blockContext,
   dataBlockModel,
+  dataBlockModels,
   declarationEdit,
   interfaceModel,
+  interfaceModels,
   translationEdit,
   translationModel,
+  translationModels,
   type BlockContext,
   type ModelInput,
   type Row,
@@ -51,8 +54,8 @@ function input(p: Project, path: string, culture = 'en-US'): ModelInput {
   return { project: p, path, cultures: ['de-DE', 'en-US'], culture, diagnostics: [] };
 }
 
-function context(p: Project, path: string): BlockContext {
-  const c = blockContext(input(p, path));
+function context(p: Project, path: string, blockIndex = 0): BlockContext {
+  const c = blockContext(input(p, path), blockIndex);
   if (typeof c === 'string') throw new Error(c);
   return c;
 }
@@ -551,6 +554,121 @@ describe('array DB start values (corpus C40, C03)', () => {
     const back = fileOf(without, 'source');
     expect(applyEdits(without, setStartValue(back, back.blocks[0]!, 'THIS[1]', '5').edits)).toBe(
       c40,
+    );
+  });
+});
+
+// External sources with several blocks (C42): one model per block, and an edit in a later block
+// changes that block only.
+describe('files with several blocks (corpus C42)', () => {
+  const dir = `${root}/C42-multi-block-sources/source`;
+  const texts = new Map(readdirSync(dir).map((f) => [`/plc/${f}`, read(`${dir}/${f}`)] as const));
+  const p = project(texts);
+  const dbs = '/plc/DBs_V4.db';
+
+  it('gives every block of a file its own model, in file order', () => {
+    const blocks = (m: { blocks: readonly { blockIndex: number; blockName: string }[] }) =>
+      m.blocks.map((b) => `${b.blockIndex}:${b.blockName}`);
+    expect(blocks(interfaceModels(input(p, '/plc/Types_V4.udt')))).toEqual([
+      '0:UDT_V4_Point',
+      '1:UDT_V4_Range',
+    ]);
+    expect(
+      interfaceModels(input(p, '/plc/FB_V4_Tally.scl')).blocks.map(
+        (b) => `${b.blockKind} ${b.blockName}`,
+      ),
+    ).toEqual(['UDT UDT_V4_Counter', 'FC FC_V4_Advance', 'FB FB_V4_Tally']);
+    const m = dataBlockModels(input(p, dbs));
+    expect(blocks(m)).toEqual(['0:DB_V4_Points', '1:DB_V4_Ranges']);
+    expect(row(m.blocks[1]!.rows, 'Level.High').value).toBe('80');
+    expect(row(m.blocks[1]!.rows, 'Enabled').value).toBe('TRUE');
+  });
+
+  it('shows the members of array elements with their start values', () => {
+    const rows = dataBlockModels(input(p, dbs)).blocks[0]!.rows;
+    expect(row(rows, 'Path[1]').structured).toBe(true);
+    expect([row(rows, 'Path[1].X').value, row(rows, 'Path[1].Y').value]).toEqual(['10.0', '5.0']);
+    expect(row(rows, 'Path[2].X').value).toBe('');
+  });
+
+  it('shows one message where a view has nothing per block', () => {
+    expect(dataBlockModels(input(p, '/plc/FB_V4_Tally.scl')).blocks.map((b) => b.error)).toEqual([
+      'This block is not a data block; use the interface editor.',
+    ]);
+    expect(translationModels(input(p, dbs)).blocks).toHaveLength(1);
+  });
+
+  it('adds a start value to the second DB of the file only', () => {
+    const next = apply(
+      texts,
+      dbs,
+      declarationEdit(context(p, dbs, 1), {
+        type: 'edit',
+        op: 'start',
+        path: ['Speed', 'High'],
+        value: '50',
+      }),
+    );
+    expect(next.get(dbs)).toBe(
+      texts
+        .get(dbs)!
+        .replace('   Enabled := TRUE;\r\n', '   Enabled := TRUE;\r\n   Speed.High := 50;\r\n'),
+    );
+  });
+
+  it('changes the start value of an array element member', () => {
+    const next = apply(
+      texts,
+      dbs,
+      declarationEdit(context(p, dbs, 0), {
+        type: 'edit',
+        op: 'start',
+        path: ['Path[1]', 'X'],
+        value: '12.5',
+      }),
+    );
+    expect(next.get(dbs)).toBe(texts.get(dbs)!.replace('Path[1].X := 10.0;', 'Path[1].X := 12.5;'));
+  });
+
+  it('renames a member of the second type, also where a DB uses it', () => {
+    const types = '/plc/Types_V4.udt';
+    const next = apply(
+      texts,
+      types,
+      declarationEdit(context(p, types, 1), {
+        type: 'edit',
+        op: 'rename',
+        path: ['High'],
+        value: 'Upper',
+      }),
+    );
+    expect(next.get(types)).toBe(
+      texts.get(types)!.replace('      High : Int := 100;', '      Upper : Int := 100;'),
+    );
+    expect(next.get(dbs)).toBe(texts.get(dbs)!.replace('Level.High := 80;', 'Level.Upper := 80;'));
+  });
+
+  it('adds a member to the third block of a file', () => {
+    const fb = '/plc/FB_V4_Tally.scl';
+    const next = apply(
+      texts,
+      fb,
+      declarationEdit(context(p, fb, 2), {
+        type: 'edit',
+        op: 'add',
+        section: 'Static',
+        name: 'Spare',
+        typeText: 'Int',
+        comment: 'Reserve',
+      }),
+    );
+    expect(next.get(fb)).toBe(
+      texts
+        .get(fb)!
+        .replace(
+          '      Tally : "UDT_V4_Counter";   // Internal tally\r\n',
+          '      Tally : "UDT_V4_Counter";   // Internal tally\r\n      Spare : Int;   // Reserve\r\n',
+        ),
     );
   });
 });

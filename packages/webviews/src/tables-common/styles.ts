@@ -27,6 +27,13 @@ export const GRID_CSS = `
   border-bottom: 1px solid var(--vscode-inputValidation-errorBorder);
 }
 .note { padding: 4px 12px; color: var(--vscode-descriptionForeground); }
+details.block-section > summary {
+  padding: 6px 12px;
+  cursor: pointer;
+  font-weight: 600;
+  background: var(--vscode-sideBarSectionHeader-background, var(--vscode-editorGroupHeader-tabsBackground));
+  border-top: 1px solid var(--vscode-editorGroup-border, var(--vscode-panel-border, transparent));
+}
 .view-message { padding: 24px; color: var(--vscode-descriptionForeground); }
 .level-1 td:nth-child(1) { padding-left: 18px; }
 .level-2 td:nth-child(1) { padding-left: 32px; }

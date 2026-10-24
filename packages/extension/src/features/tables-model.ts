@@ -83,6 +83,8 @@ export interface BlockContext {
   readonly file: ProjectFile;
   readonly parsed: BlockFile;
   readonly block: Block;
+  /** Position of the block in its file (an external source can hold several, C42). */
+  readonly blockIndex: number;
   readonly symbol: BlockSymbol | undefined;
   readonly resources: ResourceFile | undefined;
   readonly culture: string;
@@ -90,13 +92,16 @@ export interface BlockContext {
   readonly diagnostics: readonly ViewDiagnostic[];
 }
 
-export function blockContext(input: ModelInput): BlockContext | string {
+export function blockContext(input: ModelInput, blockIndex = 0): BlockContext | string {
   const { project, path } = input;
   const file = project.files.get(path);
   if (!file?.parsed || file.parsed.kind !== 'blocks')
     return 'This file is not a block that PLC Studio can read.';
-  const block = file.parsed.blocks[0];
-  if (!block) return 'The file contains no block.';
+  const block = file.parsed.blocks[blockIndex];
+  if (!block)
+    return blockIndex === 0
+      ? 'The file contains no block.'
+      : 'This block is no longer in the file.';
   const symbol = project.index.blocks.find((b) => b.file.path === path && b.block === block);
   const cultures = [...input.cultures];
   if (!cultures.includes(input.culture)) cultures.push(input.culture);
@@ -105,12 +110,26 @@ export function blockContext(input: ModelInput): BlockContext | string {
     file,
     parsed: file.parsed,
     block,
+    blockIndex,
     symbol,
     resources: project.index.resourcesFor(file),
     culture: input.culture,
     cultures: cultures.sort(),
     diagnostics: input.diagnostics,
   };
+}
+
+/** What a table view shows: one model per block of the file, in file order. */
+export interface FileModel<M> {
+  readonly blocks: readonly M[];
+}
+
+/** Positions of the blocks a view shows; [0] when none fits, so that model reports why. */
+function blockIndexes(input: ModelInput, accept: (block: Block) => boolean): number[] {
+  const parsed = input.project.files.get(input.path)?.parsed;
+  if (parsed?.kind !== 'blocks') return [0];
+  const indexes = parsed.blocks.flatMap((b, i) => (accept(b) ? [i] : []));
+  return indexes.length > 0 ? indexes : [0];
 }
 
 const declContext = (c: BlockContext): DeclarationContext => ({
@@ -185,6 +204,7 @@ function memberRows(
 
 export interface InterfaceModel {
   readonly view: 'interface';
+  readonly blockIndex: number;
   readonly blockName: string;
   readonly blockKind: string;
   readonly format: 's7dcl' | 'source';
@@ -208,11 +228,17 @@ const SECTIONS: Record<string, SectionKind[]> = {
   DB: ['Static'],
 };
 
-export function interfaceModel(input: ModelInput): InterfaceModel {
-  const c = blockContext(input);
+/** The interface table of every block of the file (types, FBs, FCs, OBs and DBs alike). */
+export function interfaceModels(input: ModelInput): FileModel<InterfaceModel> {
+  return { blocks: blockIndexes(input, () => true).map((i) => interfaceModel(input, i)) };
+}
+
+export function interfaceModel(input: ModelInput, blockIndex = 0): InterfaceModel {
+  const c = blockContext(input, blockIndex);
   if (typeof c === 'string')
     return {
       view: 'interface',
+      blockIndex,
       blockName: '',
       blockKind: '',
       format: 's7dcl',
@@ -246,6 +272,7 @@ export function interfaceModel(input: ModelInput): InterfaceModel {
   }
   return {
     view: 'interface',
+    blockIndex,
     blockName: c.block.name.text,
     blockKind: c.block.kind,
     format: c.parsed.format,
@@ -260,6 +287,7 @@ export function interfaceModel(input: ModelInput): InterfaceModel {
 
 export interface DataBlockModel {
   readonly view: 'datablock';
+  readonly blockIndex: number;
   readonly blockName: string;
   readonly dbKind: 'global' | 'instance' | 'array' | '';
   readonly instanceOf: string;
@@ -276,10 +304,18 @@ const MAX_ELEMENTS = 100;
 
 type Owner = { file: BlockFile; block: Block; resources: ResourceFile | undefined };
 
-export function dataBlockModel(input: ModelInput): DataBlockModel {
-  const c = blockContext(input);
+/** The data blocks of the file; a file without one gets a single model that says so. */
+export function dataBlockModels(input: ModelInput): FileModel<DataBlockModel> {
+  return {
+    blocks: blockIndexes(input, (b) => b.kind === 'DB').map((i) => dataBlockModel(input, i)),
+  };
+}
+
+export function dataBlockModel(input: ModelInput, blockIndex = 0): DataBlockModel {
+  const c = blockContext(input, blockIndex);
   const empty = {
     view: 'datablock' as const,
+    blockIndex,
     blockName: '',
     dbKind: '' as const,
     instanceOf: '',
@@ -405,17 +441,31 @@ export function dataBlockModel(input: ModelInput): DataBlockModel {
         const { lower, upper } = t.dimensions[0]! as { lower: number; upper: number };
         const last = Math.min(upper, lower + MAX_ELEMENTS - 1);
         if (upper > last) note = `Arrays show their first ${MAX_ELEMENTS} elements.`;
-        for (let i = lower; i <= last; i++)
-          rows.push(
-            startRow(
-              `${pathText}[${i}]`,
-              [...prefix, `${info.name}[${i}]`],
-              level + 1,
-              `[${i}]`,
-              t.element,
-              {},
-            ),
+        for (let i = lower; i <= last; i++) {
+          const elementPath = [...prefix, `${info.name}[${i}]`];
+          const element = t.element;
+          const elementRow = startRow(
+            `${pathText}[${i}]`,
+            elementPath,
+            level + 1,
+            `[${i}]`,
+            element,
+            {},
           );
+          if (element.kind !== 'struct' && element.kind !== 'udt') {
+            rows.push(elementRow);
+            continue;
+          }
+          // the members of each element carry the start values (Path[1].X := 10.0;, C42)
+          rows.push({ ...elementRow, value: '', structured: true });
+          walk(
+            element.kind === 'struct' ? element.members : element.members(),
+            elementPath,
+            level + 2,
+            false,
+            undefined,
+          );
+        }
       } else {
         rows.push(startRow(pathText, path, level, info.name, t, declared));
       }
@@ -492,6 +542,7 @@ export function dataBlockModel(input: ModelInput): DataBlockModel {
   }
   return {
     view: 'datablock',
+    blockIndex,
     blockName: c.block.name.text,
     dbKind,
     instanceOf,
@@ -508,6 +559,7 @@ export function dataBlockModel(input: ModelInput): DataBlockModel {
 
 export interface TranslationModel {
   readonly view: 'translations';
+  readonly blockIndex: number;
   readonly blockName: string;
   readonly failsafe: boolean;
   readonly cultures: string[];
@@ -523,10 +575,19 @@ export interface TranslationModel {
   readonly error?: string;
 }
 
-export function translationModel(input: ModelInput): TranslationModel {
-  const c = blockContext(input);
+export function translationModels(input: ModelInput): FileModel<TranslationModel> {
+  // external sources have no translations: one model says so, not one per block
+  const parsed = input.project.files.get(input.path)?.parsed;
+  const indexes =
+    parsed?.kind === 'blocks' && parsed.format === 's7dcl' ? blockIndexes(input, () => true) : [0];
+  return { blocks: indexes.map((i) => translationModel(input, i)) };
+}
+
+export function translationModel(input: ModelInput, blockIndex = 0): TranslationModel {
+  const c = blockContext(input, blockIndex);
   const empty = {
     view: 'translations' as const,
+    blockIndex,
     blockName: '',
     failsafe: false,
     cultures: [],
@@ -579,6 +640,7 @@ export function translationModel(input: ModelInput): TranslationModel {
     add(e.id, '(not used in the block)', c.block.range.start, c.block.range.start);
   return {
     view: 'translations',
+    blockIndex,
     blockName: c.block.name.text,
     failsafe: c.symbol?.failsafe ?? false,
     cultures: c.cultures,
@@ -676,13 +738,16 @@ function startValueProblem(
   path: readonly string[],
   value: string,
 ): string | undefined {
-  const row = dataBlockModel({
-    project: c.project,
-    path: c.file.path,
-    cultures: c.cultures,
-    culture: c.culture,
-    diagnostics: [],
-  }).rows.find((r) => r.path.join('.') === path.join('.'));
+  const row = dataBlockModel(
+    {
+      project: c.project,
+      path: c.file.path,
+      cultures: c.cultures,
+      culture: c.culture,
+      diagnostics: [],
+    },
+    c.blockIndex,
+  ).rows.find((r) => r.path.join('.') === path.join('.'));
   if (!row) return undefined;
   const type = typeForRow(c, row);
   return type ? validateStartValue(type, value, c.project.profile) : undefined;

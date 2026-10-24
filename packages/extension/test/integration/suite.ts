@@ -224,9 +224,17 @@ test('custom editors render: LAD/FBD, interface, data block, translations, tag t
     ['DB_Machine.s7dcl', 'plcstudio.dataBlockEditor'],
     ['FB_SclSections.s7dcl', 'plcstudio.translationTable'],
     ['PLC tags/Tags_IO.xml', 'plcstudio.tagTableEditor'],
+    ['DBs_V4.db', 'plcstudio.dataBlockEditor'],
+    ['Types_V4.udt', 'plcstudio.interfaceEditor'],
   ] as const) {
+    // a new render each time: the same view type opens twice (one block, several blocks)
+    const before = (await health()).renders[viewType] ?? 0;
     await openWith(name, viewType);
-    await rendered(viewType);
+    const h = await until(async () => {
+      const now = await health();
+      return (now.renders[viewType] ?? 0) > before || now.errors.length > 0 ? now : undefined;
+    });
+    assert.deepEqual(h.errors, [], name);
   }
   await vscode.commands.executeCommand('workbench.action.closeAllEditors');
 });

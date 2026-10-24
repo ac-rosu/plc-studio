@@ -17,6 +17,7 @@ import type { Row } from '../interface/view.ts';
 
 export interface DataBlockModel {
   view: 'datablock';
+  blockIndex?: number;
   blockName: string;
   dbKind: 'global' | 'instance' | 'array' | '';
   instanceOf: string;

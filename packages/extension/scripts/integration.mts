@@ -37,6 +37,9 @@ copy('C08-scl-calls/documents/IDB_SclSections.s7dcl');
 copy('C26k-dead-block/source/FC_AnaDead.scl', 'FC_Source.scl');
 copy('C02-global-db/documents/DB_Machine.s7dcl');
 copy('C02-global-db/documents/DB_Machine.s7res');
+// external sources with several blocks (M13.2)
+copy('C42-multi-block-sources/source/Types_V4.udt');
+copy('C42-multi-block-sources/source/DBs_V4.db');
 copy('C16-lad-contacts/documents/FC_LadContacts.s7dcl');
 copy('C16-lad-contacts/documents/FC_LadContacts.s7res');
 mkdirSync(path.join(workspace, 'PLC tags'));

@@ -5,6 +5,7 @@ import { button, failsafeBanner, textCell, toolbar, type Post } from '../tables-
 
 export interface TranslationModel {
   view: 'translations';
+  blockIndex?: number;
   blockName: string;
   failsafe: boolean;
   cultures: string[];
