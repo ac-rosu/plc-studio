@@ -264,6 +264,7 @@ Opening a file picks the view that fits its content (owner, 2026-10-24): LAD/FBD
 
 - Renders every LAD and FBD construct in the version profile: contacts (normal, negated, edge), coils (normal, set, reset, edge), boxes and calls with all parameter kinds (`Input`, `Output`, `InOut`, `EN`/`ENO`), comparators, math and move boxes, empty boxes, multi-instance calls, jumps and labels, parallel branches, open branches, network titles and comments.
 - A network that cannot be drawn falls back to its `.s7dcl` text inside the view, marked as such.
+- An SCL network in a LAD/FBD block shows a short colored preview with "Edit in SCL editor", which opens the text beside the view at that network (owner, 2026-10-24: SCL is edited in the SCL editor).
 - Layout follows TIA's conventions: power rail on the left, numbered networks, inputs on the left of boxes and outputs on the right.
 - Own visual design: VS Code light, dark and high-contrast themes, no Siemens icons.
 - Full keyboard navigation (network to network, element to element), screen-reader labels for elements, zoom.

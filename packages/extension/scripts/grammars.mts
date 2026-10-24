@@ -1,9 +1,13 @@
 // Generates the TextMate grammars and the language configuration. Run after changing keywords:
 // node scripts/grammars.mts
 import { writeFileSync } from 'node:fs';
+import {
+  SCL_CONSTANT_WORDS,
+  SCL_CONTROL_KEYWORDS,
+  SCL_WORD_OPERATORS,
+} from '../../core/src/syntax/keywords.ts';
 
-const KW =
-  'IF|THEN|ELSIF|ELSE|END_IF|CASE|OF|END_CASE|FOR|TO|BY|DO|END_FOR|WHILE|END_WHILE|REPEAT|UNTIL|END_REPEAT|EXIT|CONTINUE|RETURN|GOTO|REGION|END_REGION';
+const KW = SCL_CONTROL_KEYWORDS.join('|');
 const BLOCK =
   'FUNCTION_BLOCK|END_FUNCTION_BLOCK|FUNCTION|END_FUNCTION|ORGANIZATION_BLOCK|END_ORGANIZATION_BLOCK|DATA_BLOCK|END_DATA_BLOCK|TYPE|END_TYPE|NAMESPACE|END_NAMESPACE|BEGIN|TITLE|VERSION|AUTHOR|FAMILY|NAME|NON_RETAIN|KNOW_HOW_PROTECT';
 const DECL =
@@ -33,7 +37,7 @@ const strings = [
     name: 'constant.numeric.plcstudio',
     match: '(?i)\\b(?:[A-Z_]+#)?(?:\\d+#[0-9A-F_]+|\\d[\\d_]*(?:\\.\\d[\\d_]*)?(?:E[-+]?\\d+)?)\\b',
   },
-  { name: 'constant.language.plcstudio', match: '(?i)\\b(TRUE|FALSE|NULL)\\b' },
+  { name: 'constant.language.plcstudio', match: `(?i)\\b(${SCL_CONSTANT_WORDS.join('|')})\\b` },
 ];
 const names = [
   { name: 'variable.other.local.plcstudio', match: '#(?:"[^"]*"|[A-Za-z_][A-Za-z0-9_]*)' },
@@ -61,7 +65,7 @@ const code = [
   { name: 'keyword.control.plcstudio', match: `(?i)\\b(${KW})\\b` },
   { name: 'keyword.other.block.plcstudio', match: `(?i)\\b(${BLOCK})\\b` },
   { name: 'keyword.other.declaration.plcstudio', match: `(?i)\\b(${DECL})\\b` },
-  { name: 'keyword.operator.word.plcstudio', match: '(?i)\\b(AND|OR|XOR|NOT|MOD)\\b' },
+  { name: 'keyword.operator.word.plcstudio', match: `(?i)\\b(${SCL_WORD_OPERATORS.join('|')})\\b` },
   { name: 'storage.type.plcstudio', match: `(?i)\\b(${TYPES})\\b` },
   { name: 'keyword.operator.plcstudio', match: ':=|=>|<=|>=|<>|\\*\\*|[-+*/<>=&^]' },
   { name: 'support.function.plcstudio', match: '\\b[A-Za-z_][A-Za-z0-9_]*(?=\\s*\\()' },

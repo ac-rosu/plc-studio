@@ -7,6 +7,7 @@ export {
 } from './diagnostics/policy-errors.ts';
 export * from './text/source-text.ts';
 export * from './syntax/ast.ts';
+export * from './syntax/keywords.ts';
 export { lex, T, isTrivia, type Token } from './syntax/lexer.ts';
 export { Parser, parseBlockFile, parseBlockText, calleeName } from './syntax/parser.ts';
 export * from './formats/s7res.ts';

@@ -305,3 +305,72 @@ describe('LAD/FBD view: block interface panel', () => {
     expect(root.querySelector('details.interface-panel')).toBeNull();
   });
 });
+
+// A LAD block with an SCL network (as C21): the drawing shows a short colored preview, and the SCL
+// editor opens at the network.
+function mixed(statements: string[]): string {
+  return crlf(
+    '{',
+    '    S7_PreferredLanguage := "LAD"',
+    '}',
+    'FUNCTION_BLOCK "FB_V"',
+    '    { S7_Language := "LAD" }',
+    '    NETWORK',
+    '        RUNG wire#powerrail',
+    '            Contact( #Start )',
+    '            Coil( #Motor )',
+    '        END_RUNG',
+    '    END_NETWORK',
+    '    { S7_Language := "SCL" }',
+    '    NETWORK',
+    '        ',
+    ...statements.map((l) => '            ' + l),
+    '        ',
+    '    END_NETWORK',
+    'END_FUNCTION_BLOCK',
+  );
+}
+
+describe('LAD/FBD view: SCL networks', () => {
+  const statements = [
+    'IF #Start THEN // count the starts',
+    '    #Count := #Count + 1;',
+    'END_IF;',
+    '"DB_Log".Text := \'started\';',
+    '#Ready := TRUE AND NOT #Stop;',
+  ];
+
+  it('shows a colored preview and opens the SCL editor at the network', async () => {
+    const source = mixed(statements);
+    const { root, sent } = mount(model(source));
+    const net = root.querySelector('section.network[data-network="2"]')!;
+    const tokens = (kind: string) =>
+      [...net.querySelectorAll(`pre.scl .tok-${kind}`)].map((e) => e.textContent);
+    expect(tokens('keyword')).toEqual(['IF', 'THEN', 'END_IF', 'AND', 'NOT']);
+    expect(tokens('comment')).toEqual(['// count the starts']);
+    expect(tokens('string')).toEqual(["'started'"]);
+    expect(tokens('global')).toEqual(['"DB_Log"']);
+    expect(tokens('constant')).toEqual(['TRUE']);
+    expect(tokens('local').join('')).toBe('#Start#Count#Count#Ready#Stop');
+    expect(net.querySelector('pre.scl')?.textContent).toBe(statements.join('\n'));
+    expect(await accessibilityViolations(root, LADDER_A11Y)).toEqual([]);
+    const button = [...net.querySelectorAll('button')].find(
+      (b) => b.textContent === 'Edit in SCL editor',
+    )!;
+    button.click();
+    const keyword = source.indexOf('NETWORK', source.indexOf('"SCL"'));
+    expect(sent.at(-1)).toEqual({
+      type: 'reveal',
+      start: keyword,
+      end: keyword + 'NETWORK'.length,
+    });
+  });
+
+  it('shows at most twelve lines and says how many are left', () => {
+    const long = Array.from({ length: 15 }, (_, i) => `#Count := ${i};`);
+    const { root } = mount(model(mixed(long)));
+    const net = root.querySelector('section.network[data-network="2"]')!;
+    expect(net.querySelector('pre.scl')?.textContent?.split('\n')).toHaveLength(12);
+    expect(net.textContent).toContain('3 more lines in the SCL editor');
+  });
+});

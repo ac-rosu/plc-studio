@@ -302,8 +302,9 @@ Open questions of M5, answered with the recommended option:
 - [x] **M13.3 Opening by content**: one default editor for `.s7dcl`, `.db` and `.udt` that opens LAD/FBD blocks in the LAD/FBD view, data blocks in the data block editor, PLC data types in the type table, and SCL blocks and mixed files in the text editor; a setting turns it off.
   Verify: classification tests on the corpus; an integration test opens each kind and checks which editor is active.
   Done: `plcstudio.matchingView` is the default editor of `.s7dcl`, `.db` and `.udt` and hands its tab to the LAD/FBD view, data block editor or interface table, or to the text editor; setting `plcstudio.openByContent`. Every block file of the corpus (239) classifies as TIA's data for it says; the integration test opens a LAD block, two kinds of DB files and a type file into their views and an SCL block into the text editor.
-- [ ] **M13.4 SCL networks in LAD/FBD blocks**: a preview with "Edit in SCL editor", which opens the text at that network.
+- [x] **M13.4 SCL networks in LAD/FBD blocks**: a preview with "Edit in SCL editor", which opens the text at that network.
   Verify: browser test; integration test.
+  Done: at most 12 lines, colored with core's lexer and the keyword lists the TextMate grammars use (moved to `core/syntax/keywords.ts`; the regenerated grammars are byte-identical); a double click or the button opens the text beside the view at the network. Browser tests check the colors, the reveal message, the line limit and the accessibility audit; SCL blocks themselves open in the text editor (M13.3).
 - [ ] **M13.5 Demo like the owner's workflow**: external sources for SCL blocks, DBs and UDTs, SIMATIC SD for LAD/FBD blocks.
   Verify: the demo over LSP shows only the showcase errors.
 

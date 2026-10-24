@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./syntax/lexer": "./src/syntax/lexer.ts",
+    "./syntax/keywords": "./src/syntax/keywords.ts"
   },
   "scripts": {
     "build": "node scripts/build.ts",

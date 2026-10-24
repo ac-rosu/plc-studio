@@ -201,3 +201,9 @@ The spec asks that core and language-server pass their tests in a browser worker
 - SCL blocks, files with several kinds of blocks and files that do not parse go to the text editor, the only place with every code feature; the matching view opens the text in its column (a preview stays a preview) and closes itself. `.scl` files keep the text editor directly.
 - Jumps to a place in the code open the text: definition, references and problems did already; the call tree and Trace value now open the text explicitly (`vscode.openWith` with `default`) instead of the default editor, so they keep their line.
 - `plcstudio.openByContent` (default on) sends everything to the text editor when off. Every view stays available through Open With / Reopen Editor With.
+
+## 2026-10-24 – SCL networks in the LAD/FBD view (M13.4, owner)
+
+- The owner wants SCL out of the drawing: SCL blocks open in the text editor (M13.3), and an SCL network inside a LAD/FBD block shows at most 12 lines, colored, with "Edit in SCL editor" (also a double click), which opens the text beside the view at the network. Editing SCL inside a webview would lose every code feature.
+- The colors come from core's lexer and the same keyword lists as the TextMate grammars, now in `core/src/syntax/keywords.ts` (the grammars generated from them are byte-identical). The view imports the lexer and the keywords through subpath exports of core: importing core's main entry made the view's bundle ten times larger.
+- Theme colors for the tokens: the debug expression colors for keywords, strings, numbers and booleans, the symbol color for locals, the link color for globals; every theme defines them.

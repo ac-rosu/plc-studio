@@ -4,6 +4,7 @@ import type { ElementRef, ElementView, NetworkView } from '@plcstudio/core';
 import { clear, h } from '../shared/dom.ts';
 import { drawNetwork } from './draw.ts';
 import { InterfacePanel } from './interface-panel.ts';
+import { sclPreview } from './scl-preview.ts';
 import type {
   CompletionEntry,
   EditIntent,
@@ -15,6 +16,8 @@ import type {
 type Send = (message: ViewMessage) => void;
 
 const ZOOMS = [0.5, 0.67, 0.8, 0.9, 1, 1.1, 1.25, 1.5, 2];
+/** Lines an SCL network shows in the drawing; the rest is in the SCL editor. */
+const SCL_PREVIEW_LINES = 12;
 
 interface Selection {
   network: number;
@@ -295,31 +298,7 @@ export class LadderView {
       this.wireDrawing(drawing, n);
       section.append(h('div', { class: 'drawing' }, drawing));
     } else {
-      section.append(
-        h(
-          'div',
-          { class: `text-network ${n.kind}` },
-          h(
-            'div',
-            { class: 'muted' },
-            n.kind === 'text'
-              ? 'SCL network'
-              : n.kind === 'empty'
-                ? `Empty network: ${n.reason ?? ''}`
-                : `Shown as text: ${n.reason ?? ''}`,
-          ),
-          h('pre', { class: 'code' }, n.text ?? ''),
-          h(
-            'button',
-            {
-              class: 'secondary',
-              onclick: () =>
-                this.send({ type: 'reveal', start: n.keywordRange.start, end: n.keywordRange.end }),
-            },
-            'Open text',
-          ),
-        ),
-      );
+      section.append(this.textNetwork(n));
     }
     if (diags.rest.length) {
       section.append(
@@ -331,6 +310,50 @@ export class LadderView {
       );
     }
     return section;
+  }
+
+  /**
+   * A network that is not drawn: an SCL network shows a colored preview and opens in the SCL editor
+   * (owner, 2026-10-24); a LAD/FBD network the view cannot draw shows its text.
+   */
+  private textNetwork(n: NetworkView): HTMLElement {
+    const scl = n.kind === 'text';
+    const open = () =>
+      this.send({ type: 'reveal', start: n.keywordRange.start, end: n.keywordRange.end });
+    const preview = scl
+      ? sclPreview(n.text ?? '', SCL_PREVIEW_LINES)
+      : { element: h('pre', { class: 'code' }, n.text ?? ''), hidden: 0 };
+    preview.element.addEventListener('dblclick', open);
+    return h(
+      'div',
+      { class: `text-network ${n.kind}` },
+      h(
+        'div',
+        { class: 'muted' },
+        scl
+          ? 'SCL network'
+          : n.kind === 'empty'
+            ? `Empty network: ${n.reason ?? ''}`
+            : `Shown as text: ${n.reason ?? ''}`,
+      ),
+      preview.element,
+      preview.hidden > 0
+        ? h(
+            'div',
+            { class: 'muted' },
+            `${preview.hidden} more line${preview.hidden === 1 ? '' : 's'} in the SCL editor`,
+          )
+        : null,
+      h(
+        'button',
+        {
+          class: scl ? undefined : 'secondary',
+          title: scl ? 'Open this network in the SCL editor, next to the drawing' : undefined,
+          onclick: open,
+        },
+        scl ? 'Edit in SCL editor' : 'Open text',
+      ),
+    );
   }
 
   private networkActions(n: NetworkView): HTMLElement {
