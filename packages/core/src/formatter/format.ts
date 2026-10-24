@@ -436,7 +436,10 @@ function gap(
   if (SPACED.has(prev.kind) || binarySign(prev, before)) return ' ';
   if (kind === 'declaration' && (t.kind === T.Colon || prev.kind === T.Colon)) return ' ';
   if (t.kind === T.Colon) return original === '' ? '' : original;
-  if (NO_SPACE_BEFORE.has(t.kind) && !(t.kind === T.LBracket && word(prev, source) === 'ARRAY')) {
+  // "[" opens an index (a[1]), except after ARRAY or a comma, where it opens an array value
+  const openingValue =
+    t.kind === T.LBracket && (word(prev, source) === 'ARRAY' || prev.kind === T.Comma);
+  if (NO_SPACE_BEFORE.has(t.kind) && !openingValue) {
     // a call's "(" right after its name: keep TIA's "Name(" and "Name ("
     return '';
   }

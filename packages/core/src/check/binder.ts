@@ -651,6 +651,11 @@ export class BlockBinder {
 
   private checkStartValue(t: DataType, e: Expression): void {
     this.checkRange(t, e);
+    if (e.kind === 'structLiteral') {
+      // positions per member: names inside still count as references
+      this.expression(e, ROOT_CONTEXT, 'read');
+      return;
+    }
     if (e.kind !== 'arrayLiteral') {
       const value = this.expression(e, ROOT_CONTEXT, 'read');
       const problem = conversionProblem(t, value, this.symbol.iecCheck, e);
@@ -741,6 +746,7 @@ export class BlockBinder {
       case 'paren':
         return this.expression(e.inner, ctx, access);
       case 'arrayLiteral':
+      case 'structLiteral':
         for (const item of e.items) this.expression(item, ctx, 'read');
         return UNKNOWN;
       default:

@@ -84,6 +84,24 @@ describe('formatter', () => {
     ]);
   });
 
+  it('spaces array values after a comma, also inside start values of a structure (corpus B32)', () => {
+    const text = [
+      'FUNCTION "FC_X" : Void',
+      '   VAR_TEMP ',
+      '      b : "UDT_Recipe" := ((),(),[1.0,2.0,8(0.5)],(),());',
+      '      x : Int;',
+      '   END_VAR',
+      '',
+      'BEGIN',
+      '\t    #x := #c[1];',
+      'END_FUNCTION',
+      '',
+    ].join('\r\n');
+    const out = applyEdits(text, formatDocument('FC_X.scl', text)).split('\r\n');
+    expect(out[2]).toBe('      b : "UDT_Recipe" := ((), (), [1.0, 2.0, 8(0.5)], (), ());');
+    expect(out[7]).toBe('\t    #x := #c[1];');
+  });
+
   it('touches only the requested lines', () => {
     const text = doc('#a:=1;', '#a:=2;', '#a:=3;');
     const edits = formatRanges('FB_X.s7dcl', text, [{ start: 14, end: 14 }]);

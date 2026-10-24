@@ -514,7 +514,16 @@ export class Parser {
       }
       case T.LParen: {
         this.next();
+        // () and (a, b, ...): start values of a structured member; (a) is an expression in parentheses
+        if (this.eat(T.RParen))
+          return { kind: 'structLiteral', items: [], range: { start: t.start, end: this.lastEnd } };
         const inner = this.parseExpression();
+        if (this.at(T.Comma)) {
+          const items = [inner];
+          while (this.eat(T.Comma)) items.push(this.parseExpression());
+          this.expect(T.RParen, "')'");
+          return { kind: 'structLiteral', items, range: { start: t.start, end: this.lastEnd } };
+        }
         this.expect(T.RParen, "')'");
         return { kind: 'paren', inner, range: { start: t.start, end: this.lastEnd } };
       }

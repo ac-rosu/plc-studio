@@ -254,6 +254,7 @@ export function* subExpressions(e: Expression): Generator<Expression> {
       yield* subExpressions(e.inner);
       return;
     case 'arrayLiteral':
+    case 'structLiteral':
       for (const i of e.items) yield* subExpressions(i);
       return;
     default:

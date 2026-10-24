@@ -347,4 +347,38 @@ describe('external sources', () => {
     );
     expect(adb.blocks[0]!.dbType?.kind).toBe('array');
   });
+
+  it('reads the start values of a structured member, one position per member (B32)', () => {
+    const file = parseBlockText(
+      crlf(
+        'FUNCTION "FC_V_E07" : Void',
+        "{ S7_Optimized_Access := 'TRUE' }",
+        'VERSION : 0.1',
+        '   VAR_TEMP ',
+        '      a : "UDT_Motor";',
+        '      b : "UDT_Recipe" := ((), (), [1.0, 2.0, 8(0.5)], (), ());',
+        '      c : Int := (3);',
+        '   END_VAR',
+        '',
+        'BEGIN',
+        '	    #a := #b;',
+        'END_FUNCTION',
+        '',
+      ),
+      'source',
+    );
+    expect(file.diagnostics).toEqual([]);
+    const [, b, c] = file.blocks[0]!.sections[0]!.members;
+    const initial = b!.initial!;
+    expect(initial.kind).toBe('structLiteral');
+    if (initial.kind !== 'structLiteral') return;
+    expect(initial.items.map((i) => i.kind)).toEqual([
+      'structLiteral',
+      'structLiteral',
+      'arrayLiteral',
+      'structLiteral',
+      'structLiteral',
+    ]);
+    expect(c!.initial?.kind).toBe('paren');
+  });
 });

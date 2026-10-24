@@ -159,6 +159,7 @@ export class Flow {
         this.reads(e.inner, state);
         return;
       case 'arrayLiteral':
+      case 'structLiteral':
         for (const i of e.items) this.reads(i, state);
         return;
       default:

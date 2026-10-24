@@ -85,6 +85,7 @@ export type Expression =
   | Binary
   | Paren
   | ArrayLiteral
+  | StructLiteral
   | AddressRef
   | ErrorExpression;
 
@@ -186,6 +187,16 @@ export interface Paren extends Node {
 /** [1, 2, 3(0)] in start values */
 export interface ArrayLiteral extends Node {
   readonly kind: 'arrayLiteral';
+  readonly items: Expression[];
+}
+
+/**
+ * ((), (), [1.0, 2.0, 8(0.5)], (), ()): the start values of a structured member, one position per
+ * member, () where it has none. External sources write it for a member whose PLC data type has
+ * start values (corpus B32, FC_V_E07.scl).
+ */
+export interface StructLiteral extends Node {
+  readonly kind: 'structLiteral';
   readonly items: Expression[];
 }
 
