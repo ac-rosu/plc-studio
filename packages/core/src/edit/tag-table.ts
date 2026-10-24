@@ -469,6 +469,15 @@ function csvCell(v: string): string {
   return /[",\r\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v;
 }
 
+/**
+ * Comments are free text from the file: one starting like a formula (= + - @) gets a leading
+ * apostrophe, so a spreadsheet shows it as text instead of evaluating it. Import removes it.
+ */
+const FORMULA_START = /^[=+\-@]/;
+const guardComment = (text: string) => (FORMULA_START.test(text) ? `'${text}` : text);
+const unguardComment = (text: string) =>
+  text.startsWith("'") && FORMULA_START.test(text.slice(1)) ? text.slice(1) : text;
+
 /** One row per tag or constant; one "Comment <culture>" column per language. */
 export function exportCsv(table: TagTableFile): string {
   const cultures = [...new Set(table.entries.flatMap((e) => [...e.comments.keys()]))].sort();
@@ -482,7 +491,7 @@ export function exportCsv(table: TagTableFile): string {
     String(e.accessible),
     String(e.visible),
     String(e.writable),
-    ...cultures.map((c) => e.comments.get(c)?.text ?? ''),
+    ...cultures.map((c) => guardComment(e.comments.get(c)?.text ?? '')),
   ]);
   return [header, ...rows].map((r) => r.map(csvCell).join(',')).join('\r\n') + '\r\n';
 }
@@ -553,7 +562,9 @@ export function csvChanges(
     const kindText = (get('Kind') ?? 'Tag').toLowerCase();
     if (kindText === 'systemconstant') return;
     const kind = kindText === 'constant' ? 'constant' : 'tag';
-    const comments = Object.fromEntries(cultureCols.map(([c, i]) => [c, (r[i] ?? '').trim()]));
+    const comments = Object.fromEntries(
+      cultureCols.map(([c, i]) => [c, unguardComment((r[i] ?? '').trim())]),
+    );
     changes.push({
       kind,
       name,

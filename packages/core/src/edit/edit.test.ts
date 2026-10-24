@@ -860,6 +860,16 @@ describe('tag table edits', () => {
     expect(changes.map((c) => nextCsvEdit(t, c))).toEqual([undefined, undefined, undefined]);
   });
 
+  it('guards comments that a spreadsheet would read as a formula, and reads them back', () => {
+    const risky = apply(TAGS, setEntryComment(t, start, 'en-US', '=HYPERLINK("x")'));
+    const table = parseTagTableText(risky);
+    const csv = exportCsv(table);
+    expect(csv).toContain(`"'=HYPERLINK(""x"")"`);
+    const { changes, problems } = csvChanges(table, csv);
+    expect(problems).toEqual([]);
+    expect(changes.map((c) => nextCsvEdit(table, c))).toEqual([undefined, undefined, undefined]);
+  });
+
   it('imports a whole CSV as one set of minimal line edits (one undo step)', () => {
     const csv =
       exportCsv(t).replace('%MW12', '%MW20').replace('Start push button', '"Start, push"') +
