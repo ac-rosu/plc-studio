@@ -4,7 +4,7 @@ Milestones from [docs/SPEC.md](docs/SPEC.md), each broken into tasks with how ea
 
 Status: `[ ]` open · `[~]` partly done · `[x]` done · **(owner)** needs the owner
 
-State on 2026-10-24 (end of the autonomous run): M0–M12 done; only the owner's items are open (M9.4 final name, M9.5 publishing). Gates: round trip 472/472 files; zero false errors in every PLC and variant; error coverage PLC_Main 73/80 (SIMATIC SD; the 7 misses are B06, where a missing block is a warning by design), 71/80 (sources), PLC_1200 2/2; the recursion policy error found; 19/19 analyzer expectations found. Corpus: 100 V21 cases (verification sessions added 35). Tests: 224 unit, 622 corpus, 190 browser, 13 VS Code integration.
+State on 2026-10-24: M0–M12 done (autonomous run), then the owner's feedback: M13 (several blocks per external source, opening by content, SCL kept out of the LAD/FBD view, a demo like the owner's projects) and M14.1–M14.4 (SimaticML blocks shown read-only) done. Open for the owner: M9.4 final name, M9.5 publishing, M14.5 V20 samples. Gates: round trip 510/510 files; zero false errors in every PLC and variant; error coverage PLC_Main 73/80 (SIMATIC SD; the 7 misses are B06, where a missing block is a warning by design), 71/80 (sources; B06 and two IEC-check cases, whose setting sources do not carry), PLC_1200 2/2; the recursion policy error found; 19/19 analyzer expectations found. Corpus: 101 V21 cases. Tests: 227 unit, 1187 corpus, 208 browser, 16 VS Code integration.
 
 ## Owner actions
 
@@ -323,7 +323,7 @@ Open questions of M5, answered with the recommended option:
 - [x] **M14.4 SCL from SimaticML** (structured text tokens back to text).
   Verify: the rebuilt text of every SCL corpus block matches its external source, comments and layout aside.
   Done, stricter than planned: the code of all 48 SCL networks is byte for byte TIA's SD text and external source (comments and layout included); the SCL view parses without errors and opens as a read-only document in a language the checker never sees. The integration test opens a DB, a PLC data type, a LAD block and an SCL block from XML in VS Code.
-- [ ] **M14.5 V20 SimaticML** from a V20 corpus project.
+- [ ] **M14.5 V20 SimaticML** from a V20 corpus project. **(owner)** TIA V20 is installed, but its MCP server accepts projects only under `C:\TiaProjects\V20`, while Claude may use TIA only in the corpus project under `C:\TiaProjects\Corpus` (CLAUDE.md). Needed: a V20 corpus project (or the server's projects root) under `C:\TiaProjects\Corpus`, or V20 exports of a few corpus blocks (a UDT, a DB, an SCL, a LAD and an FBD block) from the owner. The reader matches elements by name, not by schema version, so V20 exports are expected to read already; without samples that is not proven.
 
 ## Later (not planned in detail)
 
