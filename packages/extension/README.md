@@ -74,7 +74,7 @@ IF #Ratio = 1.0 THEN
 
 ## Views and commands
 
-Open the graphical and table views with **Open With…** on a file, from the editor title or explorer context menu, or through these commands:
+Opening a PLC file picks the view that fits its content: LAD/FBD blocks open in the LAD/FBD view, data blocks in the data block editor, PLC data types in the type table, SCL blocks (and files with several kinds of blocks) in the text editor. Jumps to a place in the code always open the text. Any view is also available with **Open With…** or **Reopen Editor With…**, from the editor title or explorer context menu, or through these commands:
 
 | Command | What it does |
 | --- | --- |
@@ -97,6 +97,7 @@ The call tree and the trace results are in the **PLC Studio** view in the activi
 | Setting | Default | Meaning |
 | --- | --- | --- |
 | `plcstudio.displayLanguage` | (from `plc.json`) | Language of comments and titles, for example `de-DE`. |
+| `plcstudio.openByContent` | `true` | Open PLC files in the view that fits their content; off: always the text editor. |
 | `plcstudio.ladder.editing` | `true` | Allow editing in the LAD/FBD view. |
 | `plcstudio.ladder.interfaceOpen` | `false` | Open the block interface panel above the networks when a LAD/FBD view opens. |
 

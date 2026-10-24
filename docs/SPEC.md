@@ -258,6 +258,8 @@ Each block knows which OBs reach it, their priority and cycle time, and whether 
 
 Every graphical or table editor is a VS Code custom editor over the same text file: the text stays the single source of truth, edits go through VS Code's undo/redo, and the text and the view can be open side by side and stay in sync.
 
+Opening a file picks the view that fits its content (owner, 2026-10-24): LAD/FBD blocks open in the LAD/FBD view, data blocks in the data block editor, PLC data types in the interface table, SCL blocks and files with several kinds of blocks in the text editor. Jumps to a place in the code (definition, references, problems, call tree) open the text. The setting `plcstudio.openByContent` turns it off.
+
 ### LAD/FBD viewer (v1)
 
 - Renders every LAD and FBD construct in the version profile: contacts (normal, negated, edge), coils (normal, set, reset, edge), boxes and calls with all parameter kinds (`Input`, `Output`, `InOut`, `EN`/`ENO`), comparators, math and move boxes, empty boxes, multi-instance calls, jumps and labels, parallel branches, open branches, network titles and comments.

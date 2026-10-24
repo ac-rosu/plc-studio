@@ -194,3 +194,10 @@ The spec asks that core and language-server pass their tests in a browser worker
 - Each model carries its block's position in the file, and the view adds it to every edit (`block`), so an edit in the third block of a file changes that block. Positions, not names, because names are what a rename changes.
 - Focus and the open state of each section are kept when the view renders again; member names repeat across blocks, so focus is restored within the same section. The list of data types for completion is in the page once.
 - The data block view now also shows the members of array elements of a structured type (`Path[1].X`), with their start values; before, those start values were hidden.
+
+## 2026-10-24 – Opening by content (M13.3, owner)
+
+- VS Code picks editors by file name only, and every block is a `.s7dcl` file. So one custom editor, "Matching View" (`plcstudio.matchingView`), is the default for `.s7dcl`, `.db` and `.udt`; it parses the file and hands its own tab to the view that fits: the LAD/FBD view for a block with a LAD or FBD network (or one meant for LAD/FBD without networks yet), the data block editor when every block is a DB, the interface table when every block is a PLC data type. The hand-over reuses the tab, so nothing flickers.
+- SCL blocks, files with several kinds of blocks and files that do not parse go to the text editor, the only place with every code feature; the matching view opens the text in its column (a preview stays a preview) and closes itself. `.scl` files keep the text editor directly.
+- Jumps to a place in the code open the text: definition, references and problems did already; the call tree and Trace value now open the text explicitly (`vscode.openWith` with `default`) instead of the default editor, so they keep their line.
+- `plcstudio.openByContent` (default on) sends everything to the text editor when off. Every view stays available through Open With / Reopen Editor With.

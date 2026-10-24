@@ -73,9 +73,11 @@ class CallTreeProvider implements vscode.TreeDataProvider<CallNode> {
     t.resourceUri = vscode.Uri.parse(item.uri);
     t.command = {
       title: 'Open',
-      command: 'vscode.open',
+      // the text at the place, not the view a click in the explorer would choose
+      command: 'vscode.openWith',
       arguments: [
         vscode.Uri.parse(item.uri),
+        'default',
         { selection: toRange(item.range), preview: true } satisfies vscode.TextDocumentShowOptions,
       ],
     };
@@ -112,9 +114,11 @@ class TraceProvider implements vscode.TreeDataProvider<TraceItem> {
     );
     t.command = {
       title: 'Open',
-      command: 'vscode.open',
+      // the text at the place, not the view a click in the explorer would choose
+      command: 'vscode.openWith',
       arguments: [
         vscode.Uri.parse(item.uri),
+        'default',
         { selection: toRange(item.range), preview: true } satisfies vscode.TextDocumentShowOptions,
       ],
     };

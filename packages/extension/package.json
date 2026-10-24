@@ -301,6 +301,11 @@
           "default": true,
           "description": "Allow editing in the LAD/FBD view (palette, drag and drop, operands, networks). Every edit changes only the lines of the affected network."
         },
+        "plcstudio.openByContent": {
+          "type": "boolean",
+          "default": true,
+          "description": "Open PLC files in the view that fits their content: LAD/FBD blocks in the LAD/FBD view, data blocks in the data block editor, PLC data types in the type table; SCL blocks and files with several kinds of blocks in the text editor. Off: always the text editor."
+        },
         "plcstudio.ladder.interfaceOpen": {
           "type": "boolean",
           "default": false,
@@ -325,6 +330,22 @@
       }
     },
     "customEditors": [
+      {
+        "viewType": "plcstudio.matchingView",
+        "displayName": "Matching View (PLC Studio)",
+        "selector": [
+          {
+            "filenamePattern": "*.s7dcl"
+          },
+          {
+            "filenamePattern": "*.db"
+          },
+          {
+            "filenamePattern": "*.udt"
+          }
+        ],
+        "priority": "default"
+      },
       {
         "viewType": "plcstudio.ladderEditor",
         "displayName": "LAD/FBD View (PLC Studio)",

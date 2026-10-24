@@ -239,6 +239,45 @@ test('custom editors render: LAD/FBD, interface, data block, translations, tag t
   await vscode.commands.executeCommand('workbench.action.closeAllEditors');
 });
 
+test('opening a file picks the view that fits its content', async () => {
+  for (const [name, viewType] of [
+    ['FC_LadContacts.s7dcl', 'plcstudio.ladderEditor'],
+    ['DB_Machine.s7dcl', 'plcstudio.dataBlockEditor'],
+    ['DBs_V4.db', 'plcstudio.dataBlockEditor'],
+    ['Types_V4.udt', 'plcstudio.interfaceEditor'],
+  ] as const) {
+    const before = (await health()).renders[viewType] ?? 0;
+    await vscode.commands.executeCommand('vscode.open', file(name));
+    const h = await until(async () => {
+      const now = await health();
+      return (now.renders[viewType] ?? 0) > before || now.errors.length > 0 ? now : undefined;
+    });
+    assert.deepEqual(h.errors, [], name);
+    const input = vscode.window.tabGroups.activeTabGroup.activeTab?.input;
+    assert.ok(
+      input instanceof vscode.TabInputCustom && input.viewType === 'plcstudio.matchingView',
+      name,
+    );
+  }
+  // an SCL block goes to the text editor, which takes the tab's place
+  const scl = file('FB_SclSections.s7dcl');
+  await vscode.commands.executeCommand('vscode.open', scl);
+  await until(() =>
+    vscode.window.activeTextEditor?.document.uri.toString() === scl.toString() ? true : undefined,
+  );
+  await until(() =>
+    vscode.window.tabGroups.all
+      .flatMap((g) => g.tabs)
+      .some(
+        (t) =>
+          t.input instanceof vscode.TabInputCustom && t.input.uri.toString() === scl.toString(),
+      )
+      ? undefined
+      : true,
+  );
+  await vscode.commands.executeCommand('workbench.action.closeAllEditors');
+});
+
 test('the LAD/FBD view shows the block interface panel', async () => {
   const settings = vscode.workspace.getConfiguration('plcstudio');
   await settings.update('ladder.interfaceOpen', true, vscode.ConfigurationTarget.Global);

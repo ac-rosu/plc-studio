@@ -39,6 +39,15 @@ export interface TextEditorViewOptions<Model> {
   ) => void | Promise<void>;
 }
 
+/** The views by view type, so the editor that opens files by content can hand a tab to one. */
+const providers = new Map<string, vscode.CustomTextEditorProvider>();
+
+export function textEditorViewProvider(
+  viewType: string,
+): vscode.CustomTextEditorProvider | undefined {
+  return providers.get(viewType);
+}
+
 export function registerTextEditorView<Model>(
   context: vscode.ExtensionContext,
   options: TextEditorViewOptions<Model>,
@@ -145,6 +154,7 @@ export function registerTextEditorView<Model>(
       });
     },
   };
+  providers.set(options.viewType, provider);
   return vscode.window.registerCustomEditorProvider(options.viewType, provider, {
     webviewOptions: { retainContextWhenHidden: true },
     supportsMultipleEditorsPerDocument: true,

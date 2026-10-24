@@ -9,6 +9,7 @@ import { registerFailsafe } from './failsafe.ts';
 import { registerGraph } from './graph.ts';
 import { registerLadderEditor } from './ladder-editor.ts';
 import { registerManifest } from './manifest.ts';
+import { registerOpenByContent } from './open-by-content.ts';
 import { registerTables } from './tables.ts';
 import { registerTagTable } from './tagtable.ts';
 
@@ -27,6 +28,7 @@ const features: Feature[] = [
   registerLadderEditor,
   registerCallGraph,
   registerTables,
+  registerOpenByContent,
   registerTagTable,
   registerGraph,
   registerFailsafe,
