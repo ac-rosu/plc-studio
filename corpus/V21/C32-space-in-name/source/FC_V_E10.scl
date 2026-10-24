@@ -1,0 +1,14 @@
+﻿FUNCTION "FC_V_E10" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_TEMP 
+      "Two words" : Int;
+   END_VAR
+
+
+BEGIN
+	
+	    #"Two words" := 1;
+	
+END_FUNCTION
+

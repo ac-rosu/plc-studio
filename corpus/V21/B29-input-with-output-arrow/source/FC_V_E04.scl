@@ -1,0 +1,15 @@
+﻿FUNCTION "FC_V_E04" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_TEMP 
+      x : Int;
+      y : Int;
+   END_VAR
+
+
+BEGIN
+	
+	    "FC_V_Callee"(InValue => #x, OutValue => #y);
+	
+END_FUNCTION
+

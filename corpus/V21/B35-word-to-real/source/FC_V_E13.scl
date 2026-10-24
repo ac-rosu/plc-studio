@@ -1,0 +1,24 @@
+﻿FUNCTION "FC_V_E13" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_TEMP 
+      r : Real;
+      i : Int;
+      d : DInt;
+      t : Time;
+      w : Word;
+   END_VAR
+
+
+BEGIN
+	
+	    #i := 3;
+	    #r := #i;
+	    #d := 5;
+	    #t := #d;
+	    #d := #t;
+	    #w := 16#00FF;
+	    #r := #w;
+	
+END_FUNCTION
+

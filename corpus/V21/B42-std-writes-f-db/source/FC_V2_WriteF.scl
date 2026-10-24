@@ -1,0 +1,14 @@
+﻿FUNCTION "FC_V2_WriteF" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_INPUT 
+      Request : Bool;
+   END_VAR
+
+
+BEGIN
+	
+	    "F_DB_Settings".SetupMode := #Request;
+	
+END_FUNCTION
+

@@ -1,0 +1,15 @@
+﻿FUNCTION "FC_V_E07" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_TEMP 
+      a : "UDT_Motor";
+      b : "UDT_Recipe" := ((), (), [1.0, 2.0, 8(0.5)], (), ());
+   END_VAR
+
+
+BEGIN
+	
+	    #a := #b;
+	
+END_FUNCTION
+

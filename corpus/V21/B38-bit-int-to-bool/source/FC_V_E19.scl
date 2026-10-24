@@ -1,0 +1,19 @@
+﻿FUNCTION "FC_V_E19" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_TEMP 
+      b : Bool;
+      by : Byte;
+      i : Int;
+   END_VAR
+
+
+BEGIN
+	
+	    #by := 16#01;
+	    #b := #by;
+	    #i := 2;
+	    #b := #i;
+	
+END_FUNCTION
+

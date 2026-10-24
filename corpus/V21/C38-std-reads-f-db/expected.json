@@ -37,6 +37,9 @@
       "documents/FC_V2_ReadF.s7dcl",
       "documents/FC_V2_Helper.s7dcl"
     ],
+    "source": [
+      "source/FC_V2_ReadF.scl"
+    ],
     "refused": {}
   },
   "compile": {
@@ -67,5 +70,5 @@
   },
   "intendedError": null,
   "analyzerExpect": [],
-  "notes": "Added 2026-10-24 by PLC Studio (verification batch 2, group Verify2) to verify fail-safe and LAD rules against TIA V21; imported with plc_import_documents, compiled, exported with plc_export_block (documents, tool text without BOM). The corpus project was not saved. Reading F-DB members from a standard block is accepted (compare B42 for writing)."
+  "notes": "Added 2026-10-24 by PLC Studio (verification batch 2, group Verify2) to verify fail-safe and LAD rules against TIA V21; imported with plc_import_documents, compiled, exported with plc_export_block (documents, tool text without BOM). The corpus project was not saved. Reading F-DB members from a standard block is accepted (compare B42 for writing). Session 7 (2026-10-24): the external source was added; the block was imported again into the unsaved corpus project from these SIMATIC SD documents, compiled with the same result, and written by PlcExternalSourceSystemGroup.GenerateSource (option None), copied byte for byte."
 }

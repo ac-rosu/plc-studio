@@ -74,6 +74,12 @@ export function corpusManifest(plc: CorpusPlc, corpusRoot: string): string {
     compiler: { iecCheck: false },
     units,
     ...(groups ? { mainSafetyBlocks: groups.map((g) => g.mainSafetyBlock) } : {}),
+    // an external source does not mark an F-DB (SIMATIC SD does): plc.json names them, as a
+    // project kept in external sources would
+    failsafeBlocks: plc.cases
+      .flatMap((c) => c.expected.objects)
+      .filter((o) => o.failsafe && o.language === 'F_DB')
+      .map((o) => o.name),
   });
 }
 

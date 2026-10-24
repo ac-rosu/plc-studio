@@ -1,0 +1,14 @@
+﻿FUNCTION "FC_V2_CallF" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_OUTPUT 
+      Release : Bool;
+   END_VAR
+
+
+BEGIN
+	
+	    "F_FC_Logic"(GuardClosed := TRUE, SetupMode := FALSE, EmergencyStopOk := TRUE, Release => #Release);
+	
+END_FUNCTION
+

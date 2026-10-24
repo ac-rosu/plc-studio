@@ -169,6 +169,13 @@ Twenty small blocks were imported into the corpus project (group `Verify` of PLC
 - SCL generated from a source keeps the indentation of that source (a tab before each statement came back as a tab and a space in the source, nine spaces in SIMATIC SD); TIA's own layout is four spaces per level, written after a tab in sources and after eight spaces in SIMATIC SD.
 - `Counter` is refused as a member name (a reserved word).
 
+## 2026-10-24 – What external sources leave out or add (session 7)
+
+- A member whose PLC data type has start values gets them written out in an external source, one position per member: `b : "UDT_Recipe" := ((), (), [1.0, 2.0, 8(0.5)], (), ());` (B32, FC_V_E07.scl; `()` where a member has none, `8(0.5)` for eight times 0.5). SIMATIC SD writes only `"b" : _.UDT_Recipe;`.
+- The IEC check of a block is not in its external source: SIMATIC SD has `S7_IECCheck := "TRUE"` (C10 FC_IecOn, B34), the source has no attribute for it. A checker reading sources cannot know it; `compiler.iecCheck` in plc.json sets it for the whole PLC.
+- An F-DB is not marked in its external source: SIMATIC SD has `S7_Safety := "True"` (C24 F_DB_Settings), the source does not. plc.json lists F-DBs under `failsafeBlocks` (the checker says so when it meets one).
+- A name SIMATIC SD writes in quotes because it is short (`"m"`, `"b"`) is written without quotes in the source when it is a plain identifier (B30, B32).
+
 ## 2026-10-24 – How LAD/FBD rungs fit together (interpretation, C16 and C18)
 
 - `wire#wN` on its own line inside a rung names the point after the element before it; `RUNG wire#wN` starts a branch there; `END_RUNG wire#wN` ends a branch by joining that point. A rung ending with a plain `END_RUNG` after a coil is an open branch. Evidence: `C16-lad-contacts/documents/FC_LadContacts.s7dcl` network 8 (two nested branches that join again at w1) and `C18-lad-open-branch/documents/FB_LadOpenBranch.s7dcl` networks 1 and 2 (three and two coils on open branches).

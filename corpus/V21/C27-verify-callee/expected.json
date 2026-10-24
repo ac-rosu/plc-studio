@@ -24,6 +24,9 @@
     "documents": [
       "documents/FC_V_Callee.s7dcl"
     ],
+    "source": [
+      "source/FC_V_Callee.scl"
+    ],
     "refused": {}
   },
   "compile": {
@@ -46,5 +49,5 @@
   },
   "intendedError": null,
   "analyzerExpect": [],
-  "notes": "Added 2026-10-24 by PLC Studio to verify checker rules against TIA V21; imported with plc_import_documents into group Verify, compiled, exported with plc_export_block (documents, tool text without BOM). The corpus project was not saved."
+  "notes": "Added 2026-10-24 by PLC Studio to verify checker rules against TIA V21; imported with plc_import_documents into group Verify, compiled, exported with plc_export_block (documents, tool text without BOM). The corpus project was not saved. Session 7 (2026-10-24): the external source was added; the block was imported again into the unsaved corpus project from these SIMATIC SD documents, compiled with the same result, and written by PlcExternalSourceSystemGroup.GenerateSource (option None), copied byte for byte."
 }

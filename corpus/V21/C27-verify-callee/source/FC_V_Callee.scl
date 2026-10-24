@@ -1,0 +1,18 @@
+﻿FUNCTION "FC_V_Callee" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_INPUT 
+      InValue : Int;
+   END_VAR
+
+   VAR_OUTPUT 
+      OutValue : Int;
+   END_VAR
+
+
+BEGIN
+	
+	    #OutValue := #InValue + 1;
+	
+END_FUNCTION
+
