@@ -10,6 +10,8 @@ import {
 } from '../webview/text-editor-view.ts';
 import type { FeatureContext } from './index.ts';
 import { addFileEdits, workspaceModel, type PlcWorkspaceModel } from './tables-workspace.ts';
+import { xmlDataBlockModel, xmlInterfaceModel } from './xml-models.ts';
+import { xmlBlock, xmlCulture } from './xml-views.ts';
 import {
   blockContext,
   dataBlockModels,
@@ -79,6 +81,8 @@ async function handle(
   extension: vscode.ExtensionContext,
   compute: typeof declarationEdit,
 ): Promise<void> {
+  // SimaticML files are shown read-only (ADR 0014)
+  if (xmlBlock(view.document)) return;
   // the block the edit belongs to; the LAD/FBD view's panel and one-block files send none
   const block = typeof message['block'] === 'number' ? message['block'] : 0;
   const c = blockContext(modelInput(view.document, extension), block);
@@ -107,7 +111,12 @@ export function registerTables({ extension }: FeatureContext): void {
       viewType: INTERFACE_EDITOR,
       view: 'interface',
       title: (d) => `Interface ${baseName(d)}`,
-      model: (d) => interfaceModels(modelInput(d, extension)),
+      model: (d) => {
+        const xml = xmlBlock(d);
+        return xml
+          ? { blocks: [xmlInterfaceModel(xml, xmlCulture(xml))] }
+          : interfaceModels(modelInput(d, extension));
+      },
       otherFiles,
       onMessage: (m, v) => handle(m, v, extension, declarationEdit),
     }),
@@ -115,7 +124,12 @@ export function registerTables({ extension }: FeatureContext): void {
       viewType: DATA_BLOCK_EDITOR,
       view: 'datablock',
       title: (d) => `Data block ${baseName(d)}`,
-      model: (d) => dataBlockModels(modelInput(d, extension)),
+      model: (d) => {
+        const xml = xmlBlock(d);
+        return xml
+          ? { blocks: [xmlDataBlockModel(xml, xmlCulture(xml))] }
+          : dataBlockModels(modelInput(d, extension));
+      },
       otherFiles,
       onMessage: (m, v) => handle(m, v, extension, declarationEdit),
     }),

@@ -43,6 +43,13 @@
   "contributes": {
     "languages": [
       {
+        "id": "plcstudio-scl-readonly",
+        "aliases": [
+          "SCL from SimaticML (PLC Studio)"
+        ],
+        "configuration": "./language-configuration.json"
+      },
+      {
         "id": "plcstudio-scl",
         "aliases": [
           "SCL (PLC Studio)"
@@ -96,6 +103,11 @@
       }
     ],
     "grammars": [
+      {
+        "language": "plcstudio-scl-readonly",
+        "scopeName": "source.plcstudio-scl-readonly",
+        "path": "./syntaxes/plcstudio-scl-readonly.tmLanguage.json"
+      },
       {
         "language": "plcstudio-scl",
         "scopeName": "source.plcstudio-scl",
@@ -351,6 +363,9 @@
         "displayName": "LAD/FBD View (PLC Studio)",
         "selector": [
           {
+            "filenamePattern": "*.xml"
+          },
+          {
             "filenamePattern": "*.s7dcl"
           }
         ],
@@ -360,6 +375,9 @@
         "viewType": "plcstudio.interfaceEditor",
         "displayName": "Block Interface (PLC Studio)",
         "selector": [
+          {
+            "filenamePattern": "*.xml"
+          },
           {
             "filenamePattern": "*.s7dcl"
           },
@@ -376,6 +394,9 @@
         "viewType": "plcstudio.dataBlockEditor",
         "displayName": "Data Block (PLC Studio)",
         "selector": [
+          {
+            "filenamePattern": "*.xml"
+          },
           {
             "filenamePattern": "*.s7dcl"
           },

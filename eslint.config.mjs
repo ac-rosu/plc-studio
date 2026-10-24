@@ -51,6 +51,8 @@ export default defineConfig(
       '**/.vscode-test/**',
       'corpus/**',
       'corpus-private/**',
+      // local experiments, never committed
+      '.scratch/**',
       'packages/extension/schemas/**',
     ],
   },

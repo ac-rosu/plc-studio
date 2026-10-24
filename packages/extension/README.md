@@ -14,6 +14,7 @@ Editing, checking and analysis for SCL, LAD and FBD programs of S7-1200 and S7-1
 - **LAD/FBD view and editor.** LAD and FBD networks drawn graphically, with a palette, drag and drop, branches, networks and inline operands, and the block interface in a collapsible panel above the networks. SCL networks in a LAD/FBD block show a short preview and open in the SCL editor. Every edit changes only the lines of that network.
 - **Table editors.** Block interface (members inside structs, the FC return type), data block start values (global, instance and array DBs, members of array elements), translations of comments and titles, and tag tables (with CSV import and export), all editable as tables next to the text. An external source with several blocks shows each block in its own section.
 - **Program graph.** All blocks and calls of a PLC on one canvas, filtered by OB, unit or name.
+- **SimaticML exports, read-only.** XML exports of blocks and PLC data types (Openness, VCI or any other tool) open in the view their content needs: data blocks and types as tables, LAD/FBD blocks drawn, SCL blocks as SCL text rebuilt from the XML. Never edited and never checked.
 - **Fail-safe blocks.** F-blocks are marked in every editor and in the explorer, and saving one shows a reminder to compile and accept the change in TIA.
 - **Round trips.** Files stay byte-for-byte as TIA wrote them; edits change only the lines they touch, and comment ids in `.s7res` are never renumbered.
 

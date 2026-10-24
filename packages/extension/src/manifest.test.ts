@@ -89,6 +89,10 @@ describe('extension manifest', () => {
   });
 
   it("registers exactly PLC Studio's own language ids (ADR 0009)", () => {
-    expect(manifest.contributes.languages.map((l) => l.id)).toEqual([...LANGUAGE_IDS]);
+    // the read-only SCL of SimaticML exports is ours too, and never goes to the language server
+    expect(manifest.contributes.languages.map((l) => l.id).sort()).toEqual(
+      [...LANGUAGE_IDS, 'plcstudio-scl-readonly'].sort(),
+    );
+    expect(LANGUAGE_IDS).not.toContain('plcstudio-scl-readonly');
   });
 });

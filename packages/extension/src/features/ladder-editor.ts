@@ -23,6 +23,7 @@ import {
   pasteNetwork,
   setNetworkText,
   setOperand,
+  simaticmlToSd,
   SourceText,
   type LadderEditOutcome,
   type LadderElement,
@@ -45,6 +46,8 @@ import {
 import type { FeatureContext } from './index.ts';
 import { interfaceEdit, modelInput } from './tables.ts';
 import { interfaceModel } from './tables-model.ts';
+import { xmlInterfaceModel } from './xml-models.ts';
+import { xmlBlock, xmlCulture } from './xml-views.ts';
 
 export const LADDER_VIEW_TYPE = 'plcstudio.ladderEditor';
 
@@ -94,7 +97,10 @@ function displayLanguage(document: vscode.TextDocument): string | undefined {
 }
 
 function buildModel(document: vscode.TextDocument): LadderModel {
-  const file = parseBlockText(document.getText(), 's7dcl');
+  // a SimaticML export is drawn from SD text built from its XML, read-only (ADR 0014)
+  const xml = xmlBlock(document);
+  const sd = xml ? simaticmlToSd(xml, profile()) : undefined;
+  const file = parseBlockText(sd?.s7dcl ?? document.getText(), 's7dcl');
   const block = file.blocks.find((b) => b.kind === 'FB' || b.kind === 'FC' || b.kind === 'OB');
   // the FB of a multi-instance call, from the block's own interface
   const describeCall = (element: LadderElement) => {
@@ -108,12 +114,12 @@ function buildModel(document: vscode.TextDocument): LadderModel {
   };
   const view = ladderBlockView(file, {
     profile: profile(),
-    resources: readResources(document),
-    displayLanguage: displayLanguage(document),
+    resources: sd ? parseResources(new SourceText(sd.s7res)) : readResources(document),
+    displayLanguage: xml ? xmlCulture(xml) : displayLanguage(document),
     describeCall,
   });
   const settings = vscode.workspace.getConfiguration('plcstudio');
-  const editable = settings.get<boolean>('ladder.editing', true);
+  const editable = !xml && settings.get<boolean>('ladder.editing', true);
   const palette: PaletteItem[] = profile()
     .profile.ladderElements.filter((e) => !view?.failsafe || e.failsafeAllowed !== false)
     .map((e) => ({
@@ -126,9 +132,10 @@ function buildModel(document: vscode.TextDocument): LadderModel {
   return {
     fileName: path.basename(document.uri.path),
     view,
-    diagnostics: diagnosticsFor(document),
-    palette,
+    diagnostics: xml ? [] : diagnosticsFor(document),
+    palette: xml ? [] : palette,
     editable,
+    ...(xml ? { readOnly: true } : {}),
     interfaceOpen: settings.get<boolean>('ladder.interfaceOpen', false),
     message: view
       ? undefined
@@ -257,6 +264,8 @@ async function onMessage(
   extension: vscode.ExtensionContext,
 ): Promise<void> {
   const document = view.document;
+  const xml = xmlBlock(document);
+  if (xml) return xmlMessage(message, view, xml);
   switch (message.type) {
     case 'interfaceRequest': {
       // the same model as the block interface editor; built only while the panel is open
@@ -336,6 +345,42 @@ async function onMessage(
       await applyResult(view, runIntent(document, message.intent), message.intent.op);
       return;
     }
+    default:
+      return;
+  }
+}
+
+/**
+ * A SimaticML file in the LAD/FBD view: shown only. Offsets in the drawing refer to the SD text
+ * built from the XML, so hover, definition and completion have nothing to look up; "Open text"
+ * and a network's text open the XML.
+ */
+async function xmlMessage(
+  message: ViewMessage,
+  view: ViewContext,
+  block: NonNullable<ReturnType<typeof xmlBlock>>,
+): Promise<void> {
+  switch (message.type) {
+    case 'interfaceRequest':
+      void view.webview.postMessage({
+        type: 'interfaceUpdate',
+        model: xmlInterfaceModel(block, xmlCulture(block)),
+      });
+      return;
+    case 'hover':
+      void view.webview.postMessage({ type: 'hoverResult', id: message.id, text: '' });
+      return;
+    case 'complete':
+      void view.webview.postMessage({ type: 'completionResult', id: message.id, items: [] });
+      return;
+    case 'reveal':
+      await vscode.commands.executeCommand(
+        'vscode.openWith',
+        view.document.uri,
+        'default',
+        vscode.ViewColumn.Beside,
+      );
+      return;
     default:
       return;
   }

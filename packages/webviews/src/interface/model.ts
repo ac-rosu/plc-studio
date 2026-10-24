@@ -18,6 +18,8 @@ export interface Row {
   end: number;
   structured: boolean;
   declarationEditable: boolean;
+  /** The start value can be changed; false where no TIA sample shows how it is written. */
+  valueEditable?: boolean;
   problems: string[];
 }
 
@@ -27,7 +29,9 @@ export interface InterfaceModel {
   blockIndex?: number;
   blockName: string;
   blockKind: string;
-  format: 's7dcl' | 'source';
+  format: 's7dcl' | 'source' | 'simaticml';
+  /** A SimaticML export: shown, never edited (ADR 0014). */
+  readOnly?: boolean;
   failsafe: boolean;
   culture: string;
   sections: { kind: string; label: string; rows: Row[]; canAdd: boolean; returnType?: string }[];

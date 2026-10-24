@@ -8,6 +8,7 @@ import {
   datalist,
   failsafeBanner,
   newMemberRow,
+  readOnlyBanner,
   problemsCell,
   textCell,
   toolbar,
@@ -21,7 +22,8 @@ export interface DataBlockModel {
   blockName: string;
   dbKind: 'global' | 'instance' | 'array' | '';
   instanceOf: string;
-  format: 's7dcl' | 'source';
+  format: 's7dcl' | 'source' | 'simaticml';
+  readOnly?: boolean;
   failsafe: boolean;
   culture: string;
   rows: Row[];
@@ -62,11 +64,13 @@ export function renderDataBlock(root: HTMLElement, model: DataBlockModel, post: 
         ? 'array DB'
         : 'global DB';
   root.append(
-    ...[failsafeBanner(model.failsafe)].filter((x): x is HTMLElement => x !== null),
+    ...[readOnlyBanner(model.readOnly), failsafeBanner(model.failsafe)].filter(
+      (x): x is HTMLElement => x !== null,
+    ),
     toolbar(
       h('strong', {}, model.blockName),
       h('span', { class: 'muted' }, kindText),
-      model.dbKind === 'global' ? newMemberForm(edit) : null,
+      model.dbKind === 'global' && !model.readOnly ? newMemberForm(edit) : null,
       button('Open text', 'Open the text of this file', () => post({ type: 'openText' })),
     ),
     datalist('types', model.types),
@@ -115,8 +119,12 @@ export function renderDataBlock(root: HTMLElement, model: DataBlockModel, post: 
           ),
       row.structured
         ? h('td', {})
-        : textCell(row.value, label('Start value'), (v) =>
-            edit('start', { path: row.path, value: v }),
+        : textCell(
+            row.value,
+            label('Start value'),
+            row.valueEditable === false || model.readOnly
+              ? undefined
+              : (v) => edit('start', { path: row.path, value: v }),
           ),
       h('td', { class: 'muted' }, row.defaultValue),
       row.level === 0 && row.retain !== null
@@ -142,9 +150,11 @@ export function renderDataBlock(root: HTMLElement, model: DataBlockModel, post: 
           ? button('↓', label('Move down'), () => edit('move', { path: row.path, direction: 1 }))
           : null,
         can ? button('✕', label('Delete'), () => edit('delete', { path: row.path })) : null,
-        button('⤴', label('Show in text'), () =>
-          post({ type: 'reveal', start: row.start, end: row.end }),
-        ),
+        model.readOnly
+          ? null
+          : button('⤴', label('Show in text'), () =>
+              post({ type: 'reveal', start: row.start, end: row.end }),
+            ),
         addInside,
       ),
     );

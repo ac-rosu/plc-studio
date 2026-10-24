@@ -313,12 +313,16 @@ Open questions of M5, answered with the recommended option:
 
 **Delivers (owner):** SimaticML exports shown by content, read only: DBs and UDTs as tables, LAD/FBD blocks in the LAD/FBD view, SCL blocks as text rebuilt from the XML. TIA V20 and V21; later versions through profile data. No checking of XML (zero false errors needs TIA evidence per format).
 
-- [ ] **M14.1 ADR** for SimaticML blocks (ADR 0002 keeps XML to tag tables).
-- [ ] **M14.2 Interface and DB/UDT tables from SimaticML.**
-- [ ] **M14.3 LAD/FBD from SimaticML** (parts and wires to the ladder layout).
+- [x] **M14.1 ADR** for SimaticML blocks (ADR 0002 keeps XML to tag tables).
+  Done: ADR 0014.
+- [x] **M14.2 Interface and DB/UDT tables from SimaticML.**
+  Done: core reads blocks and PLC data types (`simaticml/block.ts`); `xml-models.ts` builds the read-only interface and data block models. Verified: for the 81 corpus blocks with both formats, the rows equal those of the SIMATIC SD tables (names, types, values, comments and flags where both formats carry them); browser tests check that nothing can be edited.
+- [x] **M14.3 LAD/FBD from SimaticML** (parts and wires to the ladder layout).
   Verify: every LAD/FBD corpus block gives the same view model from SIMATIC SD and from SimaticML.
-- [ ] **M14.4 SCL from SimaticML** (structured text tokens back to text).
+  Done: `simaticml/flgnet.ts` turns each network into SD rungs; all 43 LAD/FBD networks of the corpus come out exactly as TIA's SD export writes them, and the 8 blocks draw identically (positions, operands, titles). XML part names are profile data, only where the corpus proves them.
+- [x] **M14.4 SCL from SimaticML** (structured text tokens back to text).
   Verify: the rebuilt text of every SCL corpus block matches its external source, comments and layout aside.
+  Done, stricter than planned: the code of all 48 SCL networks is byte for byte TIA's SD text and external source (comments and layout included); the SCL view parses without errors and opens as a read-only document in a language the checker never sees. The integration test opens a DB, a PLC data type, a LAD block and an SCL block from XML in VS Code.
 - [ ] **M14.5 V20 SimaticML** from a V20 corpus project.
 
 ## Later (not planned in detail)

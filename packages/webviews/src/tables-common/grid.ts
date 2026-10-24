@@ -11,6 +11,14 @@ export type Post = (message: { type: string; [key: string]: unknown }) => void;
 export const FAILSAFE_TEXT =
   'Fail-safe block: after changes, compile the safety program in TIA Portal and have the change accepted by a qualified person (the collective F-signature changes). PLC Studio is not a safety-certified tool.';
 
+/** SimaticML blocks are shown, never edited or checked (ADR 0014). */
+export const READ_ONLY_TEXT =
+  'SimaticML export, shown read-only and not checked. Change the block in TIA Portal or in its SIMATIC SD or source file.';
+
+export function readOnlyBanner(readOnly: boolean | undefined): HTMLElement | null {
+  return readOnly ? h('div', { class: 'banner readonly', role: 'note' }, READ_ONLY_TEXT) : null;
+}
+
 export function failsafeBanner(failsafe: boolean): HTMLElement | null {
   return failsafe ? h('div', { class: 'banner failsafe', role: 'alert' }, FAILSAFE_TEXT) : null;
 }

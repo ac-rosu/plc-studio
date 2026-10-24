@@ -8,6 +8,7 @@ import {
   datalist,
   failsafeBanner,
   newMemberRow,
+  readOnlyBanner,
   problemsCell,
   textCell,
   toolbar,
@@ -65,7 +66,9 @@ export function renderInterface(
   const edit = (op: string, extra: Record<string, unknown>) => post({ type: 'edit', op, ...extra });
   if (!options.embedded)
     root.append(
-      ...[failsafeBanner(model.failsafe)].filter((x): x is HTMLElement => x !== null),
+      ...[readOnlyBanner(model.readOnly), failsafeBanner(model.failsafe)].filter(
+        (x): x is HTMLElement => x !== null,
+      ),
       toolbar(
         h('strong', {}, `${model.blockKind} ${model.blockName}`),
         h('span', { class: 'muted' }, `comments in ${model.culture}`),
@@ -97,9 +100,10 @@ export function renderInterface(
       ),
     );
     if (section.kind === 'Return' && section.returnType !== undefined)
-      body.append(returnTypeRow(section.returnType, edit));
+      body.append(returnTypeRow(section.returnType, model.readOnly ? undefined : edit));
     const flags = hmiFlagsApply(model.blockKind, section.kind);
-    for (const row of section.rows) body.append(memberRow(row, section.kind, flags, edit, post));
+    for (const row of section.rows)
+      body.append(memberRow(row, section.kind, flags, edit, post, model.readOnly === true));
   }
   table.append(body);
   root.append(table);
@@ -111,6 +115,7 @@ function memberRow(
   hmiFlags: boolean,
   edit: (op: string, extra: Record<string, unknown>) => void,
   post: Post,
+  readOnly: boolean,
 ): HTMLTableRowElement {
   const label = (what: string) => `${what} of ${row.path.join('.')}`;
   const can = row.declarationEditable;
@@ -164,19 +169,25 @@ function memberRow(
           checkCell(row.setpoint, label('Setpoint'), flag('setpoint')),
         ]
       : [h('td', {}), h('td', {}), h('td', {}), h('td', {})]),
-    textCell(row.comment, label('Comment'), (v) => edit('comment', { path: row.path, value: v })),
-    problemsCell(row.problems),
-    h(
-      'td',
-      { class: 'actions' },
-      button('↑', label('Move up'), () => edit('move', { path: row.path, direction: -1 })),
-      button('↓', label('Move down'), () => edit('move', { path: row.path, direction: 1 })),
-      button('✕', label('Delete'), () => edit('delete', { path: row.path })),
-      button('⤴', label('Show in text'), () =>
-        post({ type: 'reveal', start: row.start, end: row.end }),
-      ),
-      addInside,
+    textCell(
+      row.comment,
+      label('Comment'),
+      readOnly ? undefined : (v) => edit('comment', { path: row.path, value: v }),
     ),
+    problemsCell(row.problems),
+    readOnly
+      ? h('td', {})
+      : h(
+          'td',
+          { class: 'actions' },
+          button('↑', label('Move up'), () => edit('move', { path: row.path, direction: -1 })),
+          button('↓', label('Move down'), () => edit('move', { path: row.path, direction: 1 })),
+          button('✕', label('Delete'), () => edit('delete', { path: row.path })),
+          button('⤴', label('Show in text'), () =>
+            post({ type: 'reveal', start: row.start, end: row.end }),
+          ),
+          addInside,
+        ),
   );
   return tr;
 }
@@ -184,15 +195,18 @@ function memberRow(
 /** The return type of a function, editable like a data type. */
 function returnTypeRow(
   returnType: string,
-  edit: (op: string, extra: Record<string, unknown>) => void,
+  edit: ((op: string, extra: Record<string, unknown>) => void) | undefined,
 ): HTMLTableRowElement {
   return h(
     'tr',
     { 'data-level': '0' },
     h('td', { class: 'muted' }, 'Return value'),
-    textCell(returnType, 'Return type of the function', (v) => edit('returnType', { value: v }), {
-      list: 'types',
-    }),
+    textCell(
+      returnType,
+      'Return type of the function',
+      edit ? (v) => edit('returnType', { value: v }) : undefined,
+      { list: 'types' },
+    ),
     ...Array.from({ length: HEADERS.length - 2 }, () => h('td', {})),
   );
 }

@@ -30,6 +30,8 @@ export interface LadderModel {
   readonly message: string | undefined;
   /** Open the block interface panel when the view opens (setting plcstudio.ladder.interfaceOpen). */
   readonly interfaceOpen?: boolean;
+  /** A SimaticML export: drawn, never edited or checked (ADR 0014). */
+  readonly readOnly?: boolean;
 }
 
 export type EditIntent =

@@ -75,6 +75,8 @@ export interface Row {
   readonly structured: boolean;
   /** Names, types and flags can be changed (false in instance DBs and for array elements). */
   readonly declarationEditable: boolean;
+  /** The start value can be changed; false where no TIA sample shows how it is written. */
+  readonly valueEditable?: boolean;
   readonly problems: string[];
 }
 
@@ -207,7 +209,9 @@ export interface InterfaceModel {
   readonly blockIndex: number;
   readonly blockName: string;
   readonly blockKind: string;
-  readonly format: 's7dcl' | 'source';
+  readonly format: 's7dcl' | 'source' | 'simaticml';
+  /** A SimaticML export: shown, never edited (ADR 0014). */
+  readonly readOnly?: boolean;
   readonly failsafe: boolean;
   readonly culture: string;
   readonly sections: {
@@ -291,7 +295,9 @@ export interface DataBlockModel {
   readonly blockName: string;
   readonly dbKind: 'global' | 'instance' | 'array' | '';
   readonly instanceOf: string;
-  readonly format: 's7dcl' | 'source';
+  readonly format: 's7dcl' | 'source' | 'simaticml';
+  /** A SimaticML export: shown, never edited (ADR 0014). */
+  readonly readOnly?: boolean;
   readonly failsafe: boolean;
   readonly culture: string;
   readonly rows: Row[];
@@ -524,11 +530,25 @@ export function dataBlockModel(input: ModelInput, blockIndex = 0): DataBlockMode
       const { lower, upper } = t.dimensions[0] as { lower: number; upper: number };
       const last = Math.min(upper, lower + MAX_ELEMENTS - 1);
       const structured = t.element.kind !== 'elementary';
-      for (let i = lower; i <= last; i++)
+      const element = t.element;
+      for (let i = lower; i <= last; i++) {
         rows.push({
-          ...startRow(`THIS[${i}]`, [`THIS[${i}]`], 0, `[${i}]`, t.element, {}),
+          ...startRow(`THIS[${i}]`, [`THIS[${i}]`], 0, `[${i}]`, element, {}),
           structured,
         });
+        if (element.kind !== 'struct' && element.kind !== 'udt') continue;
+        // the members of each element, shown with their start values but not edited (no TIA
+        // sample of THIS[i].member := value; yet)
+        const first = rows.length;
+        walk(
+          element.kind === 'struct' ? element.members : element.members(),
+          [`THIS[${i}]`],
+          1,
+          false,
+          undefined,
+        );
+        for (let r = first; r < rows.length; r++) rows[r] = { ...rows[r]!, valueEditable: false };
+      }
       if (upper > last) note = `Arrays show their first ${MAX_ELEMENTS} elements.`;
       if (structured)
         note = 'Start values of structured array elements are shown read-only: edit them in TIA.';

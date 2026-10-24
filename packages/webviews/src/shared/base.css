@@ -27,6 +27,12 @@ a:focus {
   border-bottom: 1px solid var(--vscode-panel-border, transparent);
 }
 
+.banner.readonly {
+  background: var(--vscode-inputValidation-infoBackground, var(--vscode-editorWidget-background));
+  border: 1px solid var(--vscode-inputValidation-infoBorder, var(--vscode-focusBorder));
+  color: var(--vscode-foreground);
+}
+
 .banner.failsafe {
   background: var(--vscode-inputValidation-warningBackground);
   border: 1px solid var(--vscode-inputValidation-warningBorder);

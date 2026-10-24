@@ -1,0 +1,10 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "SCL from SimaticML (PLC Studio)",
+  "scopeName": "source.plcstudio-scl-readonly",
+  "patterns": [
+    {
+      "include": "source.plcstudio-scl"
+    }
+  ]
+}

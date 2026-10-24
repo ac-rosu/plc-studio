@@ -3,6 +3,7 @@
 import type { ElementRef, ElementView, NetworkView } from '@plcstudio/core';
 import { clear, h } from '../shared/dom.ts';
 import { drawNetwork } from './draw.ts';
+import { readOnlyBanner } from '../tables-common/grid.ts';
 import { InterfacePanel } from './interface-panel.ts';
 import { sclPreview } from './scl-preview.ts';
 import type {
@@ -193,6 +194,8 @@ export class LadderView {
       this.status,
     );
     const top: HTMLElement[] = [toolbar];
+    const readOnly = readOnlyBanner(model.readOnly);
+    if (readOnly) top.push(readOnly);
     if (view?.failsafe) {
       top.push(
         h(
@@ -318,8 +321,11 @@ export class LadderView {
    */
   private textNetwork(n: NetworkView): HTMLElement {
     const scl = n.kind === 'text';
+    // a SimaticML file has no text positions for its networks: open the file itself
     const open = () =>
-      this.send({ type: 'reveal', start: n.keywordRange.start, end: n.keywordRange.end });
+      this.model?.readOnly
+        ? this.send({ type: 'openText' })
+        : this.send({ type: 'reveal', start: n.keywordRange.start, end: n.keywordRange.end });
     const preview = scl
       ? sclPreview(n.text ?? '', SCL_PREVIEW_LINES)
       : { element: h('pre', { class: 'code' }, n.text ?? ''), hidden: 0 };

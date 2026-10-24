@@ -278,6 +278,44 @@ test('opening a file picks the view that fits its content', async () => {
   await vscode.commands.executeCommand('workbench.action.closeAllEditors');
 });
 
+test('SimaticML exports open read-only in the view their content needs', async () => {
+  for (const [name, viewType] of [
+    ['xml/DB_V4_Ranges.xml', 'plcstudio.dataBlockEditor'],
+    ['xml/UDT_V4_Point.xml', 'plcstudio.interfaceEditor'],
+    ['xml/FC_LadContacts.xml', 'plcstudio.ladderEditor'],
+  ] as const) {
+    const before = (await health()).renders[viewType] ?? 0;
+    // as a click in the explorer: the text editor first, then the hand-over
+    await vscode.window.showTextDocument(file(name), { preview: true });
+    const h = await until(async () => {
+      const now = await health();
+      return (now.renders[viewType] ?? 0) > before || now.errors.length > 0 ? now : undefined;
+    });
+    assert.deepEqual(h.errors, [], name);
+    await until(() =>
+      vscode.window.tabGroups.all
+        .flatMap((g) => g.tabs)
+        .some((t) => t.input instanceof vscode.TabInputText && t.input.uri.path.endsWith(name))
+        ? undefined
+        : true,
+    );
+  }
+  // an SCL block: a read-only SCL document rebuilt from the XML, which the checker never sees
+  await vscode.window.showTextDocument(file('xml/FB_V4_Tally.xml'), { preview: true });
+  const scl = await until(() => {
+    const d = vscode.window.activeTextEditor?.document;
+    return d?.uri.scheme === 'plcstudio-simaticml' ? d : undefined;
+  });
+  assert.equal(scl.languageId, 'plcstudio-scl-readonly');
+  assert.match(
+    scl.getText(),
+    /FUNCTION_BLOCK "FB_V4_Tally"[\s\S]*"FC_V4_Advance"\(Tally := #Tally\);/,
+  );
+  await new Promise((r) => setTimeout(r, 1500));
+  assert.deepEqual(vscode.languages.getDiagnostics(scl.uri), []);
+  await vscode.commands.executeCommand('workbench.action.closeAllEditors');
+});
+
 test('the LAD/FBD view shows the block interface panel', async () => {
   const settings = vscode.workspace.getConfiguration('plcstudio');
   await settings.update('ladder.interfaceOpen', true, vscode.ConfigurationTarget.Global);

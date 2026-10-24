@@ -132,6 +132,13 @@ const grammars: Record<string, object> = {
     scopeName: 'text.xml.plcstudio-tagtable',
     patterns: [{ include: 'text.xml' }],
   },
+  // SCL rebuilt from a SimaticML export (ADR 0014): colored like SCL, never sent to the checker
+  'plcstudio-scl-readonly': {
+    $schema: SCHEMA,
+    name: 'SCL from SimaticML (PLC Studio)',
+    scopeName: 'source.plcstudio-scl-readonly',
+    patterns: [{ include: 'source.plcstudio-scl' }],
+  },
 };
 for (const [name, grammar] of Object.entries(grammars)) {
   writeFileSync(`syntaxes/${name}.tmLanguage.json`, JSON.stringify(grammar, null, 2) + '\n');

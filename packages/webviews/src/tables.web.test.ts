@@ -288,6 +288,69 @@ describe('several blocks in one file', () => {
   });
 });
 
+// SimaticML exports are shown read-only (ADR 0014): nothing in the tables can be changed.
+describe('read-only tables (SimaticML)', () => {
+  const editable = (root: HTMLElement) =>
+    [...root.querySelectorAll('input, button')].filter(
+      (e) => !(e as HTMLInputElement).disabled && e.textContent !== 'Open text',
+    );
+
+  it('shows an interface without anything to edit, with the read-only note', async () => {
+    const { root, sent, post } = setup();
+    const ro: InterfaceModel = {
+      ...iface,
+      format: 'simaticml',
+      readOnly: true,
+      sections: iface.sections.map((s) => ({
+        ...s,
+        canAdd: false,
+        rows: s.rows.map((r) => ({ ...r, declarationEditable: false })),
+      })),
+    };
+    renderInterface(root, ro, post);
+    expect(root.querySelector('.banner.readonly')?.textContent).toMatch(
+      /read-only and not checked/,
+    );
+    expect(editable(root)).toEqual([]);
+    expect(root.querySelector('table')?.textContent).toContain('Enable it');
+    expect(await accessibilityViolations(root)).toEqual([]);
+    expect(sent).toEqual([]);
+    root.remove();
+  });
+
+  it('shows a data block without anything to edit', async () => {
+    const { root, post } = setup();
+    const model: DataBlockModel = {
+      view: 'datablock',
+      blockName: 'DB_X',
+      dbKind: 'global',
+      instanceOf: '',
+      format: 'simaticml',
+      readOnly: true,
+      failsafe: false,
+      culture: 'en-US',
+      rows: [
+        row('Speed', { value: '5', declarationEditable: false }),
+        row('Path', { type: 'Array[0..1] of Real', structured: true, declarationEditable: false }),
+        row('Path[0]', {
+          path: ['Path[0]'],
+          level: 1,
+          type: 'Real',
+          value: '1.5',
+          declarationEditable: false,
+        }),
+      ],
+      types: [],
+    };
+    renderDataBlock(root, model, post);
+    expect(root.querySelector('.banner.readonly')).not.toBeNull();
+    expect(editable(root)).toEqual([]);
+    expect(root.querySelector('table')?.textContent).toContain('1.5');
+    expect(await accessibilityViolations(root)).toEqual([]);
+    root.remove();
+  });
+});
+
 describe('data block editor', () => {
   it('keeps the interface of an instance DB read-only and start values editable', async () => {
     const { root, sent, post } = setup();

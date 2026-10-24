@@ -37,6 +37,11 @@ copy('C08-scl-calls/documents/IDB_SclSections.s7dcl');
 copy('C26k-dead-block/source/FC_AnaDead.scl', 'FC_Source.scl');
 copy('C02-global-db/documents/DB_Machine.s7dcl');
 copy('C02-global-db/documents/DB_Machine.s7res');
+// SimaticML exports, shown read-only (M14)
+copy('C42-multi-block-sources/simaticml/DB_V4_Ranges.xml', 'xml/DB_V4_Ranges.xml');
+copy('C42-multi-block-sources/simaticml/UDT_V4_Point.xml', 'xml/UDT_V4_Point.xml');
+copy('C42-multi-block-sources/simaticml/FB_V4_Tally.xml', 'xml/FB_V4_Tally.xml');
+copy('C16-lad-contacts/simaticml/FC_LadContacts.xml', 'xml/FC_LadContacts.xml');
 // external sources with several blocks (M13.2)
 copy('C42-multi-block-sources/source/Types_V4.udt');
 copy('C42-multi-block-sources/source/DBs_V4.db');
