@@ -4,7 +4,7 @@ Milestones from [docs/SPEC.md](docs/SPEC.md), each broken into tasks with how ea
 
 Status: `[ ]` open · `[~]` partly done · `[x]` done · **(owner)** needs the owner
 
-State on 2026-10-24 (end of the autonomous run): M0–M12 done; only the owner's items are open (M9.4 name and icon, M9.5 publishing). Gates: round trip 472/472 files; zero false errors in every PLC and variant; error coverage PLC_Main 73/80 (SIMATIC SD; the 7 misses are B06, where a missing block is a warning by design), 71/80 (sources), PLC_1200 2/2; the recursion policy error found; 19/19 analyzer expectations found. Corpus: 100 V21 cases (verification sessions added 35). Tests: 224 unit, 622 corpus, 190 browser, 13 VS Code integration.
+State on 2026-10-24 (end of the autonomous run): M0–M12 done; only the owner's items are open (M9.4 final name, M9.5 publishing). Gates: round trip 472/472 files; zero false errors in every PLC and variant; error coverage PLC_Main 73/80 (SIMATIC SD; the 7 misses are B06, where a missing block is a warning by design), 71/80 (sources), PLC_1200 2/2; the recursion policy error found; 19/19 analyzer expectations found. Corpus: 100 V21 cases (verification sessions added 35). Tests: 224 unit, 622 corpus, 190 browser, 13 VS Code integration.
 
 ## Owner actions
 
@@ -13,7 +13,7 @@ State on 2026-10-24 (end of the autonomous run): M0–M12 done; only the owner's
 - [x] **(owner)** First push to GitHub: done in the autonomous run (2026-10-24).
 - [~] **(owner)** New V21 corpus cases, needed before M1 can claim every construct (format-notes, 2026-10-24). Most were built by Claude with the TIA MCP server in the two verification batches:
   1. Done: `FOR … BY`, `RETURN` and `GOTO` with a jump label (C28).
-  2. Done: the negative edge coil `N_Coil` (batch 1). Open (owner): an empty box in LAD and in FBD. Session 5 showed that neither import format can create one (SimaticML: no instruction `???`; SD: syntax error), so only TIA's editor can make the sample.
+  2. Done: the negative edge coil `N_Coil` (batch 1). Open (owner): an empty box in LAD and in FBD. Sessions 5 and 6 showed that neither import format can create one (SimaticML: no instruction `???`, `EmptyBox` or `Box`; SD: syntax error), so only TIA's editor can make the sample.
   3. Done: C04's tag tables exported through Openness (`Export`, `WithDefaults`) next to the VCI files (C04 `simaticml/`), plus a new table in that style (C41). Both styles read the same; the comparison found that a missing ExternalVisible/ExternalWritable follows ExternalAccessible.
   4. Done: an AT overlay in `.s7dcl` is refused at import (batch 1, format-notes "SIMATIC SD export drops AT overlays").
   5. Done: an identifier with a space compiles in TIA (C32; spec conflict recorded for the owner). Done: MAX, MIN and LIMIT are not available in F-blocks (B46, session 5).
@@ -257,7 +257,7 @@ Open questions of M5, answered with the recommended option:
 - [x] **M9.1 Performance gates**: 5,000-block PLC indexed in under 10 s; diagnostics within 200 ms; 100 networks drawn in under 1 s (on CI, with a margin).
 - [x] **M9.2 Accessibility pass.** Done: every view passes an axe-core WCAG 2.1 A/AA audit in Chromium (color contrast comes from the VS Code theme and is not audited); keyboard navigation and screen-reader labels are tested; colors come from theme variables (high contrast included).
 - [x] **M9.3 README**: trademark notice, "not a safety-certified tool", no telemetry and no network calls; https images only.
-- [ ] **M9.4 Final name and icon (owner)**; the Marketplace checklist from the spec. Status: everything Claude can do is done (manifest fields, MIT license, own-design icon placeholder, README with https-only links, no telemetry, allowlisted package of 22 files); `docs/RELEASE.md` lists the two decisions left (name, icon) and where a new name goes.
+- [ ] **M9.4 Final name (owner) and icon**; the Marketplace checklist from the spec. Status: everything Claude can do is done (manifest fields, MIT license, the final own-design icon drawn in `packages/extension/images/icon-source.svg` and rendered by `scripts/icon.mts`, README with https-only links, no telemetry, allowlisted package of 22 files); `docs/RELEASE.md` lists the decision left (the name), where a new name goes, and how to change the icon.
 - [ ] **M9.5 Publishing (owner)**: Microsoft Entra ID publishing; pre-release on an odd minor, then v1.0.0. Status: prepared; `.github/workflows/release.yml` builds, tests and attaches the `.vsix` to a GitHub release on a version tag, and publishes with Entra ID (OpenID Connect, approval through the `marketplace` environment) once the owner sets it up as `docs/RELEASE.md` describes.
 
 ## M10 – LAD/FBD editor (v1.x)

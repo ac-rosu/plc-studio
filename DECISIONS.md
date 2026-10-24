@@ -174,3 +174,8 @@ The spec asks that core and language-server pass their tests in a browser worker
 
 - `.github/workflows/release.yml` runs on version tags: all tests, the `.vsix` on a GitHub release, and Marketplace publishing with Microsoft Entra ID through GitHub's OpenID Connect (no stored token), only when the repository variable `MARKETPLACE_PUBLISH` is `true` and after approval in the `marketplace` environment. The pre-release flag follows the spec (odd minor). The owner's setup steps and the two open decisions (name, icon) are in `docs/RELEASE.md`.
 - Committed log files of an earlier parallel session (`.claude-fork-*.log`) were removed from the repository and are ignored.
+
+## 2026-10-24 – Final icon; empty box (session 6)
+
+- The extension icon is final (M9.4 reserves only the name for the owner): an own design with two power rails, a rung with a contact and a coil, and a rung through a box holding lines of code, so it shows LAD, FBD and SCL without any name or trademark. Its source is `packages/extension/images/icon-source.svg`; `scripts/icon.mts` renders it to `images/icon.png` in Chromium. The source is kept so the icon can be changed without redrawing it.
+- Empty LAD/FBD box: the part names `EmptyBox` and `Box` are unknown to TIA as well, and an empty name is a schema error. It stays an owner item (TIA's editor only).

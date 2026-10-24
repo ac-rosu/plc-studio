@@ -195,3 +195,9 @@ Every surprise, refusal and crash, in order.
 - `om_invoke` PlcTagTable.Export (WithDefaults) of Tags_IO and Tags_Memory into `C:/TiaProjects/CorpusExport/plcstudio-batch3/`, copied byte for byte into C04 `simaticml/`.
 - `tia_connect` replace closed the instance without saving; the project file is unchanged.
 - Re-check (same session, after the documentation showed `Part Name="MIN" Version="1.0"`): F_LAD with that part is refused with "An instruction with the name 'MIN' cannot be found"; the identical part in standard LAD is found (refused only for "The node 'TemplateValue' with the name 'SrcType' ... is invalid"). The SimaticML LAD/FBD schema has no fixed list of part names, so it does not settle the empty box either; TIA's catalog decides, and it did not accept `???`.
+
+## Session 6 – 2026-10-24 (empty box, more part names)
+
+- Same headless instance, `project_open` PlcStudioCorpus_V21.
+- `plc_import_block` of a LAD FC (group Verify4) whose only network wires the power rail to the `en` of one part, every import refused (nothing created): the part names `EmptyBox` and `Box` are unknown instructions ("An instruction with the name ... cannot be found"); an empty name breaks the schema (minimum length 1). The first attempt also showed that a SimaticML block needs `<Namespace />` in its attribute list.
+- `project_close` closed the project without saving (no unsaved changes, since every import was rolled back).

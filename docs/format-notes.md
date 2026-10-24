@@ -159,7 +159,7 @@ Twenty small blocks were imported into the corpus project (group `Verify` of PLC
 ## 2026-10-24 – Tag table flags in the two SimaticML styles; F-instructions (C04, B46)
 
 - A tag that is not accessible from HMI/OPC UA: VCI writes only `<ExternalAccessible>false</ExternalAccessible>` and leaves `ExternalVisible` and `ExternalWritable` out; an Openness export (`WithDefaults`) writes all three as false (C04 `tagtables/` and `simaticml/`, ServiceWord). So a missing `ExternalVisible`/`ExternalWritable` takes the value of `ExternalAccessible`, not true. Everything else reads the same in both styles.
-- MAX, MIN and LIMIT do not exist in F_LAD: TIA's SimaticML import does not find instructions of these names in a fail-safe block, while it finds Max in a standard block and Move in a fail-safe one (B46). An empty box cannot be imported in either format.
+- MAX, MIN and LIMIT do not exist in F_LAD: TIA's SimaticML import does not find instructions of these names in a fail-safe block, while it finds Max in a standard block and Move in a fail-safe one (B46). An empty box cannot be imported in either format: no part name tried (`???`, `EmptyBox`, `Box`) is an instruction, and an empty name is a schema error (sessions 5 and 6).
 
 ## 2026-10-24 – How LAD/FBD rungs fit together (interpretation, C16 and C18)
 
