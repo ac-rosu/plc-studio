@@ -13,11 +13,11 @@ import {
   loadCases,
 } from './corpus.ts';
 import { POLICY_EXPECTATIONS } from './gates.ts';
-import { corePrinter, projectChecker } from './core-adapters.ts';
+import { corePrinter, corpusProject, projectChecker } from './core-adapters.ts';
 import { renderReport } from './report.ts';
 import { gatesPassed, runGates } from './run.ts';
 import { tiaLocation } from './tia-location.ts';
-import { SourceText, parseTagTable } from '@plcstudio/core';
+import { SourceText, outline, parseTagTable } from '@plcstudio/core';
 
 const corpusRoot = fileURLToPath(new URL('../../../corpus', import.meta.url));
 const validate = new Ajv({ allErrors: true }).compile(schema);
@@ -29,12 +29,12 @@ describe('corpus', () => {
     expect(versions).toContain('V21');
   });
 
-  it('V21 has 100 cases: 43 clean, 14 analyzer, 43 broken', () => {
-    // 65 from the corpus build, 20 from verification batch 1, 13 from batch 2, C41, B46 (2026-10-24)
+  it('V21 has 101 cases: 44 clean, 14 analyzer, 43 broken', () => {
+    // 65 from the corpus build, 20 from verification batch 1, 13 from batch 2, C41, B46, C42 (2026-10-24)
     const v21 = all.filter((c) => c.version === 'V21');
     const count = (kind: string) => v21.filter((c) => c.expected.kind === kind).length;
     expect([v21.length, count('clean'), count('analyzer'), count('broken')]).toEqual([
-      100, 43, 14, 43,
+      101, 44, 14, 43,
     ]);
   });
 
@@ -189,5 +189,37 @@ describe('instructions unavailable in fail-safe blocks', () => {
         .map((d) => `${d.file.objectName}:${d.line} ${d.severity}`)
         .sort(),
     ).toEqual(['F_FC_V3_Limit:20 error', 'F_FC_V3_Max:20 error', 'F_FC_V3_Min:20 error']);
+  });
+});
+
+// An external source can hold several blocks (C42): TIA writes them one after another, with the
+// blocks a block depends on first. Each block counts, also when the documents of the same blocks
+// exist: the sources variant loads the source instead of them.
+describe('external sources with several blocks (C42)', () => {
+  const plc = assemblePlcs(all, 'source').find((p) => p.name === 'PLC_Main')!;
+  const { project } = corpusProject(plc, corpusRoot);
+
+  it.each([
+    ['Types_V4.udt', ['UDT_V4_Point', 'UDT_V4_Range']],
+    ['DBs_V4.db', ['DB_V4_Points', 'DB_V4_Ranges']],
+    ['FB_V4_Tally.scl', ['UDT_V4_Counter', 'FC_V4_Advance', 'FB_V4_Tally']],
+  ])('%s: every block is in the outline and the index, in file order', (name, blocks) => {
+    const file = [...project.files.values()].find((f) => f.path.endsWith(`/${name}`))!;
+    expect(file.parsed?.kind).toBe('blocks');
+    if (file.parsed?.kind !== 'blocks') return;
+    expect(outline(file.parsed).map((o) => o.name)).toEqual(blocks);
+    const indexed = project.index.blocks.filter((b) => b.file === file).map((b) => b.name);
+    expect(indexed).toEqual(blocks);
+  });
+
+  it('loads the sources instead of the documents of the same blocks', () => {
+    const v4 = plc.files.filter(
+      (f) => f.objectName.includes('_V4_') || f.objectName.endsWith('_V4'),
+    );
+    expect(v4.map((f) => `${f.variant}/${f.objectName}${f.extension}`).sort()).toEqual([
+      'source/DBs_V4.db',
+      'source/FB_V4_Tally.scl',
+      'source/Types_V4.udt',
+    ]);
   });
 });

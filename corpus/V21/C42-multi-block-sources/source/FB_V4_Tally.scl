@@ -1,0 +1,49 @@
+﻿TYPE "UDT_V4_Counter"
+VERSION : 0.1
+   STRUCT
+      Count : Int;   // Number of calls
+      Ok : Bool;   // The last call ended without error
+   END_STRUCT;
+
+END_TYPE
+
+FUNCTION "FC_V4_Advance" : Void
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_IN_OUT 
+      Tally : "UDT_V4_Counter";   // Tally to advance
+   END_VAR
+
+
+BEGIN
+	
+	    #Tally.Count := #Tally.Count + 1;
+	    #Tally.Ok := #Tally.Count > 0;
+	
+END_FUNCTION
+
+FUNCTION_BLOCK "FB_V4_Tally"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+   VAR_INPUT 
+      Execute : Bool;   // Count on every call while true
+   END_VAR
+
+   VAR_OUTPUT 
+      Count : Int;   // Calls counted
+   END_VAR
+
+   VAR 
+      Tally : "UDT_V4_Counter";   // Internal tally
+   END_VAR
+
+
+BEGIN
+	
+	    IF #Execute THEN
+	        "FC_V4_Advance"(Tally := #Tally);
+	    END_IF;
+	    #Count := #Tally.Count;
+	
+END_FUNCTION_BLOCK
+

@@ -201,3 +201,11 @@ Every surprise, refusal and crash, in order.
 - Same headless instance, `project_open` PlcStudioCorpus_V21.
 - `plc_import_block` of a LAD FC (group Verify4) whose only network wires the power rail to the `en` of one part, every import refused (nothing created): the part names `EmptyBox` and `Box` are unknown instructions ("An instruction with the name ... cannot be found"); an empty name breaks the schema (minimum length 1). The first attempt also showed that a SimaticML block needs `<Namespace />` in its attribute list.
 - `project_close` closed the project without saving (no unsaved changes, since every import was rolled back).
+
+## Session 7 – 2026-10-24 (external sources with several blocks, C42)
+
+- `tia_connect` (new headless instance, pid 9592), `project_open` PlcStudioCorpus_V21.
+- `plc_import_type` (source) created UDT_V4_Point, UDT_V4_Range and UDT_V4_Counter in type group Verify4; `plc_generate_from_scl` created DB_V4_Points and DB_V4_Ranges in block group Verify4. A first try named a member `Counter`: refused ("The specified value "Counter" is invalid"), a reserved word; renamed to `Tally`.
+- The FC and FB generated from SCL whose body was indented with tabs came back with that indentation (a tab and a space before each statement in the source, nine spaces in SIMATIC SD), not TIA's usual layout, so they were not used. FC_V4_Advance and FB_V4_Tally were imported instead with `plc_import_documents` in the layout TIA writes; replacing or deleting the first pair was refused by the server, because the uncompiled F-block B23 cannot be checked for uses. Compiled: the Verify4 objects without messages other than success; the 28 errors are the corpus's broken blocks; collective F-signature 0xE8DB8BC0 unchanged.
+- `om_invoke PlcExternalSourceSystemGroup.GenerateSource` into `C:/TiaProjects/CorpusExport/plcstudio-batch4/`: Types_V4.udt (both types, option None), DBs_V4.db (both DBs, None), FB_V4_Tally.scl (FB_V4_Tally, WithDependencies). `PlcBlock.Export` / `PlcType.Export` (WithDefaults) wrote the SimaticML. `PlcBlock.ExportAsDocuments` could not be used: the server passes the file name as a path and TIA refuses it ("The file name is missing or contains invalid characters"), so `documents/` holds the export tool's text with each file's final CRLF restored (compared with C16 FC_LadContacts).
+- The project was **not saved**.

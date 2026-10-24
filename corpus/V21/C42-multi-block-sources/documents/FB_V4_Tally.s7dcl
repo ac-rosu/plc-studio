@@ -1,0 +1,29 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION_BLOCK "FB_V4_Tally"
+    VAR_INPUT
+        { S7_MLC := "MLC_T1" }
+        Execute : Bool;
+    END_VAR
+    VAR_OUTPUT
+        { S7_MLC := "MLC_T2" }
+        Count : Int;
+    END_VAR
+    VAR
+        { S7_MLC := "MLC_T3" }
+        Tally : _.UDT_V4_Counter;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            IF #Execute THEN
+                "FC_V4_Advance"(Tally := #Tally);
+            END_IF;
+            #Count := #Tally.Count;
+        
+    END_NETWORK
+END_FUNCTION_BLOCK

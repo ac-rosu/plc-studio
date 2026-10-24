@@ -1,0 +1,19 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_V4_Advance" : Void
+    VAR_IN_OUT
+        { S7_MLC := "MLC_A1" }
+        Tally : _.UDT_V4_Counter;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            #Tally.Count := #Tally.Count + 1;
+            #Tally.Ok := #Tally.Count > 0;
+        
+    END_NETWORK
+END_FUNCTION

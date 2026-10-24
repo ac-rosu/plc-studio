@@ -289,6 +289,34 @@ Open questions of M5, answered with the recommended option:
 - [x] Graph webview with filters by OB, unit and instance.
   Verify: the generated 5,000-block PLC renders and stays interactive.
 
+## M13 – Owner feedback after the run (2026-10-24)
+
+**Delivers (owner):** external sources with several blocks per file, every block of a file in the table editors, PLC files opening in the view that fits their content, SCL kept out of the LAD/FBD view, a demo like the owner's workflow (external sources; SIMATIC SD for LAD/FBD).
+
+- [x] **M13.1 Several blocks in one external source**: corpus case from TIA (GenerateSource with several types, several DBs, and a block with its dependencies); the harness maps a source file to every block in it.
+  Verify: round trip byte-identical, zero false errors in every PLC variant, every block of the files indexed.
+  Done: corpus case C42 (session 7); round trip 489/489, zero false errors in every variant; corpus tests check the outline and the index of each file and that the sources replace the documents of their blocks.
+- [ ] **M13.2 Table editors show every block of a file**, one after another with a heading each; edits name their block.
+  Verify: model tests on the new case, golden diffs for edits in a later block, browser tests with the accessibility audit.
+- [ ] **M13.3 Opening by content**: one default editor for `.s7dcl`, `.db` and `.udt` that opens LAD/FBD blocks in the LAD/FBD view, data blocks in the data block editor, PLC data types in the type table, and SCL blocks and mixed files in the text editor; a setting turns it off.
+  Verify: classification tests on the corpus; an integration test opens each kind and checks which editor is active.
+- [ ] **M13.4 SCL networks in LAD/FBD blocks**: a preview with "Edit in SCL editor", which opens the text at that network.
+  Verify: browser test; integration test.
+- [ ] **M13.5 Demo like the owner's workflow**: external sources for SCL blocks, DBs and UDTs, SIMATIC SD for LAD/FBD blocks.
+  Verify: the demo over LSP shows only the showcase errors.
+
+## M14 – SimaticML blocks, read only (owner, 2026-10-24)
+
+**Delivers (owner):** SimaticML exports shown by content, read only: DBs and UDTs as tables, LAD/FBD blocks in the LAD/FBD view, SCL blocks as text rebuilt from the XML. TIA V20 and V21; later versions through profile data. No checking of XML (zero false errors needs TIA evidence per format).
+
+- [ ] **M14.1 ADR** for SimaticML blocks (ADR 0002 keeps XML to tag tables).
+- [ ] **M14.2 Interface and DB/UDT tables from SimaticML.**
+- [ ] **M14.3 LAD/FBD from SimaticML** (parts and wires to the ladder layout).
+  Verify: every LAD/FBD corpus block gives the same view model from SIMATIC SD and from SimaticML.
+- [ ] **M14.4 SCL from SimaticML** (structured text tokens back to text).
+  Verify: the rebuilt text of every SCL corpus block matches its external source, comments and layout aside.
+- [ ] **M14.5 V20 SimaticML** from a V20 corpus project.
+
 ## Later (not planned in detail)
 
 TIA V20 (compare a small V20 export with the V21 findings first; it may need no profile of its own); GRAPH; the ISA-88/PackML rule pack; TypeScript rule plugins (trusted workspaces only); the browser release; a CLI with SARIF output.

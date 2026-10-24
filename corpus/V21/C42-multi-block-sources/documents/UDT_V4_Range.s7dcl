@@ -1,0 +1,8 @@
+TYPE
+    UDT_V4_Range : STRUCT
+        { S7_MLC := "MLC_34q" }
+        Low : Int := 0;
+        { S7_MLC := "MLC_3NX" }
+        High : Int := 100;
+    END_STRUCT;
+END_TYPE

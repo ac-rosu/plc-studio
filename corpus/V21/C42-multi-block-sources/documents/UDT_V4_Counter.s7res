@@ -1,0 +1,5 @@
+MultiLingualTexts:
+  - id: MLC_3VW
+    en-US: Number of calls
+  - id: MLC_kv
+    en-US: The last call ended without error

@@ -1,0 +1,19 @@
+{
+    S7_Optimized := "TRUE";
+    S7_StandardRetain := "FALSE";
+    S7_Version := "0.1"
+}
+DATA_BLOCK DB_V4_Ranges
+    VAR
+        { S7_MLC := "MLC_4Yp" }
+        Speed : _.UDT_V4_Range;
+        { S7_MLC := "MLC_4LY" }
+        Level : _.UDT_V4_Range;
+        { S7_MLC := "MLC_4YR" }
+        Enabled : Bool;
+    END_VAR
+
+        Level.High := 80;
+    Enabled := TRUE;
+
+END_DATA_BLOCK

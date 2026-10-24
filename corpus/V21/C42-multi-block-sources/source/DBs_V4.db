@@ -1,0 +1,33 @@
+﻿DATA_BLOCK "DB_V4_Points"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+NON_RETAIN
+   VAR 
+      Origin : "UDT_V4_Point";   // Reference point
+      Path : Array[0..2] of "UDT_V4_Point";   // Points to visit
+   END_VAR
+
+
+BEGIN
+   Path[1].X := 10.0;
+   Path[1].Y := 5.0;
+
+END_DATA_BLOCK
+
+DATA_BLOCK "DB_V4_Ranges"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+NON_RETAIN
+   VAR 
+      Speed : "UDT_V4_Range";   // Allowed speed
+      Level : "UDT_V4_Range";   // Allowed level
+      Enabled : Bool;   // Limits are checked
+   END_VAR
+
+
+BEGIN
+   Level.High := 80;
+   Enabled := TRUE;
+
+END_DATA_BLOCK
+

@@ -2,6 +2,7 @@
 // them: one file per object, in one exporter's format.
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import path from 'node:path';
+import { SourceText, parseBlockText } from '@plcstudio/core';
 import type { ExpectedCase } from './expected.ts';
 
 export type FileVariant = 'documents' | 'source' | 'simaticml' | 'vci-sd' | 'vci-ml' | 'tagtables';
@@ -132,6 +133,12 @@ export interface CorpusPlc {
 
 const fileName = (file: CorpusFile) => `${file.objectName}${file.extension}`;
 
+/** Names of the blocks and types an external source declares (one file can hold several, C42). */
+function blocksIn(file: CorpusFile): string[] {
+  const text = SourceText.fromBytes(new Uint8Array(readFileSync(file.absolutePath))).text;
+  return parseBlockText(text, 'source').blocks.map((b) => b.name.text);
+}
+
 function filesForVariant(corpusCase: CorpusCase, variant: PlcVariant): CorpusFile[] {
   const tagTables = corpusCase.files.filter(
     (f) => f.variant === 'tagtables' && f.extension === '.xml',
@@ -143,9 +150,10 @@ function filesForVariant(corpusCase: CorpusCase, variant: PlcVariant): CorpusFil
     case 'vci':
       return [...corpusCase.files.filter((f) => f.variant === 'vci-sd'), ...tagTables];
     case 'source': {
-      // External sources where TIA could write them; SIMATIC SD for the rest (LAD/FBD).
+      // External sources where TIA could write them; SIMATIC SD for the rest (LAD/FBD). A source
+      // stands in for the documents of every block it declares.
       const sources = corpusCase.files.filter((f) => f.variant === 'source');
-      const withSource = new Set(sources.map((f) => f.objectName));
+      const withSource = new Set(sources.flatMap(blocksIn));
       return [...sources, ...documents.filter((f) => !withSource.has(f.objectName)), ...tagTables];
     }
   }

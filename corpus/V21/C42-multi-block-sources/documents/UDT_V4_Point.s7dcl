@@ -1,0 +1,8 @@
+TYPE
+    UDT_V4_Point : STRUCT
+        { S7_MLC := "MLC_4Dw" }
+        X : Real;
+        { S7_MLC := "MLC_4fb" }
+        Y : Real;
+    END_STRUCT;
+END_TYPE

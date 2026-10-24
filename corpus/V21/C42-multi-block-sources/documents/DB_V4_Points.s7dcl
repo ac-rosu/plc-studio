@@ -1,0 +1,17 @@
+{
+    S7_Optimized := "TRUE";
+    S7_StandardRetain := "FALSE";
+    S7_Version := "0.1"
+}
+DATA_BLOCK DB_V4_Points
+    VAR
+        { S7_MLC := "MLC_3Jg" }
+        Origin : _.UDT_V4_Point;
+        { S7_MLC := "MLC_4C8" }
+        Path : Array[0..2] of _.UDT_V4_Point;
+    END_VAR
+
+        Path[1].X := 10.0;
+        Path[1].Y := 5.0;
+
+END_DATA_BLOCK

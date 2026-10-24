@@ -1,0 +1,18 @@
+﻿TYPE "UDT_V4_Point"
+VERSION : 0.1
+   STRUCT
+      X : Real;   // Horizontal position
+      Y : Real;   // Vertical position
+   END_STRUCT;
+
+END_TYPE
+
+TYPE "UDT_V4_Range"
+VERSION : 0.1
+   STRUCT
+      Low : Int := 0;   // Lower limit
+      High : Int := 100;   // Upper limit
+   END_STRUCT;
+
+END_TYPE
+

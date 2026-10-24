@@ -1,0 +1,8 @@
+TYPE
+    UDT_V4_Counter : STRUCT
+        { S7_MLC := "MLC_3VW" }
+        Count : Int;
+        { S7_MLC := "MLC_kv" }
+        Ok : Bool;
+    END_STRUCT;
+END_TYPE

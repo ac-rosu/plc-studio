@@ -161,6 +161,14 @@ Twenty small blocks were imported into the corpus project (group `Verify` of PLC
 - A tag that is not accessible from HMI/OPC UA: VCI writes only `<ExternalAccessible>false</ExternalAccessible>` and leaves `ExternalVisible` and `ExternalWritable` out; an Openness export (`WithDefaults`) writes all three as false (C04 `tagtables/` and `simaticml/`, ServiceWord). So a missing `ExternalVisible`/`ExternalWritable` takes the value of `ExternalAccessible`, not true. Everything else reads the same in both styles.
 - MAX, MIN and LIMIT do not exist in F_LAD: TIA's SimaticML import does not find instructions of these names in a fail-safe block, while it finds Max in a standard block and Move in a fail-safe one (B46). An empty box cannot be imported in either format: no part name tried (`???`, `EmptyBox`, `Box`) is an instruction, and an empty name is a schema error (sessions 5 and 6).
 
+## 2026-10-24 – External sources with several blocks (C42)
+
+- GenerateSource writes several blocks into one file when asked to: one block after another, each followed by one empty line (a `.udt` with two types, a `.db` with two DBs). The file ends with CRLF CRLF, as a single-block source does.
+- With the option WithDependencies, the file starts with the blocks the given block depends on: for an FB that uses a PLC data type and calls an FC, TIA writes the type, the FC, then the FB.
+- A value declared on a global DB member (`Enabled : Bool := TRUE;` in the SCL that created the DB) comes back as a start value: the declaration has no value, and `Enabled := TRUE;` follows `BEGIN`. In SIMATIC SD the start values of DB_V4_Ranges are indented differently: eight spaces before `Level.High := 80;`, four before `Enabled := TRUE;`.
+- SCL generated from a source keeps the indentation of that source (a tab before each statement came back as a tab and a space in the source, nine spaces in SIMATIC SD); TIA's own layout is four spaces per level, written after a tab in sources and after eight spaces in SIMATIC SD.
+- `Counter` is refused as a member name (a reserved word).
+
 ## 2026-10-24 – How LAD/FBD rungs fit together (interpretation, C16 and C18)
 
 - `wire#wN` on its own line inside a rung names the point after the element before it; `RUNG wire#wN` starts a branch there; `END_RUNG wire#wN` ends a branch by joining that point. A rung ending with a plain `END_RUNG` after a coil is an open branch. Evidence: `C16-lad-contacts/documents/FC_LadContacts.s7dcl` network 8 (two nested branches that join again at w1) and `C18-lad-open-branch/documents/FB_LadOpenBranch.s7dcl` networks 1 and 2 (three and two coils on open branches).

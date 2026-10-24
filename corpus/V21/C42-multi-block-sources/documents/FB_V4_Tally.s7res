@@ -1,0 +1,7 @@
+MultiLingualTexts:
+  - id: MLC_T1
+    en-US: Count on every call while true
+  - id: MLC_T2
+    en-US: Calls counted
+  - id: MLC_T3
+    en-US: Internal tally

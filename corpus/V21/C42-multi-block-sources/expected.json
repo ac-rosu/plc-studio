@@ -1,0 +1,181 @@
+{
+  "caseId": "C42",
+  "title": "External sources with several blocks per file",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "UDT_V4_Point",
+      "type": "UDT",
+      "number": null,
+      "language": null,
+      "unit": null,
+      "namespace": null,
+      "group": "Verify4",
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "UDT_V4_Range",
+      "type": "UDT",
+      "number": null,
+      "language": null,
+      "unit": null,
+      "namespace": null,
+      "group": "Verify4",
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "UDT_V4_Counter",
+      "type": "UDT",
+      "number": null,
+      "language": null,
+      "unit": null,
+      "namespace": null,
+      "group": "Verify4",
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "DB_V4_Points",
+      "type": "GlobalDB",
+      "number": 25,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify4",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "DB_V4_Ranges",
+      "type": "GlobalDB",
+      "number": 26,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify4",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "FC_V4_Advance",
+      "type": "FC",
+      "number": 24,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify4",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "FB_V4_Tally",
+      "type": "FB",
+      "number": 37,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify4",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/UDT_V4_Point.s7dcl",
+      "documents/UDT_V4_Point.s7res",
+      "documents/UDT_V4_Range.s7dcl",
+      "documents/UDT_V4_Range.s7res",
+      "documents/UDT_V4_Counter.s7dcl",
+      "documents/UDT_V4_Counter.s7res",
+      "documents/DB_V4_Points.s7dcl",
+      "documents/DB_V4_Points.s7res",
+      "documents/DB_V4_Ranges.s7dcl",
+      "documents/DB_V4_Ranges.s7res",
+      "documents/FC_V4_Advance.s7dcl",
+      "documents/FC_V4_Advance.s7res",
+      "documents/FB_V4_Tally.s7dcl",
+      "documents/FB_V4_Tally.s7res"
+    ],
+    "source": [
+      "source/Types_V4.udt",
+      "source/DBs_V4.db",
+      "source/FB_V4_Tally.scl"
+    ],
+    "simaticml": [
+      "simaticml/UDT_V4_Point.xml",
+      "simaticml/UDT_V4_Range.xml",
+      "simaticml/UDT_V4_Counter.xml",
+      "simaticml/DB_V4_Points.xml",
+      "simaticml/DB_V4_Ranges.xml",
+      "simaticml/FC_V4_Advance.xml",
+      "simaticml/FB_V4_Tally.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > PLC data types > Verify4 > UDT_V4_Point (UDT)",
+        "block": "UDT_V4_Point",
+        "line": null,
+        "network": null,
+        "description": "The data type was successfully updated."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > PLC data types > Verify4 > UDT_V4_Range (UDT)",
+        "block": "UDT_V4_Range",
+        "line": null,
+        "network": null,
+        "description": "The data type was successfully updated."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > PLC data types > Verify4 > UDT_V4_Counter (UDT)",
+        "block": "UDT_V4_Counter",
+        "line": null,
+        "network": null,
+        "description": "The data type was successfully updated."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Verify4 > FB_V4_Tally (FB37)",
+        "block": "FB_V4_Tally",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Verify4 > FC_V4_Advance (FC24)",
+        "block": "FC_V4_Advance",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "verification compile of PLC_Main, session 7, 2026-10-24 (corpus project not saved); DB_V4_Points and DB_V4_Ranges were compiled while their blocks were generated (\"Block was successfully compiled.\")"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "Added 2026-10-24 by PLC Studio (session 7, group Verify4) for external source files that hold several blocks. Types created with plc_import_type (source), DBs with plc_generate_from_scl, FC and FB with plc_import_documents in the SCL layout TIA writes (an earlier FC/FB pair generated from SCL indented with tabs kept that indentation and was not used), compiled, then written by TIA with PlcExternalSourceSystemGroup.GenerateSource: Types_V4.udt (UDT_V4_Point and UDT_V4_Range, option None), DBs_V4.db (DB_V4_Points and DB_V4_Ranges, option None) and FB_V4_Tally.scl (FB_V4_Tally with option WithDependencies: TIA writes UDT_V4_Counter, FC_V4_Advance, then FB_V4_Tally: dependencies first). The source files and the SimaticML (PlcBlock/PlcType.Export, WithDefaults) are TIA's files, copied byte for byte. documents/ holds the export tool's text with the final CRLF of each file restored (the tool output drops it; checked against C16). The corpus project was not saved."
+}
