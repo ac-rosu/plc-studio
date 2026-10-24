@@ -66,6 +66,12 @@
       "description": "SIMATIC SD keywords, attribute spellings and resource-file layout.",
       "type": "object"
     },
+    "statusInstructions": {
+      "description": "Instructions whose return value is a status or error code the caller should evaluate (analyzer rule status-not-evaluated).",
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
     "failsafe": {
       "description": "Fail-safe catalog: what F-blocks may declare, with the corpus cases that prove it.",
       "type": "object",

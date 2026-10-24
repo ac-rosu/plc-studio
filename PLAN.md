@@ -4,19 +4,19 @@ Milestones from [docs/SPEC.md](docs/SPEC.md), each broken into tasks with how ea
 
 Status: `[ ]` open · `[~]` partly done · `[x]` done · **(owner)** needs the owner
 
-State on 2026-10-24 (end of the autonomous run): M0–M12 done; only the owner's items are open (M9.4 name and icon, M9.5 publishing). Gates: round trip 466/466 files; zero false errors in every PLC and variant; error coverage PLC_Main 73/80 (SIMATIC SD; the 7 misses are B06, where a missing block is a warning by design), 71/80 (sources), PLC_1200 2/2; the recursion policy error found; 19/19 analyzer expectations found. Corpus: 98 V21 cases (two verification batches added 33). Tests: 223 unit, 608 corpus, 189 browser, 13 VS Code integration.
+State on 2026-10-24 (end of the autonomous run): M0–M12 done; only the owner's items are open (M9.4 name and icon, M9.5 publishing). Gates: round trip 467/467 files; zero false errors in every PLC and variant; error coverage PLC_Main 73/80 (SIMATIC SD; the 7 misses are B06, where a missing block is a warning by design), 71/80 (sources), PLC_1200 2/2; the recursion policy error found; 19/19 analyzer expectations found. Corpus: 99 V21 cases (verification sessions added 34). Tests: 223 unit, 611 corpus, 189 browser, 13 VS Code integration.
 
 ## Owner actions
 
 - [x] Node.js LTS on the development machine: v24.22.1 with npm 11.19.1, installed 2026-10-24 in `%LOCALAPPDATA%\Programs\nodejs` (user PATH).
 - [x] **(owner)** Repository https://github.com/ac-rosu/plc-studio, publisher `acro`.
 - [x] **(owner)** First push to GitHub: done in the autonomous run (2026-10-24).
-- [ ] **(owner)** New V21 corpus cases, needed before M1 can claim every construct (format-notes, 2026-10-24):
-  1. SCL: `FOR … BY`, `RETURN`, and `GOTO` with a jump label (one clean block, all exporters).
-  2. LAD: a negative edge coil (`N_Coil`); an empty box in LAD and in FBD (probably a broken case; the documents export works for inconsistent blocks).
-  3. Tag tables C04 exported through Openness (`Export`, `WithDefaults`) next to the VCI files, to have both SimaticML styles.
-  4. AT overlay: import a `.s7dcl` that declares `RawBytes AT RawWord : Array[0..1] of Byte;` (accepted or refused, with the message), and re-import the exported `FC_SclAtOverlay.s7dcl`, then export its source to see whether the overlay survived.
-  5. Errors the spec names without a case yet: an identifier with a space or a language-specific character (in `.s7dcl` and `.scl`); an F-instruction that is not allowed in an F-block.
+- [~] **(owner)** New V21 corpus cases, needed before M1 can claim every construct (format-notes, 2026-10-24). Most were built by Claude with the TIA MCP server in the two verification batches:
+  1. Done: `FOR … BY`, `RETURN` and `GOTO` with a jump label (C28).
+  2. Done: the negative edge coil `N_Coil` (batch 1). Open (owner): an empty box in LAD and in FBD; neither SIMATIC SD nor SimaticML has a documented way to create one, so it needs TIA's editor.
+  3. Done: a tag table exported through Openness (`Export`, `WithDefaults`), the SimaticML style with default attributes (C41); C04 has the VCI style.
+  4. Done: an AT overlay in `.s7dcl` is refused at import (batch 1, format-notes "SIMATIC SD export drops AT overlays").
+  5. Done: an identifier with a space compiles in TIA (C32; spec conflict recorded for the owner). Partly: an F-instruction that is not allowed in an F-block: TIA refused MAX with an unclear message and crashed on Limit (batch 2), so those stay warnings.
 - [ ] **(owner, optional)** Open corpus manual steps from `corpus/V21/_project/manual-steps.md`: OB40 priority (C15); B12/B16 case-only duplicates in TIA's editor.
 
 ## Rough size

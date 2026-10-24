@@ -17,6 +17,7 @@ import { corePrinter, projectChecker } from './core-adapters.ts';
 import { renderReport } from './report.ts';
 import { gatesPassed, runGates } from './run.ts';
 import { tiaLocation } from './tia-location.ts';
+import { SourceText, parseTagTable } from '@plcstudio/core';
 
 const corpusRoot = fileURLToPath(new URL('../../../corpus', import.meta.url));
 const validate = new Ajv({ allErrors: true }).compile(schema);
@@ -28,12 +29,12 @@ describe('corpus', () => {
     expect(versions).toContain('V21');
   });
 
-  it('V21 has 98 cases: 42 clean, 14 analyzer, 42 broken', () => {
-    // 65 from the corpus build, 20 from verification batch 1 and 13 from batch 2 (2026-10-24)
+  it('V21 has 99 cases: 43 clean, 14 analyzer, 42 broken', () => {
+    // 65 from the corpus build, 20 from verification batch 1, 13 from batch 2, C41 (2026-10-24)
     const v21 = all.filter((c) => c.version === 'V21');
     const count = (kind: string) => v21.filter((c) => c.expected.kind === kind).length;
     expect([v21.length, count('clean'), count('analyzer'), count('broken')]).toEqual([
-      98, 42, 14, 42,
+      99, 43, 14, 42,
     ]);
   });
 
@@ -119,5 +120,38 @@ describe('gates', () => {
       const floor = baseline['V21']?.[`${p.plc}/${p.variant}`] ?? 0;
       expect(p.coverage.matched, `${p.plc}/${p.variant}\n${report}`).toBeGreaterThanOrEqual(floor);
     }
+  });
+});
+
+// The two SimaticML styles of tag tables: VCI leaves default attributes out (C04), an Openness
+// export writes them (C41). Both must read the same way.
+describe('tag tables in both SimaticML styles', () => {
+  const table = (relative: string) =>
+    parseTagTable(
+      SourceText.fromBytes(new Uint8Array(readFileSync(`${corpusRoot}/V21/${relative}`))),
+    );
+
+  it('reads an Openness export with every default attribute written (C41)', () => {
+    const t = table('C41-tag-table-openness/tagtables/Tags_Openness.xml');
+    expect(
+      t.entries.map((e) => [
+        e.kind,
+        e.name,
+        e.dataType,
+        e.address ?? e.value,
+        e.accessible,
+        e.writable,
+      ]),
+    ).toEqual([
+      ['tag', 'OpnStart', 'Bool', '%I4.0', true, true],
+      ['tag', 'OpnFlow', 'Word', '%IW6', true, true],
+      ['tag', 'OpnLamp', 'Bool', '%Q4.0', true, true],
+      ['tag', 'OpnHelper', 'Bool', '%M20.0', true, true],
+      ['tag', 'OpnHidden', 'Int', '%MW22', true, false],
+      ['constant', 'OPN_LIMIT', 'Int', '250', true, true],
+    ]);
+    expect(t.entries[0]!.comments.get('en-US')?.text).toBe(
+      'Start input, exported through Openness',
+    );
   });
 });

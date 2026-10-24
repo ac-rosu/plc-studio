@@ -42,32 +42,6 @@ const TIMER_INSTRUCTIONS = new Set([
   'F_TRIG',
 ]);
 
-/** Instructions whose return value is a status or error code. */
-const STATUS_INSTRUCTIONS = new Set([
-  'RD_SYS_T',
-  'RD_LOC_T',
-  'WR_SYS_T',
-  'WR_LOC_T',
-  'SET_TIMEZONE',
-  'MOVE_BLK_VARIANT',
-  'SERIALIZE',
-  'DESERIALIZE',
-  'GET_DIAG',
-  'RDREC',
-  'WRREC',
-  'DEVICESTATES',
-  'MODULESTATES',
-  'LED',
-  'RTM',
-  'CREATE_DB',
-  'DELETE_DB',
-  'ATTR_DB',
-  'READ_DBL',
-  'WRIT_DBL',
-  'VARIANTGET',
-  'VARIANTPUT',
-]);
-
 /** FB outputs that report errors (PLCopen-style Error / Status / ErrorID, RET_VAL). */
 const STATUS_OUTPUT = /^(status|error|errorid|error_id|ret_val|retval)$/i;
 
@@ -431,7 +405,7 @@ export class SingleBlockRules {
     const statusCalls = this.ba.calls.filter(
       (c) =>
         c.kind === 'instruction' &&
-        STATUS_INSTRUCTIONS.has((c.instruction ?? c.calleeName).toUpperCase()),
+        this.ctx.project.profile.returnsStatus(c.instruction ?? c.calleeName),
     );
     if (statusCalls.length === 0) return;
     const at = new Map<number, Statement>();

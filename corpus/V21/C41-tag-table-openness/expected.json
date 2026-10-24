@@ -1,0 +1,37 @@
+{
+  "caseId": "C41",
+  "title": "Tag table exported through Openness (Export, WithDefaults)",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "Tags_Openness",
+      "type": "TagTable",
+      "language": null,
+      "unit": null,
+      "group": null,
+      "iecCheck": null,
+      "failsafe": false
+    }
+  ],
+  "exports": {
+    "tagtables": [
+      "tagtables/Tags_Openness.xml",
+      "tagtables/Tags_Openness.json"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [],
+    "sources": []
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "Added 2026-10-24 by PLC Studio (verification session 4): created with plc_upsert_tags, exported with om_invoke PlcTagTable.Export (ExportOptions WithDefaults) and copied byte for byte; the JSON is the plc_get_tag_table result. The SimaticML style of an Openness export writes the attributes at their default value (ExternalAccessible, ExternalVisible, ExternalWritable), which VCI leaves out (C04). Tag tables produce no compile messages. The corpus project was not saved."
+}

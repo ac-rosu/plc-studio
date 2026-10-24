@@ -177,3 +177,10 @@ Every surprise, refusal and crash, in order.
 - Final compile: 4 errors, 5 warnings, all from the consistency check: B45 (F_FC_V2_StdData under RTG2) and "not used in the safety program" for the C35/C36 blocks. The runtime groups are recorded in `_project/runtime-groups.json`.
 - `plc_export_block` format documents for all 22 blocks, format source for DB_V2_Array; every text matched the tool's totalLength.
 - The project was **not saved**; the file on disk is unchanged. The headless instance ended in the second crash.
+
+## Session 4 – 2026-10-24 (tag table exported through Openness)
+
+- `tia_connect` (new headless instance, pid 17340), `project_open` PlcStudioCorpus_V21.
+- `plc_upsert_tags` created the tag table Tags_Openness in PLC_Main (five tags, one user constant; OpnHidden with externalVisible and externalWritable false).
+- `om_invoke` PlcTagTable.Export with ExportOptions WithDefaults wrote `C:/TiaProjects/CorpusExport/plcstudio-batch3/Tags_Openness.xml`, copied byte for byte into C41 (with TIA's BOM); `plc_get_tag_table` gave the JSON next to it.
+- The project was **not saved**.

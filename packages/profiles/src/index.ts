@@ -109,6 +109,8 @@ export interface VersionProfile {
   systemTypes: SystemType[];
   instructions: Instruction[];
   ladderElements: LadderElement[];
+  /** Instructions whose return value is a status or error code. */
+  statusInstructions?: string[];
   failsafe?: FailsafeCatalog;
   systemConstants: object[];
 }
@@ -131,6 +133,7 @@ interface RawProfile {
   })[];
   instructions: (Omit<Instruction, 'parameters'> & { parameters: string[] })[];
   ladderElements: (Omit<LadderElement, 'parameters'> & { parameters: string[] })[];
+  statusInstructions?: string[];
   failsafe?: FailsafeCatalog;
   systemConstants: object[];
 }
@@ -212,6 +215,13 @@ export class ProfileIndex {
     const from = this.elementary(m[1]!);
     const to = this.elementary(m[2]!);
     return from && to ? { from, to } : undefined;
+  }
+
+  /** The instruction's return value is a status or error code (profile statusInstructions). */
+  returnsStatus(name: string): boolean {
+    return (this.profile.statusInstructions ?? []).some(
+      (n) => n.toUpperCase() === name.toUpperCase(),
+    );
   }
 
   allInstructions(): Instruction[] {

@@ -1751,6 +1751,30 @@
       "verification": { "verified": false }
     }
   ],
+  "statusInstructions": [
+    "RD_SYS_T",
+    "RD_LOC_T",
+    "WR_SYS_T",
+    "WR_LOC_T",
+    "SET_TIMEZONE",
+    "MOVE_BLK_VARIANT",
+    "SERIALIZE",
+    "DESERIALIZE",
+    "GET_DIAG",
+    "RDREC",
+    "WRREC",
+    "DEVICESTATES",
+    "MODULESTATES",
+    "LED",
+    "RTM",
+    "CREATE_DB",
+    "DELETE_DB",
+    "ATTR_DB",
+    "READ_DBL",
+    "WRIT_DBL",
+    "VARIANTGET",
+    "VARIANTPUT"
+  ],
   "failsafe": {
     "interfaceTypes": {
       "allowed": ["Bool", "Int", "DInt", "Word", "Time"],
