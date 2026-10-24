@@ -1,0 +1,50 @@
+{
+  "caseId": "C37",
+  "title": "LAD Convert box with source and destination type",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FC_V2_ConvertTyped",
+      "type": "FC",
+      "number": 34,
+      "language": "LAD",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify2",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FC_V2_ConvertTyped.s7dcl"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Verify2 > FC_V2_ConvertTyped (FC34)",
+        "block": "FC_V2_ConvertTyped",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "verification compile of PLC_Main, session 3, 2026-10-24 (corpus project not saved)"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "Added 2026-10-24 by PLC Studio (verification batch 2, group Verify2) to verify fail-safe and LAD rules against TIA V21; imported with plc_import_documents, compiled, exported with plc_export_block (documents, tool text without BOM). The corpus project was not saved. Imported as SimaticML with TemplateValue SrcType Int and DestType DInt, then exported as documents to learn how SIMATIC SD writes two template values."
+}

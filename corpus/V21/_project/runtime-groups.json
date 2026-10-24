@@ -1,0 +1,15 @@
+{
+  "$comment": "F-runtime groups of the corpus PLCs, from safety_get (RTG1, saved project) and the verification session of 2026-10-24 (RTG2, not saved). The exported files do not carry them.",
+  "PLC_Main": [
+    {
+      "name": "RTG1",
+      "mainSafetyBlock": "F_FB_MainSafety",
+      "mainSafetyInstanceDb": "F_IDB_MainSafety"
+    },
+    {
+      "name": "RTG2",
+      "mainSafetyBlock": "F_FC_V2_Main",
+      "mainSafetyInstanceDb": null
+    }
+  ]
+}

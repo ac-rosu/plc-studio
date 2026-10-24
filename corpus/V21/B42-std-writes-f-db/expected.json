@@ -1,0 +1,50 @@
+{
+  "caseId": "B42",
+  "title": "Standard block writing an F-DB member",
+  "kind": "broken",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FC_V2_WriteF",
+      "type": "FC",
+      "number": 35,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify2",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FC_V2_WriteF.s7dcl"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > FC_V2_WriteF (FC35) > 2",
+        "block": "FC_V2_WriteF",
+        "line": 2,
+        "network": null,
+        "description": "Fully qualified write access to F block \"F_DB_Settings\" from standard block FC_V2_WriteF."
+      }
+    ],
+    "sources": [
+      "verification compile of PLC_Main, session 3, 2026-10-24 (corpus project not saved)"
+    ]
+  },
+  "intendedError": "\"F_DB_Settings\".SetupMode := #Request; in a standard FC",
+  "analyzerExpect": [],
+  "notes": "Added 2026-10-24 by PLC Studio (verification batch 2, group Verify2) to verify fail-safe and LAD rules against TIA V21; imported with plc_import_documents, compiled, exported with plc_export_block (documents, tool text without BOM). The corpus project was not saved."
+}

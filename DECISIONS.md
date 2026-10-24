@@ -149,3 +149,12 @@ The spec asks that core and language-server pass their tests in a browser worker
 - References by symbol are updated in place of being rebuilt: only the lists of symbols the rebound blocks referenced before or reference now are rebuilt, in the order a fresh build gives (tag declaration first, then block order). A tag table change rebuilds them completely.
 - Suppression comments are scanned once per file version. The analyzer context builds its lookups per file and per owner when first asked, not for the whole PLC.
 - Proof: the tests compare every result after scripted edits (body, error, interface, type, tag table, rename, delete, add, manifest, rules) with a fresh analysis of the same texts, and fail when the declaration rule or the analyzer's lookup rule is switched off.
+
+## 2026-10-24 – Fail-safe rules from verification batch 2 (M7.6)
+
+- The fail-safe interface types moved from code into the profile's new `failsafe.interfaceTypes` (hard rule 6), proven by B23, B39 and C35. Before, twelve types were errors without a corpus case; now every refused type is proven, and a Struct (refused at import, message unclear) is a warning.
+- New error rules, each with corpus cases: `box-type-missing` (B40, B41), `failsafe-call` (B43, B44), `failsafe-standard-write` (B42), `failsafe-read-write` (B45). New warning: `failsafe-unused`.
+- The safety program is the set of F-blocks reachable from the main safety blocks, which only the new `mainSafetyBlocks` of `plc.json` can name. With them, `failsafe-read-write` is an error and F-blocks outside get `failsafe-unused`; without them the read/write rule is a warning on every F call tree and nothing is listed as unused (recommended option: no error that depends on a guess).
+- `failsafe-read-write` covers bit memory and members of standard DBs. Input and output tags are left out, because the files do not say which of them are fail-safe I/O. A struct whose members are read and written separately is not one operand.
+- MAX, MIN and Limit stay "not permitted in F" without proof (warnings): TIA refused MAX with an unclear message and crashed on Limit.
+- The `plc.json` schema now also lists `obs` and `failsafeBlocks`, which the code read but the schema rejected (VS Code flagged them), and the new `mainSafetyBlocks`.

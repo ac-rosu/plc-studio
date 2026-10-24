@@ -230,8 +230,8 @@ Open questions of M5, answered with the recommended option:
 - [x] **M7.3 Data block editor**, with instance DBs read-only except for what TIA lets the user change.
 - [x] **M7.4 Translation table.**
 - [x] **M7.5 F-block detection** from `S7_Safety`. Blocks that cannot be classified (for example the `.db` source of an F-DB) count as standard, with an info.
-- [~] **M7.6 F-validation** from the profile's F-catalog.
-  Verify: B23 reports an error; C24 reports none. Status: done for interface types (B23, C24); rules for access between the safety program and the standard program, and F-instructions outside the F-catalog, wait for corpus cases.
+- [x] **M7.6 F-validation** from the profile's F-catalog.
+  Verify: B23 reports an error; C24 reports none. Done: interface types from the profile (B23, B39, C35), box data types (B40, B41, C36, C37), calls across the boundary (B43, B44), standard writes to F-DBs (B42, C38), standard data read and written in the safety program (B45, C39) and F-blocks outside it, with the main safety blocks from `plc.json`. MAX, MIN and Limit in F-blocks stay warnings (TIA refused or crashed, no clear verdict).
 - [x] **M7.7 Fail-safe marking and save warning**: banner in every editor, highlighting in the explorer and call tree, non-modal warning on every save of an F-block.
   Verify for M7.2–M7.4: golden-diff tests for every edit operation. Table views also refresh when another file of their PLC changes (a UDT, the .s7res, the manifest); tested in VS Code.
 

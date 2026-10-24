@@ -1,0 +1,185 @@
+{
+  "caseId": "B40",
+  "title": "Fail-safe LAD boxes without a data type",
+  "kind": "broken",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "F_FC_V2_IMath",
+      "type": "FC",
+      "number": 27,
+      "language": "F_LAD",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify2",
+      "iecCheck": false,
+      "failsafe": true,
+      "consistent": false
+    },
+    {
+      "name": "F_FC_V2_IConvert",
+      "type": "FC",
+      "number": 28,
+      "language": "F_LAD",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify2",
+      "iecCheck": false,
+      "failsafe": true,
+      "consistent": false
+    },
+    {
+      "name": "F_FC_V2_IMod",
+      "type": "FC",
+      "number": 29,
+      "language": "F_LAD",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify2",
+      "iecCheck": false,
+      "failsafe": true,
+      "consistent": false
+    },
+    {
+      "name": "F_FC_V2_ISel",
+      "type": "FC",
+      "number": 30,
+      "language": "F_LAD",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify2",
+      "iecCheck": false,
+      "failsafe": true,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/F_FC_V2_IMath.s7dcl",
+      "documents/F_FC_V2_IConvert.s7dcl",
+      "documents/F_FC_V2_IMod.s7dcl",
+      "documents/F_FC_V2_ISel.s7dcl"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 13,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_IMath (FC27) > Network 1",
+        "block": "F_FC_V2_IMath",
+        "line": null,
+        "network": 1,
+        "description": "The property 'IsAuto' is not supported for this instruction by the CPU used."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_IMath (FC27) > Network 2",
+        "block": "F_FC_V2_IMath",
+        "line": null,
+        "network": 2,
+        "description": "The property 'IsAuto' is not supported for this instruction by the CPU used."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_IMath (FC27) > Network 3",
+        "block": "F_FC_V2_IMath",
+        "line": null,
+        "network": 3,
+        "description": "The property 'IsAuto' is not supported for this instruction by the CPU used."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_IMath (FC27) > Network 4",
+        "block": "F_FC_V2_IMath",
+        "line": null,
+        "network": 4,
+        "description": "Please select a data type."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_IMath (FC27) > Network 4",
+        "block": "F_FC_V2_IMath",
+        "line": null,
+        "network": 4,
+        "description": "Please select a data type."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_IMath (FC27) > Network 5",
+        "block": "F_FC_V2_IMath",
+        "line": null,
+        "network": 5,
+        "description": "Please select a data type."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_IMath (FC27) > Network 5",
+        "block": "F_FC_V2_IMath",
+        "line": null,
+        "network": 5,
+        "description": "Please select a data type."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_IConvert (FC28) > Network 1",
+        "block": "F_FC_V2_IConvert",
+        "line": null,
+        "network": 1,
+        "description": "Please select a data type."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_IConvert (FC28) > Network 1",
+        "block": "F_FC_V2_IConvert",
+        "line": null,
+        "network": 1,
+        "description": "Please select a data type."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_IMod (FC29) > Network 1",
+        "block": "F_FC_V2_IMod",
+        "line": null,
+        "network": 1,
+        "description": "The property 'IsAuto' is not supported for this instruction by the CPU used."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_ISel (FC30) > Network 1",
+        "block": "F_FC_V2_ISel",
+        "line": null,
+        "network": 1,
+        "description": "Please select a data type."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_ISel (FC30) > Network 1",
+        "block": "F_FC_V2_ISel",
+        "line": null,
+        "network": 1,
+        "description": "Please select a data type."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_ISel (FC30) > Network 1",
+        "block": "F_FC_V2_ISel",
+        "line": null,
+        "network": 1,
+        "description": "Please select a data type."
+      }
+    ],
+    "sources": [
+      "verification compile of PLC_Main, session 3, 2026-10-24 (corpus project not saved)"
+    ]
+  },
+  "intendedError": "Sub, Mul, Div, Abs, Neg, Convert, Mod and Sel boxes without S7_Templates in F_LAD",
+  "analyzerExpect": [],
+  "notes": "Added 2026-10-24 by PLC Studio (verification batch 2, group Verify2) to verify fail-safe and LAD rules against TIA V21; imported with plc_import_documents, compiled, exported with plc_export_block (documents, tool text without BOM). The corpus project was not saved. In the export TIA writes { Type := \"\" } before Sub, Mul, Div and Mod (the boxes it reports as IsAuto), nothing before the others; the same boxes compile with an explicit type (C36)."
+}

@@ -1,0 +1,32 @@
+{
+    S7_Optimized := "TRUE";
+    S7_PreferredLanguage := "FBD";
+    S7_Safety := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "F_FC_V2_TypesOk" : Void
+    VAR_INPUT
+        InBool : Bool;
+        InInt : Int;
+        InDInt : DInt;
+        InWord : Word;
+        InTime : Time;
+    END_VAR
+    VAR_OUTPUT
+        OutBool : Bool;
+        OutInt : Int;
+        OutDInt : DInt;
+        OutWord : Word;
+        OutTime : Time;
+    END_VAR
+    VAR_TEMP
+        TempInt : Int;
+    END_VAR
+
+    { S7_Language := "FBD" }
+    NETWORK
+        RUNG #InBool
+            Coil( #OutBool )
+        END_RUNG
+    END_NETWORK
+END_FUNCTION

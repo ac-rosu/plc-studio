@@ -81,9 +81,24 @@ export interface LadderElement {
   symbol?: string;
   parameters: Parameter[];
   template?: string;
+  /** The box needs an explicit data type: in every block, or only in fail-safe blocks. */
+  typeRequired?: 'always' | 'failsafe';
   failsafeAllowed?: boolean;
+  /** Corpus cases that prove failsafeAllowed; without them the flag only gives warnings. */
+  failsafeVerification?: Verification;
   description?: string;
   verification: Verification;
+}
+
+/** What F-blocks may declare in their interface. */
+export interface FailsafeCatalog {
+  interfaceTypes: {
+    allowed: string[];
+    forbidden: string[];
+    arrays: 'allowed' | 'forbidden';
+    plcDataTypes: 'allowed' | 'forbidden';
+    verification: Verification;
+  };
 }
 
 export interface VersionProfile {
@@ -94,6 +109,7 @@ export interface VersionProfile {
   systemTypes: SystemType[];
   instructions: Instruction[];
   ladderElements: LadderElement[];
+  failsafe?: FailsafeCatalog;
   systemConstants: object[];
 }
 
@@ -115,6 +131,7 @@ interface RawProfile {
   })[];
   instructions: (Omit<Instruction, 'parameters'> & { parameters: string[] })[];
   ladderElements: (Omit<LadderElement, 'parameters'> & { parameters: string[] })[];
+  failsafe?: FailsafeCatalog;
   systemConstants: object[];
 }
 

@@ -1,0 +1,50 @@
+{
+  "caseId": "C39",
+  "title": "Safety program reading some standard data and writing other standard data",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "F_FC_V2_StdOk",
+      "type": "FC",
+      "number": 16,
+      "language": "F_LAD",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify2",
+      "iecCheck": false,
+      "failsafe": true,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/F_FC_V2_StdOk.s7dcl"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_StdOk (FC16)",
+        "block": "F_FC_V2_StdOk",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "verification compile of PLC_Main, session 3, 2026-10-24 (corpus project not saved)"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "Added 2026-10-24 by PLC Studio (verification batch 2, group Verify2) to verify fail-safe and LAD rules against TIA V21; imported with plc_import_documents, compiled, exported with plc_export_block (documents, tool text without BOM). The corpus project was not saved. Called from F_FC_V2_Main, the main safety block of F-runtime group RTG2 (B45). Standard inputs are only read and bit memory and outputs only written, so the consistency check of RTG2 reports nothing for this block."
+}

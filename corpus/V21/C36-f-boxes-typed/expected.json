@@ -1,0 +1,116 @@
+{
+  "caseId": "C36",
+  "title": "Fail-safe LAD boxes with an explicit data type",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "F_FC_V2_IMove",
+      "type": "FC",
+      "number": 26,
+      "language": "F_LAD",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify2",
+      "iecCheck": false,
+      "failsafe": true,
+      "consistent": true
+    },
+    {
+      "name": "F_FC_V2_IMathTyped",
+      "type": "FC",
+      "number": 31,
+      "language": "F_LAD",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify2",
+      "iecCheck": false,
+      "failsafe": true,
+      "consistent": true
+    },
+    {
+      "name": "F_FC_V2_IConvertTyped",
+      "type": "FC",
+      "number": 32,
+      "language": "F_LAD",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify2",
+      "iecCheck": false,
+      "failsafe": true,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/F_FC_V2_IMove.s7dcl",
+      "documents/F_FC_V2_IMathTyped.s7dcl",
+      "documents/F_FC_V2_IConvertTyped.s7dcl"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Warning",
+    "errors": 0,
+    "warnings": 3,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_IMove (FC26)",
+        "block": "F_FC_V2_IMove",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_IMathTyped (FC31)",
+        "block": "F_FC_V2_IMathTyped",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_IConvertTyped (FC32)",
+        "block": "F_FC_V2_IConvertTyped",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      },
+      {
+        "severity": "Warning",
+        "path": "PLC_Main > Consistency check",
+        "block": "F_FC_V2_IMove",
+        "line": null,
+        "network": null,
+        "description": "F-block 'F_FC_V2_IMove' is not used in the safety program. If the F-block is no longer required, you should remove it from the program blocks folder of the F-CPU."
+      },
+      {
+        "severity": "Warning",
+        "path": "PLC_Main > Consistency check",
+        "block": "F_FC_V2_IMathTyped",
+        "line": null,
+        "network": null,
+        "description": "F-block 'F_FC_V2_IMathTyped' is not used in the safety program. If the F-block is no longer required, you should remove it from the program blocks folder of the F-CPU."
+      },
+      {
+        "severity": "Warning",
+        "path": "PLC_Main > Consistency check",
+        "block": "F_FC_V2_IConvertTyped",
+        "line": null,
+        "network": null,
+        "description": "F-block 'F_FC_V2_IConvertTyped' is not used in the safety program. If the F-block is no longer required, you should remove it from the program blocks folder of the F-CPU."
+      }
+    ],
+    "sources": [
+      "verification compile of PLC_Main, session 3, 2026-10-24 (corpus project not saved)"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "Added 2026-10-24 by PLC Studio (verification batch 2, group Verify2) to verify fail-safe and LAD rules against TIA V21; imported with plc_import_documents, compiled, exported with plc_export_block (documents, tool text without BOM). The corpus project was not saved. Move, Sub, Mul, Div, Abs, Neg, Mod, Sel and Convert compile in F_LAD when the box has a data type (compare B40). Two template values are written as \"[SrcType := Int, DestType := DInt]\" in a multi-line attribute block."
+}

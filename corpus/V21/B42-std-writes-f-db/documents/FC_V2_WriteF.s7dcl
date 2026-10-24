@@ -1,0 +1,17 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_V2_WriteF" : Void
+    VAR_INPUT
+        Request : Bool;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            "F_DB_Settings".SetupMode := #Request;
+        
+    END_NETWORK
+END_FUNCTION

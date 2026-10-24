@@ -1,0 +1,87 @@
+{
+  "caseId": "C35",
+  "title": "Fail-safe interface with every permitted type and a PLC data type",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "F_FC_V2_TypesOk",
+      "type": "FC",
+      "number": 24,
+      "language": "F_FBD",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify2",
+      "iecCheck": false,
+      "failsafe": true,
+      "consistent": true
+    },
+    {
+      "name": "F_FC_V2_Udt",
+      "type": "FC",
+      "number": 25,
+      "language": "F_FBD",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify2",
+      "iecCheck": false,
+      "failsafe": true,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/F_FC_V2_TypesOk.s7dcl",
+      "documents/F_FC_V2_Udt.s7dcl"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Warning",
+    "errors": 0,
+    "warnings": 2,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_TypesOk (FC24)",
+        "block": "F_FC_V2_TypesOk",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_Udt (FC25)",
+        "block": "F_FC_V2_Udt",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      },
+      {
+        "severity": "Warning",
+        "path": "PLC_Main > Consistency check",
+        "block": "F_FC_V2_TypesOk",
+        "line": null,
+        "network": null,
+        "description": "F-block 'F_FC_V2_TypesOk' is not used in the safety program. If the F-block is no longer required, you should remove it from the program blocks folder of the F-CPU."
+      },
+      {
+        "severity": "Warning",
+        "path": "PLC_Main > Consistency check",
+        "block": "F_FC_V2_Udt",
+        "line": null,
+        "network": null,
+        "description": "F-block 'F_FC_V2_Udt' is not used in the safety program. If the F-block is no longer required, you should remove it from the program blocks folder of the F-CPU."
+      }
+    ],
+    "sources": [
+      "verification compile of PLC_Main, session 3, 2026-10-24 (corpus project not saved)"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "Added 2026-10-24 by PLC Studio (verification batch 2, group Verify2) to verify fail-safe and LAD rules against TIA V21; imported with plc_import_documents, compiled, exported with plc_export_block (documents, tool text without BOM). The corpus project was not saved. Bool, Int, DInt, Word and Time are the elementary types TIA accepts in the interface of an F-block (compare B39); a PLC data type (UDT_FSignals, C24) is accepted too."
+}

@@ -1,0 +1,71 @@
+{
+  "caseId": "C38",
+  "title": "Standard blocks reading an F-DB, and a standard helper FC",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FC_V2_ReadF",
+      "type": "FC",
+      "number": 36,
+      "language": "SCL",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify2",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "FC_V2_Helper",
+      "type": "FC",
+      "number": 38,
+      "language": "LAD",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify2",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FC_V2_ReadF.s7dcl",
+      "documents/FC_V2_Helper.s7dcl"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Verify2 > FC_V2_ReadF (FC36)",
+        "block": "FC_V2_ReadF",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Verify2 > FC_V2_Helper (FC38)",
+        "block": "FC_V2_Helper",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "verification compile of PLC_Main, session 3, 2026-10-24 (corpus project not saved)"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "Added 2026-10-24 by PLC Studio (verification batch 2, group Verify2) to verify fail-safe and LAD rules against TIA V21; imported with plc_import_documents, compiled, exported with plc_export_block (documents, tool text without BOM). The corpus project was not saved. Reading F-DB members from a standard block is accepted (compare B42 for writing)."
+}

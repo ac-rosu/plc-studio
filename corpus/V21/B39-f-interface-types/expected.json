@@ -1,0 +1,178 @@
+{
+  "caseId": "B39",
+  "title": "Fail-safe interface with types TIA does not permit",
+  "kind": "broken",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "F_FC_V2_Types",
+      "type": "FC",
+      "number": 23,
+      "language": "F_FBD",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify2",
+      "iecCheck": false,
+      "failsafe": true,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/F_FC_V2_Types.s7dcl"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 17,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_Types (FC23) > Interface",
+        "block": "F_FC_V2_Types",
+        "line": null,
+        "network": null,
+        "description": "The type DWord is not permitted in the fail-safe block interface."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_Types (FC23) > Interface",
+        "block": "F_FC_V2_Types",
+        "line": null,
+        "network": null,
+        "description": "The type Byte is not permitted in the fail-safe block interface."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_Types (FC23) > Interface",
+        "block": "F_FC_V2_Types",
+        "line": null,
+        "network": null,
+        "description": "The type SInt is not permitted in the fail-safe block interface."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_Types (FC23) > Interface",
+        "block": "F_FC_V2_Types",
+        "line": null,
+        "network": null,
+        "description": "The type USInt is not permitted in the fail-safe block interface."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_Types (FC23) > Interface",
+        "block": "F_FC_V2_Types",
+        "line": null,
+        "network": null,
+        "description": "The type UInt is not permitted in the fail-safe block interface."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_Types (FC23) > Interface",
+        "block": "F_FC_V2_Types",
+        "line": null,
+        "network": null,
+        "description": "The type UDInt is not permitted in the fail-safe block interface."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_Types (FC23) > Interface",
+        "block": "F_FC_V2_Types",
+        "line": null,
+        "network": null,
+        "description": "The type LInt is not permitted in the fail-safe block interface."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_Types (FC23) > Interface",
+        "block": "F_FC_V2_Types",
+        "line": null,
+        "network": null,
+        "description": "The type LWord is not permitted in the fail-safe block interface."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_Types (FC23) > Interface",
+        "block": "F_FC_V2_Types",
+        "line": null,
+        "network": null,
+        "description": "The type LReal is not permitted in the fail-safe block interface."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_Types (FC23) > Interface",
+        "block": "F_FC_V2_Types",
+        "line": null,
+        "network": null,
+        "description": "The type LTime is not permitted in the fail-safe block interface."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_Types (FC23) > Interface",
+        "block": "F_FC_V2_Types",
+        "line": null,
+        "network": null,
+        "description": "The type Char is not permitted in the fail-safe block interface."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_Types (FC23) > Interface",
+        "block": "F_FC_V2_Types",
+        "line": null,
+        "network": null,
+        "description": "The type WChar is not permitted in the fail-safe block interface."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_Types (FC23) > Interface",
+        "block": "F_FC_V2_Types",
+        "line": null,
+        "network": null,
+        "description": "The type String is not permitted in the fail-safe block interface."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_Types (FC23) > Interface",
+        "block": "F_FC_V2_Types",
+        "line": null,
+        "network": null,
+        "description": "The type Date is not permitted in the fail-safe block interface."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_Types (FC23) > Interface",
+        "block": "F_FC_V2_Types",
+        "line": null,
+        "network": null,
+        "description": "The type Time_Of_Day is not permitted in the fail-safe block interface."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_Types (FC23) > Interface",
+        "block": "F_FC_V2_Types",
+        "line": null,
+        "network": null,
+        "description": "The type DTL is not permitted in the fail-safe block interface."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_Types (FC23) > Interface",
+        "block": "F_FC_V2_Types",
+        "line": null,
+        "network": null,
+        "description": "The type Array[0..1] of Bool is not permitted in the fail-safe block interface."
+      }
+    ],
+    "sources": [
+      "verification compile of PLC_Main, session 3, 2026-10-24 (corpus project not saved)"
+    ]
+  },
+  "intendedError": "interface members of 17 types in an F-FC",
+  "analyzerExpect": [],
+  "notes": "Added 2026-10-24 by PLC Studio (verification batch 2, group Verify2) to verify fail-safe and LAD rules against TIA V21; imported with plc_import_documents, compiled, exported with plc_export_block (documents, tool text without BOM). The corpus project was not saved. The import already reported the same 17 messages."
+}

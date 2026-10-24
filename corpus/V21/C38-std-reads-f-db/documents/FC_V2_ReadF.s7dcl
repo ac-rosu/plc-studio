@@ -1,0 +1,19 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_V2_ReadF" : Void
+    VAR_OUTPUT
+        Released : Bool;
+        GuardClosed : Bool;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            #Released := "F_DB_Settings".MachineReleased;
+            #GuardClosed := "F_DB_Settings".Signals.GuardClosed;
+        
+    END_NETWORK
+END_FUNCTION

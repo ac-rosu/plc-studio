@@ -1,0 +1,24 @@
+{
+    S7_Optimized := "TRUE";
+    S7_PreferredLanguage := "LAD";
+    S7_Safety := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "F_FC_V2_CallStd" : Void
+    VAR_INPUT
+        Request : Bool;
+    END_VAR
+    VAR_OUTPUT
+        Granted : Bool;
+    END_VAR
+
+    { S7_Language := "LAD" }
+    NETWORK
+        RUNG wire#powerrail
+            "FC_V2_Helper"(
+                Request := #Request,
+                Granted => #Granted
+            )
+        END_RUNG
+    END_NETWORK
+END_FUNCTION

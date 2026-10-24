@@ -1,0 +1,24 @@
+{
+    S7_Optimized := "TRUE";
+    S7_PreferredLanguage := "LAD";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_V2_Convert" : Void
+    VAR_INPUT
+        X1 : Int;
+    END_VAR
+    VAR_OUTPUT
+        Wide : DInt;
+    END_VAR
+
+    { S7_Language := "LAD" }
+    NETWORK
+        RUNG wire#powerrail
+            
+            Convert(
+                in := #X1,
+                out => #Wide
+            )
+        END_RUNG
+    END_NETWORK
+END_FUNCTION

@@ -1,0 +1,50 @@
+{
+  "caseId": "B44",
+  "title": "F-block calling a standard FC",
+  "kind": "broken",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "F_FC_V2_CallStd",
+      "type": "FC",
+      "number": 39,
+      "language": "F_LAD",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify2",
+      "iecCheck": false,
+      "failsafe": true,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/F_FC_V2_CallStd.s7dcl"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 1,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > F_FC_V2_CallStd (FC39) > Network 1",
+        "block": "F_FC_V2_CallStd",
+        "line": null,
+        "network": 1,
+        "description": "A fail-safe block cannot invoke standard blocks."
+      }
+    ],
+    "sources": [
+      "verification compile of PLC_Main, session 3, 2026-10-24 (corpus project not saved)"
+    ]
+  },
+  "intendedError": "\"FC_V2_Helper\"(...) called from an F-FC",
+  "analyzerExpect": [],
+  "notes": "Added 2026-10-24 by PLC Studio (verification batch 2, group Verify2) to verify fail-safe and LAD rules against TIA V21; imported with plc_import_documents, compiled, exported with plc_export_block (documents, tool text without BOM). The corpus project was not saved."
+}

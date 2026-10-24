@@ -67,8 +67,41 @@
       "type": "object"
     },
     "failsafe": {
-      "description": "Fail-safe catalog: permitted F-instructions, data types and access rules.",
-      "type": "object"
+      "description": "Fail-safe catalog: what F-blocks may declare, with the corpus cases that prove it.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "interfaceTypes": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["allowed", "forbidden", "arrays", "plcDataTypes", "verification"],
+          "properties": {
+            "allowed": {
+              "description": "Elementary types permitted in F-block interfaces.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "forbidden": {
+              "description": "Elementary types TIA refuses in F-block interfaces.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "arrays": {
+              "enum": ["allowed", "forbidden"]
+            },
+            "plcDataTypes": {
+              "enum": ["allowed", "forbidden"]
+            },
+            "verification": {
+              "$ref": "#/definitions/verification"
+            }
+          }
+        }
+      }
     },
     "cpuFamilies": {
       "description": "Differences between S7-1200 and S7-1500, including memory and addressing limits.",
@@ -341,8 +374,16 @@
           "description": "Template attribute that selects the data type (SrcType, time_type ...).",
           "type": "string"
         },
+        "typeRequired": {
+          "description": "When the box needs an explicit data type (S7_Templates): in every block, or only in fail-safe blocks, where TIA does not choose one automatically.",
+          "enum": ["always", "failsafe"]
+        },
         "failsafeAllowed": {
           "type": "boolean"
+        },
+        "failsafeVerification": {
+          "description": "Corpus cases that prove failsafeAllowed; without them the flag only gives warnings.",
+          "$ref": "#/definitions/verification"
         },
         "description": {
           "type": "string"

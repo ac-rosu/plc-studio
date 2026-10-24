@@ -1,0 +1,42 @@
+{
+    S7_Optimized := "TRUE";
+    S7_PreferredLanguage := "LAD";
+    S7_Safety := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "F_FC_V2_IConvertTyped" : Void
+    VAR_INPUT
+        X1 : Int;
+        X2 : Int;
+        G : Bool;
+    END_VAR
+    VAR_OUTPUT
+        Wide : DInt;
+        Y : Int;
+    END_VAR
+
+    { S7_Language := "LAD" }
+    NETWORK
+        RUNG wire#powerrail
+            {
+                S7_Templates := "[SrcType := Int, DestType := DInt]"
+            }
+            Convert(
+                in := #X1,
+                out => #Wide
+            )
+        END_RUNG
+    END_NETWORK
+    { S7_Language := "LAD" }
+    NETWORK
+        RUNG wire#powerrail
+            { S7_Templates := "SrcType := Int" }
+            Sel(
+                g := #G,
+                in0 := #X1,
+                in1 := #X2,
+                out => #Y
+            )
+        END_RUNG
+    END_NETWORK
+END_FUNCTION

@@ -1,0 +1,17 @@
+{
+    S7_EditorMode := "SCL";
+    S7_Optimized := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "FC_V2_CallF" : Void
+    VAR_OUTPUT
+        Release : Bool;
+    END_VAR
+
+    { S7_Language := "SCL" }
+    NETWORK
+        
+            "F_FC_Logic"(GuardClosed := TRUE, SetupMode := FALSE, EmergencyStopOk := TRUE, Release => #Release);
+        
+    END_NETWORK
+END_FUNCTION

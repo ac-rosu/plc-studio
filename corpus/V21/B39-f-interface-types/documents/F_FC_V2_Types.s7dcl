@@ -1,0 +1,42 @@
+{
+    S7_Optimized := "TRUE";
+    S7_PreferredLanguage := "FBD";
+    S7_Safety := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "F_FC_V2_Types" : Void
+    VAR_INPUT
+        InBool : Bool;
+        InInt : Int;
+        InDInt : DInt;
+        InWord : Word;
+        InDWord : DWord;
+        InTime : Time;
+        InByte : Byte;
+        InSInt : SInt;
+        InUSInt : USInt;
+        InUInt : UInt;
+        InUDInt : UDInt;
+        InLInt : LInt;
+        InLWord : LWord;
+        InLReal : LReal;
+        InLTime : LTime;
+        InChar : Char;
+        InWChar : WChar;
+        InString : String;
+        InDate : Date;
+        InTod : Time_Of_Day;
+        InDtl : DTL;
+        InBools : Array[0..1] of Bool;
+    END_VAR
+    VAR_OUTPUT
+        OutBool : Bool;
+    END_VAR
+
+    { S7_Language := "FBD" }
+    NETWORK
+        RUNG #InBool
+            Coil( #OutBool )
+        END_RUNG
+    END_NETWORK
+END_FUNCTION

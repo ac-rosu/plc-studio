@@ -30,6 +30,8 @@ export * from './services/editor.ts';
 export * from './ladder/index.ts';
 // Analyzer (M5) and call graph (M6). Importing register.ts adds their passes to analyzeProject.
 import './analyzer/register.ts';
+// Rules between the safety program and the standard program; registers its pass.
+export { failsafeDiagnostics } from './check/failsafe.ts';
 export { analyzerFindings } from './analyzer/register.ts';
 export * from './analyzer/config.ts';
 export { measureComplexity, type BlockFacts, type Finding } from './analyzer/single-block.ts';

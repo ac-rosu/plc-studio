@@ -28,12 +28,12 @@ describe('corpus', () => {
     expect(versions).toContain('V21');
   });
 
-  it('V21 has 85 cases: 36 clean, 14 analyzer, 35 broken', () => {
-    // 65 from the corpus build, 20 from the verification batch of 2026-10-24
+  it('V21 has 98 cases: 42 clean, 14 analyzer, 42 broken', () => {
+    // 65 from the corpus build, 20 from verification batch 1 and 13 from batch 2 (2026-10-24)
     const v21 = all.filter((c) => c.version === 'V21');
     const count = (kind: string) => v21.filter((c) => c.expected.kind === kind).length;
     expect([v21.length, count('clean'), count('analyzer'), count('broken')]).toEqual([
-      85, 36, 14, 35,
+      98, 42, 14, 42,
     ]);
   });
 

@@ -1518,6 +1518,7 @@
       "symbol": "MOVE",
       "parameters": ["in in: ANY", "out out1: ANY"],
       "failsafeAllowed": true,
+      "failsafeVerification": { "verified": true, "cases": ["C36"] },
       "description": "Copies the input to the outputs.",
       "verification": { "verified": true, "cases": ["C17", "C20"] }
     },
@@ -1539,9 +1540,11 @@
       "symbol": "SUB",
       "parameters": ["in in1: ANY_NUM", "in in2: ANY_NUM", "out out: ANY_NUM"],
       "template": "SrcType",
+      "typeRequired": "failsafe",
       "failsafeAllowed": true,
+      "failsafeVerification": { "verified": true, "cases": ["C36", "B40"] },
       "description": "Subtracts in2 from in1.",
-      "verification": { "verified": false }
+      "verification": { "verified": true, "cases": ["C36"] }
     },
     {
       "name": "Mul",
@@ -1550,9 +1553,11 @@
       "symbol": "MUL",
       "parameters": ["in in1: ANY_NUM", "in in2: ANY_NUM", "out out: ANY_NUM"],
       "template": "SrcType",
+      "typeRequired": "failsafe",
       "failsafeAllowed": true,
+      "failsafeVerification": { "verified": true, "cases": ["C36", "B40"] },
       "description": "Multiplies the inputs.",
-      "verification": { "verified": false }
+      "verification": { "verified": true, "cases": ["C36"] }
     },
     {
       "name": "Div",
@@ -1561,9 +1566,11 @@
       "symbol": "DIV",
       "parameters": ["in in1: ANY_NUM", "in in2: ANY_NUM", "out out: ANY_NUM"],
       "template": "SrcType",
+      "typeRequired": "failsafe",
       "failsafeAllowed": true,
+      "failsafeVerification": { "verified": true, "cases": ["C36", "B40"] },
       "description": "Divides in1 by in2.",
-      "verification": { "verified": false }
+      "verification": { "verified": true, "cases": ["C36"] }
     },
     {
       "name": "JumpCoil",
@@ -1644,7 +1651,132 @@
       "failsafeAllowed": true,
       "description": "True for one cycle when the incoming signal falls.",
       "verification": { "verified": false }
+    },
+    {
+      "name": "Abs",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": "ABS",
+      "parameters": ["in in: ANY_NUM", "out out: ANY_NUM"],
+      "template": "SrcType",
+      "typeRequired": "failsafe",
+      "failsafeAllowed": true,
+      "failsafeVerification": { "verified": true, "cases": ["C36", "B40"] },
+      "description": "Absolute value of the input.",
+      "verification": { "verified": true, "cases": ["C36"] }
+    },
+    {
+      "name": "Neg",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": "NEG",
+      "parameters": ["in in: ANY_NUM", "out out: ANY_NUM"],
+      "template": "SrcType",
+      "typeRequired": "failsafe",
+      "failsafeAllowed": true,
+      "failsafeVerification": { "verified": true, "cases": ["C36", "B40"] },
+      "description": "The input with its sign inverted.",
+      "verification": { "verified": true, "cases": ["C36"] }
+    },
+    {
+      "name": "Mod",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": "MOD",
+      "parameters": ["in in1: ANY_INT", "in in2: ANY_INT", "out out: ANY_INT"],
+      "template": "SrcType",
+      "typeRequired": "failsafe",
+      "failsafeAllowed": true,
+      "failsafeVerification": { "verified": true, "cases": ["C36", "B40"] },
+      "description": "Remainder of in1 divided by in2.",
+      "verification": { "verified": true, "cases": ["C36"] }
+    },
+    {
+      "name": "Sel",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": "SEL",
+      "parameters": ["in g: Bool", "in in0: ANY", "in in1: ANY", "out out: ANY"],
+      "template": "SrcType",
+      "typeRequired": "failsafe",
+      "failsafeAllowed": true,
+      "failsafeVerification": { "verified": true, "cases": ["C36", "B40"] },
+      "description": "Passes in0 while g is FALSE and in1 while g is TRUE.",
+      "verification": { "verified": true, "cases": ["C36"] }
+    },
+    {
+      "name": "Convert",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": "CONV",
+      "parameters": ["in in: ANY", "out out: ANY"],
+      "template": "SrcType, DestType",
+      "typeRequired": "always",
+      "failsafeAllowed": true,
+      "failsafeVerification": { "verified": true, "cases": ["C36", "B40"] },
+      "description": "Converts the input to the output's data type; both types must be chosen.",
+      "verification": { "verified": true, "cases": ["C36", "C37", "B41"] }
+    },
+    {
+      "name": "MAX",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": "MAX",
+      "parameters": ["in in1: ANY_NUM", "in in2: ANY_NUM", "out out: ANY_NUM"],
+      "template": "SrcType",
+      "failsafeAllowed": false,
+      "description": "The larger of the inputs.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "MIN",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": "MIN",
+      "parameters": ["in in1: ANY_NUM", "in in2: ANY_NUM", "out out: ANY_NUM"],
+      "template": "SrcType",
+      "failsafeAllowed": false,
+      "description": "The smaller of the inputs.",
+      "verification": { "verified": false }
+    },
+    {
+      "name": "Limit",
+      "languages": ["LAD", "FBD"],
+      "shape": "box",
+      "symbol": "LIMIT",
+      "parameters": ["in min: ANY_NUM", "in in: ANY_NUM", "in max: ANY_NUM", "out out: ANY_NUM"],
+      "template": "SrcType",
+      "failsafeAllowed": false,
+      "description": "The input kept between min and max.",
+      "verification": { "verified": false }
     }
   ],
+  "failsafe": {
+    "interfaceTypes": {
+      "allowed": ["Bool", "Int", "DInt", "Word", "Time"],
+      "forbidden": [
+        "Real",
+        "DWord",
+        "Byte",
+        "SInt",
+        "USInt",
+        "UInt",
+        "UDInt",
+        "LInt",
+        "LWord",
+        "LReal",
+        "LTime",
+        "Char",
+        "WChar",
+        "String",
+        "Date",
+        "Time_Of_Day",
+        "DTL"
+      ],
+      "arrays": "forbidden",
+      "plcDataTypes": "allowed",
+      "verification": { "verified": true, "cases": ["B23", "B39", "C35"] }
+    }
+  },
   "systemConstants": []
 }

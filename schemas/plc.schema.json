@@ -61,9 +61,54 @@
       "description": "Software units of this PLC.",
       "type": "array",
       "items": { "$ref": "#/definitions/unit" }
+    },
+    "obs": {
+      "description": "OB attributes the exported files do not carry, by OB name. Without them, a SimaticML export of the OB next to its .s7dcl is read.",
+      "type": "object",
+      "additionalProperties": { "$ref": "#/definitions/ob" }
+    },
+    "failsafeBlocks": {
+      "description": "Fail-safe blocks whose files cannot say so (external .db sources of F-DBs).",
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
+    },
+    "mainSafetyBlocks": {
+      "description": "Main safety block of each F-runtime group. With them, the rules about the safety program report errors and F-blocks outside it are listed; without them those rules only warn.",
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true
     }
   },
   "definitions": {
+    "ob": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "ProgramCycle",
+            "CyclicInterrupt",
+            "TimeOfDay",
+            "TimeDelay",
+            "HardwareInterrupt",
+            "Startup",
+            "DiagnosticError",
+            "TimeError",
+            "ProgrammingError",
+            "IOAccessError",
+            "Other"
+          ]
+        },
+        "number": { "type": "integer", "minimum": 1 },
+        "priority": { "type": "integer", "minimum": 1, "maximum": 26 },
+        "cycleTimeMs": {
+          "description": "Cycle of a cyclic interrupt OB.",
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
     "unit": {
       "type": "object",
       "additionalProperties": false,

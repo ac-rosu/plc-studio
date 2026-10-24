@@ -1,0 +1,87 @@
+{
+  "caseId": "B45",
+  "title": "Safety program reading and writing the same standard data",
+  "kind": "broken",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "F_FC_V2_StdData",
+      "type": "FC",
+      "number": 40,
+      "language": "F_LAD",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify2",
+      "iecCheck": false,
+      "failsafe": true,
+      "consistent": true
+    },
+    {
+      "name": "F_FC_V2_Main",
+      "type": "FC",
+      "number": 18,
+      "language": "F_LAD",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify2",
+      "iecCheck": false,
+      "failsafe": true,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/F_FC_V2_StdData.s7dcl",
+      "documents/F_FC_V2_Main.s7dcl"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 4,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Consistency check > RTG2 > F_FC_V2_StdData > Network: 1",
+        "block": "F_FC_V2_StdData",
+        "line": null,
+        "network": 1,
+        "description": "Read access to parameter '\"DB_Machine\".\"MachineOn\"' is invalid because it is also used for write access in the safety program. Data from standard user program may only be read or written."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Consistency check > RTG2 > F_FC_V2_StdData > Network: 2",
+        "block": "F_FC_V2_StdData",
+        "line": null,
+        "network": 2,
+        "description": "Write access to standard parameter '\"DB_Machine\".\"MachineOn\"' is invalid because there is also read access to this parameter in the safety program."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Consistency check > RTG2 > F_FC_V2_StdData > Network: 3",
+        "block": "F_FC_V2_StdData",
+        "line": null,
+        "network": 3,
+        "description": "Cannot read the '\"HelperBit\"' parameter because it is also used for writing in the safety program. Data from standard user program and bit memory may only be read or written."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Consistency check > RTG2 > F_FC_V2_StdData > Network: 4",
+        "block": "F_FC_V2_StdData",
+        "line": null,
+        "network": 4,
+        "description": "Cannot write to the '\"HelperBit\"' parameter because it is also used for read access in the safety program. Data from the standard user program and bit memory may only be read or written."
+      }
+    ],
+    "sources": [
+      "verification compile of PLC_Main, session 3, 2026-10-24 (corpus project not saved)"
+    ]
+  },
+  "intendedError": "\"DB_Machine\".MachineOn and \"HelperBit\" each read and written in the safety program",
+  "analyzerExpect": [],
+  "notes": "Added 2026-10-24 by PLC Studio (verification batch 2, group Verify2) to verify fail-safe and LAD rules against TIA V21; imported with plc_import_documents, compiled, exported with plc_export_block (documents, tool text without BOM). The corpus project was not saved. Both blocks compile on their own; the errors come from the consistency check of the safety program, for F-runtime group RTG2, created in the session with F_FC_V2_Main as main safety block (no parameters, calls F_FC_V2_StdData and F_FC_V2_StdOk of C39). Reading the standard input \"StartButton\" (network 5) gives no message. The runtime groups of PLC_Main are listed in _project/runtime-groups.json."
+}

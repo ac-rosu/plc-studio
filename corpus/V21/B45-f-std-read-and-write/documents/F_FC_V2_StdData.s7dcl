@@ -1,0 +1,52 @@
+{
+    S7_Optimized := "TRUE";
+    S7_PreferredLanguage := "LAD";
+    S7_Safety := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "F_FC_V2_StdData" : Void
+    VAR_INPUT
+        Request : Bool;
+    END_VAR
+    VAR_OUTPUT
+        FromDb : Bool;
+        FromTag : Bool;
+        FromInput : Bool;
+    END_VAR
+
+    { S7_Language := "LAD" }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( "DB_Machine".MachineOn )
+            Coil( #FromDb )
+        END_RUNG
+    END_NETWORK
+    { S7_Language := "LAD" }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( #Request )
+            Coil( "DB_Machine".MachineOn )
+        END_RUNG
+    END_NETWORK
+    { S7_Language := "LAD" }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( "HelperBit" )
+            Coil( #FromTag )
+        END_RUNG
+    END_NETWORK
+    { S7_Language := "LAD" }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( #Request )
+            Coil( "HelperBit" )
+        END_RUNG
+    END_NETWORK
+    { S7_Language := "LAD" }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( "StartButton" )
+            Coil( #FromInput )
+        END_RUNG
+    END_NETWORK
+END_FUNCTION

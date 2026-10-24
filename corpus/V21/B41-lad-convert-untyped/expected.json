@@ -1,0 +1,58 @@
+{
+  "caseId": "B41",
+  "title": "Standard LAD Convert box without data types",
+  "kind": "broken",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "FC_V2_Convert",
+      "type": "FC",
+      "number": 33,
+      "language": "LAD",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify2",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": false
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FC_V2_Convert.s7dcl"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Error",
+    "errors": 2,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > FC_V2_Convert (FC33) > Network 1",
+        "block": "FC_V2_Convert",
+        "line": null,
+        "network": 1,
+        "description": "Please select a data type."
+      },
+      {
+        "severity": "Error",
+        "path": "PLC_Main > Program blocks > Verify2 > FC_V2_Convert (FC33) > Network 1",
+        "block": "FC_V2_Convert",
+        "line": null,
+        "network": 1,
+        "description": "Please select a data type."
+      }
+    ],
+    "sources": [
+      "verification compile of PLC_Main, session 3, 2026-10-24 (corpus project not saved)"
+    ]
+  },
+  "intendedError": "Convert box without S7_Templates in a standard LAD block",
+  "analyzerExpect": [],
+  "notes": "Added 2026-10-24 by PLC Studio (verification batch 2, group Verify2) to verify fail-safe and LAD rules against TIA V21; imported with plc_import_documents, compiled, exported with plc_export_block (documents, tool text without BOM). The corpus project was not saved."
+}

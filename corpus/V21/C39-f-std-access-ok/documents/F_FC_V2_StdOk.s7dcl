@@ -1,0 +1,33 @@
+{
+    S7_Optimized := "TRUE";
+    S7_PreferredLanguage := "LAD";
+    S7_Safety := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "F_FC_V2_StdOk" : Void
+    VAR_OUTPUT
+        Level : Bool;
+    END_VAR
+
+    { S7_Language := "LAD" }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( "LevelHigh" )
+            Coil( #Level )
+        END_RUNG
+    END_NETWORK
+    { S7_Language := "LAD" }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( "StartButton" )
+            Coil( "PulseBit" )
+        END_RUNG
+    END_NETWORK
+    { S7_Language := "LAD" }
+    NETWORK
+        RUNG wire#powerrail
+            Contact( "LevelHigh" )
+            Coil( "ConveyorRun" )
+        END_RUNG
+    END_NETWORK
+END_FUNCTION

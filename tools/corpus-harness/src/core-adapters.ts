@@ -58,6 +58,12 @@ export function corpusManifest(plc: CorpusPlc, corpusRoot: string): string {
       relations: u.relations.map((r) => r.replace(/\s*\(.*\)$/, '')),
       published: [],
     }));
+  // F-runtime groups (not in the exported files): runtime-groups.json from the verification batch
+  const groupsPath = path.join(corpusRoot, plc.version, '_project', 'runtime-groups.json');
+  const groups = existsSync(groupsPath)
+    ? ((JSON.parse(readFileSync(groupsPath, 'utf8')) as Record<string, unknown>)[plc.name] as
+        { mainSafetyBlock: string }[] | undefined)
+    : undefined;
   return JSON.stringify({
     name: plc.name,
     cpu: {
@@ -67,6 +73,7 @@ export function corpusManifest(plc: CorpusPlc, corpusRoot: string): string {
     tiaVersion: plc.version,
     compiler: { iecCheck: false },
     units,
+    ...(groups ? { mainSafetyBlocks: groups.map((g) => g.mainSafetyBlock) } : {}),
   });
 }
 

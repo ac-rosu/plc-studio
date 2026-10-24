@@ -1,0 +1,10 @@
+{
+    S7_Optimized := "TRUE";
+    S7_StandardRetain := "FALSE";
+    S7_Version := "0.1"
+}
+DATA_BLOCK DB_V2_Array : Array[0..3] of Int
+    THIS[1] := 5;
+    THIS[3] := -7;
+
+END_DATA_BLOCK

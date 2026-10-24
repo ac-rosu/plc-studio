@@ -46,6 +46,8 @@ export interface Manifest {
   obs: Record<string, ObInfo>;
   /** Names of fail-safe blocks, when the files cannot tell. */
   failsafeBlocks: string[];
+  /** Main safety block of each F-runtime group (the exported files do not say). */
+  mainSafetyBlocks: string[];
 }
 
 export interface ManifestResult {
@@ -153,6 +155,7 @@ export function parseManifest(text: string): ManifestResult {
     units,
     obs,
     failsafeBlocks: strings(o['failsafeBlocks']),
+    mainSafetyBlocks: strings(o['mainSafetyBlocks']),
   };
   diagnostics.push(...relationProblems(units));
   return { manifest, diagnostics };

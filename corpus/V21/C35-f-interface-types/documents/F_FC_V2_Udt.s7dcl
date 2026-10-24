@@ -1,0 +1,22 @@
+{
+    S7_Optimized := "TRUE";
+    S7_PreferredLanguage := "FBD";
+    S7_Safety := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "F_FC_V2_Udt" : Void
+    VAR_INPUT
+        InBool : Bool;
+        Signals : _.UDT_FSignals;
+    END_VAR
+    VAR_OUTPUT
+        OutBool : Bool;
+    END_VAR
+
+    { S7_Language := "FBD" }
+    NETWORK
+        RUNG #InBool
+            Coil( #OutBool )
+        END_RUNG
+    END_NETWORK
+END_FUNCTION

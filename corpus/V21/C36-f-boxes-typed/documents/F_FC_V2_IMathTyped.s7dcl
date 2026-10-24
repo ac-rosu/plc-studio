@@ -1,0 +1,85 @@
+{
+    S7_Optimized := "TRUE";
+    S7_PreferredLanguage := "LAD";
+    S7_Safety := "TRUE";
+    S7_Version := "0.1"
+}
+FUNCTION "F_FC_V2_IMathTyped" : Void
+    VAR_INPUT
+        X1 : Int;
+        X2 : Int;
+    END_VAR
+    VAR_OUTPUT
+        Y1 : Int;
+        Y2 : Int;
+        Y3 : Int;
+        Y4 : Int;
+        Y5 : Int;
+        Y6 : Int;
+    END_VAR
+
+    { S7_Language := "LAD" }
+    NETWORK
+        RUNG wire#powerrail
+            { S7_Templates := "SrcType := Int" }
+            Sub(
+                in1 := #X1,
+                in2 := #X2,
+                out => #Y1
+            )
+        END_RUNG
+    END_NETWORK
+    { S7_Language := "LAD" }
+    NETWORK
+        RUNG wire#powerrail
+            { S7_Templates := "SrcType := Int" }
+            Mul(
+                in1 := #X1,
+                in2 := #X2,
+                out => #Y2
+            )
+        END_RUNG
+    END_NETWORK
+    { S7_Language := "LAD" }
+    NETWORK
+        RUNG wire#powerrail
+            { S7_Templates := "SrcType := Int" }
+            Div(
+                in1 := #X1,
+                in2 := #X2,
+                out => #Y3
+            )
+        END_RUNG
+    END_NETWORK
+    { S7_Language := "LAD" }
+    NETWORK
+        RUNG wire#powerrail
+            { S7_Templates := "SrcType := Int" }
+            Abs(
+                in := #X1,
+                out => #Y4
+            )
+        END_RUNG
+    END_NETWORK
+    { S7_Language := "LAD" }
+    NETWORK
+        RUNG wire#powerrail
+            { S7_Templates := "SrcType := Int" }
+            Neg(
+                in := #X1,
+                out => #Y5
+            )
+        END_RUNG
+    END_NETWORK
+    { S7_Language := "LAD" }
+    NETWORK
+        RUNG wire#powerrail
+            { S7_Templates := "SrcType := Int" }
+            Mod(
+                in1 := #X1,
+                in2 := #X2,
+                out => #Y6
+            )
+        END_RUNG
+    END_NETWORK
+END_FUNCTION

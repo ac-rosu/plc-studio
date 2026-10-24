@@ -1,0 +1,53 @@
+{
+  "caseId": "C40",
+  "title": "Array DB with element start values",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V21",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3FP03-0AB0/V4.1",
+  "objects": [
+    {
+      "name": "DB_V2_Array",
+      "type": "ArrayDB",
+      "number": 25,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": "Verify2",
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/DB_V2_Array.s7dcl"
+    ],
+    "source": [
+      "source/DB_V2_Array.db"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Verify2 > DB_V2_Array (DB25)",
+        "block": "DB_V2_Array",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "verification compile of PLC_Main, session 3, 2026-10-24 (corpus project not saved)"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "Added 2026-10-24 by PLC Studio (verification batch 2, group Verify2) to verify fail-safe and LAD rules against TIA V21; imported with plc_import_documents, compiled, exported with plc_export_block (documents, tool text without BOM). The corpus project was not saved. Element start values are written THIS[i] := value; in both formats; the .s7dcl keeps an empty line before END_DATA_BLOCK, as in C03. The source file was exported with plc_export_block format source and written with the UTF-8 BOM that GenerateSource writes."
+}

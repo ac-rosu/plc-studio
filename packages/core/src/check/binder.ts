@@ -1,7 +1,12 @@
 // Binds every name in a block to its declaration, infers expression types, records references and
 // call sites, and reports the checker's diagnostics (spec M2/M3). Precision before recall: when
 // something cannot be decided the binder stays silent or warns (ADR 0003).
-import type { Instruction, Parameter, ProfileIndex } from '@plcstudio/profiles';
+import type {
+  Instruction,
+  LadderElement as ProfileLadderElement,
+  Parameter,
+  ProfileIndex,
+} from '@plcstudio/profiles';
 import type {
   Argument,
   Block,
@@ -106,24 +111,6 @@ const ROOT_CONTEXT: Context = {
   network: undefined,
   viaEn: false,
 };
-
-/** Interface types not permitted in fail-safe blocks (corpus B23: Real). */
-const F_FORBIDDEN = new Set([
-  'REAL',
-  'LREAL',
-  'STRING',
-  'WSTRING',
-  'CHAR',
-  'WCHAR',
-  'LINT',
-  'ULINT',
-  'LWORD',
-  'LTIME',
-  'VARIANT',
-  'DTL',
-  'LDT',
-]);
-const F_ALLOWED = new Set(['BOOL', 'INT', 'DINT', 'WORD', 'TIME']);
 
 export class BlockBinder {
   private readonly index: ProjectIndex;
@@ -345,24 +332,58 @@ export class BlockBinder {
     }
   }
 
+  /**
+   * Interface types of an F-block, from the profile's fail-safe catalog: a refused type is an
+   * error when the catalog is proven (corpus B23, B39, C35); anything the catalog does not list,
+   * a Struct for example, is a warning.
+   */
   private failsafeInterface(block: Block): void {
+    const catalog = this.profile.profile.failsafe?.interfaceTypes;
+    if (!catalog) return;
+    const proven = catalog.verification.verified;
+    const allowed = new Set(catalog.allowed.map((t) => t.toUpperCase()));
+    const forbidden = new Set(catalog.forbidden.map((t) => t.toUpperCase()));
+    const refuse = (range: Range, known: boolean) => {
+      const text = this.symbol.file.source.text.slice(range.start, range.end);
+      if (known && proven)
+        this.report(
+          range,
+          'failsafe-type',
+          `${text} is not permitted in the interface of a fail-safe block.`,
+        );
+      else
+        this.report(
+          range,
+          'failsafe-type',
+          `${text} may not be permitted in the interface of a fail-safe block (not yet verified against TIA).`,
+          'warning',
+        );
+    };
     for (const section of block.sections) {
       for (const m of section.members) {
-        if (m.type.kind !== 'named' || m.type.path.length !== 1) continue;
-        const n = m.type.path[0]!.text.toUpperCase();
-        if (F_FORBIDDEN.has(n)) {
-          this.report(
-            m.type.range,
-            'failsafe-type',
-            `${m.type.path[0]!.text} is not permitted in the interface of a fail-safe block.`,
-          );
-        } else if (!F_ALLOWED.has(n) && this.profile.elementary(n)) {
-          this.report(
-            m.type.range,
-            'failsafe-type',
-            `${m.type.path[0]!.text} may not be permitted in a fail-safe block (not yet verified against TIA).`,
-            'warning',
-          );
+        const type = this.index.resolveType(
+          m.type,
+          this.symbol.namespace,
+          this.symbol.id,
+          this.file,
+        );
+        switch (type.kind) {
+          case 'elementary': {
+            const name = type.name.toUpperCase();
+            if (!allowed.has(name)) refuse(m.type.range, forbidden.has(name));
+            break;
+          }
+          case 'array':
+            refuse(m.type.range, catalog.arrays === 'forbidden');
+            break;
+          case 'udt':
+            if (catalog.plcDataTypes === 'forbidden') refuse(m.type.range, true);
+            break;
+          case 'struct':
+            refuse(m.type.range, false);
+            break;
+          default:
+          // FB multi-instances, system types and unresolved types are left to TIA
         }
       }
     }
@@ -1375,6 +1396,34 @@ export class BlockBinder {
     }
   }
 
+  /**
+   * A box whose data type TIA cannot choose by itself: Convert always, the arithmetic boxes in
+   * fail-safe blocks (corpus B40, B41). The types sit in S7_Templates in front of the box; an
+   * F-block that has none may carry an empty `Type := ""` instead.
+   */
+  private boxType(item: LadderElement, element: ProfileLadderElement): void {
+    const required =
+      element.typeRequired === 'always' ||
+      (element.typeRequired === 'failsafe' && this.symbol.failsafe);
+    if (!required || !element.template) return;
+    const templates = item.templates.find((a) => a.name === 'S7_Templates')?.value ?? '';
+    const given = new Set(
+      [...templates.matchAll(/([A-Za-z_]\w*)\s*:=\s*[^,\]]*\S/g)].map((m) => m[1]!.toLowerCase()),
+    );
+    const missing = element.template
+      .split(',')
+      .map((t) => t.trim())
+      .filter((t) => t && !given.has(t.toLowerCase()));
+    if (missing.length === 0) return;
+    this.report(
+      item.range,
+      'box-type-missing',
+      element.typeRequired === 'always'
+        ? `The ${element.name} box needs its data types (${missing.join(', ')}); TIA does not choose them.`
+        : `In a fail-safe block the ${element.name} box needs an explicit data type (${missing.join(', ')}).`,
+    );
+  }
+
   private ladderElement(
     item: LadderElement,
     ctx: Context,
@@ -1402,6 +1451,7 @@ export class BlockBinder {
         `${element.name} is not permitted in a fail-safe block (not yet verified against TIA).`,
       );
     }
+    this.boxType(item, element);
     if (element.shape === 'jump') {
       const label = item.args[0]?.value;
       if (label?.kind === 'name') {

@@ -163,3 +163,17 @@ Every surprise, refusal and crash, in order.
 - `compile` PLC_Main: Error, 41 errors, 1 warning; safety program unchanged (0xE8DB8BC0, consistent). The Verify messages are recorded in the expected.json of C27–C34 and B27–B38.
 - `plc_export_block` format documents for the 20 blocks (and source for FC_V_Loops).
 - The project was **not saved**: the file on disk is unchanged; the Verify group exists only in the running session.
+
+## Session 3 – 2026-10-24 (PLC Studio verification batch 2: fail-safe rules, LAD boxes, array DB)
+
+- The headless instance of session 2 (pid 4536) crashed during the first import of this session (see below). `tia_connect` started a new headless instance (pid 15260), `project_open` PlcStudioCorpus_V21; the session-2 Verify group was gone, as it had never been saved.
+- `plc_import_documents` into PLC_Main, group `Verify2`: F_FC_V2_Types (17 import messages, one per refused interface type), F_FC_V2_TypesOk, F_FC_V2_Udt, F_FC_V2_IMove, F_FC_V2_IMath, F_FC_V2_IConvert, F_FC_V2_IMod, F_FC_V2_ISel, F_FC_V2_IMathTyped, F_FC_V2_IConvertTyped, FC_V2_Convert, FC_V2_WriteF, FC_V2_ReadF, FC_V2_CallF, FC_V2_Helper, F_FC_V2_CallStd, F_FC_V2_StdData, DB_V2_Array, later F_FC_V2_StdOk and F_FC_V2_Main. FC_V2_ConvertTyped was imported as SimaticML (`plc_import_block`, TemplateValue SrcType Int and DestType DInt) to see how SIMATIC SD writes two template values.
+- Refused or failed attempts, not in the corpus:
+  - An F_FC with a Struct in VAR_TEMP: "The element 'Pair' contains errors and cannot be created." (whole import refused).
+  - The two-template attribute written as "SrcType := Int; DestType := DInt": accepted and silently dropped; with a comma and no brackets: "Invalid S7 Template".
+  - F_FC_V2_IMax (MAX with SrcType Int in F_LAD): import refused, "Operand '#X2' is not valid for this instruction." Not a clear verdict about MAX in fail-safe blocks, so the profile keeps MAX as not permitted but unproven (warning only).
+  - **TIA crashes (NonRecoverableException, instance gone)**: an F_LAD import containing MAX, MIN and Limit boxes (first crash, pid 4536), and an F_LAD import with a typed Limit box (second crash, pid 15260). Nothing was lost; the project file was never saved in this session.
+- Compiles of PLC_Main recorded the block results (expected.json of C35–C40, B39–B44). The safety program's consistency check only runs when the standard program compiles without errors, so the session deleted every block with errors (the Broken group blocks, the two unit Broken blocks and the failing Verify2 blocks, after exporting them), restored the original F_FC_Logic and created a second F-runtime group RTG2 (`safety_set_runtime_group`, main safety block F_FC_V2_Main). RTG1 had to be deleted and created again with its original settings (main safety block F_FB_MainSafety, F_IDB_MainSafety, FOB 123, 100 ms, priority 12, warn 110 ms, max 120 ms) after a test overwrite of F_FB_MainSafety had cleared its main-safety-block reference.
+- Final compile: 4 errors, 5 warnings, all from the consistency check: B45 (F_FC_V2_StdData under RTG2) and "not used in the safety program" for the C35/C36 blocks. The runtime groups are recorded in `_project/runtime-groups.json`.
+- `plc_export_block` format documents for all 22 blocks, format source for DB_V2_Array; every text matched the tool's totalLength.
+- The project was **not saved**; the file on disk is unchanged. The headless instance ended in the second crash.

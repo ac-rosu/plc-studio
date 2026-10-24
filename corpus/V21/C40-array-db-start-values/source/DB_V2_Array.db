@@ -1,0 +1,10 @@
+﻿DATA_BLOCK "DB_V2_Array"
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+NON_RETAIN
+Array[0..3] of Int;
+BEGIN
+    THIS[1] := 5;
+    THIS[3] := -7;
+END_DATA_BLOCK
+
