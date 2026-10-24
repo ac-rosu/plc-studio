@@ -83,35 +83,47 @@ export function plcFilePath(plc: CorpusPlc, file: CorpusFile): string {
   return `/plc/${plc.name}/${file.objectName}${file.extension}`;
 }
 
+/**
+ * A project made of a corpus PLC's files, with plc.json from setup.json and the OB SimaticML
+ * exports next to their OBs. `byPath` maps each project path (lowercase) to its corpus file.
+ */
+export function corpusProject(
+  plc: CorpusPlc,
+  corpusRoot: string,
+): { project: Project; byPath: Map<string, CorpusFile> } {
+  const project = new Project(`/plc/${plc.name}`);
+  project.setManifest(`/plc/${plc.name}/plc.json`, corpusManifest(plc, corpusRoot));
+  const byPath = new Map<string, CorpusFile>();
+  for (const file of plc.files) {
+    const p = plcFilePath(plc, file);
+    byPath.set(p.toLowerCase(), file);
+    project.setFile(p, SourceText.fromBytes(new Uint8Array(readFileSync(file.absolutePath))));
+  }
+  // OB attributes come from SimaticML next to the OB (format-notes, finding 1)
+  for (const c of plc.cases) {
+    for (const f of c.files) {
+      if (
+        f.variant !== 'simaticml' ||
+        !c.expected.objects.some((o) => o.type === 'OB' && f.objectName.startsWith(o.name))
+      )
+        continue;
+      const object = c.expected.objects.find((o) => f.objectName.startsWith(o.name))!;
+      const folder = object.unit ? `/plc/${plc.name}/Units/${object.unit}` : `/plc/${plc.name}`;
+      project.setFile(
+        `${folder}/${f.objectName}${f.extension}`,
+        SourceText.fromBytes(new Uint8Array(readFileSync(f.absolutePath))),
+      );
+    }
+  }
+  return { project, byPath };
+}
+
 /** The full checker on a project built from the PLC's files (M2/M3 onwards). */
 export function projectChecker(corpusRoot: string): Checker {
   return {
     name: 'core project checker',
     async check(plc) {
-      const project = new Project(`/plc/${plc.name}`);
-      project.setManifest(`/plc/${plc.name}/plc.json`, corpusManifest(plc, corpusRoot));
-      const byPath = new Map<string, CorpusFile>();
-      for (const file of plc.files) {
-        const p = plcFilePath(plc, file);
-        byPath.set(p.toLowerCase(), file);
-        project.setFile(p, SourceText.fromBytes(new Uint8Array(readFileSync(file.absolutePath))));
-      }
-      // OB attributes come from SimaticML next to the OB (format-notes, finding 1)
-      for (const c of plc.cases) {
-        for (const f of c.files) {
-          if (
-            f.variant !== 'simaticml' ||
-            !c.expected.objects.some((o) => o.type === 'OB' && f.objectName.startsWith(o.name))
-          )
-            continue;
-          const object = c.expected.objects.find((o) => f.objectName.startsWith(o.name))!;
-          const folder = object.unit ? `/plc/${plc.name}/Units/${object.unit}` : `/plc/${plc.name}`;
-          project.setFile(
-            `${folder}/${f.objectName}${f.extension}`,
-            SourceText.fromBytes(new Uint8Array(readFileSync(f.absolutePath))),
-          );
-        }
-      }
+      const { project, byPath } = corpusProject(plc, corpusRoot);
       const analysis = analyzeProject(project);
       const out: HarnessDiagnostic[] = [];
       for (const [p, list] of analysis.diagnostics) {
