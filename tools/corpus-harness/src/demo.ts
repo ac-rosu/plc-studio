@@ -50,6 +50,23 @@ for (const plc of demoPlcs(corpusRoot)) {
     }
 }
 
+// a few SimaticML exports to open: shown read-only, in the view their content needs (M14)
+const xmlExports = [
+  'C02-global-db/simaticml/DB_Machine.xml',
+  'C01-udts/simaticml/UDT_Recipe.xml',
+  'C16-lad-contacts/simaticml/FC_LadContacts.xml',
+  'C19-fbd-logic/simaticml/FC_FbdLogic.xml',
+  'C05-scl-sections/simaticml/FB_SclSections.xml',
+];
+mkdirSync(path.join(target, 'SimaticML'), { recursive: true });
+for (const file of xmlExports) {
+  copyFileSync(
+    path.join(corpusRoot, 'V21', ...file.split('/')),
+    path.join(target, 'SimaticML', path.basename(file)),
+  );
+  count++;
+}
+
 console.log(`Wrote ${count} files to ${target}`);
 console.log(
   'Open that folder in VS Code with PLC Studio installed (or run the extension from source).',
