@@ -272,6 +272,11 @@ Opening a file picks the view that fits its content (owner, 2026-10-24): LAD/FBD
 - Draws a 100-network block in under 1 s.
 - The block interface in a collapsible panel above the networks, as in TIA's block editor (owner, 2026-10-24): the same table as the block interface editor, editable the same way. Closed by default; the setting `plcstudio.ladder.interfaceOpen` opens it when the view opens.
 
+### SimaticML blocks, read only (owner, 2026-10-24, ADR 0014)
+
+- SimaticML exports of blocks and PLC data types open by content, read-only: data blocks in the data block view, PLC data types in the interface table, LAD/FBD blocks in the LAD/FBD view, SCL blocks as SCL text rebuilt from the XML. TIA V20 and V21; later versions through profile data.
+- Never edited and never checked; every view says so. A network the translation does not know is shown as text with the reason.
+
 ### LAD/FBD editor (v1.x)
 
 - Instruction palette from the version profile (filtered to F-instructions in F-blocks), drag and drop onto a network

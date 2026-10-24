@@ -176,6 +176,17 @@ Twenty small blocks were imported into the corpus project (group `Verify` of PLC
 - An F-DB is not marked in its external source: SIMATIC SD has `S7_Safety := "True"` (C24 F_DB_Settings), the source does not. plc.json lists F-DBs under `failsafeBlocks` (the checker says so when it meets one).
 - A name SIMATIC SD writes in quotes because it is short (`"m"`, `"b"`) is written without quotes in the source when it is a plain identifier (B30, B32).
 
+## 2026-10-24 – SimaticML blocks compared with SIMATIC SD (M14)
+
+- Structured text keeps every token, blank and line break; SD stores the same text indented by eight spaces (twelve inside a NAMESPACE), external sources after a tab. A `(* … *)` comment is a `LineComment` with `Inserted="true"`.
+- Names in structured text: a component marks its quotes with `HasQuotes`; components are joined by "." tokens. In LAD/FBD networks the components come without "." tokens and global names without `HasQuotes`, while SD writes them quoted ("F_DB_Settings".Signals.GuardClosed, C24). An FC call names the FC as a GlobalVariable instance without quotes; SD and sources quote it.
+- Inside a software unit the XML names the unit's own objects with the namespace ("Filling.FC_FillHelper") and objects outside every unit without `_.`; SD and sources write FC_FillHelper and _.FillFlowRaw, and the source wraps the block in NAMESPACE Filling (C22, C23).
+- LAD networks join parallel branches with an `O` part (inputs in1…inN); SD writes the same network as rungs that meet at wire names, in the XML's part order. FBD rungs start at the operand of the first box's power input (in1 of A, en of a box or call, IN of a timer), or have no start when nothing feeds it (`RUNG` alone, C20); a negated first input is written `NOT A(`.
+- Parameters SD writes are those the profile lists for the element: one in all as `Name( value )`, one of several as `Name( in2 := value )`, more on separate lines. Instructions' parameters are written in lower case (PT → pt); calls list inputs, in-outs, then outputs.
+- A box with ENO switched off and no type template to write (Move, Add on the power rail) gets an empty line before it in LAD, not in FBD (C17, C20) – an interpretation of TIA's output.
+- The XML marks structured members (PLC data types, multi-instances, TON_TIME) as setpoint (`SetPoint` true); SD writes no setpoint attribute for them. Which one the TIA editor shows is not settled.
+- C19's SD export (export tool and VCI) has no network titles, while its SimaticML has them (UND/AND …).
+
 ## 2026-10-24 – How LAD/FBD rungs fit together (interpretation, C16 and C18)
 
 - `wire#wN` on its own line inside a rung names the point after the element before it; `RUNG wire#wN` starts a branch there; `END_RUNG wire#wN` ends a branch by joining that point. A rung ending with a plain `END_RUNG` after a coil is an open branch. Evidence: `C16-lad-contacts/documents/FC_LadContacts.s7dcl` network 8 (two nested branches that join again at w1) and `C18-lad-open-branch/documents/FB_LadOpenBranch.s7dcl` networks 1 and 2 (three and two coils on open branches).

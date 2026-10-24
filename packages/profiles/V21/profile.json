@@ -1349,6 +1349,7 @@
       "symbol": "| |",
       "parameters": ["in operand: Bool"],
       "failsafeAllowed": true,
+      "simaticml": { "part": "Contact", "cases": ["C16", "C17"] },
       "description": "Passes power when the operand is true.",
       "verification": { "verified": true, "cases": ["C16", "B18"] }
     },
@@ -1359,6 +1360,7 @@
       "symbol": "|/|",
       "parameters": ["in operand: Bool"],
       "failsafeAllowed": true,
+      "simaticml": { "part": "Contact", "negated": "operand", "cases": ["C16"] },
       "description": "Passes power when the operand is false.",
       "verification": { "verified": true, "cases": ["C16"] }
     },
@@ -1369,6 +1371,7 @@
       "symbol": "|P|",
       "parameters": ["in operand: Bool", "inout bit: Bool"],
       "failsafeAllowed": true,
+      "simaticml": { "part": "PContact", "cases": ["C16"] },
       "description": "Passes power for one cycle when the operand rises; bit keeps the previous state.",
       "verification": { "verified": true, "cases": ["C16"] }
     },
@@ -1379,6 +1382,7 @@
       "symbol": "|N|",
       "parameters": ["in operand: Bool", "inout bit: Bool"],
       "failsafeAllowed": true,
+      "simaticml": { "part": "NContact", "cases": ["C16"] },
       "description": "Passes power for one cycle when the operand falls; bit keeps the previous state.",
       "verification": { "verified": true, "cases": ["C16"] }
     },
@@ -1389,6 +1393,7 @@
       "symbol": "( )",
       "parameters": ["out operand: Bool"],
       "failsafeAllowed": true,
+      "simaticml": { "part": "Coil", "cases": ["C16", "C17"] },
       "description": "Writes the incoming power to the operand.",
       "verification": { "verified": true, "cases": ["C16", "C19"] }
     },
@@ -1399,6 +1404,7 @@
       "symbol": "(/)",
       "parameters": ["out operand: Bool"],
       "failsafeAllowed": true,
+      "simaticml": { "part": "Coil", "negated": "operand", "cases": ["C16"] },
       "description": "Writes the negated incoming power to the operand.",
       "verification": { "verified": true, "cases": ["C16"] }
     },
@@ -1409,6 +1415,7 @@
       "symbol": "(S)",
       "parameters": ["out operand: Bool"],
       "failsafeAllowed": true,
+      "simaticml": { "part": "SCoil", "cases": ["C16"] },
       "description": "Sets the operand to true while power flows.",
       "verification": { "verified": true, "cases": ["C16", "C18"] }
     },
@@ -1419,6 +1426,7 @@
       "symbol": "(R)",
       "parameters": ["out operand: Bool"],
       "failsafeAllowed": true,
+      "simaticml": { "part": "RCoil", "cases": ["C16"] },
       "description": "Resets the operand to false while power flows.",
       "verification": { "verified": true, "cases": ["C16"] }
     },
@@ -1429,6 +1437,7 @@
       "symbol": "(P)",
       "parameters": ["out operand: Bool", "inout bit: Bool"],
       "failsafeAllowed": true,
+      "simaticml": { "part": "PCoil", "cases": ["C16"] },
       "description": "Sets the operand for one cycle when the incoming power rises.",
       "verification": { "verified": true, "cases": ["C16"] }
     },
@@ -1453,6 +1462,7 @@
       "parameters": ["in in1: ANY", "in in2: ANY"],
       "template": "SrcType",
       "failsafeAllowed": true,
+      "simaticml": { "part": "Eq", "cases": ["C17"] },
       "description": "Passes power when both inputs are equal.",
       "verification": { "verified": true, "cases": ["C17", "C20"] }
     },
@@ -1475,6 +1485,7 @@
       "parameters": ["in in1: ANY", "in in2: ANY"],
       "template": "SrcType",
       "failsafeAllowed": true,
+      "simaticml": { "part": "Gt", "cases": ["C17"] },
       "description": "Passes power when in1 is greater than in2.",
       "verification": { "verified": true, "cases": ["C17"] }
     },
@@ -1508,6 +1519,7 @@
       "parameters": ["in in1: ANY", "in in2: ANY"],
       "template": "SrcType",
       "failsafeAllowed": true,
+      "simaticml": { "part": "Le", "cases": ["C17"] },
       "description": "Passes power when in1 is less than or equal to in2.",
       "verification": { "verified": true, "cases": ["C17"] }
     },
@@ -1519,6 +1531,7 @@
       "parameters": ["in in: ANY", "out out1: ANY"],
       "failsafeAllowed": true,
       "failsafeVerification": { "verified": true, "cases": ["C36"] },
+      "simaticml": { "part": "Move", "cases": ["C17"] },
       "description": "Copies the input to the outputs.",
       "verification": { "verified": true, "cases": ["C17", "C20"] }
     },
@@ -1530,6 +1543,7 @@
       "parameters": ["in in1: ANY_NUM", "in in2: ANY_NUM", "out out: ANY_NUM"],
       "template": "SrcType",
       "failsafeAllowed": true,
+      "simaticml": { "part": "Add", "cases": ["C17"] },
       "description": "Adds the inputs.",
       "verification": { "verified": true, "cases": ["C17", "C20", "B19", "B20"] }
     },
@@ -1579,6 +1593,7 @@
       "symbol": "JMP",
       "parameters": ["in label: Label"],
       "failsafeAllowed": true,
+      "simaticml": { "part": "Jump", "cases": ["C17"] },
       "description": "Jumps to the label when power flows.",
       "verification": { "verified": true, "cases": ["C17", "C20"] }
     },
@@ -1589,6 +1604,7 @@
       "symbol": "&",
       "parameters": ["in in1: Bool?", "in in2: Bool"],
       "failsafeAllowed": true,
+      "simaticml": { "part": "A", "cases": ["C19"] },
       "description": "AND of the inputs.",
       "verification": { "verified": true, "cases": ["C19"] }
     },
@@ -1599,6 +1615,7 @@
       "symbol": ">=1",
       "parameters": ["in in1: Bool?", "in in2: Bool"],
       "failsafeAllowed": true,
+      "simaticml": { "part": "O", "cases": ["C19"] },
       "description": "OR of the inputs.",
       "verification": { "verified": true, "cases": ["C19"] }
     },
@@ -1609,6 +1626,7 @@
       "symbol": "X",
       "parameters": ["in in1: Bool?", "in in2: Bool"],
       "failsafeAllowed": true,
+      "simaticml": { "part": "X", "cases": ["C19"] },
       "description": "Exclusive OR of the inputs.",
       "verification": { "verified": true, "cases": ["C19"] }
     },
@@ -1619,6 +1637,7 @@
       "symbol": "SR",
       "parameters": ["inout operand: Bool", "in r1: Bool"],
       "failsafeAllowed": true,
+      "simaticml": { "part": "Sr", "cases": ["C19"] },
       "description": "Set/reset flip-flop; reset wins.",
       "verification": { "verified": true, "cases": ["C19"] }
     },
@@ -1629,6 +1648,7 @@
       "symbol": "RS",
       "parameters": ["inout operand: Bool", "in s1: Bool"],
       "failsafeAllowed": true,
+      "simaticml": { "part": "Rs", "cases": ["C19"] },
       "description": "Reset/set flip-flop; set wins.",
       "verification": { "verified": true, "cases": ["C19"] }
     },
@@ -1639,6 +1659,7 @@
       "symbol": "P_TRIG",
       "parameters": ["inout bit: Bool"],
       "failsafeAllowed": true,
+      "simaticml": { "part": "PBox", "cases": ["C19"] },
       "description": "True for one cycle when the incoming signal rises.",
       "verification": { "verified": true, "cases": ["C19"] }
     },

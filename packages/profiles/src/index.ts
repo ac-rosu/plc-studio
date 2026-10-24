@@ -86,6 +86,11 @@ export interface LadderElement {
   failsafeAllowed?: boolean;
   /** Corpus cases that prove failsafeAllowed; without them the flag only gives warnings. */
   failsafeVerification?: Verification;
+  /**
+   * How a SimaticML network names the element (ADR 0014): the part name, and the pin whose
+   * negation turns the part into this element (Contact with a negated operand is I_Contact).
+   */
+  simaticml?: { part: string; negated?: string; cases: string[] };
   description?: string;
   verification: Verification;
 }

@@ -391,6 +391,17 @@
           "description": "Corpus cases that prove failsafeAllowed; without them the flag only gives warnings.",
           "$ref": "#/definitions/verification"
         },
+        "simaticml": {
+          "description": "How a SimaticML network names the element: the part name, the pin whose negation selects this element, and the corpus cases with both formats that prove it.",
+          "type": "object",
+          "required": ["part", "cases"],
+          "additionalProperties": false,
+          "properties": {
+            "part": { "type": "string" },
+            "negated": { "type": "string" },
+            "cases": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+          }
+        },
         "description": {
           "type": "string"
         },

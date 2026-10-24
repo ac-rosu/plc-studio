@@ -6,3 +6,4 @@ SIMATIC SD documents (`.s7dcl` + `.s7res`) are the primary format because they a
 
 - LAD/FBD support exists only for SIMATIC SD documents.
 - TIA V19 and older, which lack SIMATIC SD, are out of scope.
+- Extended by ADR 0014 (owner, 2026-10-24): SimaticML blocks and PLC data types are shown read-only; SD and external sources stay the formats PLC Studio writes.
