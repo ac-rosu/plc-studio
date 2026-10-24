@@ -226,14 +226,14 @@ Open questions of M5, answered with the recommended option:
 **Acceptance (spec):** edits change only the expected lines (golden diffs); F-rules checked against corpus.
 
 - [x] **M7.1 Custom editor host and webview messaging**: text stays the single source of truth; undo and redo go through VS Code; text and view stay in sync side by side.
-- [x] **M7.2 Block interface editor.**
+- [x] **M7.2 Block interface editor.** Members can be added inside structs at any depth (also in UDTs and global DBs), and the FC return type is editable (2026-10-24, second pass).
 - [x] **M7.3 Data block editor**, with instance DBs read-only except for what TIA lets the user change.
 - [x] **M7.4 Translation table.**
 - [x] **M7.5 F-block detection** from `S7_Safety`. Blocks that cannot be classified (for example the `.db` source of an F-DB) count as standard, with an info.
 - [~] **M7.6 F-validation** from the profile's F-catalog.
   Verify: B23 reports an error; C24 reports none. Status: done for interface types (B23, C24); rules for access between the safety program and the standard program, and F-instructions outside the F-catalog, wait for corpus cases.
 - [x] **M7.7 Fail-safe marking and save warning**: banner in every editor, highlighting in the explorer and call tree, non-modal warning on every save of an F-block.
-  Verify for M7.2–M7.4: golden-diff tests for every edit operation.
+  Verify for M7.2–M7.4: golden-diff tests for every edit operation. Table views also refresh when another file of their PLC changes (a UDT, the .s7res, the manifest); tested in VS Code.
 
 ## M8 – LAD/FBD viewer
 
@@ -275,7 +275,7 @@ Open questions of M5, answered with the recommended option:
 
 **Acceptance (spec):** address and rename tests; CSV round trip.
 
-- [x] Tags and user constants (add, rename, retype, readdress); every attribute; multilingual comments; address-overlap and address-validity checks per CPU family; system constants read-only; CSV import and export; renames that update every reference in code.
+- [x] Tags and user constants (add, rename, retype, readdress); every attribute; multilingual comments; address-overlap and address-validity checks per CPU family; system constants read-only; CSV import and export; renames that update every reference in code. A CSV import is one edit (one undo step), computed step by step and applied as minimal line edits.
   Verify: address and rename tests; CSV round trip.
 
 ## M12 – Program graph (v1.x)

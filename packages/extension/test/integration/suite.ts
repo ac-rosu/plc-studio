@@ -201,8 +201,12 @@ async function openWith(name: string, viewType: string): Promise<void> {
 
 interface ViewHealth {
   rendered: string[];
+  renders: Record<string, number>;
   errors: string[];
 }
+
+const health = async () =>
+  (await vscode.commands.executeCommand('plcstudio.internal.viewHealth')) as ViewHealth;
 
 /** Waits until the view type has drawn an update without a script error. */
 async function rendered(viewType: string): Promise<void> {
@@ -224,6 +228,28 @@ test('custom editors render: LAD/FBD, interface, data block, translations, tag t
     await openWith(name, viewType);
     await rendered(viewType);
   }
+  await vscode.commands.executeCommand('workbench.action.closeAllEditors');
+});
+
+test('a table view refreshes when another file of its PLC changes', async () => {
+  await openWith('FB_SclSections.s7dcl', 'plcstudio.translationTable');
+  await rendered('plcstudio.translationTable');
+  // let the first renders settle, then change only the .s7res next to the block
+  await new Promise((r) => setTimeout(r, 1000));
+  const before = (await health()).renders['plcstudio.translationTable'] ?? 0;
+  const res = await vscode.workspace.openTextDocument(file('FB_SclSections.s7res'));
+  const change = new vscode.WorkspaceEdit();
+  change.insert(
+    res.uri,
+    new vscode.Position(res.lineCount, 0),
+    '  - id: MLC_Refresh\r\n    en-US: x\r\n',
+  );
+  assert.ok(await vscode.workspace.applyEdit(change));
+  await until(async () =>
+    ((await health()).renders['plcstudio.translationTable'] ?? 0) > before ? true : undefined,
+  );
+  await vscode.window.showTextDocument(res);
+  await vscode.commands.executeCommand('workbench.action.files.revert');
   await vscode.commands.executeCommand('workbench.action.closeAllEditors');
 });
 

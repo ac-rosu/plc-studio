@@ -2,10 +2,12 @@
 // interface editor. Every change is sent to the extension as an edit intent.
 import { clear, h } from '../shared/dom.ts';
 import {
+  afterDescendants,
   button,
   checkCell,
   datalist,
   failsafeBanner,
+  newMemberRow,
   problemsCell,
   textCell,
   toolbar,
@@ -94,12 +96,7 @@ export function renderInterface(root: HTMLElement, model: InterfaceModel, post: 
       h(
         'tr',
         { class: 'section' },
-        h(
-          'th',
-          { colspan: String(HEADERS.length - 1), scope: 'rowgroup' },
-          section.label,
-          section.returnType !== undefined ? `: ${section.returnType}` : '',
-        ),
+        h('th', { colspan: String(HEADERS.length - 1), scope: 'rowgroup' }, section.label),
         h(
           'th',
           {},
@@ -114,6 +111,8 @@ export function renderInterface(root: HTMLElement, model: InterfaceModel, post: 
         ),
       ),
     );
+    if (section.kind === 'Return' && section.returnType !== undefined)
+      body.append(returnTypeRow(section.returnType, edit));
     const flags = hmiFlagsApply(model.blockKind, section.kind);
     for (const row of section.rows) body.append(memberRow(row, section.kind, flags, edit, post));
   }
@@ -132,9 +131,23 @@ function memberRow(
   const can = row.declarationEditable;
   const flag = (name: string) =>
     can ? (v: boolean) => edit('flag', { path: row.path, flag: name, value: v }) : undefined;
-  const tr = h(
+  // a Struct member gets a + that adds a member inside it
+  const addInside =
+    can && row.structured && /^struct$/i.test(row.type)
+      ? button('+', `Add a member to ${row.path.join('.')}`, () => {
+          const child = newMemberRow(row.path.join('.'), row.level + 1, 6, (name, type, comment) =>
+            edit('add', { section, name, typeText: type, comment, parent: row.path }),
+          );
+          tr.parentElement?.insertBefore(child, afterDescendants(tr));
+          child.querySelector('input')?.focus();
+        })
+      : null;
+  const tr: HTMLTableRowElement = h(
     'tr',
-    { class: `level-${Math.min(row.level, 4)} ${row.problems.length ? 'has-problem' : ''}` },
+    {
+      class: `level-${Math.min(row.level, 4)} ${row.problems.length ? 'has-problem' : ''}`,
+      'data-level': String(row.level),
+    },
     textCell(
       row.name,
       label('Name'),
@@ -177,52 +190,45 @@ function memberRow(
       button('⤴', label('Show in text'), () =>
         post({ type: 'reveal', start: row.start, end: row.end }),
       ),
+      addInside,
     ),
   );
   return tr;
 }
 
-/** A blank row for a new member: committed when it has a name and a type. */
+/** The return type of a function, editable like a data type. */
+function returnTypeRow(
+  returnType: string,
+  edit: (op: string, extra: Record<string, unknown>) => void,
+): HTMLTableRowElement {
+  return h(
+    'tr',
+    { 'data-level': '0' },
+    h('td', { class: 'muted' }, 'Return value'),
+    textCell(returnType, 'Return type of the function', (v) => edit('returnType', { value: v }), {
+      list: 'types',
+    }),
+    ...Array.from({ length: HEADERS.length - 2 }, () => h('td', {})),
+  );
+}
+
+/** A blank row at the end of a section: committed when it has a name and a type. */
 function addRow(
   body: HTMLElement,
   section: string,
   after: Row | undefined,
   edit: (op: string, extra: Record<string, unknown>) => void,
 ): void {
-  let name = '';
-  let type = '';
-  let comment = '';
-  const tryCommit = () => {
-    if (name && type)
-      edit('add', {
-        section,
-        name,
-        typeText: type,
-        comment,
-        ...(after && after.level === 0 ? { after: after.path } : {}),
-      });
-  };
-  const tr = h(
-    'tr',
-    { class: 'new-row' },
-    textCell('', `New member name in ${section}`, (v) => ((name = v.trim()), tryCommit()), {
-      placeholder: 'Name',
+  // after the last top-level member; a nested last row means the end of the section
+  const last = after?.level === 0 ? after : undefined;
+  const tr = newMemberRow(section, 0, 6, (name, type, comment) =>
+    edit('add', {
+      section,
+      name,
+      typeText: type,
+      comment,
+      ...(last ? { after: last.path } : {}),
     }),
-    textCell('', `New member data type in ${section}`, (v) => ((type = v.trim()), tryCommit()), {
-      list: 'types',
-      placeholder: 'Data type',
-    }),
-    h('td', {}),
-    h('td', {}),
-    h('td', {}),
-    h('td', {}),
-    h('td', {}),
-    h('td', {}),
-    textCell('', `New member comment in ${section}`, (v) => (comment = v), {
-      placeholder: 'Comment',
-    }),
-    h('td', {}),
-    h('td', {}),
   );
   const rows = [...body.querySelectorAll('tr')];
   const sectionRows = rows.filter((r) => r.classList.contains('section'));
