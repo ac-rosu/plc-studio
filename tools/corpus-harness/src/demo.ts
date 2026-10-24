@@ -36,6 +36,12 @@ for (const plc of assemblePlcs(cases, 'documents')) {
   mkdirSync(path.join(target, plc.name), { recursive: true });
   const manifest = JSON.parse(corpusManifest(plc, corpusRoot)) as Record<string, unknown>;
   manifest['displayLanguage'] = 'en-US';
+  // only main safety blocks the demo contains (some belong to broken cases it leaves out)
+  const present = new Set(plc.files.map((f) => f.objectName.toLowerCase()));
+  if (Array.isArray(manifest['mainSafetyBlocks']))
+    manifest['mainSafetyBlocks'] = (manifest['mainSafetyBlocks'] as string[]).filter((n) =>
+      present.has(n.toLowerCase()),
+    );
   writeFileSync(path.join(target, plc.name, 'plc.json'), JSON.stringify(manifest, null, 2) + '\n');
   for (const file of plc.files) write(plc, plcFilePath(plc, file), file);
   // OB type, number and cycle time come from the SimaticML export next to the OB

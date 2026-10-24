@@ -275,6 +275,31 @@ describe('data block editor, structs', () => {
   });
 });
 
+describe('array data block', () => {
+  it('edits the start value of an element (corpus C40)', () => {
+    const { root, sent, post } = setup();
+    const element = (i: number, value: string) =>
+      row(`THIS[${i}]`, { name: `[${i}]`, value, declarationEditable: false });
+    renderDataBlock(
+      root,
+      {
+        view: 'datablock',
+        blockName: 'DB_V2_Array',
+        dbKind: 'array',
+        instanceOf: '',
+        format: 's7dcl',
+        failsafe: false,
+        culture: 'en-US',
+        rows: [element(0, ''), element(1, '5')],
+        types: [],
+      },
+      post,
+    );
+    commit(root.querySelector<HTMLInputElement>('[aria-label="Start value of THIS[0]"]')!, '2');
+    expect(sent).toEqual([{ type: 'edit', op: 'start', path: ['THIS[0]'], value: '2' }]);
+  });
+});
+
 describe('translation table', () => {
   it('shows one column per language and highlights missing translations', async () => {
     const { root, sent, post } = setup();

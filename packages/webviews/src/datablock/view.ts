@@ -60,7 +60,6 @@ export function renderDataBlock(root: HTMLElement, model: DataBlockModel, post: 
       : model.dbKind === 'array'
         ? 'array DB'
         : 'global DB';
-  const startEditable = model.dbKind !== 'array';
   root.append(
     ...[failsafeBanner(model.failsafe)].filter((x): x is HTMLElement => x !== null),
     toolbar(
@@ -115,10 +114,8 @@ export function renderDataBlock(root: HTMLElement, model: DataBlockModel, post: 
           ),
       row.structured
         ? h('td', {})
-        : textCell(
-            row.value,
-            label('Start value'),
-            startEditable ? (v) => edit('start', { path: row.path, value: v }) : undefined,
+        : textCell(row.value, label('Start value'), (v) =>
+            edit('start', { path: row.path, value: v }),
           ),
       h('td', { class: 'muted' }, row.defaultValue),
       row.level === 0 && row.retain !== null

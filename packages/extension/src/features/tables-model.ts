@@ -461,7 +461,8 @@ export function dataBlockModel(input: ModelInput): DataBlockModel {
       }
     }
   } else if (dbKind === 'array') {
-    // No exported sample shows how TIA writes start values of array DBs: shown, not edited.
+    // Element start values are written THIS[i] := value; in both formats (corpus C40). Elements of
+    // structured types have no exported sample yet: shown, not edited.
     const t = c.block.dbType
       ? index.resolveType(c.block.dbType, c.symbol?.namespace, c.symbol?.id ?? '', c.file.path)
       : undefined;
@@ -472,14 +473,16 @@ export function dataBlockModel(input: ModelInput): DataBlockModel {
     ) {
       const { lower, upper } = t.dimensions[0] as { lower: number; upper: number };
       const last = Math.min(upper, lower + MAX_ELEMENTS - 1);
+      const structured = t.element.kind !== 'elementary';
       for (let i = lower; i <= last; i++)
         rows.push({
-          ...startRow(`[${i}]`, [`[${i}]`], 0, `[${i}]`, t.element, {}),
-          structured: true,
+          ...startRow(`THIS[${i}]`, [`THIS[${i}]`], 0, `[${i}]`, t.element, {}),
+          structured,
         });
+      if (upper > last) note = `Arrays show their first ${MAX_ELEMENTS} elements.`;
+      if (structured)
+        note = 'Start values of structured array elements are shown read-only: edit them in TIA.';
     }
-    note =
-      'Array data blocks are shown read-only: start values of their elements are edited in TIA.';
   } else if (c.symbol) {
     walk(index.dbMembers(c.symbol), [], 0, true, {
       file: c.parsed,

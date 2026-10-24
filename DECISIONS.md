@@ -158,3 +158,7 @@ The spec asks that core and language-server pass their tests in a browser worker
 - `failsafe-read-write` covers bit memory and members of standard DBs. Input and output tags are left out, because the files do not say which of them are fail-safe I/O. A struct whose members are read and written separately is not one operand.
 - MAX, MIN and Limit stay "not permitted in F" without proof (warnings): TIA refused MAX with an unclear message and crashed on Limit.
 - The `plc.json` schema now also lists `obs` and `failsafeBlocks`, which the code read but the schema rejected (VS Code flagged them), and the new `mainSafetyBlocks`.
+
+## 2026-10-24 – Array DB start values are editable (supersedes "shown but not edited")
+
+- Corpus C40 shows the format: `THIS[i] := value;` per element in both formats. The data block editor now edits element start values of array DBs with elementary element types; new values go in index order, as TIA writes them. Arrays of PLC data types stay read-only until a sample shows their start values.

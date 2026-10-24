@@ -1,5 +1,12 @@
 // Models of the table editors (spec M7) on corpus exports, and the cycle edit, apply, parse again.
-import { Project, SourceText, applyEdits, type EditResult } from '@plcstudio/core';
+import {
+  Project,
+  SourceText,
+  applyEdits,
+  parseBlockText,
+  setStartValue,
+  type EditResult,
+} from '@plcstudio/core';
 import { readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
@@ -489,5 +496,61 @@ describe('translation table model', () => {
       new SourceText(read(`${root}/C02-global-db/source/DB_Machine.db`)),
     );
     expect(translationModel(input(p, '/plc/DB_Machine.db')).error).toBeTruthy();
+  });
+});
+
+describe('array DB start values (corpus C40, C03)', () => {
+  const start = (texts: Map<string, string>, path: string, element: string, value: string) =>
+    apply(
+      texts,
+      path,
+      declarationEdit(context(project(texts), path), {
+        type: 'edit',
+        op: 'start',
+        path: [element],
+        value,
+      }),
+    );
+
+  it('shows THIS[i] values, edits them, and a removed value comes back byte for byte', () => {
+    const texts = files(['C40-array-db-start-values']);
+    const db = '/plc/DB_V2_Array.s7dcl';
+    const m = dataBlockModel(input(project(texts), db));
+    expect(m.dbKind).toBe('array');
+    expect(m.rows.map((r) => [r.name, r.value, r.structured])).toEqual([
+      ['[0]', '', false],
+      ['[1]', '5', false],
+      ['[2]', '', false],
+      ['[3]', '-7', false],
+    ]);
+    const removed = start(texts, db, 'THIS[3]', '');
+    expect(removed.get(db)).not.toContain('THIS[3]');
+    expect(start(removed, db, 'THIS[3]', '-7').get(db)).toBe(texts.get(db));
+  });
+
+  it('writes the first value of an array DB where TIA puts it, in both formats', () => {
+    const texts = files(['C03-array-db']);
+    const db = '/plc/DB_Recipes.s7dcl';
+    // elements of a PLC data type stay read-only: no sample shows their start values yet
+    expect(dataBlockModel(input(project(texts), db)).rows.every((r) => r.structured)).toBe(true);
+    const fileOf = (t: string, format: 's7dcl' | 'source') => parseBlockText(t, format);
+    const sd = fileOf(texts.get(db)!, 's7dcl');
+    const sdNext = applyEdits(
+      texts.get(db)!,
+      setStartValue(sd, sd.blocks[0]!, 'THIS[2]', '1').edits,
+    );
+    expect(sdNext.split('\r\n').slice(5, 9)).toEqual([
+      'DATA_BLOCK DB_Recipes : Array[0..9] of _.UDT_Recipe',
+      '    THIS[2] := 1;',
+      '',
+      'END_DATA_BLOCK',
+    ]);
+    const c40 = read(`${root}/C40-array-db-start-values/source/DB_V2_Array.db`);
+    const src = fileOf(c40, 'source');
+    const without = applyEdits(c40, setStartValue(src, src.blocks[0]!, 'THIS[1]', undefined).edits);
+    const back = fileOf(without, 'source');
+    expect(applyEdits(without, setStartValue(back, back.blocks[0]!, 'THIS[1]', '5').edits)).toBe(
+      c40,
+    );
   });
 });

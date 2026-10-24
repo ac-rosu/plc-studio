@@ -6,13 +6,13 @@ Editing, checking and analysis for SCL, LAD and FBD programs of S7-1200 and S7-1
 
 ## What it does
 
-- **Checker.** Errors only for code TIA rejects, at the line TIA reports: syntax, undeclared variables, unknown parameters and members, missing call parameters, type mismatches with and without the IEC check, constants, FOR counters, start values out of range, S7-1500-only types on S7-1200, LAD/FBD operands and unconnected box inputs, software-unit access, fail-safe interface types. Every error rule is proven by a test case compiled in TIA.
+- **Checker.** Errors only for code TIA rejects, at the line TIA reports: syntax, undeclared variables, unknown parameters and members, missing call parameters, type mismatches with and without the IEC check, constants, FOR counters, start values out of range, S7-1500-only types on S7-1200, LAD/FBD operands, unconnected box inputs and boxes without the data type TIA needs, software-unit access, and the fail-safe rules (interface types, no calls between the safety program and the standard program, no writes from standard blocks into F-DBs, standard data either read or written in the safety program). Every error rule is proven by a test case compiled in TIA.
 - **Analyzer.** Warnings and hints TIA does not give: timers or edge detectors not called every cycle, an instance called twice or from two OBs, `Temp` read before written, outputs not written on every path or written twice, writes to inputs, global access inside FBs and FCs, `CASE` without `ELSE`, `REAL` compared with `=`, unused variables, status outputs not evaluated, loops without a clear exit, dead blocks, data shared across priorities without protection, and more. Configurable per workspace or PLC folder.
 - **Editor features.** Completion (locals, globals, struct members, unit objects, instructions with parameters, typed literals), hover with type, start value, comments in every language and where a block is called from, signature help, go to definition, find references, rename across files and units, inlay hints for parameter names, quick fixes (declare a variable, add missing parameters, convert explicitly, publish an object, add a unit relation), outline, workspace symbols, semantic highlighting, `REGION` folding, call hierarchy, reference counts.
 - **Formatter.** Formats SCL the way TIA lays it out. On save it touches only the lines you changed; *Format Document* formats the whole file.
 - **Call tree and Trace value.** The PLC Studio sidebar shows which OB calls which block, every cycle or under a condition. *Trace value* lists every read and write of a variable, tag or DB member across blocks, following parameters.
 - **LAD/FBD view and editor.** LAD and FBD networks drawn graphically, with a palette, drag and drop, branches, networks and inline operands. Every edit changes only the lines of that network.
-- **Table editors.** Block interface, data block start values, translations of comments and titles, and tag tables (with CSV import and export), all editable as tables next to the text.
+- **Table editors.** Block interface (members inside structs, the FC return type), data block start values (global, instance and array DBs), translations of comments and titles, and tag tables (with CSV import and export), all editable as tables next to the text.
 - **Program graph.** All blocks and calls of a PLC on one canvas, filtered by OB, unit or name.
 - **Fail-safe blocks.** F-blocks are marked in every editor and in the explorer, and saving one shows a reminder to compile and accept the change in TIA.
 - **Round trips.** Files stay byte-for-byte as TIA wrote them; edits change only the lines they touch, and comment ids in `.s7res` are never renumbered.
@@ -26,17 +26,20 @@ Editing, checking and analysis for SCL, LAD and FBD programs of S7-1200 and S7-1
 ```json
 {
   "name": "Line3_PLC",
-  "cpu": { "family": "S7-1500", "failsafe": false },
+  "cpu": { "family": "S7-1500", "failsafe": true },
   "tiaVersion": "V21",
   "compiler": { "iecCheck": false },
   "displayLanguage": "en-US",
-  "units": [{ "name": "Filling", "folder": "Units/Filling", "namespace": "Filling", "relations": [] }]
+  "units": [{ "name": "Filling", "folder": "Units/Filling", "namespace": "Filling", "relations": [] }],
+  "mainSafetyBlocks": ["F_FB_MainSafety"]
 }
 ```
 
 Comments and titles missing in a language are listed as info. Add `"languages": ["en-US", "de-DE"]` to `plc.json` to check every text against the project languages; without it, a text counts as missing a language only when another text of the same file has it.
 
 The exported files do not say which type an OB is or how often it runs. Add them to `plc.json` when you need them (`"obs": { "OB_Cyclic100ms": { "type": "CyclicInterrupt", "cycleTimeMs": 100, "priority": 13 } }`), or keep the OB's SimaticML export next to its `.s7dcl`. The call tree, the called-from summaries and the cross-priority rules use them.
+
+On an F-CPU, list the main safety block of each F-runtime group in `mainSafetyBlocks` (the exported files do not say which blocks they are). PLC Studio then checks the safety program as TIA does and lists F-blocks that are not part of it; without the list, those checks only warn.
 
 ## Analyzer settings
 

@@ -59,8 +59,25 @@ export function setStartValue(
   const last = block.startValues[block.startValues.length - 1];
   const sd = file.format === 's7dcl';
   const blockIndent = indentOf(source, block.range.start);
-  const indent = last ? indentOf(source, last.range.start) : blockIndent + (sd ? '    ' : '   ');
+  // after BEGIN TIA indents a global DB's start values by 3 spaces, an array DB's by 4 (C02, C40)
+  const arrayDb = block.dbType?.kind === 'array';
+  const indent = last
+    ? indentOf(source, last.range.start)
+    : blockIndent + (sd || arrayDb ? '    ' : '   ');
   const line = `${indent}${path} := ${v};${nl}`;
+  // elements of one array stay in index order, as TIA writes them (THIS[1] before THIS[3])
+  const indexed = /^(.*)\[(-?\d+)\]$/.exec(path.replace(/\s+/g, ''));
+  if (indexed) {
+    const [, base, n] = indexed;
+    const next = block.startValues.find((a) => {
+      const m = /^(.*)\[(-?\d+)\]$/.exec(startValueKey(file, a));
+      return m && m[1] === base!.toLowerCase() && Number(m[2]) > Number(n);
+    });
+    if (next) {
+      const at = lineSpan(source, next.range).start;
+      return { edits: [{ start: at, end: at, newText: line }] };
+    }
+  }
   if (last) {
     const at = lineSpan(source, last.range).end;
     return { edits: [{ start: at, end: at, newText: line }] };

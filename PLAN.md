@@ -4,7 +4,7 @@ Milestones from [docs/SPEC.md](docs/SPEC.md), each broken into tasks with how ea
 
 Status: `[ ]` open · `[~]` partly done · `[x]` done · **(owner)** needs the owner
 
-State on 2026-10-24 (end of the autonomous run): M0–M12 done except the items marked `[~]` or **(owner)**. Gates: round trip 444/444 files; zero false errors in every PLC and variant; error coverage PLC_Main 34/41 (SIMATIC SD), 33/41 (sources), PLC_1200 2/2; the recursion policy error found; 19/19 analyzer expectations found. Tests: 199 unit, 537 corpus, 161 browser, 12 VS Code integration.
+State on 2026-10-24 (end of the autonomous run): M0–M12 done; only the owner's items are open (M9.4 name and icon, M9.5 publishing). Gates: round trip 466/466 files; zero false errors in every PLC and variant; error coverage PLC_Main 73/80 (SIMATIC SD; the 7 misses are B06, where a missing block is a warning by design), 71/80 (sources), PLC_1200 2/2; the recursion policy error found; 19/19 analyzer expectations found. Corpus: 98 V21 cases (two verification batches added 33). Tests: 223 unit, 608 corpus, 189 browser, 13 VS Code integration.
 
 ## Owner actions
 
