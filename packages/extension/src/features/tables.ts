@@ -87,6 +87,15 @@ async function handle(
   if (problem) void view.webview.postMessage({ type: 'problem', message: problem });
 }
 
+/** An edit from a block interface table, also the one in the LAD/FBD view's interface panel. */
+export function interfaceEdit(
+  message: Message,
+  view: ViewContext,
+  extension: vscode.ExtensionContext,
+): Promise<void> {
+  return handle(message, view, extension, declarationEdit);
+}
+
 export function registerTables({ extension }: FeatureContext): void {
   const ws = workspaceModel(extension);
   // the views show types, comments and FB interfaces from other files of the PLC too

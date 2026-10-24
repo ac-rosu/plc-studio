@@ -27,7 +27,7 @@ export const GRID_CSS = `
   border-bottom: 1px solid var(--vscode-inputValidation-errorBorder);
 }
 .note { padding: 4px 12px; color: var(--vscode-descriptionForeground); }
-.empty { padding: 24px; color: var(--vscode-descriptionForeground); }
+.view-message { padding: 24px; color: var(--vscode-descriptionForeground); }
 .level-1 td:nth-child(1) { padding-left: 18px; }
 .level-2 td:nth-child(1) { padding-left: 32px; }
 .level-3 td:nth-child(1) { padding-left: 46px; }

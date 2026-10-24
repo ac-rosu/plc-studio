@@ -25,14 +25,18 @@ export function post(message: { type: string; [key: string]: unknown }): void {
 }
 
 /**
- * Handles messages from the extension. After an update is drawn the view answers `rendered`; a
- * failure is reported as `viewError` (the extension logs both; the integration tests read them).
+ * Handles messages from the extension. After an update is drawn the view answers `rendered`, after
+ * an update of one part of it (`<part>Update`, such as the LAD/FBD view's interface panel)
+ * `rendered` with that part; a failure is reported as `viewError` (the extension logs both; the
+ * integration tests read them).
  */
 export function onMessage(handler: (message: HostMessage) => void): void {
   window.addEventListener('message', (event: MessageEvent<HostMessage>) => {
     try {
       handler(event.data);
       if (event.data.type === 'update') post({ type: 'rendered' });
+      else if (event.data.type.endsWith('Update'))
+        post({ type: 'rendered', part: event.data.type.slice(0, -'Update'.length) });
     } catch (e) {
       post({ type: 'viewError', message: e instanceof Error ? e.message : String(e) });
     }

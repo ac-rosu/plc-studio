@@ -2,6 +2,7 @@
 // intents; the extension computes minimal edits with core (ladder/edit.ts) and applies them as a
 // WorkspaceEdit, so undo/redo is VS Code's and the text updates live.
 import type { ElementRef, LadderBlockView } from '@plcstudio/core';
+import type { InterfaceModel } from '../interface/model.ts';
 
 export interface PaletteItem {
   readonly name: string;
@@ -27,6 +28,8 @@ export interface LadderModel {
   readonly editable: boolean;
   /** Why there is nothing to draw (a DB, a UDT, a parse problem). */
   readonly message: string | undefined;
+  /** Open the block interface panel when the view opens (setting plcstudio.ladder.interfaceOpen). */
+  readonly interfaceOpen?: boolean;
 }
 
 export type EditIntent =
@@ -76,7 +79,11 @@ export type ViewMessage =
       readonly offset: number;
       readonly prefix: string;
     }
-  | { readonly type: 'edit'; readonly version: number; readonly intent: EditIntent };
+  | { readonly type: 'edit'; readonly version: number; readonly intent: EditIntent }
+  /** The interface panel was opened, or the block changed while it is open. */
+  | { readonly type: 'interfaceRequest' }
+  /** An edit from the interface panel, as the block interface editor sends it (op, path ...). */
+  | { readonly type: 'interfaceEdit'; readonly [key: string]: unknown };
 
 export interface CompletionEntry {
   readonly label: string;
@@ -99,4 +106,7 @@ export type HostToView =
       readonly rung?: number;
       readonly item?: number;
     }
-  | { readonly type: 'error'; readonly message: string };
+  | { readonly type: 'error'; readonly message: string }
+  | { readonly type: 'interfaceUpdate'; readonly model: InterfaceModel }
+  /** An interface edit that could not be applied. */
+  | { readonly type: 'problem'; readonly message: string };

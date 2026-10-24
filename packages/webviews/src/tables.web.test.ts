@@ -72,6 +72,16 @@ const iface: InterfaceModel = {
 };
 
 describe('interface editor', () => {
+  it('embedded in the LAD/FBD view: the table without banner and toolbar', async () => {
+    const { root, post } = setup();
+    renderInterface(root, iface, post, { embedded: true });
+    expect(await accessibilityViolations(root)).toEqual([]);
+    expect(root.querySelector('.banner, .toolbar')).toBeNull();
+    expect(root.querySelector('table[aria-label="Interface of FB_X"]')).not.toBeNull();
+    renderInterface(root, { ...iface, error: 'Not a block.' }, post, { embedded: true });
+    expect(root.textContent).toBe('Not a block.');
+  });
+
   it('renders sections, nested members, accessible names and the fail-safe banner', async () => {
     const { root, post } = setup();
     renderInterface(root, iface, post);

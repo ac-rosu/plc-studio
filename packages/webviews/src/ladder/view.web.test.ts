@@ -1,7 +1,9 @@
-// The LAD/FBD view in a real browser: rendering, fallback, diagnostics, keyboard and palette.
+// The LAD/FBD view in a real browser: rendering, fallback, diagnostics, keyboard, palette and the
+// block interface panel.
 import { ladderBlockView, parseBlockText } from '@plcstudio/core';
 import { profileIndex } from '@plcstudio/profiles';
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import type { InterfaceModel, Row } from '../interface/model.ts';
 import type { LadderModel, ViewMessage } from './protocol.ts';
 import { accessibilityViolations } from '../shared/a11y.ts';
 import { LadderView } from './view.ts';
@@ -179,5 +181,127 @@ describe('LAD/FBD view', () => {
     const ms = performance.now() - t0;
     expect(root.querySelectorAll('section.network svg')).toHaveLength(100);
     expect(ms).toBeLessThan(1000);
+  });
+});
+
+const member = (name: string, type: string): Row => ({
+  path: [name],
+  level: 0,
+  name,
+  type,
+  value: '',
+  defaultValue: '',
+  retain: null,
+  accessible: true,
+  visible: true,
+  writable: true,
+  setpoint: false,
+  comment: '',
+  start: 0,
+  end: 0,
+  structured: false,
+  declarationEditable: true,
+  problems: [],
+});
+
+const iface: InterfaceModel = {
+  view: 'interface',
+  blockName: 'FB_V',
+  blockKind: 'FB',
+  format: 's7dcl',
+  failsafe: false,
+  culture: 'en-US',
+  sections: [
+    {
+      kind: 'Input',
+      label: 'Input',
+      rows: [member('Start', 'Bool'), member('Stop', 'Bool')],
+      canAdd: true,
+    },
+    { kind: 'Output', label: 'Output', rows: [member('Motor', 'Bool')], canAdd: true },
+    { kind: 'Static', label: 'Static', rows: [member('Delay', 'TON_TIME')], canAdd: true },
+  ],
+  types: ['Bool', 'Int', 'TON_TIME'],
+};
+
+const panelOf = (root: HTMLElement) =>
+  root.querySelector<HTMLDetailsElement>('details.interface-panel')!;
+const requests = (sent: ViewMessage[]) => sent.filter((m) => m.type === 'interfaceRequest').length;
+
+describe('LAD/FBD view: block interface panel', () => {
+  it('sits closed between the toolbar and the networks and asks for nothing', () => {
+    const { root, sent } = mount(model(text()));
+    const panel = panelOf(root);
+    expect(panel.open).toBe(false);
+    const children = [...root.children];
+    expect(children.indexOf(panel)).toBe(children.indexOf(root.querySelector('.toolbar')!) + 1);
+    expect(children.indexOf(panel)).toBeLessThan(
+      children.indexOf(root.querySelector('.ladder-body')!),
+    );
+    expect(requests(sent)).toBe(0);
+  });
+
+  it('asks for the interface when opened and sends table edits as interface edits', async () => {
+    const { view, root, sent } = mount(model(text()));
+    const panel = panelOf(root);
+    panel.open = true;
+    await vi.waitFor(() => expect(requests(sent)).toBe(1));
+    view.receive({ type: 'interfaceUpdate', model: iface });
+    expect(panel.querySelector('table[aria-label="Interface of FB_V"]')).not.toBeNull();
+    // the view has its own toolbar and fail-safe banner
+    expect(panel.querySelector('.toolbar, .banner')).toBeNull();
+    expect(await accessibilityViolations(root, LADDER_A11Y)).toEqual([]);
+    const name = panel.querySelector<HTMLInputElement>('input[aria-label="Name of Stop"]')!;
+    name.value = 'StopButton';
+    key(name, 'Enter');
+    expect(sent.at(-1)).toEqual({
+      type: 'interfaceEdit',
+      op: 'rename',
+      path: ['Stop'],
+      value: 'StopButton',
+    });
+  });
+
+  it('stays open and keeps focus across updates, and asks again after each', async () => {
+    const { view, root, sent } = mount(model(text()));
+    const panel = panelOf(root);
+    panel.open = true;
+    await vi.waitFor(() => expect(requests(sent)).toBe(1));
+    view.receive({ type: 'interfaceUpdate', model: iface });
+    const input = panel.querySelector<HTMLInputElement>('input[aria-label="Comment of Start"]')!;
+    input.focus();
+    view.receive({ type: 'update', model: model(text()), version: 8 });
+    expect(panelOf(root)).toBe(panel);
+    expect(panel.open).toBe(true);
+    expect(document.activeElement).toBe(input);
+    expect(requests(sent)).toBe(2);
+  });
+
+  it('leaves keys pressed in the panel to the panel', () => {
+    const { view, root, sent } = mount(model(text()));
+    const summary = panelOf(root).querySelector('summary')!;
+    key(summary, 'ArrowRight');
+    key(summary, 'Delete');
+    expect(view.selected.element).toBeUndefined();
+    expect(sent.some((m) => m.type === 'edit')).toBe(false);
+  });
+
+  it('opens by itself when the setting asks for it, with one request', async () => {
+    const { root, sent } = mount({ ...model(text()), interfaceOpen: true });
+    expect(panelOf(root).open).toBe(true);
+    await vi.waitFor(() => expect(requests(sent)).toBe(1));
+    await new Promise((r) => setTimeout(r, 30));
+    expect(requests(sent)).toBe(1);
+  });
+
+  it('shows a refused interface edit in the status line', () => {
+    const { view, root } = mount(model(text()));
+    view.receive({ type: 'problem', message: 'A member named Start exists already.' });
+    expect(root.querySelector('.status')?.textContent).toBe('A member named Start exists already.');
+  });
+
+  it('has no panel when there is nothing to draw', () => {
+    const { root } = mount({ ...model(text()), view: undefined, message: 'Nothing to draw.' });
+    expect(root.querySelector('details.interface-panel')).toBeNull();
   });
 });

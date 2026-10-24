@@ -43,6 +43,8 @@ import {
   type ViewContext,
 } from '../webview/text-editor-view.ts';
 import type { FeatureContext } from './index.ts';
+import { interfaceEdit, modelInput } from './tables.ts';
+import { interfaceModel } from './tables-model.ts';
 
 export const LADDER_VIEW_TYPE = 'plcstudio.ladderEditor';
 
@@ -110,9 +112,8 @@ function buildModel(document: vscode.TextDocument): LadderModel {
     displayLanguage: displayLanguage(document),
     describeCall,
   });
-  const editable = vscode.workspace
-    .getConfiguration('plcstudio')
-    .get<boolean>('ladder.editing', true);
+  const settings = vscode.workspace.getConfiguration('plcstudio');
+  const editable = settings.get<boolean>('ladder.editing', true);
   const palette: PaletteItem[] = profile()
     .profile.ladderElements.filter((e) => !view?.failsafe || e.failsafeAllowed !== false)
     .map((e) => ({
@@ -128,6 +129,7 @@ function buildModel(document: vscode.TextDocument): LadderModel {
     diagnostics: diagnosticsFor(document),
     palette,
     editable,
+    interfaceOpen: settings.get<boolean>('ladder.interfaceOpen', false),
     message: view
       ? undefined
       : 'This file has no OB, FB or FC with networks to draw (data blocks and types are shown as text).',
@@ -249,9 +251,22 @@ function hoverText(hovers: readonly vscode.Hover[] | undefined): string {
   return parts.join('\n\n');
 }
 
-async function onMessage(message: ViewMessage, view: ViewContext): Promise<void> {
+async function onMessage(
+  message: ViewMessage,
+  view: ViewContext,
+  extension: vscode.ExtensionContext,
+): Promise<void> {
   const document = view.document;
   switch (message.type) {
+    case 'interfaceRequest': {
+      // the same model as the block interface editor; built only while the panel is open
+      const model = interfaceModel(modelInput(document, extension));
+      void view.webview.postMessage({ type: 'interfaceUpdate', model });
+      return;
+    }
+    case 'interfaceEdit':
+      await interfaceEdit({ ...message, type: 'edit' }, view, extension);
+      return;
     case 'hover': {
       const hovers = await vscode.commands.executeCommand<vscode.Hover[]>(
         'vscode.executeHoverProvider',
@@ -334,7 +349,7 @@ export function registerLadderEditor(context: FeatureContext): void {
       view: 'ladder',
       title: (document) => `LAD/FBD: ${path.basename(document.uri.path)}`,
       model: (document) => buildModel(document),
-      onMessage: (message, view) => onMessage(message as unknown as ViewMessage, view),
+      onMessage: (message, view) => onMessage(message as unknown as ViewMessage, view, extension),
     }),
     vscode.commands.registerCommand('plcstudio.openLadderView', async (uri?: vscode.Uri) => {
       const target = uri ?? vscode.window.activeTextEditor?.document.uri;

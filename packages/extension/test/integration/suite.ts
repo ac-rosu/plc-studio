@@ -231,6 +231,25 @@ test('custom editors render: LAD/FBD, interface, data block, translations, tag t
   await vscode.commands.executeCommand('workbench.action.closeAllEditors');
 });
 
+test('the LAD/FBD view shows the block interface panel', async () => {
+  const settings = vscode.workspace.getConfiguration('plcstudio');
+  await settings.update('ladder.interfaceOpen', true, vscode.ConfigurationTarget.Global);
+  try {
+    await openWith('FC_LadContacts.s7dcl', 'plcstudio.ladderEditor');
+    // the panel opens by itself, asks for the interface and reports its table as drawn
+    const h = await until(async () => {
+      const now = await health();
+      return now.rendered.includes('plcstudio.ladderEditor#interface') || now.errors.length > 0
+        ? now
+        : undefined;
+    });
+    assert.deepEqual(h.errors, []);
+  } finally {
+    await settings.update('ladder.interfaceOpen', undefined, vscode.ConfigurationTarget.Global);
+    await vscode.commands.executeCommand('workbench.action.closeAllEditors');
+  }
+});
+
 test('a table view refreshes when another file of its PLC changes', async () => {
   await openWith('FB_SclSections.s7dcl', 'plcstudio.translationTable');
   await rendered('plcstudio.translationTable');

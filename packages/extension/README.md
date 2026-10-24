@@ -11,7 +11,7 @@ Editing, checking and analysis for SCL, LAD and FBD programs of S7-1200 and S7-1
 - **Editor features.** Completion (locals, globals, struct members, unit objects, instructions with parameters, typed literals), hover with type, start value, comments in every language and where a block is called from, signature help, go to definition, find references, rename across files and units, inlay hints for parameter names, quick fixes (declare a variable, add missing parameters, convert explicitly, publish an object, add a unit relation), outline, workspace symbols, semantic highlighting, `REGION` folding, call hierarchy, reference counts.
 - **Formatter.** Formats SCL the way TIA lays it out. On save it touches only the lines you changed; *Format Document* formats the whole file.
 - **Call tree and Trace value.** The PLC Studio sidebar shows which OB calls which block, every cycle or under a condition. *Trace value* lists every read and write of a variable, tag or DB member across blocks, following parameters.
-- **LAD/FBD view and editor.** LAD and FBD networks drawn graphically, with a palette, drag and drop, branches, networks and inline operands. Every edit changes only the lines of that network.
+- **LAD/FBD view and editor.** LAD and FBD networks drawn graphically, with a palette, drag and drop, branches, networks and inline operands, and the block interface in a collapsible panel above the networks. Every edit changes only the lines of that network.
 - **Table editors.** Block interface (members inside structs, the FC return type), data block start values (global, instance and array DBs), translations of comments and titles, and tag tables (with CSV import and export), all editable as tables next to the text.
 - **Program graph.** All blocks and calls of a PLC on one canvas, filtered by OB, unit or name.
 - **Fail-safe blocks.** F-blocks are marked in every editor and in the explorer, and saving one shows a reminder to compile and accept the change in TIA.
@@ -98,6 +98,7 @@ The call tree and the trace results are in the **PLC Studio** view in the activi
 | --- | --- | --- |
 | `plcstudio.displayLanguage` | (from `plc.json`) | Language of comments and titles, for example `de-DE`. |
 | `plcstudio.ladder.editing` | `true` | Allow editing in the LAD/FBD view. |
+| `plcstudio.ladder.interfaceOpen` | `false` | Open the block interface panel above the networks when a LAD/FBD view opens. |
 
 Format on save is set to change only modified lines for PLC Studio's languages; turn on `editor.formatOnSave` to use it.
 

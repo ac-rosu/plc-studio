@@ -32,7 +32,7 @@ export function renderTranslations(root: HTMLElement, model: TranslationModel, p
   if (model.error) {
     root.append(
       toolbar(button('Open text', 'Open the text of this file', () => post({ type: 'openText' }))),
-      h('div', { class: 'empty' }, model.error),
+      h('div', { class: 'view-message' }, model.error),
     );
     return;
   }
@@ -76,7 +76,7 @@ export function renderTranslations(root: HTMLElement, model: TranslationModel, p
     ),
   );
   if (model.rows.length === 0) {
-    root.append(h('div', { class: 'empty' }, 'This block has no comments or titles yet.'));
+    root.append(h('div', { class: 'view-message' }, 'This block has no comments or titles yet.'));
     return;
   }
   const table = h('table', { class: 'grid', 'aria-label': `Translations of ${model.blockName}` });

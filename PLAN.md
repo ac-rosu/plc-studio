@@ -268,6 +268,8 @@ Open questions of M5, answered with the recommended option:
 
 - [x] Palette from the profile (only F-instructions in F-blocks); drag and drop; opening and closing branches; inserting, deleting and moving elements; adding, deleting, moving and copying networks, also between blocks; inline operands with completion; titles and comments in the display language; every edit rewrites only the affected network.
   Verify: one golden-diff test per edit operation.
+- [x] Block interface panel above the networks (owner request after the run, 2026-10-24): the block interface editor's table in a collapsible panel, closed by default, setting `plcstudio.ladder.interfaceOpen`; edits go through the interface editor's handler.
+  Verify: browser tests (closed by default, request on open, edits sent as interface edits, focus and open state kept across updates, keys stay in the panel, accessibility audit); a VS Code integration test opens the panel through the setting and waits until its table is drawn.
 
 ## M11 – Tag table editor (v1.x)
 

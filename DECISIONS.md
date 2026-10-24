@@ -179,3 +179,11 @@ The spec asks that core and language-server pass their tests in a browser worker
 
 - The extension icon is final (M9.4 reserves only the name for the owner): an own design with two power rails, a rung with a contact and a coil, and a rung through a box holding lines of code, so it shows LAD, FBD and SCL without any name or trademark. Its source is `packages/extension/images/icon-source.svg`; `scripts/icon.mts` renders it to `images/icon.png` in Chromium. The source is kept so the icon can be changed without redrawing it.
 - Empty LAD/FBD box: the part names `EmptyBox` and `Box` are unknown to TIA as well, and an empty name is a schema error. It stays an owner item (TIA's editor only).
+
+## 2026-10-24 – Block interface panel in the LAD/FBD view (owner)
+
+- The owner asked for the block interface above the networks, as in TIA's block editor. The LAD/FBD view now has a collapsible "Block interface" panel between its toolbar and the networks, holding the block interface editor's table (same rendering, `embedded` mode without the editor's own banner and toolbar). The spec's LAD/FBD viewer section says so.
+- Closed by default, so opening a large block stays fast: the extension builds the interface model only when the panel asks for it (on opening, and after each change of the block while it is open). The setting `plcstudio.ladder.interfaceOpen` opens it when the view opens, for those who want TIA's layout.
+- Edits in the panel go through the interface editor's handler (`interfaceEdit` in tables.ts), so they behave the same there and here: one undo step, rename across files, problems shown in the view's status line.
+- The panel stays in the page when the drawing is redrawn, so it stays open and the field being typed in keeps its focus; keys pressed inside it are left to it, not to the drawing's shortcuts. Its table scrolls inside the panel (at most 45% of the view's height), so the networks stay in view.
+- The table views' message class `empty` became `view-message`: it would otherwise have styled the LAD view's empty networks once both share a page.

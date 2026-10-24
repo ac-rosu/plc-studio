@@ -1,0 +1,34 @@
+// What the block interface table shows; the extension builds it (tables-model.ts). No DOM here, so
+// the LAD/FBD view's protocol can use these types on the extension side too.
+
+export interface Row {
+  path: string[];
+  level: number;
+  name: string;
+  type: string;
+  value: string;
+  defaultValue: string;
+  retain: boolean | null;
+  accessible: boolean;
+  visible: boolean;
+  writable: boolean;
+  setpoint: boolean;
+  comment: string;
+  start: number;
+  end: number;
+  structured: boolean;
+  declarationEditable: boolean;
+  problems: string[];
+}
+
+export interface InterfaceModel {
+  view: 'interface';
+  blockName: string;
+  blockKind: string;
+  format: 's7dcl' | 'source';
+  failsafe: boolean;
+  culture: string;
+  sections: { kind: string; label: string; rows: Row[]; canAdd: boolean; returnType?: string }[];
+  types: string[];
+  error?: string;
+}

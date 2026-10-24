@@ -13,7 +13,9 @@ export function viewHealthMessage(
   message: { type: string; [key: string]: unknown },
 ): boolean {
   if (message.type === 'rendered') {
-    rendered.set(viewType, (rendered.get(viewType) ?? 0) + 1);
+    // a part of a view (the LAD/FBD view's interface panel) counts as "viewType#part"
+    const key = typeof message['part'] === 'string' ? `${viewType}#${message['part']}` : viewType;
+    rendered.set(key, (rendered.get(key) ?? 0) + 1);
     return true;
   }
   if (message.type === 'viewError') {

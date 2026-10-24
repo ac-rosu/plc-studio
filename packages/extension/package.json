@@ -301,6 +301,11 @@
           "default": true,
           "description": "Allow editing in the LAD/FBD view (palette, drag and drop, operands, networks). Every edit changes only the lines of the affected network."
         },
+        "plcstudio.ladder.interfaceOpen": {
+          "type": "boolean",
+          "default": false,
+          "description": "Open the block interface panel above the networks when a LAD/FBD view opens, as in TIA's block editor. It can always be opened and closed in the view."
+        },
         "plcstudio.displayLanguage": {
           "type": "string",
           "default": "",

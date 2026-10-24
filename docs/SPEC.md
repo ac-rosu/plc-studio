@@ -267,6 +267,7 @@ Every graphical or table editor is a VS Code custom editor over the same text fi
 - Full keyboard navigation (network to network, element to element), screen-reader labels for elements, zoom.
 - Diagnostics from the language server shown on the element they belong to; hover and go-to-definition on operands.
 - Draws a 100-network block in under 1 s.
+- The block interface in a collapsible panel above the networks, as in TIA's block editor (owner, 2026-10-24): the same table as the block interface editor, editable the same way. Closed by default; the setting `plcstudio.ladder.interfaceOpen` opens it when the view opens.
 
 ### LAD/FBD editor (v1.x)
 

@@ -13,37 +13,13 @@ import {
   toolbar,
   type Post,
 } from '../tables-common/grid.ts';
+import type { InterfaceModel, Row } from './model.ts';
 
-export interface Row {
-  path: string[];
-  level: number;
-  name: string;
-  type: string;
-  value: string;
-  defaultValue: string;
-  retain: boolean | null;
-  accessible: boolean;
-  visible: boolean;
-  writable: boolean;
-  setpoint: boolean;
-  comment: string;
-  start: number;
-  end: number;
-  structured: boolean;
-  declarationEditable: boolean;
-  problems: string[];
-}
+export type { InterfaceModel, Row } from './model.ts';
 
-export interface InterfaceModel {
-  view: 'interface';
-  blockName: string;
-  blockKind: string;
-  format: 's7dcl' | 'source';
-  failsafe: boolean;
-  culture: string;
-  sections: { kind: string; label: string; rows: Row[]; canAdd: boolean; returnType?: string }[];
-  types: string[];
-  error?: string;
+export interface InterfaceOptions {
+  /** Inside the LAD/FBD view: no fail-safe banner and no toolbar, that view shows its own. */
+  readonly embedded?: boolean;
 }
 
 const HEADERS = [
@@ -69,25 +45,34 @@ function hmiFlagsApply(blockKind: string, section: string): boolean {
   return blockKind === 'FB' && ['Input', 'Output', 'InOut', 'Static'].includes(section);
 }
 
-export function renderInterface(root: HTMLElement, model: InterfaceModel, post: Post): void {
+export function renderInterface(
+  root: HTMLElement,
+  model: InterfaceModel,
+  post: Post,
+  options: InterfaceOptions = {},
+): void {
   clear(root);
   if (model.error) {
-    root.append(
-      toolbar(button('Open text', 'Open the text of this file', () => post({ type: 'openText' }))),
-      h('div', { class: 'empty' }, model.error),
-    );
+    if (!options.embedded)
+      root.append(
+        toolbar(
+          button('Open text', 'Open the text of this file', () => post({ type: 'openText' })),
+        ),
+      );
+    root.append(h('div', { class: 'view-message' }, model.error));
     return;
   }
   const edit = (op: string, extra: Record<string, unknown>) => post({ type: 'edit', op, ...extra });
-  root.append(
-    ...[failsafeBanner(model.failsafe)].filter((x): x is HTMLElement => x !== null),
-    toolbar(
-      h('strong', {}, `${model.blockKind} ${model.blockName}`),
-      h('span', { class: 'muted' }, `comments in ${model.culture}`),
-      button('Open text', 'Open the text of this file', () => post({ type: 'openText' })),
-    ),
-    datalist('types', model.types),
-  );
+  if (!options.embedded)
+    root.append(
+      ...[failsafeBanner(model.failsafe)].filter((x): x is HTMLElement => x !== null),
+      toolbar(
+        h('strong', {}, `${model.blockKind} ${model.blockName}`),
+        h('span', { class: 'muted' }, `comments in ${model.culture}`),
+        button('Open text', 'Open the text of this file', () => post({ type: 'openText' })),
+      ),
+    );
+  root.append(datalist('types', model.types));
   const table = h('table', { class: 'grid', 'aria-label': `Interface of ${model.blockName}` });
   table.append(h('thead', {}, h('tr', {}, ...HEADERS.map((x) => h('th', { scope: 'col' }, x)))));
   const body = h('tbody', {});

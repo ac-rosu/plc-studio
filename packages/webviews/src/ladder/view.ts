@@ -3,6 +3,7 @@
 import type { ElementRef, ElementView, NetworkView } from '@plcstudio/core';
 import { clear, h } from '../shared/dom.ts';
 import { drawNetwork } from './draw.ts';
+import { InterfacePanel } from './interface-panel.ts';
 import type {
   CompletionEntry,
   EditIntent,
@@ -38,6 +39,7 @@ export class LadderView {
   private hoverTimer: ReturnType<typeof setTimeout> | undefined;
   private editor: HTMLElement | undefined;
   private status: HTMLElement | undefined;
+  private panel: InterfacePanel | undefined;
 
   constructor(root: HTMLElement, send: Send) {
     this.root = root;
@@ -57,10 +59,20 @@ export class LadderView {
 
   receive(message: HostToView): void {
     switch (message.type) {
-      case 'update':
+      case 'update': {
+        const hadPanel = this.panel !== undefined;
         this.model = message.model;
         this.version = message.version;
         this.render();
+        // a new panel asks by itself when it opens
+        if (hadPanel) this.panel?.refresh();
+        break;
+      }
+      case 'interfaceUpdate':
+        this.panel?.show(message.model);
+        break;
+      case 'problem':
+        this.setStatus(message.message, true);
         break;
       case 'hoverResult':
         this.pendingHover.get(message.id)?.(message.text);
@@ -101,7 +113,9 @@ export class LadderView {
 
   render(): void {
     const model = this.model;
-    clear(this.root);
+    // the interface panel stays in the page, so it stays open and its inputs keep focus
+    for (const child of [...this.root.childNodes])
+      if (child !== this.panel?.element) child.remove();
     if (!model) return;
     const view = model.view;
     this.status = h('span', { class: 'status', role: 'status', 'aria-live': 'polite' });
@@ -175,9 +189,9 @@ export class LadderView {
       ),
       this.status,
     );
-    this.root.append(toolbar);
+    const top: HTMLElement[] = [toolbar];
     if (view?.failsafe) {
-      this.root.append(
+      top.push(
         h(
           'div',
           { class: 'banner failsafe', role: 'note' },
@@ -185,6 +199,12 @@ export class LadderView {
         ),
       );
     }
+    const panel = view
+      ? (this.panel ??= new InterfacePanel(this.send, model.interfaceOpen === true))
+      : undefined;
+    if (!panel) this.panel?.element.remove();
+    this.root.prepend(...top);
+    if (panel && panel.element.parentNode !== this.root) this.root.append(panel.element);
     if (!view) {
       this.root.append(
         h('p', { class: 'muted message' }, model.message ?? 'Nothing to draw in this file.'),
@@ -530,7 +550,7 @@ export class LadderView {
   }
 
   private onKey(e: KeyboardEvent): void {
-    if ((e.target as Element).closest('input, .operand-editor')) return;
+    if ((e.target as Element).closest('input, .operand-editor, .interface-panel')) return;
     const editable = this.model?.editable ?? false;
     const element = this.selectedElement();
     if ((e.ctrlKey || e.metaKey) && (e.key === '=' || e.key === '+'))

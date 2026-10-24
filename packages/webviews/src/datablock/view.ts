@@ -49,7 +49,7 @@ export function renderDataBlock(root: HTMLElement, model: DataBlockModel, post: 
   if (model.error) {
     root.append(
       toolbar(button('Open text', 'Open the text of this file', () => post({ type: 'openText' }))),
-      h('div', { class: 'empty' }, model.error),
+      h('div', { class: 'view-message' }, model.error),
     );
     return;
   }
