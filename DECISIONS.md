@@ -224,3 +224,12 @@ The spec asks that core and language-server pass their tests in a browser worker
 - The SCL view is a read-only document (`plcstudio-simaticml:` scheme) in a language of its own, `plcstudio-scl-readonly`, whose grammar includes the SCL grammar: colored, never sent to the language server.
 - VS Code opens .xml files in the text editor; a custom editor as the default for every .xml would take over XML everywhere. So the extension hands a SimaticML block or PLC data type over to its view when its text editor comes up, once per file and session, so "Open text" still shows the XML. The views are also in Open With for .xml files.
 - The data block editor gets a per-row `valueEditable`: the members of structured elements of an array DB are shown with their start values now, but not edited, as no TIA sample shows how SD writes them.
+
+## 2026-10-24 – V20 SimaticML samples (M14.5)
+
+- `corpus/V20` is a version folder like `corpus/V21`, so every gate and SimaticML test runs on it without special cases. Case ids follow the V21 case each object comes from; C00 is TIA's default OB1, which V21's corpus does not keep.
+- The objects came in from V21's sources and SD documents (one of each kind the views show), so V20's exports can be compared with V20's own SD and sources, and with V21's.
+- TIA V20 refused the SIMATIC SD export of the two objects made from external sources (UDT_Motor, FB_SclSections). The harness's documents variant now takes an object's external source where TIA refused its SD export, as the sources variant takes SD where TIA writes no source; otherwise V20's DB_Machine and FB_LadBoxes would point at types that are not there.
+- V20 writes a space after the section keywords of a code block's interface and after the comma between box parameters; V21 does not. The views are unaffected (the SD rungs built from XML are internal), the parser keeps the spaces (round trip 13/13), and V20 imported SD written the V21 way without a message, so the writer stays as it is. The test that compares rungs ignores the space after a comma.
+- The XML views use the V21 profile for every TIA version (there is no V20 profile, ADR 0005); the V20 networks need nothing else.
+- ADR 0014 makes the known SimaticML namespace versions profile data. V20 Update 6 and V21 Update 1 use the same three; the V21 profile lists them (`simaticmlSchemas`) and a corpus test checks that each version's exports use exactly those. The reader still matches local names, so a new namespace version is read anyway; the test makes it visible.

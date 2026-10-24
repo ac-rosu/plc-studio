@@ -176,6 +176,17 @@ Twenty small blocks were imported into the corpus project (group `Verify` of PLC
 - An F-DB is not marked in its external source: SIMATIC SD has `S7_Safety := "True"` (C24 F_DB_Settings), the source does not. plc.json lists F-DBs under `failsafeBlocks` (the checker says so when it meets one).
 - A name SIMATIC SD writes in quotes because it is short (`"m"`, `"b"`) is written without quotes in the source when it is a plain identifier (B30, B32).
 
+## 2026-10-24 – TIA V20 compared with V21 (M14.5)
+
+Evidence and line numbers: `corpus/V20/_project/format-findings.md`.
+
+- SimaticML: V20 Update 6 uses the namespaces V21 uses (Interface v5, FlgNet v5, StructuredText v4). It starts `Sections`, `FlgNet` and `StructuredText` on their parent's line; whitespace only.
+- SIMATIC SD: in a code block's interface V20 writes `VAR_INPUT `, `VAR_OUTPUT `, `VAR_IN_OUT `, `VAR ` with a trailing space, and `, ` at the end of a box parameter line. A data block has neither. V20 imports SD without those spaces.
+- V20 refused the SD export of a type and an FB made from external sources ("project modifications made with a TIA Portal version earlier than V20 Update 4", in a project created in V20 Update 6).
+- A DB generated from a source keeps only start values that differ from the default and normalizes hexadecimal values (`16#0F` → `16#000F`, `16#0000_FFFF` → `16#FFFF`), in all three formats.
+- An empty LAD network is `<NetworkSource />` in SimaticML and `RUNG wire#powerrail` / `END_RUNG` in SD.
+- Same as V21: sources start every code line with a tab and carry a BOM; GenerateSource refuses LAD/FBD with the same message.
+
 ## 2026-10-24 – SimaticML blocks compared with SIMATIC SD (M14)
 
 - Structured text keeps every token, blank and line break; SD stores the same text indented by eight spaces (twelve inside a NAMESPACE), external sources after a tab. A `(* … *)` comment is a `LineComment` with `Inserted="true"`.

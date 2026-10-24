@@ -117,4 +117,4 @@ The owner asked Claude to finish all milestones without stopping for acceptance 
 
 ## Current milestone
 
-Autonomous run finished on 2026-10-24: M0–M12 are done except the items marked `[~]` or **(owner)** in `PLAN.md`. The owner's feedback after the run is done as M13 and M14.1–M14.4 (see `PLAN.md`). Waiting for the owner's review, the final name, the publishing decision (M9.4, M9.5) and V20 samples (M14.5).
+Autonomous run finished on 2026-10-24: M0–M12 are done except the items marked `[~]` or **(owner)** in `PLAN.md`. The owner's feedback after the run is done as M13 and M14, including the V20 samples (see `PLAN.md`). Waiting for the owner's review, the final name and the publishing decision (M9.4, M9.5).
