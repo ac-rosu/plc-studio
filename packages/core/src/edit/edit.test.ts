@@ -5,7 +5,7 @@ import { parseResourcesText } from '../formats/s7res.ts';
 import { parseTagTableText } from '../formats/tag-table.ts';
 import { parseBlockText } from '../syntax/parser.ts';
 import { applyEdits, changedLines } from '../writer/text-edit.ts';
-import type { EditResult } from './common.ts';
+import { lineDiffEdits, type EditResult } from './common.ts';
 import {
   addMember,
   deleteMember,
@@ -17,6 +17,7 @@ import {
   setDefaultValue,
   setMemberComment,
   setMemberFlags,
+  setReturnType,
 } from './declarations.ts';
 import {
   addResourceEntry,
@@ -29,6 +30,7 @@ import {
   addEntry,
   addressProblems,
   csvChanges,
+  csvImport,
   deleteEntry,
   exportCsv,
   findEntry,
@@ -300,6 +302,193 @@ describe('interface edits in SIMATIC SD documents', () => {
       udt.replace('        On : Bool;\r\n', '        On : Bool;\r\n        Speed : Real;\r\n'),
       [3],
     );
+  });
+});
+
+describe('members inside structs and the return type of functions', () => {
+  const SD_STRUCT = crlf(
+    '{',
+    '    S7_Optimized := "TRUE";',
+    '    S7_Version := "0.1"',
+    '}',
+    'DATA_BLOCK DB_S',
+    '    VAR',
+    '        { S7_MLC := "MLC_1" }',
+    '        Limits : STRUCT',
+    '            Minimum : Real;',
+    '            Inner : STRUCT',
+    '            END_STRUCT;',
+    '        END_STRUCT;',
+    '    END_VAR',
+    '',
+    'END_DATA_BLOCK',
+  );
+  const SRC_STRUCT = crlf(
+    'DATA_BLOCK "DB_S"',
+    "{ S7_Optimized_Access := 'TRUE' }",
+    'VERSION : 0.1',
+    'NON_RETAIN',
+    '   VAR ',
+    '      Limits : Struct   // Process limits',
+    '         Minimum : Real;   // Lower limit',
+    '      END_STRUCT;',
+    '   END_VAR',
+    '',
+    '',
+    'BEGIN',
+    '',
+    'END_DATA_BLOCK',
+  );
+  const sd = (text = SD_STRUCT) => {
+    const file = parseBlockText(text, 's7dcl');
+    return { file, block: file.blocks[0]! };
+  };
+  const src = (text = SRC_STRUCT) => {
+    const file = parseBlockText(text, 'source');
+    return { file, block: file.blocks[0]! };
+  };
+
+  it('adds a member at the end of a struct, with the indent of its members (SIMATIC SD)', () => {
+    golden(
+      SD_STRUCT,
+      addMember(sd(), 'Static', { name: 'Maximum', type: 'Real' }, { parent: ['Limits'] }),
+      SD_STRUCT.replace(
+        '            END_STRUCT;\r\n        END_STRUCT;',
+        '            END_STRUCT;\r\n            Maximum : Real;\r\n        END_STRUCT;',
+      ),
+      [11],
+    );
+  });
+
+  it('adds into an empty nested struct, one level deeper than its END_STRUCT', () => {
+    golden(
+      SD_STRUCT,
+      addMember(sd(), 'Static', { name: 'Low', type: 'Int' }, { parent: ['Limits', 'Inner'] }),
+      SD_STRUCT.replace(
+        '            Inner : STRUCT\r\n',
+        '            Inner : STRUCT\r\n                Low : Int;\r\n',
+      ),
+      [10],
+    );
+  });
+
+  it('adds a Struct member with its empty body, and after a given nested member', () => {
+    golden(
+      SD_STRUCT,
+      addMember(
+        sd(),
+        'Static',
+        { name: 'Range', type: 'Struct' },
+        { parent: ['Limits'], after: ['Limits', 'Minimum'] },
+      ),
+      SD_STRUCT.replace(
+        '            Minimum : Real;\r\n',
+        '            Minimum : Real;\r\n            Range : STRUCT\r\n            END_STRUCT;\r\n',
+      ),
+      [9, 10],
+    );
+  });
+
+  it('checks names per struct and refuses a parent that is not a struct', () => {
+    expect(
+      addMember(sd(), 'Static', { name: 'minimum', type: 'Int' }, { parent: ['Limits'] }).error,
+    ).toMatch(/already declared in this struct/);
+    expect(
+      addMember(sd(), 'Static', { name: 'X', type: 'Int' }, { parent: ['Limits', 'Minimum'] })
+        .error,
+    ).toMatch(/not a Struct/);
+    // a name used inside a struct is free at the top level
+    expect(addMember(sd(), 'Static', { name: 'Minimum', type: 'Int' }).error).toBeUndefined();
+  });
+
+  it('adds nested members in external sources, comment at the end of the line', () => {
+    golden(
+      SRC_STRUCT,
+      addMember(
+        src(),
+        'Static',
+        { name: 'Maximum', type: 'Real', comment: 'Upper limit' },
+        { parent: ['Limits'] },
+      ),
+      SRC_STRUCT.replace(
+        '      END_STRUCT;',
+        '         Maximum : Real;   // Upper limit\r\n      END_STRUCT;',
+      ),
+      [7],
+    );
+    golden(
+      SRC_STRUCT,
+      addMember(
+        src(),
+        'Static',
+        { name: 'Range', type: 'struct', comment: 'r' },
+        { parent: ['Limits'] },
+      ),
+      SRC_STRUCT.replace(
+        '      END_STRUCT;',
+        '         Range : Struct   // r\r\n         END_STRUCT;\r\n      END_STRUCT;',
+      ),
+      [7, 8],
+    );
+  });
+
+  it('adding and deleting a nested member gives the file back', () => {
+    const added = apply(
+      SD_STRUCT,
+      addMember(sd(), 'Static', { name: 'Maximum', type: 'Real' }, { parent: ['Limits'] }),
+    );
+    expect(apply(added, deleteMember(sd(added), ['Limits', 'Maximum']))).toBe(SD_STRUCT);
+  });
+
+  it('changes the return type of a function in both formats', () => {
+    const sdFc = crlf(
+      '{',
+      '    S7_EditorMode := "SCL";',
+      '    S7_Optimized := "TRUE";',
+      '    S7_Version := "0.1"',
+      '}',
+      'FUNCTION "FC_X" : Void',
+      '    VAR_INPUT',
+      '        a : Int;',
+      '    END_VAR',
+      '',
+      '    { S7_Language := "SCL" }',
+      '    NETWORK',
+      '        ',
+      '            ;',
+      '        ',
+      '    END_NETWORK',
+      'END_FUNCTION',
+    );
+    const f = parseBlockText(sdFc, 's7dcl');
+    const ctx = { file: f, block: f.blocks[0]! };
+    golden(sdFc, setReturnType(ctx, ' Int '), sdFc.replace(': Void', ': Int'), [5]);
+    expect(setReturnType(ctx, 'Void').edits).toEqual([]);
+    expect(setReturnType(ctx, '').error).toMatch(/Void/);
+    expect(setReturnType(ctx, 'Struct').error).toMatch(/cannot be the return type/);
+    const srcFc = crlf(
+      'FUNCTION "FC_X" : Real',
+      "{ S7_Optimized_Access := 'TRUE' }",
+      'VERSION : 0.1',
+      '   VAR_INPUT ',
+      '      a : Int;',
+      '   END_VAR',
+      '',
+      '',
+      'BEGIN',
+      '\t;',
+      'END_FUNCTION',
+      '',
+    );
+    const g = parseBlockText(srcFc, 'source');
+    golden(
+      srcFc,
+      setReturnType({ file: g, block: g.blocks[0]! }, 'Void'),
+      srcFc.replace(': Real', ': Void'),
+      [0],
+    );
+    const fb = sdCtx();
+    expect(setReturnType(fb, 'Int').error).toMatch(/Only functions/);
   });
 });
 
@@ -659,6 +848,31 @@ describe('tag table edits', () => {
     expect(changes.map((c) => nextCsvEdit(t, c))).toEqual([undefined, undefined, undefined]);
   });
 
+  it('imports a whole CSV as one set of minimal line edits (one undo step)', () => {
+    const csv =
+      exportCsv(t).replace('%MW12', '%MW20').replace('Start push button', '"Start, push"') +
+      'Tag,Lamp,Bool,%Q0.0,,true,true,true,Lamp\r\n';
+    const result = csvImport(TAGS, csv);
+    expect(result.error).toBeUndefined();
+    expect(result.applied).toBe(3);
+    const after = applyEdits(TAGS, result.edits);
+    const final = parseTagTableText(after);
+    expect(final.entries.map((e) => [e.name, e.address ?? e.value])).toEqual([
+      ['StartButton', '%I0.0'],
+      ['Status', '%MW20'],
+      ['Lamp', '%Q0.0'],
+      ['MAXIMUM', '1000'],
+    ]);
+    // the same text as applying the steps one by one, and no edit spans an unchanged line
+    const unchanged = new Set(
+      TAGS.split('\r\n').filter((line) => after.split('\r\n').includes(line)),
+    );
+    for (const e of result.edits)
+      for (const line of TAGS.slice(e.start, e.end).split('\r\n').filter(Boolean))
+        expect(unchanged.has(line) && after.includes(line + '\r\n')).toBe(false);
+    expect(csvImport(after, csv)).toEqual({ edits: [], applied: 0, problems: [] });
+  });
+
   it('imports changed and new rows from CSV, one edit at a time', () => {
     const csv =
       exportCsv(t).replace('%MW12', '%MW20').replace('Start push button', '"Start, push"') +
@@ -679,5 +893,34 @@ describe('tag table edits', () => {
       ['MAXIMUM', '1000'],
     ]);
     expect(final.entries[0]!.comments.get('en-US')?.text).toBe('Start, push');
+  });
+});
+
+describe('line diff', () => {
+  const lines = (...l: string[]) => l.map((x) => x + '\r\n').join('');
+
+  it('touches only the lines that differ', () => {
+    const before = lines('a', 'b', 'c', 'd', 'e');
+    const after = lines('a', 'B', 'c', 'd', 'x', 'e');
+    const edits = lineDiffEdits(before, after);
+    expect(applyEdits(before, edits)).toBe(after);
+    expect(edits.map((e) => before.slice(e.start, e.end))).toEqual(['b\r\n', '']);
+  });
+
+  it('turns any text into any other (random lines)', () => {
+    let seed = 7;
+    const rnd = (n: number) => {
+      seed = (seed * 1103515245 + 12345) % 2147483648;
+      return seed % n;
+    };
+    for (let round = 0; round < 200; round++) {
+      const make = () =>
+        Array.from({ length: rnd(12) }, () => 'abcde'[rnd(5)]!)
+          .map((x) => x + (rnd(4) === 0 ? '\n' : '\r\n'))
+          .join('') + (rnd(3) === 0 ? 'tail' : '');
+      const before = make();
+      const after = make();
+      expect(applyEdits(before, lineDiffEdits(before, after))).toBe(after);
+    }
   });
 });

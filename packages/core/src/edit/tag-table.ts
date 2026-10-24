@@ -2,7 +2,7 @@
 // rewritten, in the layout TIA writes (attributes in alphabetical order, defaults left out as VCI
 // does, element IDs counting up through the document).
 import type { CpuFamily } from '@plcstudio/profiles';
-import type { TagTableEntry, TagTableFile } from '../formats/tag-table.ts';
+import { parseTagTableText, type TagTableEntry, type TagTableFile } from '../formats/tag-table.ts';
 import {
   attributeText,
   child,
@@ -12,8 +12,15 @@ import {
   type XmlElement,
 } from '../formats/xml.ts';
 import type { Range } from '../text/source-text.ts';
-import type { TextEdit } from '../writer/text-edit.ts';
-import { failed, indentOf, lineSpan, lineStartOf, type EditResult } from './common.ts';
+import { applyEdits, type TextEdit } from '../writer/text-edit.ts';
+import {
+  failed,
+  indentOf,
+  lineDiffEdits,
+  lineSpan,
+  lineStartOf,
+  type EditResult,
+} from './common.ts';
 
 export type TagFlag = 'ExternalAccessible' | 'ExternalVisible' | 'ExternalWritable';
 
@@ -623,4 +630,43 @@ export function nextCsvEdit(table: TagTableFile, change: CsvChange): EditResult 
       return setEntryComment(table, entry, culture, text);
   }
   return undefined;
+}
+
+export interface CsvImport {
+  /** Minimal edits on the tag table text for every change of the CSV together (one undo step). */
+  readonly edits: readonly TextEdit[];
+  /** How many single changes were made. */
+  readonly applied: number;
+  /** Rows that were skipped. */
+  readonly problems: readonly string[];
+  /** The change that could not be made; the edits hold the changes before it. */
+  readonly error?: string;
+}
+
+/**
+ * Applies a whole CSV to a tag table text: each change is computed on the result of the previous
+ * one (so every step is a minimal edit), and the steps are returned as one set of line edits.
+ */
+export function csvImport(text: string, csv: string): CsvImport {
+  const problems = csvChanges(parseTagTableText(text), csv).problems;
+  let current = text;
+  let applied = 0;
+  let error: string | undefined;
+  for (let guard = 0; guard < 5000; guard++) {
+    const table = parseTagTableText(current);
+    let next: EditResult | undefined;
+    for (const change of csvChanges(table, csv).changes) {
+      next = nextCsvEdit(table, change);
+      if (next) break;
+    }
+    if (!next) break;
+    if (next.error) {
+      error = next.error;
+      break;
+    }
+    current = applyEdits(current, next.edits);
+    applied++;
+  }
+  const edits = lineDiffEdits(text, current);
+  return error === undefined ? { edits, applied, problems } : { edits, applied, problems, error };
 }

@@ -10,6 +10,7 @@ import type {
   BlockFile,
   Member,
   SectionKind,
+  StructType,
   VarSection,
 } from '../syntax/ast.ts';
 import type { TextEdit } from '../writer/text-edit.ts';
@@ -385,12 +386,21 @@ function allResourceIds(ctx: DeclarationContext): string[] {
   return [...ids];
 }
 
-/** Adds a member to a section (created in TIA's order if missing), after `afterPath` or at the end. */
+/**
+ * Adds a member to a section (created in TIA's order if missing), after `after` or at the end.
+ * With `parent` (the path of a Struct member) the member goes into that struct instead, at any
+ * depth. A member of type Struct is written with its empty STRUCT … END_STRUCT; lines.
+ */
 export function addMember(
   ctx: DeclarationContext,
   sectionKind: SectionKind,
   spec: MemberSpec,
-  options: { after?: readonly string[]; culture?: string; retain?: boolean } = {},
+  options: {
+    after?: readonly string[];
+    parent?: readonly string[];
+    culture?: string;
+    retain?: boolean;
+  } = {},
 ): EditResult {
   const source = ctx.file.source;
   const nl = source.newline;
@@ -398,20 +408,40 @@ export function addMember(
     return failed(`${spec.name} is not a valid name.`);
   if (!spec.type.trim()) return failed('A data type is needed.');
   const sd = isSd(ctx);
-  const allMembers = ctx.block.struct
-    ? ctx.block.struct.members
-    : ctx.block.sections.flatMap((s) => s.members);
-  if (allMembers.some((m) => m.name.text.toLowerCase() === spec.name.toLowerCase()))
-    return failed(`${spec.name} is already declared in this block.`);
+  let parent: StructType | undefined;
+  if (options.parent && options.parent.length > 0) {
+    const location = findMember(ctx.block, options.parent);
+    if (!location) return failed(`No member ${options.parent.join('.')}.`);
+    if (location.member.type.kind !== 'struct')
+      return failed(`${options.parent.join('.')} is not a Struct.`);
+    parent = location.member.type;
+  }
+  const afterLocation = options.after ? findMember(ctx.block, options.after) : undefined;
+  // names are unique per struct; top-level names across the whole interface
+  const siblings = parent
+    ? parent.members
+    : afterLocation && options.after!.length > 1
+      ? afterLocation.siblings
+      : ctx.block.struct
+        ? ctx.block.struct.members
+        : ctx.block.sections.flatMap((s) => s.members);
+  if (siblings.some((m) => m.name.text.toLowerCase() === spec.name.toLowerCase()))
+    return failed(
+      `${spec.name} is already declared ${parent ? 'in this struct' : 'in this block'}.`,
+    );
 
   let insertAt: number;
   let indent: string;
   let sectionText: ((members: string) => string) | undefined;
   const step = sd ? '    ' : '   ';
-  const afterLocation = options.after ? findMember(ctx.block, options.after) : undefined;
   if (afterLocation) {
     insertAt = memberLines(ctx, afterLocation.member).end;
     indent = indentOf(source, afterLocation.member.name.range.start);
+  } else if (parent) {
+    const endStruct = parent.range.end - 'END_STRUCT'.length;
+    const first = parent.members[0];
+    insertAt = lineStartOf(source, endStruct);
+    indent = first ? indentOf(source, first.name.range.start) : indentOf(source, endStruct) + step;
   } else if (ctx.block.struct) {
     const endStruct = ctx.block.struct.range.end - 'END_STRUCT'.length;
     const first = ctx.block.struct.members[0];
@@ -456,7 +486,12 @@ export function addMember(
       }
     }
   }
-  const initial = spec.initial?.trim() ? ` := ${spec.initial.trim()}` : '';
+  const isStruct = spec.type.trim().toLowerCase() === 'struct';
+  // TIA writes STRUCT in SIMATIC SD and Struct in external sources; END_STRUCT; at the member's indent
+  const typeText = isStruct ? (sd ? 'STRUCT' : 'Struct') : spec.type.trim();
+  const initial = !isStruct && spec.initial?.trim() ? ` := ${spec.initial.trim()}` : '';
+  const end = isStruct ? '' : ';';
+  const structEnd = isStruct ? `${indent}END_STRUCT;${nl}` : '';
   let resourceEdits: readonly TextEdit[] | undefined;
   let newResourceText: string | undefined;
   let lines: string;
@@ -474,12 +509,12 @@ export function addMember(
           nl,
         );
     }
-    lines = `${attrs}${indent}${spec.name} : ${spec.type.trim()}${initial};${nl}`;
+    lines = `${attrs}${indent}${spec.name} : ${typeText}${initial}${end}${nl}${structEnd}`;
   } else {
     const comment = spec.comment?.trim()
       ? `   // ${spec.comment.trim().replace(/[\r\n]+/g, ' ')}`
       : '';
-    lines = `${indent}${spec.name} : ${spec.type.trim()}${initial};${comment}${nl}`;
+    lines = `${indent}${spec.name} : ${typeText}${initial}${end}${comment}${nl}${structEnd}`;
   }
   const newText = sectionText ? sectionText(lines) : lines;
   const result: EditResult = { edits: [{ start: insertAt, end: insertAt, newText }] };
@@ -488,6 +523,19 @@ export function addMember(
     ...(resourceEdits ? { resourceEdits } : {}),
     ...(newResourceText ? { newResourceText } : {}),
   };
+}
+
+/** Changes the return type of a function (`FUNCTION "X" : Int`), Void included. */
+export function setReturnType(ctx: DeclarationContext, typeText: string): EditResult {
+  if (ctx.block.kind !== 'FC') return failed('Only functions have a return type.');
+  const t = ctx.block.returnType;
+  if (!t) return failed('The function header has no return type to change.');
+  const v = typeText.trim();
+  if (!v) return failed('The return type cannot be empty; use Void for none.');
+  if (/[;:\r\n]/.test(v) || /^struct$/i.test(v))
+    return failed(`${v} cannot be the return type of a function.`);
+  if (ctx.file.source.slice(t.range) === v) return { edits: [] };
+  return { edits: [{ start: t.range.start, end: t.range.end, newText: v }] };
 }
 
 /** Deletes a member, its start value lines (DBs) and its .s7res entry. */
