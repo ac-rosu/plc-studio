@@ -118,8 +118,8 @@ Open questions (ask at the start of M1):
   Verify: C02 (`MLC_4DE` without de-DE) gives one info; per-language text tests.
 - [x] **M2.8 Profile base data V21**: system data types and constants, the catalog entries the corpus uses, `verified` flags, an F-catalog skeleton.
   Verify: profiles load and validate; every instruction used in the corpus is in the catalog; coverage report.
-- [~] **M2.9 Incremental updates per file**.
-  Verify: changing one file recomputes only the symbols that depend on it. Status: only the changed file is parsed again; the index and the checks of its PLC are recomputed (about 150 ms on 5,000 blocks, inside the 200 ms target). Finer dependency tracking is not needed yet.
+- [x] **M2.9 Incremental updates per file**.
+  Verify: changing one file recomputes only the symbols that depend on it. Done: only the changed file is parsed and its symbols extracted again; a block is bound again only when its file or a declaration it depends on changed (DECISIONS, "Incremental analysis"). `analysis.stats` counts extracted files and bound, reused and analyzed blocks; tests in `check/incremental.test.ts` (also in the browser) and `incremental.corpus.test.ts` prove what is recomputed and that the result always equals a fresh analysis. On the generated PLC (4,866 blocks): a body edit binds 1 block and re-runs single-block rules for 3, re-checked in about 75 ms; a full re-check, what every edit cost before, takes about 400 ms.
 
 Open questions of M2, answered with the recommended option (DECISIONS):
 
@@ -216,7 +216,7 @@ Open questions of M5, answered with the recommended option:
 - [x] **M6.5 Trace value.**
 - [x] **M6.6 Call tree view** in the sidebar.
 - [x] **M6.7 Called-from summaries** in hover and CodeLens.
-- [~] **M6.8 Incremental re-run** only for affected blocks. Status: the call graph is cached per PLC revision and rebuilt after a change (fast enough at 5,000 blocks); no per-block invalidation yet.
+- [x] **M6.8 Incremental re-run** only for affected blocks. Done: single-block analyzer findings are cached per block and run again only for blocks bound again or whose rules looked up references that changed; the call graph and the cross-block rules are rebuilt from the cached per-block call sites and facts (about 25 ms at 5,000 blocks).
   Verify for M6.4–M6.8: unit and integration tests; partial-export tests produce no errors.
 
 ## M7 – Table editors and F-blocks
