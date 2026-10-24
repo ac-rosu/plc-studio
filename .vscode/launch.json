@@ -1,6 +1,7 @@
 {
   // Run PLC Studio from source in a second VS Code window. "npm run demo" first writes the demo
-  // workspace (corpus PLCs) to .scratch/demo.
+  // workspace (corpus PLCs) to .scratch/demo. If the debugger cannot attach ("Extension host did
+  // not start in 10 seconds"), run the task "plcstudio: open demo without debugger" instead.
   "version": "0.2.0",
   "configurations": [
     {

@@ -10,6 +10,18 @@
       },
       "problemMatcher": [],
       "presentation": { "reveal": "silent" }
+    },
+    {
+      // Same window as the launch configuration, without the debugger (for when it cannot attach).
+      "label": "plcstudio: open demo without debugger",
+      "type": "shell",
+      "command": "code --new-window \"--extensionDevelopmentPath=${workspaceFolder}/packages/extension\" \"${workspaceFolder}/.scratch/demo\"",
+      "windows": {
+        "options": { "shell": { "executable": "cmd.exe", "args": ["/d", "/c"] } }
+      },
+      "dependsOn": "plcstudio: build and demo",
+      "problemMatcher": [],
+      "presentation": { "reveal": "silent" }
     }
   ]
 }
