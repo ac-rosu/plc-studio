@@ -1,0 +1,61 @@
+MultiLingualTexts:
+  - id: MLC_I1
+    en-US: Start command
+  - id: MLC_I2
+    en-US: Input value
+  - id: MLC_I3
+    en-US: Limit for the comparisons
+  - id: MLC_O1
+    en-US: Start delayed by three seconds
+  - id: MLC_O2
+    en-US: Copy of the input value
+  - id: MLC_O3
+    en-US: Input value plus limit
+  - id: MLC_O4
+    en-US: Input value equal to the limit
+  - id: MLC_O5
+    en-US: Input value greater than the limit
+  - id: MLC_O6
+    en-US: Input value less than or equal to the limit
+  - id: MLC_O7
+    en-US: Average from FB_SclSections
+  - id: MLC_O8
+    en-US: ENO of the FB_SclSections call
+  - id: MLC_O9
+    en-US: Set only when the jump is not taken
+  - id: MLC_O10
+    en-US: Network after the jump label
+  - id: MLC_S1
+    en-US: On-delay timer
+  - id: MLC_S7
+    en-US: Elapsed time of the on-delay timer
+  - id: MLC_S2
+    en-US: Multi-instance of FB_SclSections
+  - id: MLC_S3
+    en-US: Values for FB_SclSections
+  - id: MLC_S4
+    en-US: Busy output of FB_SclSections
+  - id: MLC_S5
+    en-US: Step count of FB_SclSections
+  - id: MLC_S6
+    en-US: Setpoint for FB_SclSections
+  - id: MLC_N1T
+    en-US: On-delay timer as multi-instance
+  - id: MLC_N2T
+    en-US: MOVE box, ENO left open
+  - id: MLC_N3T
+    en-US: ADD box
+  - id: MLC_N4T
+    en-US: Compare equal
+  - id: MLC_N5T
+    en-US: Compare greater
+  - id: MLC_N6T
+    en-US: Compare less or equal
+  - id: MLC_N7T
+    en-US: FB call with EN and ENO
+  - id: MLC_N8T
+    en-US: Jump to label Skip when start is off
+  - id: MLC_N9T
+    en-US: Network skipped by the jump
+  - id: MLC_N10T
+    en-US: Jump target

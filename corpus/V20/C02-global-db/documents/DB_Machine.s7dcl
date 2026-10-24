@@ -1,0 +1,130 @@
+{
+    S7_Optimized := "TRUE";
+    S7_StandardRetain := "FALSE";
+    S7_Version := "0.1"
+}
+DATA_BLOCK DB_Machine
+    VAR
+        { S7_MLC := "MLC_tg" }
+        MachineOn : Bool;
+        { S7_MLC := "MLC_4Ng" }
+        StatusByte : Byte;
+        { S7_MLC := "MLC_4ka" }
+        StatusWord : Word;
+        { S7_MLC := "MLC_4kN" }
+        StatusDWord : DWord;
+        { S7_MLC := "MLC_4MY" }
+        StatusLWord : LWord;
+        { S7_MLC := "MLC_4H8" }
+        SmallSigned : SInt;
+        { S7_MLC := "MLC_4K8" }
+        SmallUnsigned : USInt;
+        { S7_MLC := "MLC_rk" }
+        PieceCount : Int;
+        { S7_MLC := "MLC_4Ws" }
+        PieceCountUnsigned : UInt;
+        { S7_MLC := "MLC_3pV" }
+        TotalCount : DInt;
+        { S7_MLC := "MLC_dq" }
+        TotalCountUnsigned : UDInt;
+        { S7_MLC := "MLC_5Bw" }
+        LongCount : LInt;
+        { S7_MLC := "MLC_sj" }
+        LongCountUnsigned : ULInt;
+        { S7_MLC := "MLC_3aB" }
+        Temperature : Real;
+        { S7_MLC := "MLC_4Kj" }
+        Pressure : LReal;
+        { S7_MLC := "MLC_5BG" }
+        CycleTime : Time;
+        { S7_MLC := "MLC_57z" }
+        PreciseTime : LTime;
+        { S7_MLC := "MLC_46k" }
+        LegacyTime : S5Time;
+        { S7_MLC := "MLC_33h" }
+        ProductionDate : Date;
+        { S7_MLC := "MLC_3dH" }
+        ShiftStart : Time_Of_Day;
+        { S7_MLC := "MLC_3UN" }
+        PreciseShiftStart : LTime_Of_Day;
+        { S7_MLC := "MLC_3VP" }
+        LegacyTimestamp : Date_And_Time;
+        { S7_MLC := "MLC_aE" }
+        PreciseTimestamp : LDT;
+        { S7_MLC := "MLC_ik" }
+        Separator : Char;
+        { S7_MLC := "MLC_54y" }
+        Symbol : WChar;
+        { S7_MLC := "MLC_3c3" }
+        MachineName : String[20];
+        { S7_MLC := "MLC_3Pk" }
+        OperatorText : WString;
+        { S7_MLC := "MLC_Tv" }
+        LastStart : DTL;
+        { S7_MLC := "MLC_56j" }
+        Limits : STRUCT
+            { S7_MLC := "MLC_3MP" }
+            Minimum : Real;
+            { S7_MLC := "MLC_4xB" }
+            Maximum : Real;
+        END_STRUCT;
+        { S7_MLC := "MLC_39B" }
+        Speeds : Array[0..4] of Int;
+        { S7_MLC := "MLC_4ig" }
+        MainMotor : _.UDT_Motor;
+        {
+            S7_MLC := "MLC_58L";
+            S7_Setpoint := "True"
+        }
+        SpeedSetpoint : Real;
+        {
+            S7_Access := "ReadOnly := External";
+            S7_MLC := "MLC_4Fx";
+            S7_Visibility := "Hidden := External"
+        }
+        InternalState : Int;
+        {
+            S7_Access := "ReadOnly := External";
+            S7_MLC := "MLC_UQ"
+        }
+        ReadOnlyValue : Real;
+    END_VAR
+
+    VAR RETAIN
+        { S7_MLC := "MLC_4aK" }
+        OperatingHours : DInt;
+        { S7_MLC := "MLC_56R" }
+        RetainedRecipe : Int;
+    END_VAR
+
+    StatusByte := 16#000F;
+    StatusWord := 16#00FF;
+    StatusDWord := 16#FFFF;
+    StatusLWord := 16#FFFF_FFFF;
+    SmallSigned := -5;
+    SmallUnsigned := 200;
+    PieceCountUnsigned := 100;
+    Temperature := 21.5;
+    Pressure := 1.013;
+    CycleTime := T#2S;
+    PreciseTime := LT#500US;
+    LegacyTime := S5T#10S;
+    ProductionDate := D#2026-01-01;
+    ShiftStart := TOD#06:00:00;
+    PreciseShiftStart := LTOD#06:00:00.000000001;
+    LegacyTimestamp := DT#2026-01-01-06:00:00;
+    PreciseTimestamp := LDT#2026-01-01-06:00:00;
+    Separator := 'A';
+    Symbol := WCHAR#'B';
+    MachineName := 'Filler';
+    OperatorText := WSTRING#'Ready';
+    LastStart := DTL#2026-01-01-00:00:00;
+    Limits.Maximum := 100.0;
+        Speeds[1] := 10;
+        Speeds[2] := 20;
+        Speeds[3] := 30;
+        Speeds[4] := 40;
+    SpeedSetpoint := 50.0;
+    RetainedRecipe := 1;
+
+END_DATA_BLOCK

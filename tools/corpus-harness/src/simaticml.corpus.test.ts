@@ -82,7 +82,20 @@ describe('SimaticML block exports', () => {
     ]);
   });
 
-  it.each(exports.map((e) => [`${e.c.folder}/${e.f.path}`, e] as const))(
+  it('the corpus has V20 and V21 exports, in the schema namespaces the profile lists', () => {
+    expect([...new Set(exports.map(({ c }) => c.version))].sort()).toEqual(['V20', 'V21']);
+    const known = profileIndex('V21')!.profile.simaticmlSchemas!.namespaces;
+    for (const version of ['V20', 'V21']) {
+      const used = new Set(
+        exports
+          .filter(({ c }) => c.version === version)
+          .flatMap(({ text }) => [...text.matchAll(/xmlns="([^"]+)"/g)].map((m) => m[1]!)),
+      );
+      expect([...used].sort(), version).toEqual([...known].sort());
+    }
+  });
+
+  it.each(exports.map((e) => [`${e.c.version}/${e.c.folder}/${e.f.path}`, e] as const))(
     '%s: reads, and its SCL networks come back as TIA stores them',
     (_name, { c, f, text }) => {
       const block = readSimaticmlBlock(text)!;
@@ -109,9 +122,12 @@ describe('SimaticML block exports', () => {
 
 // The tables of a SimaticML block show what the tables of its SIMATIC SD document show.
 describe('SimaticML tables equal the SIMATIC SD tables', () => {
-  const plc = assemblePlcs(all, 'documents').find((p) => p.name === 'PLC_Main')!;
-  const { project } = corpusProject(plc, corpusRoot);
-  const input = (path: string) => ({
+  // PLC_Main of every TIA version, each with its own project
+  const plcs = assemblePlcs(all, 'documents')
+    .filter((p) => p.name === 'PLC_Main')
+    .map((plc) => ({ plc, project: corpusProject(plc, corpusRoot).project }));
+  type Project = (typeof plcs)[number]['project'];
+  const input = (project: Project, path: string) => ({
     project,
     path,
     cultures: ['de-DE', 'en-US'],
@@ -140,11 +156,18 @@ describe('SimaticML tables equal the SIMATIC SD tables', () => {
     }));
   const pairs = exports.flatMap(({ c, f, text }) => {
     const block = readSimaticmlBlock(text)!;
-    const sd = plc.files.find(
+    const owner = plcs.find(({ plc }) => plc.cases.includes(c));
+    const sd = owner?.plc.files.find(
       (x) => x.variant === 'documents' && x.extension === '.s7dcl' && x.objectName === block.name,
     );
-    return sd && plc.cases.includes(c)
-      ? [[`${c.folder}/${f.path}`, block, plcFilePath(plc, sd)] as const]
+    return owner && sd
+      ? [
+          [
+            `${c.version}/${c.folder}/${f.path}`,
+            block,
+            input(owner.project, plcFilePath(owner.plc, sd)),
+          ] as const,
+        ]
       : [];
   });
 
@@ -164,16 +187,16 @@ describe('SimaticML tables equal the SIMATIC SD tables', () => {
       }));
   };
 
-  it.each(pairs)('%s', (_name, block, sdPath) => {
+  it.each(pairs)('%s', (_name, block, sdInput) => {
     if (xmlBlockKind(block) === 'DB') {
       const instance = block.kind === 'InstanceDB';
-      const sd = dataBlockModel(input(sdPath)).rows;
+      const sd = dataBlockModel(sdInput).rows;
       expect(
         view(comparable(xmlDataBlockModel(block, 'en-US').rows, sd, block.namespace), instance),
       ).toEqual(view(sd, instance));
     } else {
       // the XML of an OB also lists its start information (Input), which SD leaves out
-      const sd = interfaceModel(input(sdPath)).sections;
+      const sd = interfaceModel(sdInput).sections;
       const xml = xmlInterfaceModel(block, 'en-US').sections.filter((s) =>
         sd.some((x) => x.kind === s.kind),
       );
@@ -194,7 +217,13 @@ describe('SCL view of SimaticML blocks', () => {
     const block = readSimaticmlBlock(text)!;
     const source = path.join(c.directory, 'source', `${block.name}.scl`);
     return block.networks.some((n) => n.language === 'SCL') && block.kind !== 'UDT'
-      ? [[`${c.folder}/${f.path}`, block, existsSync(source) ? read(source) : undefined] as const]
+      ? [
+          [
+            `${c.version}/${c.folder}/${f.path}`,
+            block,
+            existsSync(source) ? read(source) : undefined,
+          ] as const,
+        ]
       : [];
   });
 
@@ -228,7 +257,7 @@ describe('LAD/FBD networks from SimaticML', () => {
       .map(
         (n) =>
           [
-            `${c.folder}/${f.objectName} network ${n.index}`,
+            `${c.version}/${c.folder}/${f.objectName} network ${n.index}`,
             block,
             n,
             bodies[n.index - 1]!,
@@ -245,8 +274,9 @@ describe('LAD/FBD networks from SimaticML', () => {
     });
     expect('unsupported' in result ? result.unsupported : undefined).toBeUndefined();
     if (!('lines' in result)) return;
-    // SD quotes some plain local names (#"Limit"); the LAD editor and the XML do not
-    const sd = body.replace(/#"([A-Za-z_][A-Za-z0-9_]*)"/g, '#$1');
+    // SD quotes some plain local names (#"Limit"); the LAD editor and the XML do not. V20 writes a
+    // space after the comma between parameters, V21 does not.
+    const sd = body.replace(/#"([A-Za-z_][A-Za-z0-9_]*)"/g, '#$1').replace(/, \r\n/g, ',\r\n');
     expect(result.lines.map((l) => ' '.repeat(indent) + l).join('\r\n')).toBe(sd);
   });
 });
@@ -261,7 +291,7 @@ describe('LAD/FBD view of SimaticML blocks', () => {
     return sd && block.networks.some((n) => /(LAD|FBD)$/.test(n.language))
       ? [
           [
-            `${c.folder}/${f.objectName}`,
+            `${c.version}/${c.folder}/${f.objectName}`,
             block,
             sd,
             existsSync(res) ? read(res) : undefined,

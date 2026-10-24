@@ -1,0 +1,84 @@
+{
+  "caseId": "C17",
+  "title": "LAD boxes, timer, call and jump",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V20",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3AN02-0AB0/V2.9",
+  "objects": [
+    {
+      "name": "FB_LadBoxes",
+      "type": "FB",
+      "number": 2,
+      "language": "LAD",
+      "unit": null,
+      "namespace": null,
+      "group": null,
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    },
+    {
+      "name": "IDB_LadBoxes",
+      "type": "InstanceDB",
+      "number": 2,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": null,
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FB_LadBoxes.s7dcl",
+      "documents/FB_LadBoxes.s7res",
+      "documents/IDB_LadBoxes.s7dcl"
+    ],
+    "source": [
+      "source/IDB_LadBoxes.db"
+    ],
+    "simaticml": [
+      "simaticml/FB_LadBoxes.xml",
+      "simaticml/IDB_LadBoxes.xml"
+    ],
+    "refused": {
+      "source": {
+        "FB_LadBoxes": "Error when calling method 'GenerateSource' of type 'Siemens.Engineering.SW.ExternalSources.PlcExternalSourceSystemGroup'. Select a block that only includes SCL or STL and is not know-how protected. External source files can only be generated when all selected code blocks have been created in SCL or STL. The language of all blocks is shown in the overview of the project tree in the \"Details\" tab."
+      }
+    }
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > FB_LadBoxes (FB2)",
+        "block": "FB_LadBoxes",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      },
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > IDB_LadBoxes (DB2)",
+        "block": "IDB_LadBoxes",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FB_LadBoxes: compile-clean-PLC_Main.json final",
+      "IDB_LadBoxes: compile-clean-PLC_Main.json final"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "V21's C17 SIMATIC SD documents, imported with plc_import_documents. The multi-instance calls FB_SclSections of C05."
+}

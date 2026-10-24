@@ -1,0 +1,33 @@
+{
+  "tiaVersion": "V20",
+  "tiaProduct": "TIA Portal V20 Update 6, STEP 7 Professional V20 Update 6",
+  "project": {
+    "name": "PlcStudioCorpus_V20",
+    "path": "C:\\TiaProjects\\Corpus\\PlcStudioCorpus_V20\\PlcStudioCorpus_V20.ap20",
+    "source": "project_create; never saved"
+  },
+  "languages": {
+    "editing": "en-US",
+    "reference": "en-US",
+    "active": [
+      "en-US",
+      "de-DE"
+    ],
+    "howSet": "om_invoke LanguageSettings/ActiveLanguages.Add(LanguageSettings/Languages[10] = de-DE); en-US (Languages[24]) was editing, reference and active language of the new project"
+  },
+  "devices": [
+    {
+      "device": "PLC_Main",
+      "cpuItem": "PLC_Main",
+      "software": "PLC_Main",
+      "deviceTypeIdentifier": "System:Device.S71500",
+      "typeIdentifier": "OrderNumber:6ES7 516-3AN02-0AB0/V2.9",
+      "typeName": "CPU 1516-3 PN/DP",
+      "articleNumber": "6ES7 516-3AN02-0AB0",
+      "firmware": "V2.9",
+      "isFailsafe": false,
+      "note": "Newest firmware hw_catalog_search offered for 6ES7 516-3AN0x in TIA V20."
+    }
+  ],
+  "softwareUnits": []
+}

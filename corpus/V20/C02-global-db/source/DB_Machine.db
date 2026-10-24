@@ -1,0 +1,92 @@
+﻿DATA_BLOCK "DB_Machine"
+TITLE = Machine data
+{ S7_Optimized_Access := 'TRUE' }
+VERSION : 0.1
+NON_RETAIN
+//Central data of the filling machine
+   VAR 
+      MachineOn : Bool;   // Machine switched on
+      StatusByte : Byte;   // Status bits as byte
+      StatusWord : Word;   // Status bits as word
+      StatusDWord : DWord;   // Status bits as double word
+      StatusLWord : LWord;   // Status bits as long word
+      SmallSigned : SInt;   // Small signed value
+      SmallUnsigned : USInt;   // Small unsigned value
+      PieceCount : Int;   // Signed piece counter
+      PieceCountUnsigned : UInt;   // Unsigned piece counter
+      TotalCount : DInt;   // Total number of bottles
+      TotalCountUnsigned : UDInt;   // Total number of caps
+      LongCount : LInt;   // Long signed counter
+      LongCountUnsigned : ULInt;   // Long unsigned counter
+      Temperature : Real;   // Product temperature in degrees Celsius
+      Pressure : LReal;   // Line pressure in bar
+      CycleTime : Time;   // Machine cycle time
+      PreciseTime : LTime;   // Precise cycle time
+      LegacyTime : S5Time;   // Legacy time value
+      ProductionDate : Date;   // Production date
+      ShiftStart : Time_Of_Day;   // Start of the shift
+      PreciseShiftStart : LTime_Of_Day;   // Precise start of the shift
+      LegacyTimestamp : Date_And_Time;   // Legacy time stamp
+      PreciseTimestamp : LDT;   // Precise time stamp
+      Separator : Char;   // Separator character
+      Symbol : WChar;   // Unicode symbol
+      MachineName : String[20];   // Machine name
+      OperatorText : WString;   // Text for the operator
+      LastStart {InstructionName := 'DTL'; LibVersion := '1.0'} : DTL;   // Time of the last start
+      Limits : Struct   // Process limits
+         Minimum : Real;   // Lower limit
+         Maximum : Real;   // Upper limit
+      END_STRUCT;
+      Speeds : Array[0..4] of Int;   // Speed steps
+      MainMotor : "UDT_Motor";   // Main drive
+      SpeedSetpoint { S7_SetPoint := 'True'} : Real;   // Speed setpoint in percent
+      InternalState { ExternalAccessible := 'False'; ExternalVisible := 'False'; ExternalWritable := 'False'} : Int;   // Internal state, hidden from HMI and OPC UA
+      ReadOnlyValue { ExternalWritable := 'False'} : Real;   // Visible but not writable from HMI and OPC UA
+   END_VAR
+   VAR RETAIN
+      OperatingHours : DInt;   // Operating hours, retentive
+      RetainedRecipe : Int;   // Last recipe, retentive
+   END_VAR
+
+
+BEGIN
+   StatusByte := 16#000F;
+   StatusWord := 16#00FF;
+   StatusDWord := 16#FFFF;
+   StatusLWord := 16#FFFF_FFFF;
+   SmallSigned := -5;
+   SmallUnsigned := 200;
+   PieceCountUnsigned := 100;
+   Temperature := 21.5;
+   Pressure := 1.013;
+   CycleTime := T#2S;
+   PreciseTime := LT#500US;
+   LegacyTime := S5T#10S;
+   ProductionDate := D#2026-01-01;
+   ShiftStart := TOD#06:00:00;
+   PreciseShiftStart := LTOD#06:00:00.000000001;
+   LegacyTimestamp := DT#2026-01-01-06:00:00;
+   PreciseTimestamp := LDT#2026-01-01-06:00:00;
+   Separator := 'A';
+   Symbol := WCHAR#'B';
+   MachineName := 'Filler';
+   OperatorText := WSTRING#'Ready';
+   LastStart.YEAR := 2026;
+   LastStart.MONTH := 1;
+   LastStart.DAY := 1;
+   LastStart.WEEKDAY := 5;
+   LastStart.HOUR := 0;
+   LastStart.MINUTE := 0;
+   LastStart.SECOND := 0;
+   LastStart.NANOSECOND := 0;
+   LastStart := DTL#2026-01-01-00:00:00;
+   Limits.Maximum := 100.0;
+   Speeds[1] := 10;
+   Speeds[2] := 20;
+   Speeds[3] := 30;
+   Speeds[4] := 40;
+   SpeedSetpoint := 50.0;
+   RetainedRecipe := 1;
+
+END_DATA_BLOCK
+

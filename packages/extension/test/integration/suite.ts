@@ -283,6 +283,8 @@ test('SimaticML exports open read-only in the view their content needs', async (
     ['xml/DB_V4_Ranges.xml', 'plcstudio.dataBlockEditor'],
     ['xml/UDT_V4_Point.xml', 'plcstudio.interfaceEditor'],
     ['xml/FC_LadContacts.xml', 'plcstudio.ladderEditor'],
+    ['xml/v20/FC_FbdLogic.xml', 'plcstudio.ladderEditor'],
+    ['xml/v20/UDT_Motor.xml', 'plcstudio.interfaceEditor'],
   ] as const) {
     const before = (await health()).renders[viewType] ?? 0;
     // as a click in the explorer: the text editor first, then the hand-over

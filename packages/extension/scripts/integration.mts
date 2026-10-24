@@ -42,6 +42,11 @@ copy('C42-multi-block-sources/simaticml/DB_V4_Ranges.xml', 'xml/DB_V4_Ranges.xml
 copy('C42-multi-block-sources/simaticml/UDT_V4_Point.xml', 'xml/UDT_V4_Point.xml');
 copy('C42-multi-block-sources/simaticml/FB_V4_Tally.xml', 'xml/FB_V4_Tally.xml');
 copy('C16-lad-contacts/simaticml/FC_LadContacts.xml', 'xml/FC_LadContacts.xml');
+// ... and from TIA V20 (M14.5)
+const copyV20 = (from: string, to: string) =>
+  cpSync(path.resolve('../../corpus/V20', from), path.join(workspace, to));
+copyV20('C19-fbd-logic/simaticml/FC_FbdLogic.xml', 'xml/v20/FC_FbdLogic.xml');
+copyV20('C01-udts/simaticml/UDT_Motor.xml', 'xml/v20/UDT_Motor.xml');
 // external sources with several blocks (M13.2)
 copy('C42-multi-block-sources/source/Types_V4.udt');
 copy('C42-multi-block-sources/source/DBs_V4.db');

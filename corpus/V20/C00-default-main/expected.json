@@ -1,0 +1,57 @@
+{
+  "caseId": "C00",
+  "title": "The OB1 'Main' of a new project: one empty LAD network",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V20",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3AN02-0AB0/V2.9",
+  "objects": [
+    {
+      "name": "Main",
+      "type": "OB",
+      "number": 1,
+      "language": "LAD",
+      "unit": null,
+      "namespace": null,
+      "group": null,
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/Main.s7dcl"
+    ],
+    "simaticml": [
+      "simaticml/Main.xml"
+    ],
+    "refused": {
+      "source": {
+        "Main": "Error when calling method 'GenerateSource' of type 'Siemens.Engineering.SW.ExternalSources.PlcExternalSourceSystemGroup'. Select a block that only includes SCL or STL and is not know-how protected. External source files can only be generated when all selected code blocks have been created in SCL or STL. The language of all blocks is shown in the overview of the project tree in the \"Details\" tab."
+      }
+    }
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > Main (OB1)",
+        "block": "Main",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "Main: compile-clean-PLC_Main.json final"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "Created by TIA with the device; not imported."
+}

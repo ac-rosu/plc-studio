@@ -1799,6 +1799,18 @@
     "VARIANTGET",
     "VARIANTPUT"
   ],
+  "simaticmlSchemas": {
+    "namespaces": [
+      "http://www.siemens.com/automation/Openness/SW/Interface/v5",
+      "http://www.siemens.com/automation/Openness/SW/NetworkSource/FlgNet/v5",
+      "http://www.siemens.com/automation/Openness/SW/NetworkSource/StructuredText/v4"
+    ],
+    "verification": {
+      "verified": true,
+      "cases": ["C01", "C02", "C05", "C16", "C17", "C19"],
+      "note": "Every block and type export of corpus/V21 (V21 Update 1) and corpus/V20 (V20 Update 6) uses exactly these three."
+    }
+  },
   "failsafe": {
     "interfaceTypes": {
       "allowed": ["Bool", "Int", "DInt", "Word", "Time"],

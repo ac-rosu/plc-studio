@@ -55,11 +55,36 @@ describe('corpus', () => {
     },
   );
 
+  it('V20 has 7 clean cases (SimaticML samples, M14.5)', () => {
+    const v20 = all.filter((c) => c.version === 'V20');
+    expect(v20.map((c) => c.expected.caseId)).toEqual([
+      'C00',
+      'C01',
+      'C02',
+      'C05',
+      'C16',
+      'C17',
+      'C19',
+    ]);
+    expect(v20.every((c) => c.expected.kind === 'clean' && isTiaClean(c))).toBe(true);
+  });
+
   it('assembles every PLC in every variant without conflicting objects', () => {
     for (const variant of ['documents', 'vci', 'source'] as const) {
       const plcs = assemblePlcs(all, variant);
-      expect(plcs.map((p) => p.name).sort()).toEqual(['PLC_1200', 'PLC_Main']);
+      expect(plcs.map((p) => `${p.version}/${p.name}`).sort()).toEqual([
+        'V20/PLC_Main',
+        'V21/PLC_1200',
+        'V21/PLC_Main',
+      ]);
     }
+  });
+
+  it('takes the external source where TIA refused the SIMATIC SD export (V20)', () => {
+    const plc = assemblePlcs(all, 'documents').find((p) => p.version === 'V20')!;
+    expect(
+      plc.files.filter((f) => f.variant === 'source').map((f) => `${f.objectName}${f.extension}`),
+    ).toEqual(['UDT_Motor.udt', 'FB_SclSections.scl']);
   });
 
   it('policy expectations point at TIA-clean cases and existing blocks', () => {
@@ -182,7 +207,9 @@ describe('tag tables in both SimaticML styles', () => {
 // compile messages for the coverage gate; the checker must still report each box.
 describe('instructions unavailable in fail-safe blocks', () => {
   it('reports MAX, MIN and LIMIT in the B46 blocks as errors', async () => {
-    const plc = assemblePlcs(all, 'documents').find((p) => p.name === 'PLC_Main')!;
+    const plc = assemblePlcs(all, 'documents').find(
+      (p) => p.version === 'V21' && p.name === 'PLC_Main',
+    )!;
     const diagnostics = await projectChecker(corpusRoot).check(plc);
     expect(
       diagnostics
@@ -197,7 +224,9 @@ describe('instructions unavailable in fail-safe blocks', () => {
 // blocks a block depends on first. Each block counts, also when the documents of the same blocks
 // exist: the sources variant loads the source instead of them.
 describe('external sources with several blocks (C42)', () => {
-  const plc = assemblePlcs(all, 'source').find((p) => p.name === 'PLC_Main')!;
+  const plc = assemblePlcs(all, 'source').find(
+    (p) => p.version === 'V21' && p.name === 'PLC_Main',
+  )!;
   const { project } = corpusProject(plc, corpusRoot);
 
   it.each([

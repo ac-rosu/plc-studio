@@ -72,6 +72,20 @@
       "items": { "type": "string" },
       "uniqueItems": true
     },
+    "simaticmlSchemas": {
+      "description": "SimaticML namespaces of block and type exports the corpus proves (ADR 0014). The reader matches elements by local name; an export with another namespace is untested.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["namespaces", "verification"],
+      "properties": {
+        "namespaces": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        },
+        "verification": { "$ref": "#/definitions/verification" }
+      }
+    },
     "failsafe": {
       "description": "Fail-safe catalog: what F-blocks may declare, with the corpus cases that prove it.",
       "type": "object",

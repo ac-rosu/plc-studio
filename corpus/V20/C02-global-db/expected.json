@@ -1,0 +1,57 @@
+{
+  "caseId": "C02",
+  "title": "Global DB with every elementary type",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V20",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3AN02-0AB0/V2.9",
+  "objects": [
+    {
+      "name": "DB_Machine",
+      "type": "GlobalDB",
+      "number": 1,
+      "language": "DB",
+      "unit": null,
+      "namespace": null,
+      "group": null,
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/DB_Machine.s7dcl",
+      "documents/DB_Machine.s7res"
+    ],
+    "source": [
+      "source/DB_Machine.db"
+    ],
+    "simaticml": [
+      "simaticml/DB_Machine.xml"
+    ],
+    "refused": {}
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > DB_Machine (DB1)",
+        "block": "DB_Machine",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "DB_Machine: compile-clean-PLC_Main.json final"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "V21's C02 source, generated with plc_generate_from_scl. TIA kept only the start values that differ from the default and wrote hexadecimal values in its own form (16#0F as 16#000F, 16#0000_FFFF as 16#FFFF), in all three formats."
+}

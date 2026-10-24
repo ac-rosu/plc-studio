@@ -116,8 +116,15 @@ export interface VersionProfile {
   ladderElements: LadderElement[];
   /** Instructions whose return value is a status or error code. */
   statusInstructions?: string[];
+  /** SimaticML namespaces of block and type exports the corpus proves (ADR 0014). */
+  simaticmlSchemas?: SimaticmlSchemas;
   failsafe?: FailsafeCatalog;
   systemConstants: object[];
+}
+
+export interface SimaticmlSchemas {
+  namespaces: string[];
+  verification: Verification;
 }
 
 /** "in IN: Bool", "out Q: Bool", "in in1: Bool?" */
@@ -139,6 +146,7 @@ interface RawProfile {
   instructions: (Omit<Instruction, 'parameters'> & { parameters: string[] })[];
   ladderElements: (Omit<LadderElement, 'parameters'> & { parameters: string[] })[];
   statusInstructions?: string[];
+  simaticmlSchemas?: SimaticmlSchemas;
   failsafe?: FailsafeCatalog;
   systemConstants: object[];
 }

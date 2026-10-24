@@ -1,0 +1,57 @@
+{
+  "caseId": "C01",
+  "title": "PLC data type with start values",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V20",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3AN02-0AB0/V2.9",
+  "objects": [
+    {
+      "name": "UDT_Motor",
+      "type": "UDT",
+      "number": null,
+      "language": null,
+      "unit": null,
+      "namespace": null,
+      "group": null,
+      "iecCheck": null,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "source": [
+      "source/UDT_Motor.udt"
+    ],
+    "simaticml": [
+      "simaticml/UDT_Motor.xml"
+    ],
+    "refused": {
+      "documents": {
+        "UDT_Motor": "Error when calling method 'ExportAsDocuments' of type 'Siemens.Engineering.SW.Types.PlcStruct'. SIMATIC SD export failed due to project modifications made with a TIA Portal version earlier than V20 Update 4. To proceed with the export, please install and run the TIA Portal Add-In \"SimaticSdEnabler\", available on SIOS (ID: 109994073)."
+      }
+    }
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > PLC data types > UDT_Motor (UDT)",
+        "block": "UDT_Motor",
+        "line": null,
+        "network": null,
+        "description": "The data type was successfully updated."
+      }
+    ],
+    "sources": [
+      "UDT_Motor: compile-clean-PLC_Main.json final"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "V21's C01 source, imported with plc_import_type format source."
+}

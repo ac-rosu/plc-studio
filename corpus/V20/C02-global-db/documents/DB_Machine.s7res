@@ -1,0 +1,77 @@
+MultiLingualTexts:
+  - id: MLC_tg
+    en-US: Machine switched on
+  - id: MLC_4Ng
+    en-US: Status bits as byte
+  - id: MLC_4ka
+    en-US: Status bits as word
+  - id: MLC_4kN
+    en-US: Status bits as double word
+  - id: MLC_4MY
+    en-US: Status bits as long word
+  - id: MLC_4H8
+    en-US: Small signed value
+  - id: MLC_4K8
+    en-US: Small unsigned value
+  - id: MLC_rk
+    en-US: Signed piece counter
+  - id: MLC_4Ws
+    en-US: Unsigned piece counter
+  - id: MLC_3pV
+    en-US: Total number of bottles
+  - id: MLC_dq
+    en-US: Total number of caps
+  - id: MLC_5Bw
+    en-US: Long signed counter
+  - id: MLC_sj
+    en-US: Long unsigned counter
+  - id: MLC_3aB
+    en-US: Product temperature in degrees Celsius
+  - id: MLC_4Kj
+    en-US: Line pressure in bar
+  - id: MLC_5BG
+    en-US: Machine cycle time
+  - id: MLC_57z
+    en-US: Precise cycle time
+  - id: MLC_46k
+    en-US: Legacy time value
+  - id: MLC_33h
+    en-US: Production date
+  - id: MLC_3dH
+    en-US: Start of the shift
+  - id: MLC_3UN
+    en-US: Precise start of the shift
+  - id: MLC_3VP
+    en-US: Legacy time stamp
+  - id: MLC_aE
+    en-US: Precise time stamp
+  - id: MLC_ik
+    en-US: Separator character
+  - id: MLC_54y
+    en-US: Unicode symbol
+  - id: MLC_3c3
+    en-US: Machine name
+  - id: MLC_3Pk
+    en-US: Text for the operator
+  - id: MLC_Tv
+    en-US: Time of the last start
+  - id: MLC_56j
+    en-US: Process limits
+  - id: MLC_3MP
+    en-US: Lower limit
+  - id: MLC_4xB
+    en-US: Upper limit
+  - id: MLC_39B
+    en-US: Speed steps
+  - id: MLC_4ig
+    en-US: Main drive
+  - id: MLC_58L
+    en-US: Speed setpoint in percent
+  - id: MLC_4Fx
+    en-US: Internal state, hidden from HMI and OPC UA
+  - id: MLC_UQ
+    en-US: Visible but not writable from HMI and OPC UA
+  - id: MLC_4aK
+    en-US: Operating hours, retentive
+  - id: MLC_56R
+    en-US: Last recipe, retentive

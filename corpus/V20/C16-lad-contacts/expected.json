@@ -1,0 +1,58 @@
+{
+  "caseId": "C16",
+  "title": "LAD contacts, coils and branches",
+  "kind": "clean",
+  "basedOn": null,
+  "tiaVersion": "V20",
+  "plc": "PLC_Main",
+  "cpu": "OrderNumber:6ES7 516-3AN02-0AB0/V2.9",
+  "objects": [
+    {
+      "name": "FC_LadContacts",
+      "type": "FC",
+      "number": 1,
+      "language": "LAD",
+      "unit": null,
+      "namespace": null,
+      "group": null,
+      "iecCheck": false,
+      "failsafe": false,
+      "consistent": true
+    }
+  ],
+  "exports": {
+    "documents": [
+      "documents/FC_LadContacts.s7dcl",
+      "documents/FC_LadContacts.s7res"
+    ],
+    "simaticml": [
+      "simaticml/FC_LadContacts.xml"
+    ],
+    "refused": {
+      "source": {
+        "FC_LadContacts": "Error when calling method 'GenerateSource' of type 'Siemens.Engineering.SW.ExternalSources.PlcExternalSourceSystemGroup'. Select a block that only includes SCL or STL and is not know-how protected. External source files can only be generated when all selected code blocks have been created in SCL or STL. The language of all blocks is shown in the overview of the project tree in the \"Details\" tab."
+      }
+    }
+  },
+  "compile": {
+    "state": "Success",
+    "errors": 0,
+    "warnings": 0,
+    "messages": [
+      {
+        "severity": "Success",
+        "path": "PLC_Main > Program blocks > FC_LadContacts (FC1)",
+        "block": "FC_LadContacts",
+        "line": null,
+        "network": null,
+        "description": "Block was successfully compiled."
+      }
+    ],
+    "sources": [
+      "FC_LadContacts: compile-clean-PLC_Main.json final"
+    ]
+  },
+  "intendedError": null,
+  "analyzerExpect": [],
+  "notes": "V21's C16 SIMATIC SD documents, imported with plc_import_documents."
+}

@@ -145,8 +145,14 @@ function filesForVariant(corpusCase: CorpusCase, variant: PlcVariant): CorpusFil
   );
   const documents = corpusCase.files.filter((f) => f.variant === 'documents');
   switch (variant) {
-    case 'documents':
-      return [...documents, ...tagTables];
+    case 'documents': {
+      // where TIA refused the SIMATIC SD export (V20 C01, C05), the object's external source
+      const refused = Object.keys(corpusCase.expected.exports.refused.documents ?? {});
+      const sources = corpusCase.files.filter(
+        (f) => f.variant === 'source' && blocksIn(f).some((name) => refused.includes(name)),
+      );
+      return [...documents, ...sources, ...tagTables];
+    }
     case 'vci':
       return [...corpusCase.files.filter((f) => f.variant === 'vci-sd'), ...tagTables];
     case 'source': {

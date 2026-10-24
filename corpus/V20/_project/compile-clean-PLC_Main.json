@@ -1,0 +1,72 @@
+{
+  "plc": "PLC_Main",
+  "step": "V20 samples (M14.5)",
+  "note": "One compile after all imports; every object of every V20 case compiled in it.",
+  "final": {
+    "projectPath": "C:\\TiaProjects\\Corpus\\PlcStudioCorpus_V20\\PlcStudioCorpus_V20.ap20",
+    "target": "plc",
+    "compiled": "PLC software PLC_Main",
+    "software": {
+      "omPath": "Software['PLC_Main']",
+      "name": "PLC_Main",
+      "kind": "plc",
+      "softwareType": "PlcSoftware",
+      "device": "PLC_Main",
+      "deviceItem": "PLC_Main"
+    },
+    "state": "Success",
+    "errorCount": 0,
+    "warningCount": 0,
+    "durationMs": 4063,
+    "isModified": true,
+    "messageCount": 11,
+    "messages": [
+      { "depth": 0, "path": "PLC_Main", "state": "Success" },
+      { "depth": 1, "path": "PLC_Main > PLC data types", "state": "Success" },
+      {
+        "depth": 2,
+        "path": "PLC_Main > PLC data types > UDT_Motor (UDT)",
+        "state": "Success",
+        "description": "The data type was successfully updated."
+      },
+      { "depth": 1, "path": "PLC_Main > Program blocks", "state": "Success" },
+      {
+        "depth": 2,
+        "path": "PLC_Main > Program blocks > FB_LadBoxes (FB2)",
+        "state": "Success",
+        "description": "Block was successfully compiled."
+      },
+      {
+        "depth": 2,
+        "path": "PLC_Main > Program blocks > FB_SclSections (FB1)",
+        "state": "Success",
+        "description": "Block was successfully compiled."
+      },
+      {
+        "depth": 2,
+        "path": "PLC_Main > Program blocks > Main (OB1)",
+        "state": "Success",
+        "description": "Block was successfully compiled."
+      },
+      {
+        "depth": 2,
+        "path": "PLC_Main > Program blocks > FC_LadContacts (FC1)",
+        "state": "Success",
+        "description": "Block was successfully compiled."
+      },
+      {
+        "depth": 2,
+        "path": "PLC_Main > Program blocks > FC_FbdLogic (FC2)",
+        "state": "Success",
+        "description": "Block was successfully compiled."
+      },
+      {
+        "depth": 2,
+        "path": "PLC_Main > Program blocks > IDB_LadBoxes (DB2)",
+        "state": "Success",
+        "description": "Block was successfully compiled."
+      },
+      { "depth": 0, "state": "Success", "description": "Compiling finished (errors: 0; warnings: 0)" }
+    ]
+  }
+}
