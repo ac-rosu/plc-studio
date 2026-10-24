@@ -132,3 +132,10 @@ The spec asks that core and language-server pass their tests in a browser worker
 - Missing translations: the languages are the new optional `languages` list of `plc.json`; without it, those of the same `.s7res` file. Before, one translated block made every untranslated text of the PLC an info (344 on the corpus PLC); now corpus C02 gives exactly its one info (MLC_4DE), as PLAN M2.7 asks.
 - `npm run demo` writes a workspace from the corpus (clean and analyzer cases plus B01, B04, B13, B19) to `.scratch/demo`; `.vscode/launch.json` runs the extension from source on it. Over LSP the demo shows exactly the four showcase errors.
 - Packaging: the allowlist pattern rejected the capital L of `.tmLanguage.json`, so CI's package step failed since the grammars were added; fixed. The package has 22 files, 330 KB.
+
+## 2026-10-24 – Table editors, second pass (M7, M11)
+
+- Members inside a Struct: `addMember` takes the path of the struct (`parent`); names must be unique within that struct only, while top-level names stay unique across the whole interface. The new line takes the indent of the struct's members, or one step more than its `END_STRUCT` when it is empty. A new member of type Struct is written as `STRUCT` (SIMATIC SD) or `Struct` (external sources) with an empty body and `END_STRUCT;` at the member's indent, as the corpus shows (C02).
+- The FC return type is edited in place in the header (`FUNCTION "X" : Int`), Void included; Struct is refused.
+- CSV import: the changes are still computed one at a time on the text (each a minimal edit), and the result is applied as one set of line edits from a line diff (Myers), so one undo reverts the import and unchanged lines are never part of an edit.
+- Table views (interface, data block, translations, tag table) refresh when another file of the same PLC folder changes, debounced with the workspace model (150 ms); the view's own document keeps refreshing on its own changes. Views report a render count to the hidden health command, which the integration test uses.

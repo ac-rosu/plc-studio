@@ -12,10 +12,11 @@ export class PlcWorkspaceModel implements vscode.Disposable {
   readonly ready: Promise<void>;
   private readonly uris = new Map<string, vscode.Uri>();
   private readonly disposables: vscode.Disposable[] = [];
-  private readonly changed = new vscode.EventEmitter<void>();
-  /** Fires after files changed (debounced). */
+  private readonly changed = new vscode.EventEmitter<readonly string[]>();
+  /** Fires after files changed (debounced), with the paths that changed. */
   readonly onDidChange = this.changed.event;
   private timer: ReturnType<typeof setTimeout> | undefined;
+  private readonly pending = new Set<string>();
 
   constructor() {
     this.ready = this.scan();
@@ -32,13 +33,15 @@ export class PlcWorkspaceModel implements vscode.Disposable {
           void this.load(u);
       }),
       watcher.onDidDelete((u) => {
-        this.workspace.removeFile(this.pathOf(u));
-        this.fire();
+        const path = this.pathOf(u);
+        this.workspace.removeFile(path);
+        this.fire(path);
       }),
       vscode.workspace.onDidChangeTextDocument((e) => {
         if (e.document.uri.scheme !== 'file' || !isPlcPath(e.document.uri.path)) return;
-        this.workspace.setFileText(this.pathOf(e.document.uri), e.document.getText());
-        this.fire();
+        const path = this.pathOf(e.document.uri);
+        this.workspace.setFileText(path, e.document.getText());
+        this.fire(path);
       }),
       this.changed,
     );
@@ -48,9 +51,25 @@ export class PlcWorkspaceModel implements vscode.Disposable {
     for (const d of this.disposables) d.dispose();
   }
 
-  private fire(): void {
+  private fire(path?: string): void {
+    if (path) this.pending.add(path);
     if (this.timer) clearTimeout(this.timer);
-    this.timer = setTimeout(() => this.changed.fire(), 150);
+    this.timer = setTimeout(() => {
+      const paths = [...this.pending];
+      this.pending.clear();
+      this.changed.fire(paths);
+    }, 150);
+  }
+
+  /**
+   * Whether a change of `paths` can alter what a view of `document` shows: another file of the same
+   * PLC folder (a UDT or FB it uses, its .s7res, the manifest). The document itself is left out;
+   * its own view refreshes on its own changes.
+   */
+  affects(document: vscode.TextDocument, paths: readonly string[]): boolean {
+    const own = this.pathOf(document.uri).toLowerCase();
+    const root = this.workspace.projectFor(this.pathOf(document.uri)).root;
+    return paths.some((p) => p.toLowerCase() !== own && this.workspace.projectFor(p).root === root);
   }
 
   pathOf(uri: vscode.Uri): string {
@@ -83,7 +102,7 @@ export class PlcWorkspaceModel implements vscode.Disposable {
           path,
           SourceText.fromBytes(await vscode.workspace.fs.readFile(uri)),
         );
-      if (notify) this.fire();
+      if (notify) this.fire(path);
     } catch {
       // unreadable files are skipped
     }

@@ -2,10 +2,12 @@
 // with start values. Instance DBs show the FB interface read-only; start values stay editable.
 import { clear, h } from '../shared/dom.ts';
 import {
+  afterDescendants,
   button,
   checkCell,
   datalist,
   failsafeBanner,
+  newMemberRow,
   problemsCell,
   textCell,
   toolbar,
@@ -78,60 +80,77 @@ export function renderDataBlock(root: HTMLElement, model: DataBlockModel, post: 
     const can = row.declarationEditable;
     const flag = (name: string) =>
       can ? (v: boolean) => edit('flag', { path: row.path, flag: name, value: v }) : undefined;
-    body.append(
-      h(
-        'tr',
-        { class: `level-${Math.min(row.level, 4)} ${row.problems.length ? 'has-problem' : ''}` },
-        textCell(
-          row.name,
-          label('Name'),
-          can ? (v) => edit('rename', { path: row.path, value: v }) : undefined,
-        ),
-        row.structured || !can
-          ? h('td', { class: 'muted' }, row.type)
-          : textCell(
-              row.type,
-              label('Data type'),
-              (v) => edit('type', { path: row.path, value: v }),
-              { list: 'types' },
-            ),
-        row.structured
-          ? h('td', {})
-          : textCell(
-              row.value,
-              label('Start value'),
-              startEditable ? (v) => edit('start', { path: row.path, value: v }) : undefined,
-            ),
-        h('td', { class: 'muted' }, row.defaultValue),
-        row.level === 0 && row.retain !== null
-          ? checkCell(row.retain, label('Retain'), flag('retain'))
-          : h('td', {}),
-        checkCell(row.accessible, label('Accessible from HMI/OPC UA'), flag('accessible')),
-        checkCell(row.visible, label('Visible in HMI engineering'), flag('visible')),
-        checkCell(row.writable, label('Writable from HMI/OPC UA'), flag('writable')),
-        checkCell(row.setpoint, label('Setpoint'), flag('setpoint')),
-        textCell(
-          row.comment,
-          label('Comment'),
-          can ? (v) => edit('comment', { path: row.path, value: v }) : undefined,
-        ),
-        problemsCell(row.problems),
-        h(
-          'td',
-          { class: 'actions' },
-          can && row.level === 0
-            ? button('↑', label('Move up'), () => edit('move', { path: row.path, direction: -1 }))
-            : null,
-          can && row.level === 0
-            ? button('↓', label('Move down'), () => edit('move', { path: row.path, direction: 1 }))
-            : null,
-          can ? button('✕', label('Delete'), () => edit('delete', { path: row.path })) : null,
-          button('⤴', label('Show in text'), () =>
-            post({ type: 'reveal', start: row.start, end: row.end }),
+    const addInside =
+      can && row.structured && /^struct$/i.test(row.type)
+        ? button('+', `Add a member to ${row.path.join('.')}`, () => {
+            const child = newMemberRow(
+              row.path.join('.'),
+              row.level + 1,
+              7,
+              (name, type, comment) =>
+                edit('add', { section: 'Static', name, typeText: type, comment, parent: row.path }),
+            );
+            tr.parentElement?.insertBefore(child, afterDescendants(tr));
+            child.querySelector('input')?.focus();
+          })
+        : null;
+    const tr: HTMLTableRowElement = h(
+      'tr',
+      {
+        class: `level-${Math.min(row.level, 4)} ${row.problems.length ? 'has-problem' : ''}`,
+        'data-level': String(row.level),
+      },
+      textCell(
+        row.name,
+        label('Name'),
+        can ? (v) => edit('rename', { path: row.path, value: v }) : undefined,
+      ),
+      row.structured || !can
+        ? h('td', { class: 'muted' }, row.type)
+        : textCell(
+            row.type,
+            label('Data type'),
+            (v) => edit('type', { path: row.path, value: v }),
+            { list: 'types' },
           ),
+      row.structured
+        ? h('td', {})
+        : textCell(
+            row.value,
+            label('Start value'),
+            startEditable ? (v) => edit('start', { path: row.path, value: v }) : undefined,
+          ),
+      h('td', { class: 'muted' }, row.defaultValue),
+      row.level === 0 && row.retain !== null
+        ? checkCell(row.retain, label('Retain'), flag('retain'))
+        : h('td', {}),
+      checkCell(row.accessible, label('Accessible from HMI/OPC UA'), flag('accessible')),
+      checkCell(row.visible, label('Visible in HMI engineering'), flag('visible')),
+      checkCell(row.writable, label('Writable from HMI/OPC UA'), flag('writable')),
+      checkCell(row.setpoint, label('Setpoint'), flag('setpoint')),
+      textCell(
+        row.comment,
+        label('Comment'),
+        can ? (v) => edit('comment', { path: row.path, value: v }) : undefined,
+      ),
+      problemsCell(row.problems),
+      h(
+        'td',
+        { class: 'actions' },
+        can && row.level === 0
+          ? button('↑', label('Move up'), () => edit('move', { path: row.path, direction: -1 }))
+          : null,
+        can && row.level === 0
+          ? button('↓', label('Move down'), () => edit('move', { path: row.path, direction: 1 }))
+          : null,
+        can ? button('✕', label('Delete'), () => edit('delete', { path: row.path })) : null,
+        button('⤴', label('Show in text'), () =>
+          post({ type: 'reveal', start: row.start, end: row.end }),
         ),
+        addInside,
       ),
     );
+    body.append(tr);
   }
   table.append(body);
   root.append(table);

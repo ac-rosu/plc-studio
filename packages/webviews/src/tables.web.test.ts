@@ -134,6 +134,58 @@ describe('interface editor', () => {
     expect(sent).toEqual([]);
   });
 
+  it('adds a member inside a struct, below its last nested row', () => {
+    const { root, sent, post } = setup();
+    renderInterface(root, iface, post);
+    expect(root.querySelector('[aria-label="Add a member to State"]')).toBeNull();
+    root.querySelector<HTMLButtonElement>('[aria-label="Add a member to Limits"]')!.click();
+    const name = root.querySelector<HTMLInputElement>('[aria-label="New member name in Limits"]')!;
+    // the new row comes right after Limits.Min, one level deeper than Limits
+    const tr = name.closest('tr')!;
+    expect(
+      tr.previousElementSibling?.querySelector('[aria-label="Name of Limits.Min"]'),
+    ).not.toBeNull();
+    expect(tr.dataset['level']).toBe('1');
+    commit(name, 'Max');
+    commit(
+      root.querySelector<HTMLInputElement>('[aria-label="New member data type in Limits"]')!,
+      'Real',
+    );
+    expect(sent).toEqual([
+      {
+        type: 'edit',
+        op: 'add',
+        section: 'Static',
+        name: 'Max',
+        typeText: 'Real',
+        comment: '',
+        parent: ['Limits'],
+      },
+    ]);
+  });
+
+  it('edits the return type of a function', () => {
+    const { root, sent, post } = setup();
+    renderInterface(
+      root,
+      {
+        ...iface,
+        blockKind: 'FC',
+        failsafe: false,
+        sections: [
+          { kind: 'Return', label: 'Return', rows: [], canAdd: false, returnType: 'Void' },
+        ],
+      },
+      post,
+    );
+    const input = root.querySelector<HTMLInputElement>(
+      '[aria-label="Return type of the function"]',
+    )!;
+    expect(input.value).toBe('Void');
+    commit(input, 'Int');
+    expect(sent).toEqual([{ type: 'edit', op: 'returnType', value: 'Int' }]);
+  });
+
   it('adds a member through the new row', () => {
     const { root, sent, post } = setup();
     renderInterface(root, iface, post);
@@ -180,11 +232,46 @@ describe('data block editor', () => {
     };
     renderDataBlock(root, model, post);
     expect(await accessibilityViolations(root)).toEqual([]);
+    // an instance DB has no + inside structs: its declarations belong to the FB
+    expect(root.querySelector('[aria-label^="Add a member to"]')).toBeNull();
     expect(root.querySelector('[aria-label="Name of Mode"]')).toBeNull();
     expect(root.textContent).toContain('instance DB of FB_X');
     expect(root.querySelector('tr.has-problem')).not.toBeNull();
     commit(root.querySelector<HTMLInputElement>('[aria-label="Start value of Mode"]')!, '3');
     expect(sent).toEqual([{ type: 'edit', op: 'start', path: ['Mode'], value: '3' }]);
+  });
+});
+
+describe('data block editor, structs', () => {
+  it('adds a member inside a struct of a global DB', () => {
+    const { root, sent, post } = setup();
+    const model: DataBlockModel = {
+      view: 'datablock',
+      blockName: 'DB_M',
+      dbKind: 'global',
+      instanceOf: '',
+      format: 's7dcl',
+      failsafe: false,
+      culture: 'en-US',
+      rows: [
+        row('Limits', { type: 'Struct', structured: true }),
+        row('Min', { path: ['Limits', 'Min'], level: 1, type: 'Real' }),
+        row('Count'),
+      ],
+      types: [],
+    };
+    renderDataBlock(root, model, post);
+    root.querySelector<HTMLButtonElement>('[aria-label="Add a member to Limits"]')!.click();
+    const name = root.querySelector<HTMLInputElement>('[aria-label="New member name in Limits"]')!;
+    expect(
+      name.closest('tr')!.nextElementSibling?.querySelector('[aria-label="Name of Count"]'),
+    ).not.toBeNull();
+    commit(name, 'Max');
+    commit(
+      root.querySelector<HTMLInputElement>('[aria-label="New member data type in Limits"]')!,
+      'Real',
+    );
+    expect(sent).toMatchObject([{ op: 'add', section: 'Static', name: 'Max', parent: ['Limits'] }]);
   });
 });
 

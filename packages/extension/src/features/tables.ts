@@ -88,13 +88,16 @@ async function handle(
 }
 
 export function registerTables({ extension }: FeatureContext): void {
-  workspaceModel(extension);
+  const ws = workspaceModel(extension);
+  // the views show types, comments and FB interfaces from other files of the PLC too
+  const otherFiles = { onDidChange: ws.onDidChange, affects: ws.affects.bind(ws) };
   extension.subscriptions.push(
     registerTextEditorView(extension, {
       viewType: INTERFACE_EDITOR,
       view: 'interface',
       title: (d) => `Interface ${baseName(d)}`,
       model: (d) => interfaceModel(modelInput(d, extension)),
+      otherFiles,
       onMessage: (m, v) => handle(m, v, extension, declarationEdit),
     }),
     registerTextEditorView(extension, {
@@ -102,6 +105,7 @@ export function registerTables({ extension }: FeatureContext): void {
       view: 'datablock',
       title: (d) => `Data block ${baseName(d)}`,
       model: (d) => dataBlockModel(modelInput(d, extension)),
+      otherFiles,
       onMessage: (m, v) => handle(m, v, extension, declarationEdit),
     }),
     registerTextEditorView(extension, {
@@ -109,6 +113,7 @@ export function registerTables({ extension }: FeatureContext): void {
       view: 'translations',
       title: (d) => `Translations ${baseName(d)}`,
       model: (d) => translationModel(modelInput(d, extension)),
+      otherFiles,
       onMessage: (m, v) => handle(m, v, extension, translationEdit),
     }),
     vscode.commands.registerCommand('plcstudio.openInterfaceEditor', (uri?: vscode.Uri) =>

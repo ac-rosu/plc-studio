@@ -24,6 +24,14 @@ export interface TextEditorViewOptions<Model> {
   readonly title: (document: vscode.TextDocument) => string;
   /** Builds what the view shows from the current text. */
   readonly model: (document: vscode.TextDocument, context: vscode.ExtensionContext) => Model;
+  /**
+   * Other files the view depends on (UDTs, FBs, the .s7res): the view refreshes when `affects`
+   * says a change of those paths matters to its document.
+   */
+  readonly otherFiles?: {
+    readonly onDidChange: vscode.Event<readonly string[]>;
+    readonly affects: (document: vscode.TextDocument, paths: readonly string[]) => boolean;
+  };
   /** Handles a message from the view (edits, reveal requests ...). */
   readonly onMessage?: (
     message: { type: string; [key: string]: unknown },
@@ -97,9 +105,13 @@ export function registerTextEditorView<Model>(
       const diagnostics = vscode.languages.onDidChangeDiagnostics((e) => {
         if (e.uris.some((u) => u.toString() === document.uri.toString())) send();
       });
+      const others = options.otherFiles?.onDidChange((paths) => {
+        if (options.otherFiles!.affects(document, paths)) send();
+      });
       panel.onDidDispose(() => {
         changes.dispose();
         diagnostics.dispose();
+        others?.dispose();
       });
       webview.onDidReceiveMessage(async (message: { type: string; [key: string]: unknown }) => {
         if (viewHealthMessage(options.viewType, message)) return;

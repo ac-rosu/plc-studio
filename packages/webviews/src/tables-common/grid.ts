@@ -157,3 +157,48 @@ export function preserveFocus(root: HTMLElement, render: () => void): void {
     }
   }
 }
+
+/**
+ * A blank row for a new member, committed once it has a name and a data type. `where` names the
+ * section or struct in the labels; `gap` is the number of empty cells between the data type and
+ * the comment, so the row lines up with the table's columns.
+ */
+export function newMemberRow(
+  where: string,
+  level: number,
+  gap: number,
+  onCommit: (name: string, type: string, comment: string) => void,
+): HTMLTableRowElement {
+  let name = '';
+  let type = '';
+  let comment = '';
+  const tryCommit = () => {
+    if (name && type) onCommit(name, type, comment);
+  };
+  return h(
+    'tr',
+    { class: `new-row level-${Math.min(level, 4)}`, 'data-level': String(level) },
+    textCell('', `New member name in ${where}`, (v) => ((name = v.trim()), tryCommit()), {
+      placeholder: 'Name',
+    }),
+    textCell('', `New member data type in ${where}`, (v) => ((type = v.trim()), tryCommit()), {
+      list: 'types',
+      placeholder: 'Data type',
+    }),
+    ...Array.from({ length: gap }, () => h('td', {})),
+    textCell('', `New member comment in ${where}`, (v) => (comment = v), {
+      placeholder: 'Comment',
+    }),
+    h('td', {}),
+    h('td', {}),
+  );
+}
+
+/** The row after the last row nested below `row` (rows carry data-level), or null at the end. */
+export function afterDescendants(row: HTMLTableRowElement): Element | null {
+  const level = Number(row.dataset['level'] ?? '0');
+  let next = row.nextElementSibling;
+  while (next && Number((next as HTMLElement).dataset['level'] ?? '-1') > level)
+    next = next.nextElementSibling;
+  return next;
+}

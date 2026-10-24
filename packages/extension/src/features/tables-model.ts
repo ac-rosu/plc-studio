@@ -17,6 +17,7 @@ import {
   setMemberComment,
   setMemberFlags,
   setResourceText,
+  setReturnType,
   setStartValue,
   startValueText,
   typeName,
@@ -652,8 +653,11 @@ export function declarationEdit(c: BlockContext, message: Message): EditResult |
         {
           culture: c.culture,
           ...(Array.isArray(message['after']) ? { after: message['after'] as string[] } : {}),
+          ...(Array.isArray(message['parent']) ? { parent: message['parent'] as string[] } : {}),
         },
       );
+    case 'returnType':
+      return setReturnType(dctx, value);
     case 'delete':
       return deleteMember(dctx, path);
     case 'move':

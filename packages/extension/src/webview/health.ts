@@ -3,7 +3,7 @@
 // hidden command plcstudio.internal.viewHealth.
 import * as vscode from 'vscode';
 
-const rendered = new Set<string>();
+const rendered = new Map<string, number>();
 const errors: string[] = [];
 let output: vscode.OutputChannel | undefined;
 
@@ -13,7 +13,7 @@ export function viewHealthMessage(
   message: { type: string; [key: string]: unknown },
 ): boolean {
   if (message.type === 'rendered') {
-    rendered.add(viewType);
+    rendered.set(viewType, (rendered.get(viewType) ?? 0) + 1);
     return true;
   }
   if (message.type === 'viewError') {
@@ -29,7 +29,8 @@ export function viewHealthMessage(
 export function registerViewHealth(context: vscode.ExtensionContext): void {
   context.subscriptions.push(
     vscode.commands.registerCommand('plcstudio.internal.viewHealth', () => ({
-      rendered: [...rendered],
+      rendered: [...rendered.keys()],
+      renders: Object.fromEntries(rendered),
       errors: [...errors],
     })),
     { dispose: () => output?.dispose() },

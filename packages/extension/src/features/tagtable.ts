@@ -4,11 +4,10 @@ import * as vscode from 'vscode';
 import {
   addEntry,
   addressProblems,
-  csvChanges,
+  csvImport,
   deleteEntry,
   exportCsv,
   findEntry,
-  nextCsvEdit,
   parseTagTableText,
   renameEdits,
   renameEntryText,
@@ -203,7 +202,7 @@ async function exportTable(document: vscode.TextDocument, table: TagTableFile): 
   );
 }
 
-/** Applies a CSV one change at a time, re-reading the table between steps (minimal edits). */
+/** Applies a whole CSV as one edit, so one undo reverts the import. */
 async function importTable(document: vscode.TextDocument, view: ViewContext): Promise<void> {
   const picked = await vscode.window.showOpenDialog({
     canSelectMany: false,
@@ -211,34 +210,22 @@ async function importTable(document: vscode.TextDocument, view: ViewContext): Pr
   });
   if (!picked?.[0]) return;
   const csv = new TextDecoder('utf-8').decode(await vscode.workspace.fs.readFile(picked[0]));
-  const first = csvChanges(parseTagTableText(document.getText()), csv);
-  if (first.problems.length > 0)
-    void vscode.window.showWarningMessage(`PLC Studio: ${first.problems.slice(0, 3).join(' ')}`);
-  let applied = 0;
-  for (let guard = 0; guard < 5000; guard++) {
-    const table = parseTagTableText(document.getText());
-    const { changes } = csvChanges(table, csv);
-    let next: EditResult | undefined;
-    for (const c of changes) {
-      next = nextCsvEdit(table, c);
-      if (next) break;
-    }
-    if (!next) break;
-    if (next.error) {
-      void vscode.window.showWarningMessage(`PLC Studio: ${next.error}`);
-      break;
-    }
-    if (!(await view.applyEdits(next.edits))) break;
-    applied++;
-  }
+  const result = csvImport(document.getText(), csv);
+  if (result.problems.length > 0)
+    void vscode.window.showWarningMessage(`PLC Studio: ${result.problems.slice(0, 3).join(' ')}`);
+  if (result.error) void vscode.window.showWarningMessage(`PLC Studio: ${result.error}`);
+  if (result.edits.length > 0 && !(await view.applyEdits(result.edits))) return;
   void vscode.window.showInformationMessage(
-    `PLC Studio: CSV import made ${applied} change${applied === 1 ? '' : 's'}.`,
+    `PLC Studio: CSV import made ${result.applied} change${result.applied === 1 ? '' : 's'}.`,
   );
 }
 
 export function registerTagTable({ extension }: FeatureContext): void {
+  const ws = workspaceModel(extension);
   const options = {
     view: 'tagtable',
+    // address overlaps are checked against the other tag tables of the PLC
+    otherFiles: { onDidChange: ws.onDidChange, affects: ws.affects.bind(ws) },
     title: (d: vscode.TextDocument) => `Tags ${d.uri.path.slice(d.uri.path.lastIndexOf('/') + 1)}`,
     model: tagTableModel,
     onMessage: (m: Message, v: ViewContext) => handle(m, v, extension),

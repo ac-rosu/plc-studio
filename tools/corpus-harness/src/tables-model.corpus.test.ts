@@ -202,6 +202,72 @@ describe('data block editor model', () => {
     expect(removed.get('/plc/DB_Machine.s7res')).toBe(texts.get('/plc/DB_Machine.s7res'));
   });
 
+  it('adds a member inside a struct and deletes it again, byte for byte', () => {
+    const p = project(texts);
+    const added = apply(
+      texts,
+      db,
+      declarationEdit(context(p, db), {
+        type: 'edit',
+        op: 'add',
+        section: 'Static',
+        parent: ['Limits'],
+        name: 'Nominal',
+        typeText: 'Real',
+        comment: 'Nominal value',
+      }),
+    );
+    expect(added.get(db)).toContain('            Maximum : Real;\r\n            { S7_MLC := ');
+    const m = dataBlockModel(input(project(added), db));
+    expect(row(m.rows, 'Limits.Nominal')).toMatchObject({
+      type: 'Real',
+      level: 1,
+      comment: 'Nominal value',
+    });
+    const removed = apply(
+      added,
+      db,
+      declarationEdit(context(project(added), db), {
+        type: 'edit',
+        op: 'delete',
+        path: ['Limits', 'Nominal'],
+      }),
+    );
+    expect(removed.get(db)).toBe(texts.get(db));
+    expect(removed.get('/plc/DB_Machine.s7res')).toBe(texts.get('/plc/DB_Machine.s7res'));
+  });
+
+  it('adds and deletes a struct member in the external source of the same DB', () => {
+    const path = '/plc/DB_Machine.db';
+    const source = new Map([[path, read(`${root}/C02-global-db/source/DB_Machine.db`)]]);
+    const added = apply(
+      source,
+      path,
+      declarationEdit(context(project(source), path), {
+        type: 'edit',
+        op: 'add',
+        section: 'Static',
+        parent: ['Limits'],
+        name: 'Nominal',
+        typeText: 'Real',
+        comment: 'Nominal value',
+      }),
+    );
+    expect(added.get(path)).toContain(
+      '         Maximum : Real;   // Upper limit\r\n         Nominal : Real;   // Nominal value\r\n      END_STRUCT;',
+    );
+    const removed = apply(
+      added,
+      path,
+      declarationEdit(context(project(added), path), {
+        type: 'edit',
+        op: 'delete',
+        path: ['Limits', 'Nominal'],
+      }),
+    );
+    expect(removed.get(path)).toBe(source.get(path));
+  });
+
   it('changes a comment in one language only', () => {
     const p = project(texts);
     const next = apply(
@@ -330,6 +396,42 @@ describe('interface editor model', () => {
       ['Enable', 'Bool'],
       ['Setpoint', 'Real'],
     ]);
+  });
+
+  it('changes the return type of a function and back, in both formats', () => {
+    const sd = files(['C06-scl-types']);
+    const fc = '/plc/FC_SclTypes.s7dcl';
+    const changed = apply(
+      sd,
+      fc,
+      declarationEdit(context(project(sd), fc), { type: 'edit', op: 'returnType', value: 'LReal' }),
+    );
+    expect(changed.get(fc)).toContain('FUNCTION "FC_SclTypes" : LReal');
+    const model = interfaceModel(input(project(changed), fc));
+    expect(model.sections.find((s) => s.kind === 'Return')!.returnType).toBe('LReal');
+    const back = apply(
+      changed,
+      fc,
+      declarationEdit(context(project(changed), fc), {
+        type: 'edit',
+        op: 'returnType',
+        value: 'Real',
+      }),
+    );
+    expect(back.get(fc)).toBe(sd.get(fc));
+    const scl = '/plc/FC_SclTypes.scl';
+    const source = new Map([[scl, read(`${root}/C06-scl-types/source/FC_SclTypes.scl`)]]);
+    const voided = apply(
+      source,
+      scl,
+      declarationEdit(context(project(source), scl), {
+        type: 'edit',
+        op: 'returnType',
+        value: 'Void',
+      }),
+    );
+    // the BOM is kept by SourceText, outside the text
+    expect(voided.get(scl)!.split('\r\n')[0]).toBe('FUNCTION "FC_SclTypes" : Void');
   });
 
   it('marks fail-safe blocks', () => {
