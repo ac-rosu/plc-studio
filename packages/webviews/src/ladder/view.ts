@@ -327,7 +327,7 @@ export class LadderView {
         ? this.send({ type: 'openText' })
         : this.send({ type: 'reveal', start: n.keywordRange.start, end: n.keywordRange.end });
     const preview = scl
-      ? sclPreview(n.text ?? '', SCL_PREVIEW_LINES, this.model?.instructions)
+      ? sclPreview(n.text ?? '', SCL_PREVIEW_LINES)
       : { element: h('pre', { class: 'code' }, n.text ?? ''), hidden: 0 };
     preview.element.addEventListener('dblclick', open);
     return h(

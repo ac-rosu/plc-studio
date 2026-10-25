@@ -14,7 +14,6 @@ import {
   deleteNetwork,
   duplicateNetwork,
   insertElement,
-  instructionNames,
   ladderBlockView,
   moveElement,
   moveNetwork,
@@ -138,7 +137,6 @@ function buildModel(document: vscode.TextDocument): LadderModel {
     editable,
     ...(xml ? { readOnly: true } : {}),
     interfaceOpen: settings.get<boolean>('ladder.interfaceOpen', false),
-    instructions: instructionNames(profile().profile),
     message: view
       ? undefined
       : 'This file has no OB, FB or FC with networks to draw (data blocks and types are shown as text).',

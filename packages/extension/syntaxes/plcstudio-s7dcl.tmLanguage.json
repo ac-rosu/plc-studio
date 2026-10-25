@@ -4,11 +4,11 @@
   "scopeName": "source.plcstudio-s7dcl",
   "patterns": [
     {
-      "name": "keyword.control.network.plcstudio",
+      "name": "keyword.other.network.plcstudio",
       "match": "(?i)\\b(NETWORK|END_NETWORK|RUNG|END_RUNG)\\b"
     },
     {
-      "name": "meta.wire.plcstudio",
+      "name": "entity.name.tag.wire.plcstudio",
       "match": "(?i)\\bwire#[A-Za-z0-9_]+"
     },
     {
@@ -25,259 +25,35 @@
       "include": "#strings"
     },
     {
-      "match": "(?i)\\b(FUNCTION_BLOCK|ORGANIZATION_BLOCK|TYPE)\\s+(\"[^\"\\r\\n]*\"|[A-Za-z_][A-Za-z0-9_]*)",
-      "captures": {
-        "1": {
-          "name": "keyword.control.block.plcstudio"
-        },
-        "2": {
-          "name": "entity.name.type.plcstudio"
-        }
-      }
+      "include": "#names"
     },
     {
-      "match": "(?i)\\b(FUNCTION)\\s+(\"[^\"\\r\\n]*\"|[A-Za-z_][A-Za-z0-9_]*)",
-      "captures": {
-        "1": {
-          "name": "keyword.control.block.plcstudio"
-        },
-        "2": {
-          "name": "entity.name.function.plcstudio"
-        }
-      }
+      "name": "keyword.control.plcstudio",
+      "match": "(?i)\\b(IF|THEN|ELSIF|ELSE|END_IF|CASE|OF|END_CASE|FOR|TO|BY|DO|END_FOR|WHILE|END_WHILE|REPEAT|UNTIL|END_REPEAT|EXIT|CONTINUE|RETURN|GOTO|REGION|END_REGION)\\b"
     },
     {
-      "match": "(?i)\\b(NAMESPACE)\\s+([A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*)",
-      "captures": {
-        "1": {
-          "name": "keyword.control.block.plcstudio"
-        },
-        "2": {
-          "name": "entity.name.namespace.plcstudio"
-        }
-      }
+      "name": "keyword.other.block.plcstudio",
+      "match": "(?i)\\b(FUNCTION_BLOCK|END_FUNCTION_BLOCK|FUNCTION|END_FUNCTION|ORGANIZATION_BLOCK|END_ORGANIZATION_BLOCK|DATA_BLOCK|END_DATA_BLOCK|TYPE|END_TYPE|NAMESPACE|END_NAMESPACE|BEGIN|TITLE|VERSION|AUTHOR|FAMILY|NAME|NON_RETAIN|KNOW_HOW_PROTECT)\\b"
     },
     {
-      "match": "^\\s*([A-Za-z_][A-Za-z0-9_]*)(?=\\s*:\\s*(?i:STRUCT)\\b)",
-      "captures": {
-        "1": {
-          "name": "entity.name.type.plcstudio"
-        }
-      }
+      "name": "keyword.other.declaration.plcstudio",
+      "match": "(?i)\\b(VAR_INPUT|VAR_OUTPUT|VAR_IN_OUT|VAR_TEMP|VAR_STAT|VAR|END_VAR|CONSTANT|RETAIN|DB_SPECIFIC|STRUCT|END_STRUCT|ARRAY|AT|REF_TO)\\b"
     },
     {
-      "begin": "(?i)\\b(DATA_BLOCK)\\s+(\"[^\"\\r\\n]*\"|[A-Za-z_][A-Za-z0-9_]*)(?:\\s*(:)\\s*(\"[^\"\\r\\n]*\"|_\\.[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*|[A-Za-z_][A-Za-z0-9_]*))?",
-      "beginCaptures": {
-        "1": {
-          "name": "keyword.control.block.plcstudio"
-        },
-        "2": {
-          "name": "variable.other.global.plcstudio"
-        },
-        "3": {
-          "name": "keyword.operator.plcstudio"
-        },
-        "4": {
-          "name": "entity.name.type.plcstudio"
-        }
-      },
-      "end": "(?i)\\b(END_DATA_BLOCK)\\b",
-      "endCaptures": {
-        "1": {
-          "name": "keyword.control.block.plcstudio"
-        }
-      },
-      "patterns": [
-        {
-          "include": "#comments"
-        },
-        {
-          "include": "#attributes"
-        },
-        {
-          "include": "#strings"
-        },
-        {
-          "begin": "(?i)\\b(VAR(?:_INPUT|_OUTPUT|_IN_OUT|_TEMP|_STAT)?)\\b(?:\\s+(CONSTANT|RETAIN|NON_RETAIN|DB_SPECIFIC))?",
-          "beginCaptures": {
-            "1": {
-              "name": "keyword.control.declaration.plcstudio"
-            },
-            "2": {
-              "name": "keyword.control.declaration.plcstudio"
-            }
-          },
-          "end": "(?i)\\b(END_VAR)\\b|(?=\\b(?i:BEGIN|NETWORK|END_FUNCTION_BLOCK|END_FUNCTION|END_ORGANIZATION_BLOCK|END_DATA_BLOCK|END_TYPE)\\b)",
-          "endCaptures": {
-            "1": {
-              "name": "keyword.control.declaration.plcstudio"
-            }
-          },
-          "patterns": [
-            {
-              "include": "#comments"
-            },
-            {
-              "include": "#attributes"
-            },
-            {
-              "include": "#strings"
-            },
-            {
-              "include": "#struct"
-            },
-            {
-              "match": "^\\s*(\"[^\"\\r\\n]*\"|[A-Za-z_][A-Za-z0-9_]*)(?=\\s*(?:\\{[^}]*\\}\\s*)?:(?!=))",
-              "captures": {
-                "1": {
-                  "name": "variable.other.declaration.plcstudio"
-                }
-              }
-            },
-            {
-              "match": "(?i)(?:(:)(?!=)|\\b(of))\\s*(\"[^\"\\r\\n]*\"|_\\.[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*)",
-              "captures": {
-                "1": {
-                  "name": "keyword.operator.plcstudio"
-                },
-                "2": {
-                  "name": "keyword.control.declaration.plcstudio"
-                },
-                "3": {
-                  "name": "entity.name.type.plcstudio"
-                }
-              }
-            },
-            {
-              "name": "keyword.control.declaration.plcstudio",
-              "match": "(?i)\\bof\\b"
-            },
-            {
-              "include": "#names"
-            },
-            {
-              "include": "#keywords"
-            }
-          ]
-        },
-        {
-          "include": "#struct"
-        },
-        {
-          "match": "^\\s*(\"[^\"\\r\\n]*\")\\s*$",
-          "captures": {
-            "1": {
-              "name": "entity.name.type.plcstudio"
-            }
-          }
-        },
-        {
-          "match": "^\\s*([A-Za-z_][A-Za-z0-9_]*)(?=\\s*(?:[.\\[]|:=))",
-          "captures": {
-            "1": {
-              "name": "variable.other.readwrite.plcstudio"
-            }
-          }
-        },
-        {
-          "include": "#names"
-        },
-        {
-          "include": "#keywords"
-        }
-      ]
+      "name": "keyword.operator.word.plcstudio",
+      "match": "(?i)\\b(AND|OR|XOR|NOT|MOD)\\b"
     },
     {
-      "begin": "(?i)\\b(VAR(?:_INPUT|_OUTPUT|_IN_OUT|_TEMP|_STAT)?)\\b(?:\\s+(CONSTANT|RETAIN|NON_RETAIN|DB_SPECIFIC))?",
-      "beginCaptures": {
-        "1": {
-          "name": "keyword.control.declaration.plcstudio"
-        },
-        "2": {
-          "name": "keyword.control.declaration.plcstudio"
-        }
-      },
-      "end": "(?i)\\b(END_VAR)\\b|(?=\\b(?i:BEGIN|NETWORK|END_FUNCTION_BLOCK|END_FUNCTION|END_ORGANIZATION_BLOCK|END_DATA_BLOCK|END_TYPE)\\b)",
-      "endCaptures": {
-        "1": {
-          "name": "keyword.control.declaration.plcstudio"
-        }
-      },
-      "patterns": [
-        {
-          "include": "#comments"
-        },
-        {
-          "include": "#attributes"
-        },
-        {
-          "include": "#strings"
-        },
-        {
-          "include": "#struct"
-        },
-        {
-          "match": "^\\s*(\"[^\"\\r\\n]*\"|[A-Za-z_][A-Za-z0-9_]*)(?=\\s*(?:\\{[^}]*\\}\\s*)?:(?!=))",
-          "captures": {
-            "1": {
-              "name": "variable.other.declaration.plcstudio"
-            }
-          }
-        },
-        {
-          "match": "(?i)(?:(:)(?!=)|\\b(of))\\s*(\"[^\"\\r\\n]*\"|_\\.[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*)",
-          "captures": {
-            "1": {
-              "name": "keyword.operator.plcstudio"
-            },
-            "2": {
-              "name": "keyword.control.declaration.plcstudio"
-            },
-            "3": {
-              "name": "entity.name.type.plcstudio"
-            }
-          }
-        },
-        {
-          "name": "keyword.control.declaration.plcstudio",
-          "match": "(?i)\\bof\\b"
-        },
-        {
-          "include": "#names"
-        },
-        {
-          "include": "#keywords"
-        }
-      ]
+      "name": "storage.type.plcstudio",
+      "match": "(?i)\\b(Bool|Byte|Word|DWord|LWord|SInt|USInt|Int|UInt|DInt|UDInt|LInt|ULInt|Real|LReal|Time|LTime|S5Time|Date|Time_Of_Day|TOD|LTime_Of_Day|LTOD|Date_And_Time|DT|LDT|DTL|Char|WChar|String|WString|Variant|DB_ANY|Void|Any|Pointer|TON_TIME|TOF_TIME|TP_TIME|TONR_TIME|IEC_TIMER|IEC_COUNTER|CTU_INT|CTU_DINT|CTD_INT|CTUD_INT|R_TRIG|F_TRIG)\\b"
     },
     {
-      "include": "#struct"
-    },
-    {
-      "match": "(?<![#.\"\\w])([A-Za-z_][A-Za-z0-9_]*)\\s*(?=:=|=>)",
-      "captures": {
-        "1": {
-          "name": "variable.parameter.plcstudio"
-        }
-      }
-    },
-    {
-      "include": "#keywords"
+      "name": "keyword.operator.plcstudio",
+      "match": ":=|=>|<=|>=|<>|\\*\\*|[-+*/<>=&^]"
     },
     {
       "name": "support.function.plcstudio",
-      "match": "(?i)\\b(?:MOVE_BLK_VARIANT|CountOfElements|TypeOfElements|Deserialize|LOWER_BOUND|UPPER_BOUND|GET_ERR_ID|UMOVE_BLK|Serialize|GET_ERROR|T_COMBINE|OUT_RANGE|MOVE_BLK|FILL_BLK|NOT_NULL|RD_SYS_T|RD_LOC_T|WR_SYS_T|IN_RANGE|SCALE_X|REPLACE|IS_NULL|NORM_X|CONCAT|DELETE|INSERT|TypeOf|T_DIFF|T_CONV|R_TRIG|F_TRIG|LIMIT|ROUND|TRUNC|FLOOR|RIGHT|T_ADD|T_SUB|SQRT|ASIN|ACOS|ATAN|FRAC|EXPT|CEIL|SWAP|LEFT|FIND|TONR|CTUD|ABS|MIN|MAX|SQR|EXP|SIN|COS|TAN|SEL|MUX|SHL|SHR|ROL|ROR|LEN|MID|REF|TON|TOF|CTU|CTD|LN|TP|(?:LDate_And_Time|Date_And_Time|LTime_Of_Day|Time_Of_Day|WString|Variant|Pointer|S5Time|String|DB_ANY|DWord|LWord|USInt|UDInt|ULInt|LReal|LTime|WChar|Bool|Byte|Word|SInt|UInt|DInt|LInt|Real|Time|Date|LTOD|Char|Void|Int|TOD|LDT|DTL|Any|DT)_TO_(?:LDate_And_Time|Date_And_Time|LTime_Of_Day|Time_Of_Day|WString|Variant|Pointer|S5Time|String|DB_ANY|DWord|LWord|USInt|UDInt|ULInt|LReal|LTime|WChar|Bool|Byte|Word|SInt|UInt|DInt|LInt|Real|Time|Date|LTOD|Char|Void|Int|TOD|LDT|DTL|Any|DT))(?=\\s*\\()"
-    },
-    {
-      "match": "(\"[^\"\\r\\n]*\"|\\b_\\.[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*|\\b[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*)(?=\\s*\\()",
-      "captures": {
-        "1": {
-          "name": "meta.function-call.plcstudio"
-        }
-      }
-    },
-    {
-      "include": "#names"
+      "match": "\\b[A-Za-z_][A-Za-z0-9_]*(?=\\s*\\()"
     }
   ],
   "repository": {
@@ -303,7 +79,7 @@
       "patterns": [
         {
           "name": "string.quoted.single.plcstudio",
-          "begin": "(?i)(?:\\b(?:WSTRING|STRING|WCHAR|CHAR)#)?'",
+          "begin": "'",
           "end": "'|$",
           "patterns": [
             {
@@ -313,8 +89,8 @@
           ]
         },
         {
-          "name": "constant.numeric.date-time.plcstudio",
-          "match": "(?i)\\b(?:T|TIME|LT|LTIME|S5T|S5TIME|D|DATE|TOD|TIME_OF_DAY|LTOD|LTIME_OF_DAY|DT|DATE_AND_TIME|LDT|DTL)#[-+0-9A-Za-z_.:]+"
+          "name": "constant.other.typed-literal.plcstudio",
+          "match": "(?i)\\b(?:T|TIME|LT|LTIME|S5T|S5TIME|D|DATE|TOD|TIME_OF_DAY|LTOD|DT|DATE_AND_TIME|LDT|DTL)#[-+0-9A-Za-z_.:]+"
         },
         {
           "name": "constant.numeric.plcstudio",
@@ -322,7 +98,7 @@
         },
         {
           "name": "constant.language.plcstudio",
-          "match": "(?i)\\b(?:BOOL#)?(TRUE|FALSE|NULL)\\b"
+          "match": "(?i)\\b(TRUE|FALSE|NULL)\\b"
         }
       ]
     },
@@ -330,66 +106,15 @@
       "patterns": [
         {
           "name": "variable.other.local.plcstudio",
-          "match": "#(?:\"[^\"\\r\\n]*\"|[A-Za-z_][A-Za-z0-9_]*)"
+          "match": "#(?:\"[^\"]*\"|[A-Za-z_][A-Za-z0-9_]*)"
         },
         {
           "name": "variable.other.global.plcstudio",
-          "match": "\"[^\"\\r\\n]*\"|\\b_\\.[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*"
+          "match": "\"[^\"\\r\\n]*\""
         },
         {
           "name": "variable.other.address.plcstudio",
           "match": "%[A-Za-z]+[0-9.]*"
-        },
-        {
-          "match": "(?<=[A-Za-z0-9_\"\\]])(\\.)([A-Za-z_][A-Za-z0-9_]*)\\b(?!\\s*\\()",
-          "captures": {
-            "2": {
-              "name": "variable.other.property.plcstudio"
-            }
-          }
-        }
-      ]
-    },
-    "keywords": {
-      "patterns": [
-        {
-          "match": "(?i)\\b(REGION)\\b(.*)$",
-          "captures": {
-            "1": {
-              "name": "keyword.control.region.plcstudio"
-            },
-            "2": {
-              "name": "entity.name.section.region.plcstudio"
-            }
-          }
-        },
-        {
-          "name": "keyword.control.region.plcstudio",
-          "match": "(?i)\\bEND_REGION\\b"
-        },
-        {
-          "name": "keyword.control.plcstudio",
-          "match": "(?i)\\b(IF|THEN|ELSIF|ELSE|END_IF|CASE|OF|END_CASE|FOR|TO|BY|DO|END_FOR|WHILE|END_WHILE|REPEAT|UNTIL|END_REPEAT|EXIT|CONTINUE|RETURN|GOTO|REGION|END_REGION)\\b"
-        },
-        {
-          "name": "keyword.control.block.plcstudio",
-          "match": "(?i)\\b(FUNCTION_BLOCK|END_FUNCTION_BLOCK|FUNCTION|END_FUNCTION|ORGANIZATION_BLOCK|END_ORGANIZATION_BLOCK|DATA_BLOCK|END_DATA_BLOCK|TYPE|END_TYPE|NAMESPACE|END_NAMESPACE|BEGIN|TITLE|VERSION|AUTHOR|FAMILY|NAME|NON_RETAIN|KNOW_HOW_PROTECT)\\b"
-        },
-        {
-          "name": "keyword.control.declaration.plcstudio",
-          "match": "(?i)\\b(VAR_INPUT|VAR_OUTPUT|VAR_IN_OUT|VAR_TEMP|VAR_STAT|VAR|END_VAR|CONSTANT|RETAIN|DB_SPECIFIC|STRUCT|END_STRUCT|ARRAY|AT|REF_TO)\\b"
-        },
-        {
-          "name": "keyword.control.operator.plcstudio",
-          "match": "(?i)\\b(AND|OR|XOR|NOT|MOD)\\b"
-        },
-        {
-          "name": "storage.type.plcstudio",
-          "match": "(?i)\\b(Bool|Byte|Word|DWord|LWord|SInt|USInt|Int|UInt|DInt|UDInt|LInt|ULInt|Real|LReal|Time|LTime|S5Time|Date|Time_Of_Day|TOD|LTime_Of_Day|LTOD|Date_And_Time|DT|LDT|DTL|Char|WChar|String|WString|Variant|DB_ANY|Void|Any|Pointer|TON_TIME|TOF_TIME|TP_TIME|TONR_TIME|IEC_TIMER|IEC_COUNTER|CTU_INT|CTU_DINT|CTD_INT|CTUD_INT|R_TRIG|F_TRIG)\\b"
-        },
-        {
-          "name": "keyword.operator.plcstudio",
-          "match": ":=|=>|<=|>=|<>|\\*\\*|[-+*/<>=&^]"
         }
       ]
     },
@@ -423,66 +148,6 @@
         {
           "name": "keyword.operator.plcstudio",
           "match": ":="
-        }
-      ]
-    },
-    "struct": {
-      "begin": "(?i)\\b(STRUCT)\\b",
-      "beginCaptures": {
-        "1": {
-          "name": "keyword.control.declaration.plcstudio"
-        }
-      },
-      "end": "(?i)\\b(END_STRUCT)\\b",
-      "endCaptures": {
-        "1": {
-          "name": "keyword.control.declaration.plcstudio"
-        }
-      },
-      "patterns": [
-        {
-          "include": "#comments"
-        },
-        {
-          "include": "#attributes"
-        },
-        {
-          "include": "#strings"
-        },
-        {
-          "include": "#struct"
-        },
-        {
-          "match": "^\\s*(\"[^\"\\r\\n]*\"|[A-Za-z_][A-Za-z0-9_]*)(?=\\s*(?:\\{[^}]*\\}\\s*)?:(?!=))",
-          "captures": {
-            "1": {
-              "name": "variable.other.declaration.plcstudio"
-            }
-          }
-        },
-        {
-          "match": "(?i)(?:(:)(?!=)|\\b(of))\\s*(\"[^\"\\r\\n]*\"|_\\.[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_]*)*)",
-          "captures": {
-            "1": {
-              "name": "keyword.operator.plcstudio"
-            },
-            "2": {
-              "name": "keyword.control.declaration.plcstudio"
-            },
-            "3": {
-              "name": "entity.name.type.plcstudio"
-            }
-          }
-        },
-        {
-          "name": "keyword.control.declaration.plcstudio",
-          "match": "(?i)\\bof\\b"
-        },
-        {
-          "include": "#names"
-        },
-        {
-          "include": "#keywords"
         }
       ]
     }
