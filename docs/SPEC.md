@@ -139,6 +139,7 @@ The language server treats SCL code, the textual LAD/FBD networks in `.s7dcl`, a
 - Quick fixes: declare a variable (in the right section), add missing call parameters, insert an explicit conversion, publish an object / add a unit relation
 - Outline, workspace symbols, namespaces in symbols and completion
 - Semantic highlighting, `REGION` folding, call hierarchy, CodeLens with reference counts
+- SCL colored by role like the TIA editor (owner, 2026-10-25): one color for every keyword, the REGION line apart, tags, formal parameters, instructions, literals and comments each in their own; a called block stays plain text. A light and a dark set that follow the theme. Names keep their color when the language server has analyzed the file.
 
 ### Analyzer
 

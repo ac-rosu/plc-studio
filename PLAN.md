@@ -4,7 +4,7 @@ Milestones from [docs/SPEC.md](docs/SPEC.md), each broken into tasks with how ea
 
 Status: `[ ]` open · `[~]` partly done · `[x]` done · **(owner)** needs the owner
 
-State on 2026-10-24: M0–M12 done (autonomous run), then the owner's feedback: M13 (several blocks per external source, opening by content, SCL kept out of the LAD/FBD view, a demo like the owner's projects) and M14 (SimaticML blocks shown read-only, V20 and V21 exports) done. Open for the owner: M9.4 final name, M9.5 publishing. Gates: round trip 510/510 files (V21) and 13/13 (V20); zero false errors in every PLC and variant; error coverage PLC_Main 73/80 (SIMATIC SD; the 7 misses are B06, where a missing block is a warning by design), 71/80 (sources; B06 and two IEC-check cases, whose setting sources do not carry), PLC_1200 2/2; the recursion policy error found; 19/19 analyzer expectations found. Corpus: 101 V21 cases, 7 V20 cases. Tests: 227 unit, 1272 corpus, 208 browser, 16 VS Code integration.
+State on 2026-10-24: M0–M12 done (autonomous run), then the owner's feedback: M13 (several blocks per external source, opening by content, SCL kept out of the LAD/FBD view, a demo like the owner's projects) and M14 (SimaticML blocks shown read-only, V20 and V21 exports) done; M15 (SCL colors like TIA, 2026-10-25) done. Open for the owner: M9.4 final name, M9.5 publishing. Gates: round trip 510/510 files (V21) and 13/13 (V20); zero false errors in every PLC and variant; error coverage PLC_Main 73/80 (SIMATIC SD; the 7 misses are B06, where a missing block is a warning by design), 71/80 (sources; B06 and two IEC-check cases, whose setting sources do not carry), PLC_1200 2/2; the recursion policy error found; 19/19 analyzer expectations found. Corpus: 101 V21 cases, 7 V20 cases. Tests: 245 unit, 1272 corpus, 218 browser, 17 VS Code integration.
 
 ## Owner actions
 
@@ -325,6 +325,15 @@ Open questions of M5, answered with the recommended option:
   Done, stricter than planned: the code of all 48 SCL networks is byte for byte TIA's SD text and external source (comments and layout included); the SCL view parses without errors and opens as a read-only document in a language the checker never sees. The integration test opens a DB, a PLC data type, a LAD block and an SCL block from XML in VS Code.
 - [x] **M14.5 V20 SimaticML** from a V20 corpus project.
   Done after the owner pointed the V20 server at `C:\TiaProjects\Corpus`: `corpus/V20` holds 7 cases from an unsaved V20 Update 6 project (TIA's OB1, UDT_Motor, DB_Machine, FB_SclSections, FC_LadContacts, FB_LadBoxes with its instance DB, FC_FbdLogic), each with TIA's SimaticML, SIMATIC SD and external sources where TIA writes them. Every V20 check the V21 exports pass also passes: the blocks read, the tables equal the SD tables (6 blocks), the SCL view equals TIA's V20 source, all 25 LAD/FBD networks come out as V20's SD rungs and draw identically, and two V20 exports open in VS Code (integration test). The gates run on V20 too: round trip 13/13, zero false errors. V20 Update 6 uses the same SimaticML namespace versions as V21; they are profile data now (`simaticmlSchemas`), and a corpus test fails when an export uses another one. Findings: `corpus/V20/_project/format-findings.md`.
+
+## M15 – SCL colors like TIA (owner, 2026-10-25)
+
+**Delivers (owner):** the owner found the highlighting "a bit off and inconsistent" in `.scl`/`.db`/`.udt` files and asked for TIA's colors (settings page and editor screenshot of TIA V20), light and dark, following the VS Code theme.
+
+- [x] **M15.1 One color per role, the same before and after the language server.**
+  Done: keywords in one family; the REGION line, tags (`#…`, globals, members, declared names), constants of tag tables, formal parameters, instructions, literals, comments, operators and attributes each in a role (`core/syntax/colors.ts`); the grammar gives names their final color on first paint; semantic tokens map to the same roles and include a local's `#`. Verified by rendering corpus files with VS Code's TextMate engine and themes (only constants of tag tables still change color when the server answers), by grammar tests on the real engine, and by screenshots of the real editor (Light Modern, Monokai Pro).
+- [x] **M15.2 TIA's roles** (owner's screenshots): the whole REGION line, TRUE/FALSE as keywords, a block's own constants as tags, a called block as plain text, instructions by the profile's names.
+- [x] **M15.3 Light and dark, following the theme**: the dark set for every theme, the light set for themes whose id contains "Light"; no theme italics. Every color at least 4.5:1 on the default and common dark backgrounds. The SCL preview in the LAD/FBD view uses the same roles and colors.
 
 ## Later (not planned in detail)
 
