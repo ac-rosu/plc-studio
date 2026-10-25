@@ -156,30 +156,7 @@ body.vscode-high-contrast svg .el.selected .hit {
   overflow-x: auto;
 }
 
-/* SCL preview colors: theme colors of expressions and symbols, so every theme gets fitting ones */
-pre.scl .tok-keyword {
-  color: var(--vscode-debugTokenExpression-name, var(--vscode-symbolIcon-keywordForeground));
-  font-weight: 600;
-}
-pre.scl .tok-string {
-  color: var(--vscode-debugTokenExpression-string, var(--vscode-foreground));
-}
-pre.scl .tok-number {
-  color: var(--vscode-debugTokenExpression-number, var(--vscode-foreground));
-}
-pre.scl .tok-constant {
-  color: var(--vscode-debugTokenExpression-boolean, var(--vscode-foreground));
-}
-pre.scl .tok-local {
-  color: var(--vscode-symbolIcon-variableForeground, var(--vscode-foreground));
-}
-pre.scl .tok-global {
-  color: var(--vscode-textLink-foreground, var(--vscode-foreground));
-}
-pre.scl .tok-comment {
-  color: var(--vscode-descriptionForeground);
-  font-style: italic;
-}
+/* SCL preview colors: scl-preview.ts, the same as the editor's */
 
 .text-network.fallback {
   border-left: 3px solid var(--vscode-editorWarning-foreground);

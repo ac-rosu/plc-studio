@@ -6,7 +6,9 @@
   "exports": {
     ".": "./src/index.ts",
     "./syntax/lexer": "./src/syntax/lexer.ts",
-    "./syntax/keywords": "./src/syntax/keywords.ts"
+    "./syntax/keywords": "./src/syntax/keywords.ts",
+    "./syntax/colors": "./src/syntax/colors.ts",
+    "./syntax/instruction-names": "./src/syntax/instruction-names.ts"
   },
   "scripts": {
     "build": "node scripts/build.ts",

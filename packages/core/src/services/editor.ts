@@ -239,6 +239,7 @@ export interface SemanticToken {
 
 export function semanticTokens(project: Project, file: string): SemanticToken[] {
   const analysis = analyzeProject(project);
+  const text = project.files.get(file)?.source.text;
   const out: SemanticToken[] = [];
   const memberCache = new Map<string, SectionKind | 'Return' | 'field' | undefined>();
   for (const r of analysis.references) {
@@ -254,15 +255,23 @@ export function semanticTokens(project: Project, file: string): SemanticToken[] 
           section = memberById(project, r.symbolId)?.member.section ?? 'field';
           memberCache.set(r.symbolId, section);
         }
-        if (section === 'Input' || section === 'Output' || section === 'InOut') type = 'parameter';
-        else if (section === 'Constant') {
+        // a parameter is a 'parameter' where it is declared and where a call names it (Enable := …);
+        // used with '#' it is a variable of the block, after '.' a member of another one
+        const before = text?.[r.range.start - 1];
+        if (section === 'Constant') {
           type = 'variable';
           mods.push('readonly');
-        } else if (section === 'field' || section === undefined) type = 'property';
+        } else if (before === '.' || section === 'field' || section === undefined)
+          type = 'property';
+        else if (before === '#') type = 'variable';
+        else if (section === 'Input' || section === 'Output' || section === 'InOut')
+          type = 'parameter';
         else type = 'variable';
         break;
       }
       case 'block': {
+        // a called block stays plain text, as in TIA ("FC_X"(…), an instance DB's call)
+        if (text && /^\s*\(/.test(text.slice(r.range.end, r.range.end + 40))) break;
         const b = project.index.block(r.symbolId);
         type =
           b?.kind === 'FC'
@@ -290,13 +299,15 @@ export function semanticTokens(project: Project, file: string): SemanticToken[] 
       default:
         break;
     }
-    if (type)
-      out.push({
-        start: r.range.start,
-        length: r.range.end - r.range.start,
-        type,
-        modifiers: mods,
-      });
+    if (!type) continue;
+    // a local's '#' takes the color of its name, as the grammar colors them together
+    const local = text?.[r.range.start - 1] === '#' ? 1 : 0;
+    out.push({
+      start: r.range.start - local,
+      length: r.range.end - r.range.start + local,
+      type,
+      modifiers: mods,
+    });
   }
   return out.sort((a, b) => a.start - b.start);
 }

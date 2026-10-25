@@ -365,6 +365,29 @@ test('program graph renders', async () => {
   await vscode.commands.executeCommand('workbench.action.closeAllEditors');
 });
 
+test('the SCL colors are defaults, light or dark as the theme is', async () => {
+  const editor = vscode.workspace.getConfiguration('editor');
+  type Rules = { textMateRules: { scope: string[] }[] };
+  const custom = editor.inspect<Rules & Record<string, Rules>>(
+    'tokenColorCustomizations',
+  )?.defaultValue;
+  for (const rules of [custom, custom?.['[*Light*]']]) {
+    const scopes = rules?.textMateRules.flatMap((r) => r.scope) ?? [];
+    assert.ok(scopes.includes('keyword.control.region.plcstudio'));
+    assert.ok(scopes.includes('variable.parameter.plcstudio'));
+  }
+  const semantic = editor.inspect<{ rules: Record<string, string> }>(
+    'semanticTokenColorCustomizations',
+  )?.defaultValue;
+  assert.ok(semantic?.rules['parameter:plcstudio-scl']);
+  assert.equal(
+    vscode.workspace
+      .getConfiguration('editor', { languageId: 'plcstudio-scl' })
+      .get('semanticHighlighting.enabled'),
+    true,
+  );
+});
+
 test('commands are registered', async () => {
   const commands = await vscode.commands.getCommands(true);
   for (const c of [

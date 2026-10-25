@@ -1,6 +1,6 @@
 // The LAD/FBD view in a real browser: rendering, fallback, diagnostics, keyboard, palette and the
 // block interface panel.
-import { ladderBlockView, parseBlockText } from '@plcstudio/core';
+import { instructionNames, ladderBlockView, parseBlockText } from '@plcstudio/core';
 import { profileIndex } from '@plcstudio/profiles';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import type { InterfaceModel, Row } from '../interface/model.ts';
@@ -66,6 +66,7 @@ function model(source: string, diagnostics: LadderModel['diagnostics'] = []): La
     })),
     editable: true,
     message: undefined,
+    instructions: instructionNames(profile.profile),
   };
 }
 
@@ -346,13 +347,20 @@ describe('LAD/FBD view: SCL networks', () => {
     const net = root.querySelector('section.network[data-network="2"]')!;
     const tokens = (kind: string) =>
       [...net.querySelectorAll(`pre.scl .tok-${kind}`)].map((e) => e.textContent);
-    expect(tokens('keyword')).toEqual(['IF', 'THEN', 'END_IF', 'AND', 'NOT']);
+    // the roles of the editor's grammar
+    expect(tokens('keyword')).toEqual(['IF', 'THEN', 'END_IF', 'TRUE', 'AND', 'NOT']);
     expect(tokens('comment')).toEqual(['// count the starts']);
-    expect(tokens('string')).toEqual(["'started'"]);
-    expect(tokens('global')).toEqual(['"DB_Log"']);
-    expect(tokens('constant')).toEqual(['TRUE']);
-    expect(tokens('local').join('')).toBe('#Start#Count#Count#Ready#Stop');
+    expect(tokens('literal')).toEqual(['1', "'started'"]);
+    expect(tokens('tag').join('')).toBe('#Start#Count#Count"DB_Log"Text#Ready#Stop');
+    expect(tokens('operator')).toEqual([':=', '+', ':=', ':=']);
     expect(net.querySelector('pre.scl')?.textContent).toBe(statements.join('\n'));
+    // the editor's colors, light or dark as the theme is
+    const firstKeyword = net.querySelector('pre.scl .tok-keyword')!;
+    document.body.dataset.vscodeThemeId = 'Light Modern';
+    expect(getComputedStyle(firstKeyword).color).toBe('rgb(0, 0, 255)');
+    document.body.dataset.vscodeThemeId = 'Monokai Pro';
+    expect(getComputedStyle(firstKeyword).color).toBe('rgb(86, 156, 214)');
+    delete document.body.dataset.vscodeThemeId;
     expect(await accessibilityViolations(root, LADDER_A11Y)).toEqual([]);
     const button = [...net.querySelectorAll('button')].find(
       (b) => b.textContent === 'Edit in SCL editor',
@@ -364,6 +372,33 @@ describe('LAD/FBD view: SCL networks', () => {
       start: keyword,
       end: keyword + 'NETWORK'.length,
     });
+  });
+
+  it('colors a REGION line, instructions and block calls as the editor does', () => {
+    const { root } = mount(
+      model(
+        mixed([
+          'REGION Operation : validate (arm 1)',
+          '    #Count := DINT_TO_INT(#Total) + ABS(#Delta);',
+          '    OP_Validate(Mode := 2, Target := _.Unit.Position);',
+          '    "FC_Area"(Tool := #Tool);',
+          '    _.Library.FC_Grip(Tool := 1);',
+          'END_REGION',
+        ]),
+      ),
+    );
+    const net = root.querySelector('section.network[data-network="2"]')!;
+    const tokens = (kind: string) =>
+      [...net.querySelectorAll(`pre.scl .tok-${kind}`)].map((e) => e.textContent);
+    expect(tokens('region').join(' ')).toBe('REGION Operation : validate ( arm 1 ) END_REGION');
+    expect(tokens('instruction')).toEqual(['DINT_TO_INT', 'ABS']);
+    expect(tokens('parameter')).toEqual(['Mode', 'Target', 'Tool', 'Tool']);
+    // block calls stay plain text; a global name outside the unit is a tag
+    const plain = [...net.querySelectorAll('pre.scl')].map((p) => p.textContent).join('');
+    for (const call of ['OP_Validate', '"FC_Area"', 'FC_Grip'])
+      expect(tokens('tag').concat(tokens('instruction'))).not.toContain(call);
+    expect(plain).toContain('_.Library.FC_Grip(');
+    expect(tokens('tag')).toEqual(expect.arrayContaining(['_', 'Unit', 'Position']));
   });
 
   it('shows at most twelve lines and says how many are left', () => {

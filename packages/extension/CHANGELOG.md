@@ -8,6 +8,7 @@ First version, for TIA Portal V21 exports.
 - **Checker**: errors only for code TIA V21 rejects, each proven by a test case compiled in TIA; warnings for rules not yet proven; two PLC Studio rules that are errors although TIA accepts the code (recursion, names that differ only by case).
 - **Analyzer**: single-block and cross-block rules (timers called conditionally, instances called twice or from two OBs, Temp read before written, outputs not always written, global access in FBs and FCs, dead blocks, data shared across priorities and more), naming presets, custom rules, inline suppression with a reason, and `plcstudio.rules.json` at workspace or PLC-folder level.
 - **Editor**: completion, hover in the display language, signature help, definition, references, rename across files and units, inlay hints, quick fixes, outline, workspace symbols, semantic highlighting, folding, call hierarchy, reference counts and called-from summaries.
+- **Colors**: SCL and SIMATIC SD colored by role like the TIA editor (keywords, REGION lines, tags, formal parameters, instructions, literals, comments), light or dark with the theme; a name keeps its color when the file has been analyzed.
 - **Formatter**: TIA's layout; on save only the changed lines.
 - **Opening by content**: a PLC file opens in the view that fits it (LAD/FBD view, data block editor, type table, or the text editor for SCL).
 - **SimaticML exports**: blocks and PLC data types in XML open read-only in their view (data block table, type table, LAD/FBD view, SCL text); tested with exports from TIA V20 and V21.

@@ -8,6 +8,8 @@ export {
 export * from './text/source-text.ts';
 export * from './syntax/ast.ts';
 export * from './syntax/keywords.ts';
+export * from './syntax/colors.ts';
+export * from './syntax/instruction-names.ts';
 export * from './simaticml/block.ts';
 export { structuredText } from './simaticml/structured-text.ts';
 export { memberInitializer, simaticmlToScl } from './simaticml/to-scl.ts';

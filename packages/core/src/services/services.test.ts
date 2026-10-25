@@ -245,4 +245,16 @@ describe('outline, folding, tokens, hints, lenses', () => {
     const lenses = codeLenses(p, '/plc/FC_Calc.s7dcl');
     expect(lenses[0]!.title).toBe('1 reference');
   });
+
+  it("colors a local's # together with its name", () => {
+    const tokens = semanticTokens(setup(), '/plc/FB_Main.s7dcl');
+    const text = (t: (typeof tokens)[number]) => FB.slice(t.start, t.start + t.length);
+    const kinds = new Map(tokens.map((t) => [text(t), t.type]));
+    // used with '#': a variable of the block, whatever its section
+    expect(kinds.get('#Motor')).toBe('variable');
+    expect(kinds.get('#Count')).toBe('variable');
+    // a member after '.', and a formal parameter where a call names it
+    expect(kinds.get('Speed')).toBe('property');
+    expect(kinds.get('In')).toBe('parameter');
+  });
 });

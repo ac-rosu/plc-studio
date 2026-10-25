@@ -4,14 +4,14 @@
   "scopeName": "source.plcstudio-s7res",
   "patterns": [
     {
-      "name": "keyword.other.plcstudio",
+      "name": "keyword.control.resources.plcstudio",
       "match": "^MultiLingualTexts:"
     },
     {
       "match": "^(\\s*-\\s*)(id)(:)\\s*(\\S+)",
       "captures": {
         "2": {
-          "name": "entity.name.tag.plcstudio"
+          "name": "entity.name.tag.id.plcstudio"
         },
         "4": {
           "name": "constant.other.id.plcstudio"
@@ -25,7 +25,7 @@
           "name": "entity.name.tag.culture.plcstudio"
         },
         "4": {
-          "name": "string.unquoted.plcstudio"
+          "name": "comment.line.text.plcstudio"
         }
       }
     }

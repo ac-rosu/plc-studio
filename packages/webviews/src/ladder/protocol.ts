@@ -1,7 +1,7 @@
 // Messages between the LAD/FBD view and the extension. The view never edits text: it sends
 // intents; the extension computes minimal edits with core (ladder/edit.ts) and applies them as a
 // WorkspaceEdit, so undo/redo is VS Code's and the text updates live.
-import type { ElementRef, LadderBlockView } from '@plcstudio/core';
+import type { ElementRef, InstructionNames, LadderBlockView } from '@plcstudio/core';
 import type { InterfaceModel } from '../interface/model.ts';
 
 export interface PaletteItem {
@@ -32,6 +32,8 @@ export interface LadderModel {
   readonly interfaceOpen?: boolean;
   /** A SimaticML export: drawn, never edited or checked (ADR 0014). */
   readonly readOnly?: boolean;
+  /** The profile's instruction names, so the SCL preview colors calls as the editor does. */
+  readonly instructions?: InstructionNames;
 }
 
 export type EditIntent =

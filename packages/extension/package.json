@@ -339,6 +339,498 @@
       "[plcstudio-s7dcl]": {
         "editor.formatOnSaveMode": "modifications",
         "editor.semanticHighlighting.enabled": true
+      },
+      "editor.tokenColorCustomizations": {
+        "textMateRules": [
+          {
+            "scope": [
+              "keyword.control.plcstudio",
+              "keyword.control.block.plcstudio",
+              "keyword.control.declaration.plcstudio",
+              "keyword.control.operator.plcstudio",
+              "keyword.control.network.plcstudio",
+              "keyword.control.resources.plcstudio",
+              "storage.type.plcstudio",
+              "constant.language.plcstudio"
+            ],
+            "settings": {
+              "foreground": "#569CD6",
+              "fontStyle": ""
+            }
+          },
+          {
+            "scope": [
+              "keyword.control.region.plcstudio",
+              "entity.name.section.region.plcstudio"
+            ],
+            "settings": {
+              "foreground": "#D98CFF",
+              "fontStyle": ""
+            }
+          },
+          {
+            "scope": [
+              "comment.line.double-slash.plcstudio",
+              "comment.block.plcstudio",
+              "comment.line.text.plcstudio"
+            ],
+            "settings": {
+              "foreground": "#7FB069",
+              "fontStyle": ""
+            }
+          },
+          {
+            "scope": [
+              "keyword.operator.plcstudio"
+            ],
+            "settings": {
+              "foreground": "#AEAEAE",
+              "fontStyle": ""
+            }
+          },
+          {
+            "scope": [
+              "support.function.plcstudio",
+              "entity.name.function.ladder.plcstudio"
+            ],
+            "settings": {
+              "foreground": "#F28B82",
+              "fontStyle": ""
+            }
+          },
+          {
+            "scope": [
+              "string.quoted.single.plcstudio",
+              "string.quoted.double.plcstudio",
+              "constant.character.escape.plcstudio",
+              "constant.numeric.plcstudio",
+              "constant.numeric.date-time.plcstudio"
+            ],
+            "settings": {
+              "foreground": "#4EC9B0",
+              "fontStyle": ""
+            }
+          },
+          {
+            "scope": [
+              "variable.other.constant.plcstudio"
+            ],
+            "settings": {
+              "foreground": "#4FC1FF",
+              "fontStyle": ""
+            }
+          },
+          {
+            "scope": [
+              "variable.other.local.plcstudio",
+              "variable.other.global.plcstudio",
+              "variable.other.address.plcstudio",
+              "variable.other.property.plcstudio",
+              "variable.other.readwrite.plcstudio",
+              "variable.other.declaration.plcstudio",
+              "entity.name.type.plcstudio",
+              "entity.name.function.plcstudio",
+              "entity.name.namespace.plcstudio",
+              "constant.other.id.plcstudio"
+            ],
+            "settings": {
+              "foreground": "#9CDCFE",
+              "fontStyle": ""
+            }
+          },
+          {
+            "scope": [
+              "variable.parameter.plcstudio"
+            ],
+            "settings": {
+              "foreground": "#D4C2E8",
+              "fontStyle": ""
+            }
+          },
+          {
+            "scope": [
+              "entity.other.attribute-name.plcstudio",
+              "punctuation.definition.attribute.plcstudio",
+              "meta.wire.plcstudio",
+              "entity.name.tag.id.plcstudio",
+              "entity.name.tag.culture.plcstudio"
+            ],
+            "settings": {
+              "foreground": "#9A9A9A",
+              "fontStyle": ""
+            }
+          }
+        ],
+        "[*Light*]": {
+          "textMateRules": [
+            {
+              "scope": [
+                "keyword.control.plcstudio",
+                "keyword.control.block.plcstudio",
+                "keyword.control.declaration.plcstudio",
+                "keyword.control.operator.plcstudio",
+                "keyword.control.network.plcstudio",
+                "keyword.control.resources.plcstudio",
+                "storage.type.plcstudio",
+                "constant.language.plcstudio"
+              ],
+              "settings": {
+                "foreground": "#0000FF",
+                "fontStyle": ""
+              }
+            },
+            {
+              "scope": [
+                "keyword.control.region.plcstudio",
+                "entity.name.section.region.plcstudio"
+              ],
+              "settings": {
+                "foreground": "#A61BD9",
+                "fontStyle": ""
+              }
+            },
+            {
+              "scope": [
+                "comment.line.double-slash.plcstudio",
+                "comment.block.plcstudio",
+                "comment.line.text.plcstudio"
+              ],
+              "settings": {
+                "foreground": "#1A7F2A",
+                "fontStyle": ""
+              }
+            },
+            {
+              "scope": [
+                "keyword.operator.plcstudio"
+              ],
+              "settings": {
+                "foreground": "#404040",
+                "fontStyle": ""
+              }
+            },
+            {
+              "scope": [
+                "support.function.plcstudio",
+                "entity.name.function.ladder.plcstudio"
+              ],
+              "settings": {
+                "foreground": "#7A1A1A",
+                "fontStyle": ""
+              }
+            },
+            {
+              "scope": [
+                "string.quoted.single.plcstudio",
+                "string.quoted.double.plcstudio",
+                "constant.character.escape.plcstudio",
+                "constant.numeric.plcstudio",
+                "constant.numeric.date-time.plcstudio"
+              ],
+              "settings": {
+                "foreground": "#14668A",
+                "fontStyle": ""
+              }
+            },
+            {
+              "scope": [
+                "variable.other.constant.plcstudio"
+              ],
+              "settings": {
+                "foreground": "#123A66",
+                "fontStyle": ""
+              }
+            },
+            {
+              "scope": [
+                "variable.other.local.plcstudio",
+                "variable.other.global.plcstudio",
+                "variable.other.address.plcstudio",
+                "variable.other.property.plcstudio",
+                "variable.other.readwrite.plcstudio",
+                "variable.other.declaration.plcstudio",
+                "entity.name.type.plcstudio",
+                "entity.name.function.plcstudio",
+                "entity.name.namespace.plcstudio",
+                "constant.other.id.plcstudio"
+              ],
+              "settings": {
+                "foreground": "#4B3F96",
+                "fontStyle": ""
+              }
+            },
+            {
+              "scope": [
+                "variable.parameter.plcstudio"
+              ],
+              "settings": {
+                "foreground": "#6B1A6B",
+                "fontStyle": ""
+              }
+            },
+            {
+              "scope": [
+                "entity.other.attribute-name.plcstudio",
+                "punctuation.definition.attribute.plcstudio",
+                "meta.wire.plcstudio",
+                "entity.name.tag.id.plcstudio",
+                "entity.name.tag.culture.plcstudio"
+              ],
+              "settings": {
+                "foreground": "#6E6E6E",
+                "fontStyle": ""
+              }
+            }
+          ]
+        }
+      },
+      "editor.semanticTokenColorCustomizations": {
+        "rules": {
+          "variable:plcstudio-scl": {
+            "foreground": "#9CDCFE",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "variable.readonly:plcstudio-scl": {
+            "foreground": "#9CDCFE",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "enumMember:plcstudio-scl": {
+            "foreground": "#4FC1FF",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "parameter:plcstudio-scl": {
+            "foreground": "#D4C2E8",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "parameter.declaration:plcstudio-scl": {
+            "foreground": "#9CDCFE",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "property:plcstudio-scl": {
+            "foreground": "#9CDCFE",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "function:plcstudio-scl": {
+            "foreground": "#9CDCFE",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "function.defaultLibrary:plcstudio-scl": {
+            "foreground": "#F28B82",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "class:plcstudio-scl": {
+            "foreground": "#9CDCFE",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "struct:plcstudio-scl": {
+            "foreground": "#9CDCFE",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "variable:plcstudio-s7dcl": {
+            "foreground": "#9CDCFE",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "variable.readonly:plcstudio-s7dcl": {
+            "foreground": "#9CDCFE",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "enumMember:plcstudio-s7dcl": {
+            "foreground": "#4FC1FF",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "parameter:plcstudio-s7dcl": {
+            "foreground": "#D4C2E8",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "parameter.declaration:plcstudio-s7dcl": {
+            "foreground": "#9CDCFE",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "property:plcstudio-s7dcl": {
+            "foreground": "#9CDCFE",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "function:plcstudio-s7dcl": {
+            "foreground": "#9CDCFE",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "function.defaultLibrary:plcstudio-s7dcl": {
+            "foreground": "#F28B82",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "class:plcstudio-s7dcl": {
+            "foreground": "#9CDCFE",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          },
+          "struct:plcstudio-s7dcl": {
+            "foreground": "#9CDCFE",
+            "bold": false,
+            "italic": false,
+            "underline": false
+          }
+        },
+        "[*Light*]": {
+          "rules": {
+            "variable:plcstudio-scl": {
+              "foreground": "#4B3F96",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "variable.readonly:plcstudio-scl": {
+              "foreground": "#4B3F96",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "enumMember:plcstudio-scl": {
+              "foreground": "#123A66",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "parameter:plcstudio-scl": {
+              "foreground": "#6B1A6B",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "parameter.declaration:plcstudio-scl": {
+              "foreground": "#4B3F96",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "property:plcstudio-scl": {
+              "foreground": "#4B3F96",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "function:plcstudio-scl": {
+              "foreground": "#4B3F96",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "function.defaultLibrary:plcstudio-scl": {
+              "foreground": "#7A1A1A",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "class:plcstudio-scl": {
+              "foreground": "#4B3F96",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "struct:plcstudio-scl": {
+              "foreground": "#4B3F96",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "variable:plcstudio-s7dcl": {
+              "foreground": "#4B3F96",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "variable.readonly:plcstudio-s7dcl": {
+              "foreground": "#4B3F96",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "enumMember:plcstudio-s7dcl": {
+              "foreground": "#123A66",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "parameter:plcstudio-s7dcl": {
+              "foreground": "#6B1A6B",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "parameter.declaration:plcstudio-s7dcl": {
+              "foreground": "#4B3F96",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "property:plcstudio-s7dcl": {
+              "foreground": "#4B3F96",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "function:plcstudio-s7dcl": {
+              "foreground": "#4B3F96",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "function.defaultLibrary:plcstudio-s7dcl": {
+              "foreground": "#7A1A1A",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "class:plcstudio-s7dcl": {
+              "foreground": "#4B3F96",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            },
+            "struct:plcstudio-s7dcl": {
+              "foreground": "#4B3F96",
+              "bold": false,
+              "italic": false,
+              "underline": false
+            }
+          }
+        }
       }
     },
     "customEditors": [
@@ -469,6 +961,78 @@
         "view": "plcstudio.trace",
         "contents": "Place the cursor on a variable, tag or data block member and run Trace value to see every read and write across blocks.\n[Trace value](command:plcstudio.traceValue)"
       }
+    ],
+    "semanticTokenScopes": [
+      {
+        "language": "plcstudio-scl",
+        "scopes": {
+          "variable": [
+            "variable.other.readwrite.plcstudio"
+          ],
+          "variable.readonly": [
+            "variable.other.readwrite.plcstudio"
+          ],
+          "enumMember": [
+            "variable.other.constant.plcstudio"
+          ],
+          "parameter": [
+            "variable.parameter.plcstudio"
+          ],
+          "parameter.declaration": [
+            "variable.other.declaration.plcstudio"
+          ],
+          "property": [
+            "variable.other.property.plcstudio"
+          ],
+          "function": [
+            "variable.other.global.plcstudio"
+          ],
+          "function.defaultLibrary": [
+            "support.function.plcstudio"
+          ],
+          "class": [
+            "entity.name.type.plcstudio"
+          ],
+          "struct": [
+            "entity.name.type.plcstudio"
+          ]
+        }
+      },
+      {
+        "language": "plcstudio-s7dcl",
+        "scopes": {
+          "variable": [
+            "variable.other.readwrite.plcstudio"
+          ],
+          "variable.readonly": [
+            "variable.other.readwrite.plcstudio"
+          ],
+          "enumMember": [
+            "variable.other.constant.plcstudio"
+          ],
+          "parameter": [
+            "variable.parameter.plcstudio"
+          ],
+          "parameter.declaration": [
+            "variable.other.declaration.plcstudio"
+          ],
+          "property": [
+            "variable.other.property.plcstudio"
+          ],
+          "function": [
+            "variable.other.global.plcstudio"
+          ],
+          "function.defaultLibrary": [
+            "support.function.plcstudio"
+          ],
+          "class": [
+            "entity.name.type.plcstudio"
+          ],
+          "struct": [
+            "entity.name.type.plcstudio"
+          ]
+        }
+      }
     ]
   },
   "scripts": {
@@ -481,10 +1045,12 @@
     "vscode-languageclient": "^11.0.0"
   },
   "devDependencies": {
-    "@plcstudio/language-server": "*",
-    "@types/vscode": "~1.100.0",
     "@plcstudio/core": "*",
-    "@plcstudio/webviews": "*"
+    "@plcstudio/language-server": "*",
+    "@plcstudio/webviews": "*",
+    "@types/vscode": "~1.100.0",
+    "vscode-oniguruma": "^2.0.1",
+    "vscode-textmate": "^9.3.2"
   },
   "activationEvents": [
     "workspaceContains:**/plc.json",
